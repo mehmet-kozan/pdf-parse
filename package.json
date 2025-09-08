@@ -1,8 +1,13 @@
 {
 	"name": "pdf-parse",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"type": "module",
-	"main": "index.js",
+	"main": "dist/cjs/index.js",
+	"module": "dist/esm/index.js",
+	"exports": {
+		"import": "./dist/esm/index.js",
+		"require": "./dist/cjs/index.js"
+	},
 	"description": "Pure JavaScript cross-platform module to extract texts from PDFs.",
 	"homepage": "https://github.com/mehmet-kozan/pdf-parse#readme",
 	"bugs": {
@@ -20,10 +25,11 @@
 	"license": "ISC",
 	"author": "",
 	"scripts": {
-		"build": "npm-run-all clean build-esm build-cjs",
-		"build-esm": "tsc --project tsconfig.build.json --outDir dist/esm",
-		"build-cjs": "tsc --project tsconfig.build.json --outDir dist/cjs --module commonjs --moduleResolution node --verbatimModuleSyntax false",
-		"clean": "rimraf --glob dist test/**/*.txt",
+		"build": "npm-run-all clean build:esm build:cjs build:browser",
+		"build:esm": "tsc --project tsconfig.esm.json",
+		"build:cjs": "tsc --project tsconfig.cjs.json",
+		"build:browser": "vite build",
+		"clean": "rimraf --glob dist test/**/*.txt test/**/imgs",
 		"test": "vitest",
 		"test:ui": "vitest --ui",
 		"test:run": "vitest run",
@@ -35,10 +41,12 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.2.3",
+		"@types/node": "^24.3.1",
 		"npm-run-all": "^4.1.5",
 		"pdfjs-dist": "^5.4.149",
 		"rimraf": "^6.0.1",
 		"typescript": "^5.9.2",
+		"vite": "^7.1.5",
 		"vitest": "^3.2.4"
 	},
 	"engines": {
