@@ -1,0 +1,27 @@
+{
+	"files.autoSave": "onFocusChange",
+	"editor.formatOnSave": true,
+	"editor.formatOnPaste": false,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.biome": "explicit"
+	},
+	//"editor.tabSize": 2,
+	"editor.defaultFormatter": "biomejs.biome",
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"liveServer.settings.port": 5501,
+	"editor.minimap.enabled": false
+}
