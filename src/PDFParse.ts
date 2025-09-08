@@ -1,26 +1,24 @@
 import type { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects';
-import type { ImageResult, PageImages } from './ImageResult';
+import { type ImageResult, ImageResultDefault, type PageImages } from './ImageResult';
 import type { InfoResult } from './InfoResult';
 import type { ParseOptions } from './ParseOptions';
-import type { TextResult } from './TextResult';
-import { TextResultDefault } from './TextResult';
+import { type TextResult, TextResultDefault } from './TextResult';
 
 export class PDFParse {
 	private readonly options: ParseOptions;
 	private doc: PDFDocumentProxy | undefined;
 
 	constructor(options: ParseOptions) {
-		if (options.data) {
-			//options.data = options.data.buffer;
+		if (typeof options.data === 'object' && 'buffer' in options.data) {
+			options.data = new Uint8Array(options.data);
 		}
-		//options.disableWorker = true;
 		this.options = options;
 	}
 
 	public async GetText(): Promise<TextResult> {
-		const result: TextResult = TextResultDefault;
+		const result: TextResult = { ...TextResultDefault };
 
 		const infoData = await this.load();
 		Object.assign(result, infoData);
@@ -42,6 +40,7 @@ export class PDFParse {
 		}
 
 		await this.doc.destroy();
+		this.doc = undefined;
 
 		for (const page of result.pages) {
 			result.text += `${page.text}\n\n`;
@@ -51,7 +50,13 @@ export class PDFParse {
 	}
 
 	private async load(): Promise<InfoResult> {
-		const loadingTask = pdfjs.getDocument(this.options);
+		const opts = { ...this.options };
+
+		if (this.options.data instanceof Uint8Array) {
+			opts.data = new Uint8Array(this.options.data);
+		}
+
+		const loadingTask = pdfjs.getDocument(opts);
 		this.doc = await loadingTask.promise;
 		const data = await this.doc.getMetadata();
 
@@ -108,7 +113,7 @@ export class PDFParse {
 	}
 
 	public async GetImage(): Promise<ImageResult> {
-		const result: ImageResult = { pages: [], total: 0 } as ImageResult;
+		const result: ImageResult = { ...ImageResultDefault };
 
 		const infoData = await this.load();
 		Object.assign(result, infoData);
@@ -133,7 +138,7 @@ export class PDFParse {
 
 						const { width, height, kind, data } = await imgPromise;
 
-						// biome-ignore lint/suspicious/noExplicitAny: <underline lib not contains valid typedef>
+						// biome-ignore lint/suspicious/noExplicitAny: <underlying library does not contain valid typedefs>
 						const canvasFactory = (this.doc as any).canvasFactory;
 
 						const canvasAndContext = canvasFactory.create(width, height);
@@ -155,8 +160,13 @@ export class PDFParse {
 						context.putImageData(imgData, 0, 0);
 						const buff = canvasAndContext.canvas.toBuffer('image/png');
 
+						const base64 = buff.toString('base64');
+						// optional: data URL
+						const dataUrl = `data:image/png;base64,${base64}`;
+
 						pageImages.images.push({
 							data: buff,
+							dataUrl,
 							fileName: name,
 							height,
 							width,
@@ -173,6 +183,7 @@ export class PDFParse {
 		}
 
 		await this.doc.destroy();
+		this.doc = undefined;
 
 		return result;
 	}
@@ -204,14 +215,11 @@ export class PDFParse {
 
 	private resolveEmbeddedImage(pdfObjects: PDFObjects, name: string): Promise<{ width: number; height: number; kind: number; data: Uint8Array }> {
 		return new Promise((resolve, reject) => {
-			// biome-ignore lint/suspicious/noExplicitAny: <underline lib not contains valid typedef>
-			(pdfObjects as any).get(name, (data: any) => {
-				if (data) {
-					let buf: Uint8Array;
-					if (data.data instanceof ArrayBuffer) buf = new Uint8Array(data.data);
-					else if (Array.isArray(data.data)) buf = new Uint8Array(data.data);
-					else buf = data.data as Uint8Array;
-					resolve({ width: data.width, height: data.height, kind: data.kind, data: buf });
+			// biome-ignore lint/suspicious/noExplicitAny: <underlying library does not contain valid typedefs>
+			(pdfObjects as any).get(name, (imgData: any) => {
+				if (imgData) {
+					const dataBuff = new Uint8Array(imgData.data);
+					resolve({ width: imgData.width, height: imgData.height, kind: imgData.kind, data: dataBuff });
 				} else {
 					reject(new Error(`Image object ${name} not found`));
 				}

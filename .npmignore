@@ -1,0 +1,43 @@
+# Example dosyaları
+example/
+.vscode/
+
+# Test dosyaları
+tests/
+test/
+__tests__/
+*.test.js
+*.spec.js
+
+# Kapsam (coverage) raporları
+coverage/
+
+
+# Geliştirme araçları ve konfigürasyonlar
+.git
+.gitignore
+.github/
+node_modules/
+*.log
+.env
+.editorconfig
+.eslintrc
+.prettierrc
+vitest.config.js
+vite.config.js
+package-lock.json
+biome.json
+tsconfig.json
+
+# Dokümantasyon ve diğer dosyalar
+docs/
+examples/
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+logo.png
+
+# Geçici dosyalar
+*.swp
+*.bak
+*.txt
+

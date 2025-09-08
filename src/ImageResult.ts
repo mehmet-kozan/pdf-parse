@@ -20,6 +20,7 @@ export type ImageKindValue = (typeof ImageKind)[ImageKindKey];
  */
 export interface ImageResult extends InfoResult {
 	pages: PageImages[];
+	getPageImage(num: number, name: string): EmbeddedImage | null;
 }
 
 /**
@@ -36,15 +37,46 @@ export interface PageImages {
 /**
  * EmbeddedImage
  * - Normalized representation of an embedded image extracted from the PDF.
- * - data: Raw image data as Uint8Array.
- * - fileName: Suggested file name or resource name for the image.
- * - width, height: Image dimensions in pixels.
- * - kind: ImageKindValue indicating the image's color format.
+ * - `data`: Raw image bytes (e.g. PNG/JPEG) as Uint8Array. Use this for file writing or binary processing.
+ * - `dataUrl`: Optional data URL (e.g. "data:image/png;base64,...") for directly embedding in <img> src.
+ *   Storing both lets consumers choose the most convenient form; consider omitting one to save memory.
+ * - `fileName`: Suggested filename or resource name for the image (used when saving to disk).
+ * - `width` / `height`: Dimensions in pixels.
+ * - `kind`: ImageKindValue from pdfjs-dist indicating the pixel format (e.g. GRAYSCALE_1BPP / RGB_24BPP / RGBA_32BPP).
  */
 export interface EmbeddedImage {
+	// Raw binary image data (PNG/JPEG) normalized to Uint8Array.
 	data: Uint8Array;
+
+	// Optional base64 data URL for easy embedding in HTML.
+	dataUrl: string;
+
+	// Suggested filename or resource identifier for the image.
 	fileName: string;
+
+	// Image dimensions in pixels.
 	width: number;
 	height: number;
+
+	// Color format as defined by pdfjs ImageKind numeric values.
 	kind: ImageKindValue;
 }
+
+export const ImageResultDefault: ImageResult = {
+	getPageImage(num: number, name: string): EmbeddedImage | null {
+		for (const pageData of this.pages) {
+			if (pageData.pageNumber === num) {
+				for (const img of pageData.images) {
+					if (img.fileName === name) {
+						return img;
+					}
+				}
+			}
+		}
+		return null;
+	},
+	pages: [],
+	total: 0,
+	info: undefined,
+	metadata: undefined,
+};

@@ -1,10 +1,15 @@
 import { readFile, writeFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, test } from 'vitest';
 import { pdf } from '../../src/index';
 import { TestData } from './data';
 
-const __pdf = `${import.meta.dirname}/test.pdf`;
-const __pdf_txt = `${import.meta.dirname}/test.txt`;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const __pdf = join(__dirname, 'test.pdf');
+const __pdf_txt = join(__dirname, 'test.txt');
 
 describe('test-01 pdf-text all:true', async () => {
 	const data = await readFile(__pdf);

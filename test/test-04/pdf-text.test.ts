@@ -3,7 +3,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, test } from 'vitest';
 import { PDFParse } from '../../src/index';
-import { TestData } from './data.js';
+import { TestData } from './data';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -11,10 +11,9 @@ const __dirname = dirname(__filename);
 const __pdf = join(__dirname, 'test.pdf');
 const __pdf_txt = join(__dirname, 'test.txt');
 
-describe('test-02 all:true', async () => {
+describe('test-04 all:true', async () => {
 	const data = await readFile(__pdf);
-	const buffer = new Uint8Array(data);
-	const parser = new PDFParse({ data: buffer });
+	const parser = new PDFParse({ data });
 	const result = await parser.GetText();
 
 	await writeFile(__pdf_txt, result.text, {
