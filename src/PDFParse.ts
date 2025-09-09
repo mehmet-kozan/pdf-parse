@@ -3,7 +3,7 @@ import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects';
 import { type ImageResult, ImageResultDefault, type PageImages } from './ImageResult';
 import type { InfoResult } from './InfoResult';
-import type { PageToImage, PageToImageResult } from './PageToImageResult';
+import type { PageToImageResult } from './PageToImageResult';
 import type { ParseOptions } from './ParseOptions';
 import { type TextResult, TextResultDefault } from './TextResult';
 
