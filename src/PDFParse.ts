@@ -3,6 +3,7 @@ import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects';
 import { type ImageResult, ImageResultDefault, type PageImages } from './ImageResult';
 import type { InfoResult } from './InfoResult';
+import type { PageToImage, PageToImageResult } from './PageToImageResult';
 import type { ParseOptions } from './ParseOptions';
 import { type TextResult, TextResultDefault } from './TextResult';
 
@@ -14,6 +15,7 @@ export class PDFParse {
 		if (typeof options.data === 'object' && 'buffer' in options.data) {
 			options.data = new Uint8Array(options.data);
 		}
+		options.verbosity = pdfjs.VerbosityLevel.ERRORS;
 		this.options = options;
 	}
 
@@ -57,6 +59,7 @@ export class PDFParse {
 		}
 
 		const loadingTask = pdfjs.getDocument(opts);
+
 		this.doc = await loadingTask.promise;
 		const data = await this.doc.getMetadata();
 
@@ -95,20 +98,14 @@ export class PDFParse {
 
 		const strBuf: Array<string> = [];
 
-		//const pageText: string = '';
-
 		for (const item of textContent.items) {
 			if (!('str' in item)) continue;
 			strBuf.push(item.str);
-			//pageText += item.str;
 			if (item.hasEOL) {
 				strBuf.push('\n');
 			}
-
-			//if (item.hasEOL) pageText += '\n'
 		}
 
-		// todo normalize text pdf_find_controller.js
 		return strBuf.join('');
 	}
 
@@ -161,7 +158,6 @@ export class PDFParse {
 						const buff = canvasAndContext.canvas.toBuffer('image/png');
 
 						const base64 = buff.toString('base64');
-						// optional: data URL
 						const dataUrl = `data:image/png;base64,${base64}`;
 
 						pageImages.images.push({
@@ -172,11 +168,6 @@ export class PDFParse {
 							width,
 							kind,
 						});
-
-						// https://www.npmjs.com/package/canvas#examples
-						//const aa = canvas.toDataURL("image/jpeg")
-						//fs.writeFileSync(`${i}-${j}.jpg`, buff);
-						//console.log('ok');
 					}
 				}
 			}
@@ -225,5 +216,60 @@ export class PDFParse {
 				}
 			});
 		});
+	}
+
+	public async PageToImage(): Promise<PageToImageResult> {
+		const result: PageToImageResult = { pages: [], total: 0 } as PageToImageResult;
+
+		const base = new URL('../../node_modules/pdfjs-dist/', import.meta.url);
+		this.options.cMapUrl = new URL('cmaps/', base).href;
+		this.options.cMapPacked = true;
+		this.options.standardFontDataUrl = new URL('legacy/build/standard_fonts/', base).href;
+
+		const infoData = await this.load();
+		Object.assign(result, infoData);
+
+		if (this.doc === undefined) {
+			throw new Error('PDF document not loaded');
+		}
+
+		for (let i: number = 1; i <= result.total; i++) {
+			if (this.shouldParse(i, result.total)) {
+				//const pageToImages: PageToImage = { pageNumber: i };
+				//result.pages.push(pageToImages);
+
+				const page = await this.doc.getPage(i);
+
+				// biome-ignore lint/suspicious/noExplicitAny: <underlying library does not contain valid typedefs>
+				const canvasFactory = (this.doc as any).canvasFactory;
+				const viewport = page.getViewport({ scale: 1.0 });
+				const canvasAndContext = canvasFactory.create(viewport.width, viewport.height);
+				const renderContext = {
+					canvasContext: canvasAndContext.context,
+					viewport,
+					canvas: canvasAndContext.canvas,
+				};
+
+				const renderTask = page.render(renderContext);
+				await renderTask.promise;
+				// Convert the canvas to an image buffer.
+				const data = canvasAndContext.canvas.toBuffer('image/png');
+				const base64 = data.toString('base64');
+				const dataUrl = `data:image/png;base64,${base64}`;
+
+				result.pages.push({
+					data,
+					dataUrl,
+					pageNumber: i,
+				});
+
+				page.cleanup();
+			}
+		}
+
+		await this.doc.destroy();
+		this.doc = undefined;
+
+		return result;
 	}
 }
