@@ -1,10 +1,13 @@
 import type { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects';
+import { Line, LineStore, Point, Rectangle } from './geometry/Geometry';
+import type { TableData } from './geometry/TableData';
 import { type ImageResult, ImageResultDefault, type PageImages } from './ImageResult';
 import type { InfoResult } from './InfoResult';
 import type { PageToImageResult } from './PageToImageResult';
 import type { ParseOptions } from './ParseOptions';
+import type { PageTableResult, TableResult } from './TableResult';
 import { type TextResult, TextResultDefault } from './TextResult';
 
 export class PDFParse {
@@ -271,5 +274,165 @@ export class PDFParse {
 		this.doc = undefined;
 
 		return result;
+	}
+
+	public async GetTable(): Promise<TableResult> {
+		const infoData = await this.load();
+		const result: TableResult = { ...infoData, pages: [], mergedTables: [] };
+
+		if (this.doc === undefined) {
+			throw new Error('PDF document not loaded');
+		}
+
+		for (let i: number = 1; i <= result.total; i++) {
+			if (this.shouldParse(i, result.total)) {
+				const page = await this.doc.getPage(i);
+				const viewport = page.getViewport({ scale: 1 });
+
+				viewport.convertToViewportPoint(0, 0);
+
+				const store = await this.getPageGeometry(page);
+
+				store.normalize();
+
+				const tableDataArr = store.getTableData();
+				await this.fillPageTables(page, tableDataArr);
+
+				const pageTableResult: PageTableResult = { num: i, tables: tableDataArr[0].toArray() };
+				// for (const table of tableDataArr) {
+				//     //if (table.cellCount < 3) continue
+				//     pageTableResult.tables.push(table.toData())
+				// }
+
+				result.pages.push(pageTableResult);
+				page.cleanup();
+			}
+		}
+
+		// for (const table of Table.AllTables) {
+		//     if (table.cellCount < 3) continue
+		//     const str = table.toString()
+		//     console.log(str)
+		// }
+		await this.doc.destroy();
+		return result;
+	}
+
+	private async getPageGeometry(page: PDFPageProxy): Promise<LineStore> {
+		const lineStore: LineStore = new LineStore();
+		const opList = await page.getOperatorList();
+
+		const viewport = page.getViewport({ scale: 1 });
+
+		let transformMatrix = [1, 0, 0, 1, 0, 0];
+		const transformStack: Array<Array<number>> = [];
+
+		let current_x: number = 0;
+		let current_y: number = 0;
+
+		for (let j = 0; j < opList.fnArray.length; j++) {
+			const fn = opList.fnArray[j];
+			const args = opList.argsArray[j];
+
+			if (fn === pdfjs.OPS.constructPath) {
+				while (args[0].length) {
+					const op = args[0].shift();
+
+					if (op === pdfjs.OPS.rectangle) {
+						const x = args[1].shift();
+						const y = args[1].shift();
+						const width = args[1].shift();
+						const height = args[1].shift();
+
+						if (Math.min(width, height) <= 2) {
+							// TODO remove
+							debugger;
+						}
+
+						const rect = new Rectangle(new Point(x, y), width, height);
+						rect.transform(transformMatrix);
+						rect.transform(viewport.transform);
+
+						lineStore.addRectangle(rect);
+					} else if (op === pdfjs.OPS.moveTo) {
+						current_x = args[1].shift();
+						current_y = args[1].shift();
+					} else if (op === pdfjs.OPS.lineTo) {
+						const x = args[1].shift();
+						const y = args[1].shift();
+
+						//default trasform
+						const from = new Point(current_x, current_y);
+						const to = new Point(x, y);
+						const line = new Line(from, to);
+						line.transform(transformMatrix);
+						line.transform(viewport.transform);
+
+						// // viewport transform
+						// const _from = viewport.convertToViewportPoint(line.from.x, line.from.y)
+						// const _to = viewport.convertToViewportPoint(line.to.x, line.to.y)
+						//
+						// const transformedLine = new Line(new Point(_from[0], _from[1]), new Point(_to[0], _to[1]))
+						lineStore.add(line);
+
+						current_x = x;
+						current_y = y;
+					}
+				}
+			} else if (fn === pdfjs.OPS.save) {
+				transformStack.push(transformMatrix);
+			} else if (fn === pdfjs.OPS.restore) {
+				const restoredMatrix = transformStack.pop();
+				if (restoredMatrix) {
+					transformMatrix = restoredMatrix;
+				}
+			} else if (fn === pdfjs.OPS.transform) {
+				//transformMatrix = this.transform_fn(transformMatrix, args);
+				transformMatrix = pdfjs.Util.transform(transformMatrix, args);
+			}
+		}
+
+		return lineStore;
+	}
+
+	private async fillPageTables(page: PDFPageProxy, pageTables: Array<TableData>): Promise<void> {
+		//const resultTable: Array<Table> = []
+
+		const viewport = page.getViewport({ scale: 1 });
+
+		// for (let i = 0; i < pageTables.length; i++) {
+		//     const currentTable = pageTables[i]
+		// }
+
+		//pageTables = pageTables.filter((table) => table.cellCount > 3)
+
+		const textContent = await page.getTextContent({
+			includeMarkedContent: false,
+			disableNormalization: false,
+		});
+
+		for (const textItem of textContent.items) {
+			if (!('str' in textItem)) continue;
+
+			const tx = pdfjs.Util.transform(pdfjs.Util.transform(viewport.transform, textItem.transform), [1, 0, 0, -1, 0, 0]);
+
+			//const resXY = viewport.convertToViewportPoint(tx[4],tx[5])
+
+			// textItem.transform = pdfjs.Util.transform(viewport.transform, textItem.transform)
+			// textItem.transform[5] = viewport.height - textItem.transform[5] - textItem.height
+
+			for (const pageTable of pageTables) {
+				const cell = pageTable.findCell(tx[4], tx[5]);
+				if (cell) {
+					cell.text.push(textItem.str);
+					if (textItem.hasEOL) {
+						cell.text.push('\n');
+					}
+					break;
+				}
+			}
+
+			//Table.tryAddText(pageTables, textItem)
+		}
 	}
 }

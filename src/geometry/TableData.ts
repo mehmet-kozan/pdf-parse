@@ -82,4 +82,16 @@ export class TableData {
 
 		return true;
 	}
+
+	public toArray(): string[][] {
+		const tableArr: string[][] = [];
+		for (const row of this.rows) {
+			const rowArr: string[] = [];
+			for (const cell of row) {
+				rowArr.push(cell.text.join(''));
+			}
+			tableArr.push(rowArr);
+		}
+		return tableArr;
+	}
 }
