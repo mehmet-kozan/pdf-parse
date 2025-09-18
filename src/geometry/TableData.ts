@@ -88,7 +88,10 @@ export class TableData {
 		for (const row of this.rows) {
 			const rowArr: string[] = [];
 			for (const cell of row) {
-				rowArr.push(cell.text.join(''));
+				let text = cell.text.join('');
+				text = text.replace(/^[\s]+|[\s]+$/g, '');
+				text = text.trim();
+				rowArr.push(text);
 			}
 			tableArr.push(rowArr);
 		}

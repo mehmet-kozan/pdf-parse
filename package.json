@@ -6,8 +6,10 @@
 	"module": "dist/esm/index.js",
 	"types": "dist/esm/index.d.ts",
 	"exports": {
-		"import": "./dist/esm/index.js",
-		"require": "./dist/cjs/index.js"
+		".": {
+			"import": "./dist/esm/index.js",
+			"require": "./dist/cjs/index.js"
+		}
 	},
 	"description": "Pure JavaScript cross-platform module to extract texts from PDFs.",
 	"homepage": "https://github.com/mehmet-kozan/pdf-parse#readme",
@@ -15,9 +17,26 @@
 		"url": "https://github.com/mehmet-kozan/pdf-parse/issues"
 	},
 	"keywords": [
-		"pdf parse",
-		"pdf.js",
-		"pdf-parse"
+		"pdf",
+		"pdf-parse",
+		"pdf-parser",
+		"pdfjs",
+		"pdf-text-extraction",
+		"pdf-image-extraction",
+		"pdf-table-extractor",
+		"pdf-table-extraction",
+		"table-extraction",
+		"table-extractor",
+		"table-parser",
+		"pdf-to-text",
+		"text-extraction",
+		"ocr",
+		"document-parser",
+		"pdf-tools",
+		"pdf-reader",
+		"pdf-utils",
+		"pdf-screenshot",
+		"pdf-to-image"
 	],
 	"repository": {
 		"type": "git",
@@ -27,6 +46,7 @@
 	"author": "Mehmet Kozan",
 	"files": [
 		"dist/",
+		"dist/**/*.d.ts",
 		"README.md",
 		"LICENSE"
 	],
@@ -36,6 +56,7 @@
 		"build:cjs": "tsc --project tsconfig.cjs.json",
 		"build:browser": "vite build",
 		"clean": "rimraf --glob dist test/**/*.txt test/**/imgs",
+		"prepare": "npm run build",
 		"test": "vitest",
 		"test:ui": "vitest --ui",
 		"test:run": "vitest run",
@@ -46,17 +67,23 @@
 		"format:check": "biome check .",
 		"pkg:check": "npm pack --dry-run"
 	},
+	"dependencies": {
+		"pdfjs-dist": "^5.4.149"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.2.3",
 		"@types/node": "^24.3.1",
 		"npm-run-all": "^4.1.5",
-		"pdfjs-dist": "^5.4.149",
 		"rimraf": "^6.0.1",
 		"typescript": "^5.9.2",
 		"vite": "^7.1.5",
 		"vitest": "^3.2.4"
 	},
+	"publishConfig": {
+		"access": "public"
+	},
 	"engines": {
 		"node": ">=18"
-	}
+	},
+	"sideEffects": false
 }

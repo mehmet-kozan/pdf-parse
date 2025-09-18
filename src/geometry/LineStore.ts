@@ -76,7 +76,7 @@ export class LineStore {
 		return validTables;
 	}
 
-	public normalize() {
+	public normalize(): void {
 		this.normalizeHorizontal();
 		this.normalizeVertical();
 	}
