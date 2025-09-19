@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 // Import ESM entry from package root (package.json -> exports)
-import pdfParse from '../../';
+import pdfParse from '../../dist/esm';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
