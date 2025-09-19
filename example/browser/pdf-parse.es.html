@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>pdf-parse browser example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 1rem;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            background: #f5f5f5;
+            padding: 0.5rem;
+            max-height: 60vh;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>pdf-parse — Browser example</h1>
+    <p>Build the project first: <code>npm run build</code></p>
+    <input id="file" type="file" accept="application/pdf" />
+    <button id="parse">Parse</button>
+    <h2>Output</h2>
+    <pre id="output">No action yet.</pre>
+
+    <script type="module">
+
+        // Import the browser bundle produced by the build step
+        import { pdf } from '../../dist/browser/pdf-parse.es.js';
+
+        const fileInput = document.getElementById('file');
+        const btn = document.getElementById('parse');
+        const out = document.getElementById('output');
+
+        btn.addEventListener('click', async () => {
+            const f = fileInput.files?.[0];
+            if (!f) {
+                out.textContent = 'Please select a PDF file.';
+                return;
+            }
+
+            try {
+                out.textContent = 'Reading and parsing...';
+                const ab = await f.arrayBuffer();
+                const result = await pdf(new Uint8Array(ab));
+                out.textContent = (result?.text && result.text.length)
+                    ? result.text.slice(0, 10000)
+                    : 'No text found or empty.';
+            } catch (err) {
+                out.textContent = 'Error: ' + String(err);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -12,6 +12,7 @@ export type TypedArray = Int8Array | Uint8Array | Uint8ClampedArray | Int16Array
  * worker-thread. This will help reduce main-thread memory usage, however
  * it will take ownership of the TypedArrays.
  */
+
 export async function pdf(data: string | URL | number[] | ArrayBuffer | TypedArray) {
 	let parser: PDFParse;
 	if (data instanceof URL) {
