@@ -1,49 +1,35 @@
-<p align="right">
-<a href="https://www.npmjs.com/package/pdf-parse"><img src="https://nodei.co/npm/pdf-parse.svg?data=d"></a>
-</p>
+<p align="right"><a href="https://www.npmjs.com/package/pdf-parse"><img src="https://nodei.co/npm/pdf-parse.svg?data=d"></a></p>
 
 # pdf-parse
 
-Pure JavaScript, cross-platform module to extract text, images and tables from PDF files.
+**Pure JavaScript, cross-platform module to extract text, images and tables from PDF files.**
 
 
-<div align="center">
-&nbsp;
+[![npm downloads](https://img.shields.io/npm/dt/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
+[![npm version](https://img.shields.io/npm/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
+[![npm version](https://img.shields.io/node/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
+[![License](https://img.shields.io/npm/l/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 
-[![npm downloads](https://img.shields.io/npm/dt/pdf-parse?style=plastic&color=EBEBEB)](https://www.npmjs.com/package/pdf-parse)&nbsp;&nbsp;&nbsp;
-[![npm version](https://img.shields.io/npm/v/pdf-parse?style=plastic&label=npm&labelColor=B9B9B9v&color=EBEBEB)](https://www.npmjs.com/package/pdf-parse)&nbsp;&nbsp;&nbsp;
-[![npm version](https://img.shields.io/node/v/pdf-parse?style=plastic&label=node&color=EBEBEB)](https://www.npmjs.com/package/pdf-parse)&nbsp;&nbsp;&nbsp;
-[![License](https://img.shields.io/npm/l/pdf-parse?style=plastic&label=license&color=EBEBEB)](https://www.npmjs.com/package/pdf-parse)
+## Similar Packages
+* [pdf2json](https://www.npmjs.com/package/pdf2json) buggy, no support anymore, memory leak, throws non-catchable fatal errors
+* [j-pdfjson](https://www.npmjs.com/package/j-pdfjson) fork of pdf2json
+* [pdf-parser](https://github.com/dunso/pdf-parse) buggy, no tests
+* [pdfreader](https://www.npmjs.com/package/pdfreader) using pdf2json
+* [pdf-extract](https://www.npmjs.com/package/pdf-extract) not cross-platform using xpdf
 
-</div>
 
-
-
-Badges
-- npm: [package.json](package.json)
-
-Quick start
-
-1. Install
+## Installation
 ```sh
-npm install
+npm install pdf-parse
 ```
 
-2. Build (required for browser bundle)
-```sh
-npm run build
-```
-
-3. Run tests
-```sh
-npm test
-```
+## Basic Usage
 
 API (Node)
 - High-level helper: [`pdf`](src/index.ts)
 - Full API: [`PDFParse`](src/PDFParse.ts)
 
-Example — Node (text extraction)
+### Example — Node (text extraction)
 ```js
 // Node / ESM
 import { PDFParse, pdf } from './dist/esm/index.js'; // or import from 'pdf-parse' after publishing
@@ -58,7 +44,7 @@ const textResult = await parser.GetText();
 console.log(textResult.text);
 ```
 
-Example — Web / Browser
+### Example — Web / Browser
 - After running `npm run build`, use the browser bundle in `dist/browser`.
 - See a minimal browser example in [example/browser/pdf-parse.es.html](example/browser/pdf-parse.es.html).
 
@@ -85,18 +71,11 @@ btn.addEventListener('click', async () => {
 </script>
 ```
 
-Browser server example
-- A small development server is provided at [example/serve-example.js](example/serve-example.js).
-```sh
-node example/serve-example.js
-# open http://localhost:5173/example/browser/pdf-parse.es.html
-```
-
 Features
 - Extract page text: GetText (via [`pdf`](src/index.ts) or [`PDFParse`](src/PDFParse.ts))
 - Extract embedded images: GetImage
 - Render page to image: PageToImage
-- Detect and extract simple table structures: GetTable
+- Detect and extract tabular data: GetTable
 
 Notes
 - Uses `pdfjs-dist` for PDF parsing and rendering (see worker setup in [`src/PDFParse.ts`](src/PDFParse.ts)).
