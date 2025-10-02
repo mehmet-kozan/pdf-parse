@@ -25,23 +25,94 @@ npm install pdf-parse
 
 ## Basic Usage
 
-API (Node)
-- High-level helper: [`pdf`](src/index.ts)
+API
+- High-level helper for compatibility v1.*.*: [`pdf`](src/index.ts)
 - Full API: [`PDFParse`](src/PDFParse.ts)
 
-### Example — Node (text extraction)
+### GetText, text extraction
 ```js
 // Node / ESM
-import { PDFParse, pdf } from './dist/esm/index.js'; // or import from 'pdf-parse' after publishing
+import { PDFParse } from 'pdf-parse';
+import { readFile } from 'node:fs/promises';
+
+
+const data = await readFile('test/test-01/test.pdf');
+const buffer = new Uint8Array(data);
 
 // Using helper
-const result = await pdf(await Deno.readFile('test/test-01/test.pdf'));
+const result = await pdf(buffer);
 
 // Using class
-const data = await Deno.readFile('test/test-01/test.pdf');
-const parser = new PDFParse({ data });
+const parser = new PDFParse({ data:buffer });
 const textResult = await parser.GetText();
 console.log(textResult.text);
+```
+
+### PageToImage, page to png screenshot
+```js
+// Node / ESM
+import { PDFParse } from 'pdf-parse';
+import { readFile,writeFile } from 'node:fs/promises';
+
+
+const data = await readFile('test/test-01/test.pdf');
+const buffer = new Uint8Array(data);
+
+// Using class
+const parser = new PDFParse({ data:buffer });
+const result = await parser.PageToImage();
+
+for (const pageData of result.pages) {
+    const imgFileName = `page_${pageData.pageNumber}.png`;
+    await writeFile(imgFileName, pageData.data, {
+        flag: 'w',
+    });
+}
+```
+
+### GetImage, pdf embed image extraction
+```js
+// Node / ESM
+import { PDFParse } from 'pdf-parse';
+import { readFile,writeFile } from 'node:fs/promises';
+
+
+const data = await readFile('test/test-01/test.pdf');
+const buffer = new Uint8Array(data);
+
+// Using class
+const parser = new PDFParse({ data:buffer });
+const result = await parser.GetImage();
+
+for (const pageData of result.pages) {
+    for (const pageImage of pageData.images) {
+        const imgFileName = `page_${pageData.pageNumber}-${pageImage.fileName}.png`;
+        await writeFile(imgFileName, pageImage.data, {
+            flag: 'w',
+        });
+    }
+}
+```
+
+### GetTable, pdf tabular data extraction
+```js
+// Node / ESM
+import { PDFParse } from 'pdf-parse';
+import { readFile,writeFile } from 'node:fs/promises';
+
+
+const data = await readFile('test/test-01/test.pdf');
+const buffer = new Uint8Array(data);
+
+// Using class
+const parser = new PDFParse({ data:buffer });
+const result = await parser.GetTable();
+
+for (const pageData of result.pages) {
+    for (const table of pageData.tables) {
+        console.log(table);
+    }
+}
 ```
 
 ### Example — Web / Browser
@@ -71,23 +142,6 @@ btn.addEventListener('click', async () => {
 </script>
 ```
 
-Features
-- Extract page text: GetText (via [`pdf`](src/index.ts) or [`PDFParse`](src/PDFParse.ts))
-- Extract embedded images: GetImage
-- Render page to image: PageToImage
-- Detect and extract tabular data: GetTable
-
-Notes
-- Uses `pdfjs-dist` for PDF parsing and rendering (see worker setup in [`src/PDFParse.ts`](src/PDFParse.ts)).
-- Tests are in [test/](test/) and run with Vitest.
-
-Contributing
-1. Fork and branch
-2. Make changes and run tests
-3. Open a pull request
-
-License
-- Apache-2.0 (see LICENSE)
 
 ## Options
 
@@ -156,6 +210,24 @@ document.querySelector('#parse').addEventListener('click', async () => {
 });
 </script>
 ```
+
+Features
+- Extract page text: GetText (via [`pdf`](src/index.ts) or [`PDFParse`](src/PDFParse.ts))
+- Extract embedded images: GetImage
+- Render page to image: PageToImage
+- Detect and extract tabular data: GetTable
+
+Notes
+- Uses `pdfjs-dist` for PDF parsing and rendering (see worker setup in [`src/PDFParse.ts`](src/PDFParse.ts)).
+- Tests are in [test/](test/) and run with Vitest.
+
+Contributing
+1. Fork and branch
+2. Make changes and run tests
+3. Open a pull request
+
+License
+- Apache-2.0 (see LICENSE)
 
 Worker note: In browser environments the package sets pdfjs GlobalWorkerOptions.workerSrc automatically when imported from the built browser bundle. If you use a custom build or host pdf.worker yourself, configure pdfjs accordingly.
 
