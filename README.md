@@ -26,7 +26,7 @@ npm install pdf-parse
 ## Basic Usage
 
 API
-- High-level helper for compatibility v1.*.*: [`pdf`](src/index.ts)
+- High-level helper for compatibility v1: [`pdf`](src/index.ts)
 - Full API: [`PDFParse`](src/PDFParse.ts)
 
 ### GetText — text extraction

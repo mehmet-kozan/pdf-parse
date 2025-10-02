@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.1.1",
+	"version": "2.1.2",
 	"type": "module",
 	"main": "dist/cjs/index.js",
 	"module": "dist/esm/index.js",
@@ -30,13 +30,14 @@
 		"table-parser",
 		"pdf-to-text",
 		"text-extraction",
-		"ocr",
+		"pdf-ocr",
 		"document-parser",
 		"pdf-tools",
 		"pdf-reader",
 		"pdf-utils",
 		"pdf-screenshot",
-		"pdf-to-image"
+		"pdf-to-image",
+		"server-side-pdf-parsing"
 	],
 	"repository": {
 		"type": "git",
