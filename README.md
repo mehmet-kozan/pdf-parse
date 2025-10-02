@@ -2,20 +2,20 @@
 
 # pdf-parse
 
-**Pure JavaScript, cross-platform module to extract text, images and tables from PDF files.**
+**A pure JavaScript, cross-platform module to extract text, images, and tables from PDF files.**
 
 
 [![npm downloads](https://img.shields.io/npm/dt/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 [![npm version](https://img.shields.io/npm/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
-[![npm version](https://img.shields.io/node/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
+[![node version](https://img.shields.io/node/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 [![License](https://img.shields.io/npm/l/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 
-## Similar Packages
-* [pdf2json](https://www.npmjs.com/package/pdf2json) buggy, no support anymore, memory leak, throws non-catchable fatal errors
-* [j-pdfjson](https://www.npmjs.com/package/j-pdfjson) fork of pdf2json
-* [pdf-parser](https://github.com/dunso/pdf-parse) buggy, no tests
-* [pdfreader](https://www.npmjs.com/package/pdfreader) using pdf2json
-* [pdf-extract](https://www.npmjs.com/package/pdf-extract) not cross-platform using xpdf
+## Similar packages
+* [pdf2json](https://www.npmjs.com/package/pdf2json) — buggy, no longer supported, memory leaks, and throws uncaught fatal errors
+* [j-pdfjson](https://www.npmjs.com/package/j-pdfjson) — fork of pdf2json
+* [pdf-parser](https://github.com/dunso/pdf-parse) — buggy, no tests
+* [pdfreader](https://www.npmjs.com/package/pdfreader) — uses pdf2json
+* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — not cross-platform (depends on xpdf)
 
 
 ## Installation
@@ -29,7 +29,7 @@ API
 - High-level helper for compatibility v1.*.*: [`pdf`](src/index.ts)
 - Full API: [`PDFParse`](src/PDFParse.ts)
 
-### GetText, text extraction
+### GetText — text extraction
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
@@ -39,27 +39,27 @@ import { readFile } from 'node:fs/promises';
 const data = await readFile('test/test-01/test.pdf');
 const buffer = new Uint8Array(data);
 
-// Using helper
+// Using helper function
 const result = await pdf(buffer);
 
-// Using class
-const parser = new PDFParse({ data:buffer });
+// Using the class
+const parser = new PDFParse({ data: buffer });
 const textResult = await parser.GetText();
 console.log(textResult.text);
 ```
 
-### PageToImage, page to png screenshot
+### PageToImage — render page to PNG
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
-import { readFile,writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 
 
 const data = await readFile('test/test-01/test.pdf');
 const buffer = new Uint8Array(data);
 
-// Using class
-const parser = new PDFParse({ data:buffer });
+// Using the class
+const parser = new PDFParse({ data: buffer });
 const result = await parser.PageToImage();
 
 for (const pageData of result.pages) {
@@ -70,18 +70,18 @@ for (const pageData of result.pages) {
 }
 ```
 
-### GetImage, pdf embed image extraction
+### GetImage — extract embedded images
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
-import { readFile,writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 
 
 const data = await readFile('test/test-01/test.pdf');
 const buffer = new Uint8Array(data);
 
-// Using class
-const parser = new PDFParse({ data:buffer });
+// Using the class
+const parser = new PDFParse({ data: buffer });
 const result = await parser.GetImage();
 
 for (const pageData of result.pages) {
@@ -94,18 +94,18 @@ for (const pageData of result.pages) {
 }
 ```
 
-### GetTable, pdf tabular data extraction
+### GetTable — extract tabular data
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
-import { readFile,writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 
 
 const data = await readFile('test/test-01/test.pdf');
 const buffer = new Uint8Array(data);
 
-// Using class
-const parser = new PDFParse({ data:buffer });
+// Using the class
+const parser = new PDFParse({ data: buffer });
 const result = await parser.GetTable();
 
 for (const pageData of result.pages) {
