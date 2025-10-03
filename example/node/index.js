@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 // Import ESM entry from package root (package.json -> exports)
-import pdfParse from '../../dist/esm';
+import {pdf} from '../../dist/esm/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,7 +13,7 @@ async function main() {
     const filePath = path.join(__dirname, '..', '..', 'test', 'test-01', 'test.pdf');
     const data = await fs.readFile(filePath);
 
-    const result = await pdfParse(data);
+    const result = await pdf(data);
 
     console.log('--- PDF text length ---');
     console.log(result?.text?.length ?? 0);

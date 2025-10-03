@@ -10,6 +10,7 @@ export default defineBuildConfig({
 	failOnWarn: true,
 	sourcemap: true,
 	stub: false,
+	externals: ['pdfjs-dist', 'pdfjs-dist/build/pdf.worker.min.mjs'],
 
 	rollup: {
 		emitCJS: true,

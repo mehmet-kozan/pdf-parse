@@ -1,4 +1,4 @@
-import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+//import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import type { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
@@ -12,17 +12,33 @@ import { type MinMax, PathGeometry } from './PathGeometry.js';
 import type { PageTableResult, TableResult } from './TableResult.js';
 import { type TextResult, TextResultDefault } from './TextResult.js';
 
+// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
 if (typeof (globalThis as any).pdfjs === 'undefined') {
+	// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
 	(globalThis as any).pdfjs = pdfjs;
 }
 
 // Only run in real browser environments
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-	if (pdfjs?.GlobalWorkerOptions) {
-		// set workerSrc only if not already set
-		if (!pdfjs.GlobalWorkerOptions.workerSrc) {
+	// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
+	let workerUrl: any;
+
+	if (typeof require !== 'undefined') {
+		workerUrl = require('pdfjs-dist/build/pdf.worker.min.mjs');
+
+		if (pdfjs?.GlobalWorkerOptions && !pdfjs.GlobalWorkerOptions.workerSrc) {
 			pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
 		}
+	} else {
+		// Use dynamic import in an IIFE for CommonJS compatibility
+		(async () => {
+			const workerModule = await import('pdfjs-dist/build/pdf.worker.min.mjs?url');
+			workerUrl = workerModule.default || workerModule;
+
+			if (pdfjs?.GlobalWorkerOptions && !pdfjs.GlobalWorkerOptions.workerSrc) {
+				pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
+			}
+		})();
 	}
 }
 
