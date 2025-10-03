@@ -2,21 +2,30 @@
 
 # pdf-parse
 
-**A pure JavaScript, cross-platform module to extract text, images, and tables from PDF files.**
-
+**A pure TypeScript/JavaScript, cross-platform module for extracting text, images, and tabular data from PDF files.**
 
 [![npm downloads](https://img.shields.io/npm/dt/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 [![npm version](https://img.shields.io/npm/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 [![node version](https://img.shields.io/node/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 [![License](https://img.shields.io/npm/l/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 
-## Similar packages
-* [pdf2json](https://www.npmjs.com/package/pdf2json) — buggy, no longer supported, memory leaks, and throws uncaught fatal errors
-* [j-pdfjson](https://www.npmjs.com/package/j-pdfjson) — fork of pdf2json
-* [pdf-parser](https://github.com/dunso/pdf-parse) — buggy, no tests
-* [pdfreader](https://www.npmjs.com/package/pdfreader) — uses pdf2json
-* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — not cross-platform (depends on xpdf)
+> **Contributing Note:** When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently.
 
+## Features
+- Supports Node.js and browsers 
+- CommonJS and ESM support 
+- Extract page text: `GetText` 
+- Extract embedded images: `GetImage` 
+- Render pages as images: `PageToImage` 
+- Detect and extract tabular data: `GetTable` 
+- For additional usage examples, check the [`example`](./example) and [`test`](./test) folders. 
+
+## Similar Packages
+* [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
+* [j-pdfjson](https://www.npmjs.com/package/j-pdfjson) — Fork of pdf2json
+* [pdf-parser](https://github.com/dunso/pdf-parse) — Buggy, no tests
+* [pdfreader](https://www.npmjs.com/package/pdfreader) — Uses pdf2json
+* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Not cross-platform, depends on xpdf
 
 ## Installation
 ```sh
@@ -25,22 +34,22 @@ npm install pdf-parse
 
 ## Basic Usage
 
-API
-- High-level helper for compatibility v1: [`pdf`](src/index.ts)
+API:
+- High-level helper for v1 compatibility: [`pdf`](src/index.ts)
 - Full API: [`PDFParse`](src/PDFParse.ts)
 
-### GetText — text extraction
+### GetText — Extract Text
 ```js
 // Node / ESM
-import { PDFParse } from 'pdf-parse';
+import { PDFParse, pdf } from 'pdf-parse';
 import { readFile } from 'node:fs/promises';
-
 
 const data = await readFile('test/test-01/test.pdf');
 const buffer = new Uint8Array(data);
 
-// Using helper function
+// Using the helper function
 const result = await pdf(buffer);
+console.log(result.text);
 
 // Using the class
 const parser = new PDFParse({ data: buffer });
@@ -48,12 +57,11 @@ const textResult = await parser.GetText();
 console.log(textResult.text);
 ```
 
-### PageToImage — render page to PNG
+### PageToImage — Render Page to PNG
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
 import { readFile, writeFile } from 'node:fs/promises';
-
 
 const data = await readFile('test/test-01/test.pdf');
 const buffer = new Uint8Array(data);
@@ -64,18 +72,15 @@ const result = await parser.PageToImage();
 
 for (const pageData of result.pages) {
     const imgFileName = `page_${pageData.pageNumber}.png`;
-    await writeFile(imgFileName, pageData.data, {
-        flag: 'w',
-    });
+    await writeFile(imgFileName, pageData.data, { flag: 'w' });
 }
 ```
 
-### GetImage — extract embedded images
+### GetImage — Extract Embedded Images
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
 import { readFile, writeFile } from 'node:fs/promises';
-
 
 const data = await readFile('test/test-01/test.pdf');
 const buffer = new Uint8Array(data);
@@ -87,19 +92,16 @@ const result = await parser.GetImage();
 for (const pageData of result.pages) {
     for (const pageImage of pageData.images) {
         const imgFileName = `page_${pageData.pageNumber}-${pageImage.fileName}.png`;
-        await writeFile(imgFileName, pageImage.data, {
-            flag: 'w',
-        });
+        await writeFile(imgFileName, pageImage.data, { flag: 'w' });
     }
 }
 ```
 
-### GetTable — extract tabular data
+### GetTable — Extract Tabular Data
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
-import { readFile, writeFile } from 'node:fs/promises';
-
+import { readFile } from 'node:fs/promises';
 
 const data = await readFile('test/test-01/test.pdf');
 const buffer = new Uint8Array(data);
@@ -116,10 +118,30 @@ for (const pageData of result.pages) {
 ```
 
 ### Example — Web / Browser
-- After running `npm run build`, use the browser bundle in `dist/browser`.
+- After running `npm run build`, you will find both regular and minified browser bundles in `dist/browser` (e.g., `pdf-parse.es.js` and `pdf-parse.es.min.js`).
 - See a minimal browser example in [example/browser/pdf-parse.es.html](example/browser/pdf-parse.es.html).
 
+You can use the minified versions (`.min.js`) for production to reduce file size, or the regular versions for development and debugging.
+
 Inline browser usage example:
+
+> You can use any of the following browser bundles depending on your module system and requirements:  
+> - `pdf-parse.es.js` or `pdf-parse.es.min.js` for ES modules  
+> - `pdf-parse.cjs.js` or `pdf-parse.cjs.min.js` for CommonJS  
+> - `pdf-parse.umd.js` or `pdf-parse.umd.min.js` for UMD/global usage  
+
+You can include the browser bundle directly from a CDN. Use the latest version:
+
+- [https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js)
+- [https://unpkg.com/pdf-parse@latest/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@latest/dist/browser/pdf-parse.es.min.js)
+
+Or specify a particular version:
+
+- [https://cdn.jsdelivr.net/npm/pdf-parse@2.1.3/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.1.3/dist/browser/pdf-parse.es.min.js)
+- [https://unpkg.com/pdf-parse@2.1.3/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.1.3/dist/browser/pdf-parse.es.min.js)
+
+
+
 ```html
 <!-- Import the ES browser bundle built to dist/browser/pdf-parse.es.js -->
 <script type="module">
@@ -142,42 +164,41 @@ btn.addEventListener('click', async () => {
 </script>
 ```
 
+### Options
 
-## Options
+Most options are forwarded to pdfjs (`getDocument`). Common `ParseOptions` supported by the public API:
 
-The library forwards most options to pdfjs (getDocument). Common ParseOptions supported by the public API:
-
-- data: ArrayBuffer | Uint8Array | TypedArray | number[]  
-  Binary PDF data. Prefer Uint8Array to reduce main-thread memory usage (typed arrays may be transferred to the worker).
-- url: string | URL  
+- `data`: ArrayBuffer | Uint8Array | TypedArray | number[]  
+  The binary PDF data. Prefer `Uint8Array` to reduce main-thread memory usage (typed arrays can be transferred to the worker).
+- `url`: string | URL  
   Remote PDF URL. The helper `pdf()` accepts a URL instance.
-- partial: boolean (default: false)  
+- `partial`: boolean (default: false)  
   Enable partial parsing of pages. When true, use `first` and/or `last`.
-- first: number  
+- `first`: number  
   If `partial` is true, parse the first N pages.
-- last: number  
+- `last`: number  
   If `partial` is true, parse the last N pages.
-- verbosity: pdfjs.VerbosityLevel  
-  Controls pdf.js logging. The library sets a default (ERRORS) but you can override it.
-- cMapUrl, cMapPacked, standardFontDataUrl (browser)  
+- `verbosity`: pdfjs.VerbosityLevel  
+  Controls pdf.js logging. The library sets a default (ERRORS), but you can override it.
+- `cMapUrl`, `cMapPacked`, `standardFontDataUrl` (browser)  
   Paths to cmap and standard font data when running in the browser build.
 
 Note: Any other options accepted by pdfjs `getDocument()` may also be provided and will be forwarded.
 
-Examples
+#### Examples
 
-Node / ESM (text extraction, partial)
+Node / ESM (text extraction, partial parsing)
 ```js
 import fs from 'fs/promises';
 import { PDFParse, pdf } from 'pdf-parse';
 
-// helper
+// Using the helper
 const result = await pdf(new Uint8Array(await fs.readFile('test/test-01/test.pdf')));
 console.log(result.text);
 
-// full API with options
+// Full API with options
 const data = new Uint8Array(await fs.readFile('test/test-01/test.pdf'));
-const parser = new PDFParse({ data, partial: true, first: 2 }); // only first 2 pages
+const parser = new PDFParse({ data, partial: true, first: 2 }); // Only the first 2 pages
 const textRes = await parser.GetText();
 console.log(textRes.pages.length);
 ```
@@ -195,11 +216,11 @@ document.querySelector('#parse').addEventListener('click', async () => {
   const f = document.querySelector('#file').files[0];
   if (!f) return;
   const ab = await f.arrayBuffer();
-  // helper usage
+  // Using the helper
   const res = await pdf(new Uint8Array(ab));
   document.querySelector('#out').textContent = res.text.slice(0, 200);
 
-  // or full API with browser-specific options
+  // Or full API with browser-specific options
   const parser = new PDFParse({
     data: new Uint8Array(ab),
     cMapUrl: '/cmaps/',
@@ -211,23 +232,16 @@ document.querySelector('#parse').addEventListener('click', async () => {
 </script>
 ```
 
-Features
-- Extract page text: GetText (via [`pdf`](src/index.ts) or [`PDFParse`](src/PDFParse.ts))
-- Extract embedded images: GetImage
-- Render page to image: PageToImage
-- Detect and extract tabular data: GetTable
-
-Notes
+### Notes
 - Uses `pdfjs-dist` for PDF parsing and rendering (see worker setup in [`src/PDFParse.ts`](src/PDFParse.ts)).
-- Tests are in [test/](test/) and run with Vitest.
+- Tests are located in the [test/](test/) directory and run with Vitest.
 
-Contributing
-1. Fork and branch
-2. Make changes and run tests
-3. Open a pull request
+### License
+- Apache-2.0 ([see LICENSE](./LICENSE))
 
-License
-- Apache-2.0 (see LICENSE)
+> **Worker Note:** In browser environments, the package sets `pdfjs.GlobalWorkerOptions.workerSrc` automatically when imported from the built browser bundle. If you use a custom build or host `pdf.worker` yourself, configure pdfjs accordingly.
 
-Worker note: In browser environments the package sets pdfjs GlobalWorkerOptions.workerSrc automatically when imported from the built browser bundle. If you use a custom build or host pdf.worker yourself, configure pdfjs accordingly.
+
+
+
 
