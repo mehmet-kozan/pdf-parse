@@ -137,8 +137,8 @@ You can include the browser bundle directly from a CDN. Use the latest version:
 
 Or specify a particular version:
 
-- [https://cdn.jsdelivr.net/npm/pdf-parse@2.1.3/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.1.3/dist/browser/pdf-parse.es.min.js)
-- [https://unpkg.com/pdf-parse@2.1.3/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.1.3/dist/browser/pdf-parse.es.min.js)
+- [https://cdn.jsdelivr.net/npm/pdf-parse@2.1.5/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.1.5/dist/browser/pdf-parse.es.min.js)
+- [https://unpkg.com/pdf-parse@2.1.5/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.1.5/dist/browser/pdf-parse.es.min.js)
 
 
 
