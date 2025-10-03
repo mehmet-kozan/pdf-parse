@@ -23,5 +23,7 @@
 		"editor.defaultFormatter": "biomejs.biome"
 	},
 	"liveServer.settings.port": 5501,
-	"editor.minimap.enabled": false
+	"editor.minimap.enabled": false,
+	"typescript.preferences.importModuleSpecifier": "relative",
+	"javascript.preferences.importModuleSpecifier": "relative"
 }

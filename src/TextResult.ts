@@ -1,4 +1,4 @@
-import type { InfoResult } from './InfoResult';
+import type { InfoResult } from './InfoResult.js';
 
 export interface TextResult extends InfoResult {
 	pages: Array<PageTextResult>;

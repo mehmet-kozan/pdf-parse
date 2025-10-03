@@ -1,9 +1,9 @@
-import { Line, LineDirection } from './Line';
-import { Point } from './Point';
-import type { Rectangle } from './Rectangle';
-import { Shape } from './Shape';
-import { Table } from './Table';
-import type { TableData } from './TableData';
+import { Line, LineDirection } from './Line.js';
+import { Point } from './Point.js';
+import type { Rectangle } from './Rectangle.js';
+import { Shape } from './Shape.js';
+import { Table } from './Table.js';
+import type { TableData } from './TableData.js';
 
 export class LineStore {
 	public hLines: Array<Line> = [];

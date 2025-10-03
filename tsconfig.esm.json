@@ -2,7 +2,7 @@
 	"extends": "./tsconfig.build.json",
 	"compilerOptions": {
 		"outDir": "dist/esm",
-		"module": "ESNext",
-		"moduleResolution": "Node"
+		"module": "node16",
+		"moduleResolution": "node16"
 	}
 }

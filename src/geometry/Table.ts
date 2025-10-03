@@ -1,7 +1,7 @@
-import { Line, LineDirection } from './Line';
-import { Point } from './Point';
-import { Shape } from './Shape';
-import { type TableCell, TableData, type TableRow } from './TableData';
+import { Line, LineDirection } from './Line.js';
+import { Point } from './Point.js';
+import { Shape } from './Shape.js';
+import { type TableCell, TableData, type TableRow } from './TableData.js';
 
 export class Table {
 	public hLines: Array<Line> = [];

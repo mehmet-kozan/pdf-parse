@@ -1,5 +1,5 @@
-import { Point } from './Point';
-import { Shape } from './Shape';
+import { Point } from './Point.js';
+import { Shape } from './Shape.js';
 
 export enum LineDirection {
 	None = 0,

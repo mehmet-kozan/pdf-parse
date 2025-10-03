@@ -1,16 +1,16 @@
 import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import type { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
-import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects';
-import { Line, LineStore, Point, Rectangle } from './geometry/Geometry';
-import type { TableData } from './geometry/TableData';
-import { type ImageResult, ImageResultDefault, type PageImages } from './ImageResult';
-import type { InfoResult } from './InfoResult';
-import type { PageToImageResult } from './PageToImageResult';
-import type { ParseOptions } from './ParseOptions';
-import { type MinMax, PathGeometry } from './PathGeometry';
-import type { PageTableResult, TableResult } from './TableResult';
-import { type TextResult, TextResultDefault } from './TextResult';
+import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
+import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
+import type { TableData } from './geometry/TableData.js';
+import { type ImageResult, ImageResultDefault, type PageImages } from './ImageResult.js';
+import type { InfoResult } from './InfoResult.js';
+import type { PageToImageResult } from './PageToImageResult.js';
+import type { ParseOptions } from './ParseOptions.js';
+import { type MinMax, PathGeometry } from './PathGeometry.js';
+import type { PageTableResult, TableResult } from './TableResult.js';
+import { type TextResult, TextResultDefault } from './TextResult.js';
 
 if (typeof (globalThis as any).pdfjs === 'undefined') {
 	(globalThis as any).pdfjs = pdfjs;

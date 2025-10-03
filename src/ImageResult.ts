@@ -1,5 +1,5 @@
 import type { ImageKind } from 'pdfjs-dist/legacy/build/pdf.mjs';
-import type { InfoResult } from './InfoResult';
+import type { InfoResult } from './InfoResult.js';
 
 /**
  * ImageKindKey

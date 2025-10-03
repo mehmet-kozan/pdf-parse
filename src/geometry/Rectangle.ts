@@ -1,6 +1,6 @@
-import { Line } from './Line';
-import { Point } from './Point';
-import { Shape } from './Shape';
+import { Line } from './Line.js';
+import { Point } from './Point.js';
+import { Shape } from './Shape.js';
 
 export class Rectangle extends Shape {
 	public from: Point;
