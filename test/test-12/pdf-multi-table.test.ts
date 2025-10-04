@@ -14,7 +14,7 @@ describe('test-10 empty table test', async () => {
 
 	test('table must be equal', async () => {
 		const parser = new PDFParse({ data });
-		const result = await parser.GetTable();
+		const result = await parser.getTable();
 
 		expect(result.pages.length).toBe(4);
 		expect(result.pages[0].num).toBe(1);

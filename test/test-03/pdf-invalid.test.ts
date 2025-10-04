@@ -16,7 +16,7 @@ describe('test-03 invalid pdf file', async () => {
 	test('should throw error from invalid PDF file: test.pdf', async () => {
 		try {
 			const parser = new PDFParse({ data });
-			await parser.GetText();
+			await parser.getText();
 		} catch (error) {
 			expect(error instanceof InvalidPDFException).toEqual(true);
 			expect((error as InvalidPDFException).message).toEqual('Invalid PDF structure.');
@@ -28,7 +28,7 @@ describe('test-03 invalid pdf file', async () => {
 			const data = await readFile(join(__dirname, 'bug1020226.pdf'));
 			const buffer = new Uint8Array(data);
 			const parser = new PDFParse({ data: buffer });
-			await parser.GetText();
+			await parser.getText();
 		} catch (error) {
 			expect(error instanceof InvalidPDFException).toEqual(true);
 			expect((error as InvalidPDFException).message).toEqual('Invalid PDF structure.');

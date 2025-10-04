@@ -1,46 +1,18 @@
-//import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import type { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
+import * as WorkerUrl from 'pdfjs-dist/legacy/build/pdf.worker.mjs?url';
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
 import type { TableData } from './geometry/TableData.js';
-import { type ImageResult, ImageResultDefault, type PageImages } from './ImageResult.js';
+import { ImageResult, type PageImages } from './ImageResult.js';
 import type { InfoResult } from './InfoResult.js';
-import type { PageToImageResult } from './PageToImageResult.js';
+import { PageToImageResult } from './PageToImageResult.js';
 import type { ParseOptions } from './ParseOptions.js';
 import { type MinMax, PathGeometry } from './PathGeometry.js';
-import type { PageTableResult, TableResult } from './TableResult.js';
-import { type TextResult, TextResultDefault } from './TextResult.js';
+import { type PageTableResult, TableResult } from './TableResult.js';
+import { TextResult } from './TextResult.js';
 
-// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
-if (typeof (globalThis as any).pdfjs === 'undefined') {
-	// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
-	(globalThis as any).pdfjs = pdfjs;
-}
-
-// Only run in real browser environments
-if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-	// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
-	let workerUrl: any;
-
-	if (typeof require !== 'undefined') {
-		workerUrl = require('pdfjs-dist/build/pdf.worker.min.mjs');
-
-		if (pdfjs?.GlobalWorkerOptions && !pdfjs.GlobalWorkerOptions.workerSrc) {
-			pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
-		}
-	} else {
-		// Use dynamic import in an IIFE for CommonJS compatibility
-		(async () => {
-			const workerModule = await import('pdfjs-dist/build/pdf.worker.min.mjs?url');
-			workerUrl = workerModule.default || workerModule;
-
-			if (pdfjs?.GlobalWorkerOptions && !pdfjs.GlobalWorkerOptions.workerSrc) {
-				pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
-			}
-		})();
-	}
-}
+initPDFJS();
 
 export class PDFParse {
 	private readonly options: ParseOptions;
@@ -54,11 +26,9 @@ export class PDFParse {
 		this.options = options;
 	}
 
-	public async GetText(): Promise<TextResult> {
-		const result: TextResult = { ...TextResultDefault };
-
-		const infoData = await this.load();
-		Object.assign(result, infoData);
+	public async getText(): Promise<TextResult> {
+		const info = await this.load();
+		const result = new TextResult(info);
 
 		if (this.doc === undefined) {
 			throw new Error('PDF document not loaded');
@@ -144,11 +114,9 @@ export class PDFParse {
 		return strBuf.join('');
 	}
 
-	public async GetImage(): Promise<ImageResult> {
-		const result: ImageResult = { ...ImageResultDefault };
-
-		const infoData = await this.load();
-		Object.assign(result, infoData);
+	public async getImage(): Promise<ImageResult> {
+		const info = await this.load();
+		const result = new ImageResult(info);
 
 		if (this.doc === undefined) {
 			throw new Error('PDF document not loaded');
@@ -253,16 +221,14 @@ export class PDFParse {
 		});
 	}
 
-	public async PageToImage(): Promise<PageToImageResult> {
-		const result: PageToImageResult = { pages: [], total: 0 } as PageToImageResult;
-
+	public async pageToImage(): Promise<PageToImageResult> {
 		//const base = new URL('../../node_modules/pdfjs-dist/', import.meta.url);
 		//this.options.cMapUrl = new URL('cmaps/', base).href;
 		//this.options.cMapPacked = true;
 		//this.options.standardFontDataUrl = new URL('legacy/build/standard_fonts/', base).href;
 
-		const infoData = await this.load();
-		Object.assign(result, infoData);
+		const info = await this.load();
+		const result = new PageToImageResult(info);
 
 		if (this.doc === undefined) {
 			throw new Error('PDF document not loaded');
@@ -308,9 +274,9 @@ export class PDFParse {
 		return result;
 	}
 
-	public async GetTable(): Promise<TableResult> {
-		const infoData = await this.load();
-		const result: TableResult = { ...infoData, pages: [], mergedTables: [] };
+	public async getTable(): Promise<TableResult> {
+		const info = await this.load();
+		const result = new TableResult(info);
 
 		if (this.doc === undefined) {
 			throw new Error('PDF document not loaded');
@@ -561,6 +527,30 @@ export class PDFParse {
 			}
 
 			//Table.tryAddText(pageTables, textItem)
+		}
+	}
+}
+
+function initPDFJS() {
+	// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
+	if (typeof (globalThis as any).pdfjs === 'undefined') {
+		// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
+		(globalThis as any).pdfjs = pdfjs;
+	}
+
+	const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+	const isCJS = typeof require !== 'undefined' && typeof module !== 'undefined' && typeof module.exports !== 'undefined';
+
+	// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
+	const worker: any = WorkerUrl.default || WorkerUrl;
+
+	if (pdfjs?.GlobalWorkerOptions === null) return;
+
+	if (isBrowser) {
+		pdfjs.GlobalWorkerOptions.workerSrc = worker;
+	} else if (isCJS) {
+		if (typeof worker === 'string' && worker.startsWith('data:text/javascript')) {
+			pdfjs.GlobalWorkerOptions.workerSrc = worker;
 		}
 	}
 }

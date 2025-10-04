@@ -4,12 +4,13 @@ export default defineConfig({
 	build: {
 		outDir: 'dist/browser',
 		emptyOutDir: false,
+		sourcemap: true,
+		minify: false,
 		lib: {
 			entry: 'src/index.ts',
 			name: 'PdfParse',
-			// Add .min to filename if minifying
-			fileName: (format) => (process.env.MINIFY === 'true' ? `pdf-parse.${format}.min.js` : `pdf-parse.${format}.js`),
-			formats: ['es', 'cjs', 'umd'],
+			fileName: (format) => `pdf-parse.${format}.js`,
+			formats: ['es', 'umd'],
 		},
 	},
 });

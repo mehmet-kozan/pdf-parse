@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"outDir": "dist/esm",
 		"declaration": true,
 		"sourceMap": true,
 		"esModuleInterop": true,
@@ -8,13 +9,14 @@
 		"module": "node16",
 		"moduleResolution": "node16",
 		"jsx": "react",
-		"noEmit": true,
+		"noEmit": false,
 		"noUncheckedIndexedAccess": false,
-		"outDir": "dist",
 		"skipLibCheck": true,
 		"strict": true,
+		"rootDir": "src",
 
 		"verbatimModuleSyntax": true
 	},
-	"exclude": ["dist", "exp"]
+	"include": ["src"],
+	"exclude": ["dist", "example", "lib/**/*", "test/**/*", "src/**/_*", "src/_**/*", "src/index.cjs.ts"]
 }

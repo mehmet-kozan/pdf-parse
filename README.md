@@ -14,10 +14,10 @@
 ## Features
 - Supports Node.js and browsers 
 - CommonJS and ESM support 
-- Extract page text: `GetText` 
-- Extract embedded images: `GetImage` 
-- Render pages as images: `PageToImage` 
-- Detect and extract tabular data: `GetTable` 
+- Extract page text: `getText` 
+- Extract embedded images: `getImage` 
+- Render pages as images: `pageToImage` 
+- Detect and extract tabular data: `getTable` 
 - For additional usage examples, check the [`example`](./example) and [`test`](./test) folders. 
 
 ## Similar Packages
@@ -30,45 +30,57 @@
 ## Installation
 ```sh
 npm install pdf-parse
+# or
+pnpm add pdf-parse
+# or
+yarn add pdf-parse
+# or
+bun add pdf-parse
 ```
 
 ## Basic Usage
 
 API:
-- High-level helper for v1 compatibility: [`pdf`](src/index.ts)
+- High-level helper for v1 compatibility: [`pdf`](src/index.cjs.ts)
 - Full API: [`PDFParse`](src/PDFParse.ts)
 
-### GetText — Extract Text
+### CommonJS Example, helper for v1 compatibility
+```js
+const pdf  = require('pdf-parse');
+// or 
+// const {pdf,PDFParse}  = require('pdf-parse');
+const fs = require('fs');
+
+const data = fs.readFileSync('test.pdf');
+
+pdf(data).then(result=>{
+    console.log(result.text);
+});
+```
+
+### getText — Extract Text
 ```js
 // Node / ESM
-import { PDFParse, pdf } from 'pdf-parse';
+import { PDFParse } from 'pdf-parse';
 import { readFile } from 'node:fs/promises';
 
-const data = await readFile('test/test-01/test.pdf');
-const buffer = new Uint8Array(data);
+const buffer = await readFile('test/test-01/test.pdf');
 
-// Using the helper function
-const result = await pdf(buffer);
-console.log(result.text);
-
-// Using the class
 const parser = new PDFParse({ data: buffer });
-const textResult = await parser.GetText();
+const textResult = await parser.getText();
 console.log(textResult.text);
 ```
 
-### PageToImage — Render Page to PNG
+### pageToImage — Render Page to PNG
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
 import { readFile, writeFile } from 'node:fs/promises';
 
-const data = await readFile('test/test-01/test.pdf');
-const buffer = new Uint8Array(data);
+const buffer = await readFile('test/test-01/test.pdf');
 
-// Using the class
 const parser = new PDFParse({ data: buffer });
-const result = await parser.PageToImage();
+const result = await parser.pageToImage();
 
 for (const pageData of result.pages) {
     const imgFileName = `page_${pageData.pageNumber}.png`;
@@ -76,18 +88,16 @@ for (const pageData of result.pages) {
 }
 ```
 
-### GetImage — Extract Embedded Images
+### getImage — Extract Embedded Images
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
 import { readFile, writeFile } from 'node:fs/promises';
 
-const data = await readFile('test/test-01/test.pdf');
-const buffer = new Uint8Array(data);
+const buffer = await readFile('test/test-01/test.pdf');
 
-// Using the class
 const parser = new PDFParse({ data: buffer });
-const result = await parser.GetImage();
+const result = await parser.getImage();
 
 for (const pageData of result.pages) {
     for (const pageImage of pageData.images) {
@@ -97,18 +107,16 @@ for (const pageData of result.pages) {
 }
 ```
 
-### GetTable — Extract Tabular Data
+### getTable — Extract Tabular Data
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
 import { readFile } from 'node:fs/promises';
 
-const data = await readFile('test/test-01/test.pdf');
-const buffer = new Uint8Array(data);
+const buffer = await readFile('test/test-01/test.pdf');
 
-// Using the class
 const parser = new PDFParse({ data: buffer });
-const result = await parser.GetTable();
+const result = await parser.getTable();
 
 for (const pageData of result.pages) {
     for (const table of pageData.tables) {
@@ -127,7 +135,6 @@ Inline browser usage example:
 
 > You can use any of the following browser bundles depending on your module system and requirements:  
 > - `pdf-parse.es.js` or `pdf-parse.es.min.js` for ES modules  
-> - `pdf-parse.cjs.js` or `pdf-parse.cjs.min.js` for CommonJS  
 > - `pdf-parse.umd.js` or `pdf-parse.umd.min.js` for UMD/global usage  
 
 You can include the browser bundle directly from a CDN. Use the latest version:
@@ -137,8 +144,8 @@ You can include the browser bundle directly from a CDN. Use the latest version:
 
 Or specify a particular version:
 
-- [https://cdn.jsdelivr.net/npm/pdf-parse@2.1.5/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.1.5/dist/browser/pdf-parse.es.min.js)
-- [https://unpkg.com/pdf-parse@2.1.5/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.1.5/dist/browser/pdf-parse.es.min.js)
+- [https://cdn.jsdelivr.net/npm/pdf-parse@2.1.7/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.1.7/dist/browser/pdf-parse.es.min.js)
+- [https://unpkg.com/pdf-parse@2.1.7/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.1.7/dist/browser/pdf-parse.es.min.js)
 
 
 
@@ -199,7 +206,7 @@ console.log(result.text);
 // Full API with options
 const data = new Uint8Array(await fs.readFile('test/test-01/test.pdf'));
 const parser = new PDFParse({ data, partial: true, first: 2 }); // Only the first 2 pages
-const textRes = await parser.GetText();
+const textRes = await parser.getText();
 console.log(textRes.pages.length);
 ```
 
@@ -226,18 +233,11 @@ document.querySelector('#parse').addEventListener('click', async () => {
     cMapUrl: '/cmaps/',
     cMapPacked: true
   });
-  const pages = await parser.PageToImage();
+  const pages = await parser.pageToImage();
   console.log(pages);
 });
 </script>
 ```
-
-### Notes
-- Uses `pdfjs-dist` for PDF parsing and rendering (see worker setup in [`src/PDFParse.ts`](src/PDFParse.ts)).
-- Tests are located in the [test/](test/) directory and run with Vitest.
-
-### License
-- Apache-2.0 ([see LICENSE](./LICENSE))
 
 > **Worker Note:** In browser environments, the package sets `pdfjs.GlobalWorkerOptions.workerSrc` automatically when imported from the built browser bundle. If you use a custom build or host `pdf.worker` yourself, configure pdfjs accordingly.
 

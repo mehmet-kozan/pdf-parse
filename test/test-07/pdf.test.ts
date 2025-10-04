@@ -17,9 +17,9 @@ describe('test-07 pdf-image all:true', async () => {
 	const data = await readFile(__pdf);
 	const parser = new PDFParse({ data });
 
-	const textResult = await parser.GetText();
+	const textResult = await parser.getText();
 
-	const imageResult = await parser.GetImage();
+	const imageResult = await parser.getImage();
 
 	await writeFile(__pdf_txt, textResult.text, { encoding: 'utf8', flag: 'w' });
 

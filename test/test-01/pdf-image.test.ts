@@ -16,7 +16,7 @@ describe('test-01 pdf-image all:true', async () => {
 	const data = await readFile(__pdf);
 	const buffer = new Uint8Array(data);
 	const parser = new PDFParse({ data: buffer });
-	const result = await parser.GetImage();
+	const result = await parser.getImage();
 
 	for (const pageData of result.pages) {
 		for (const pageImage of pageData.images) {

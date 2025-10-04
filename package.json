@@ -1,17 +1,23 @@
 {
 	"name": "pdf-parse",
-	"version": "2.1.6",
+	"version": "2.1.7",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
 	"types": "dist/esm/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/esm/index.js",
-			"require": "./dist/cjs/index.cjs"
+			"import": {
+				"types": "./dist/esm/index.d.ts",
+				"default": "./dist/esm/index.js"
+			},
+			"require": {
+				"types": "./dist/cjs/index.cjs.d.ts",
+				"default": "./dist/cjs/index.cjs"
+			}
 		}
 	},
-	"description": "Pure JavaScript cross-platform module to extract texts from PDFs.",
+	"description": "A pure TypeScript/JavaScript, cross-platform module for extracting text, images, and tabular data from PDF files.",
 	"homepage": "https://github.com/mehmet-kozan/pdf-parse#readme",
 	"bugs": {
 		"url": "https://github.com/mehmet-kozan/pdf-parse/issues"
@@ -53,10 +59,10 @@
 	],
 	"scripts": {
 		"build": "npm-run-all clean build:esm build:cjs build:browser build:browser:min",
-		"build:esm": "tsc --project tsconfig.esm.json",
-		"build:cjs": "unbuild",
-		"build:browser": "cross-env MINIFY=false vite build --minify=false",
-		"build:browser:min": "cross-env MINIFY=true vite build --minify=terser",
+		"build:esm": "tsc",
+		"build:cjs": "vite build --config vite.config.node.cjs.ts",
+		"build:browser": "vite build --config vite.config.browser.ts",
+		"build:browser:min": "vite build --config vite.config.browser.min.ts",
 		"clean": "rimraf --glob dist test/**/*.txt test/**/imgs",
 		"prepare": "npm run build",
 		"test": "vitest",
@@ -75,16 +81,13 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.2.3",
-		"@types/node": "^24.3.1",
-		"cross-env": "^10.1.0",
+		"@types/node": "^24.6.2",
 		"express": "^5.1.0",
 		"npm-run-all": "^4.1.5",
 		"rimraf": "^6.0.1",
-		"terser": "^5.44.0",
-		"tslib": "^2.8.1",
 		"typescript": "^5.9.3",
-		"unbuild": "^3.6.1",
 		"vite": "^7.1.5",
+		"vite-plugin-dts": "^4.5.4",
 		"vitest": "^3.2.4"
 	},
 	"publishConfig": {

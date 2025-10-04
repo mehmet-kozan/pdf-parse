@@ -32,4 +32,7 @@ async function pdf(data: string | URL | number[] | ArrayBuffer | TypedArray) {
 	return text;
 }
 
-export { PDFParse, pdf };
+pdf.PDFParse = PDFParse;
+pdf.pdf = pdf;
+
+export default pdf;

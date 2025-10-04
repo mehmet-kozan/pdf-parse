@@ -13,14 +13,26 @@ export type ImageKindKey = keyof typeof ImageKind;
  */
 export type ImageKindValue = (typeof ImageKind)[ImageKindKey];
 
-/**
- * ImageResult
- * - Main result type for image extraction.
- * - Extends InfoResult and contains an array of PageImages.
- */
-export interface ImageResult extends InfoResult {
-	pages: PageImages[];
-	getPageImage(num: number, name: string): EmbeddedImage | null;
+export class ImageResult implements InfoResult {
+	pages: Array<PageImages> = [];
+	total: number = 0;
+
+	getPageImage(num: number, name: string): EmbeddedImage | null {
+		for (const pageData of this.pages) {
+			if (pageData.pageNumber === num) {
+				for (const img of pageData.images) {
+					if (img.fileName === name) {
+						return img;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	constructor(info: InfoResult) {
+		Object.assign(this, info);
+	}
 }
 
 /**
@@ -61,22 +73,3 @@ export interface EmbeddedImage {
 	// Color format as defined by pdfjs ImageKind numeric values.
 	kind: ImageKindValue;
 }
-
-export const ImageResultDefault: ImageResult = {
-	getPageImage(num: number, name: string): EmbeddedImage | null {
-		for (const pageData of this.pages) {
-			if (pageData.pageNumber === num) {
-				for (const img of pageData.images) {
-					if (img.fileName === name) {
-						return img;
-					}
-				}
-			}
-		}
-		return null;
-	},
-	pages: [],
-	total: 0,
-	info: undefined,
-	metadata: undefined,
-};

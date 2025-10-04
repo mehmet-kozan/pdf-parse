@@ -15,7 +15,7 @@ await mkdir(__pdf_imgs, { recursive: true });
 describe('test-07 pdf-image all:true', async () => {
 	const data = await readFile(__pdf);
 	const parser = new PDFParse({ data });
-	const imageResult = await parser.PageToImage();
+	const imageResult = await parser.pageToImage();
 
 	test('total page count must be correct', () => {
 		expect(imageResult.total).toEqual(TestData.total);

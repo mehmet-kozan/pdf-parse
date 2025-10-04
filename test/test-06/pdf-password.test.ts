@@ -14,7 +14,7 @@ const __pdf_txt = join(__dirname, 'test.txt');
 describe('test-06 all:true', async () => {
 	const data = await readFile(__pdf);
 	const parser = new PDFParse({ data, password: TestData.password });
-	const result_06 = await parser.GetText();
+	const result_06 = await parser.getText();
 
 	await writeFile(__pdf_txt, result_06.text, { encoding: 'utf8', flag: 'w' });
 

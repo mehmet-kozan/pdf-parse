@@ -15,7 +15,7 @@ describe('test-02 all:true', async () => {
 	const data = await readFile(__pdf);
 	const buffer = new Uint8Array(data);
 	const parser = new PDFParse({ data: buffer });
-	const result = await parser.GetText();
+	const result = await parser.getText();
 
 	await writeFile(__pdf_txt, result.text, {
 		encoding: 'utf8',

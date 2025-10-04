@@ -14,7 +14,7 @@ const __pdf_txt = join(__dirname, 'test.txt');
 describe('test-05 all:true', async () => {
 	const data = readFileSync(__pdf);
 	const parser = new PDFParse({ data });
-	const result_05 = await parser.GetText();
+	const result_05 = await parser.getText();
 
 	writeFileSync(__pdf_txt, result_05.text, {
 		encoding: 'utf8',
