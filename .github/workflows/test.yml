@@ -32,8 +32,13 @@ jobs:
     - name: Run build
       run: npm run build
     
-    - name: Run tests only (all branches)
+    - name: Run tests only (non-main branches)
+      if: github.ref != 'refs/heads/main'
       run: npm run test:run
+    
+    - name: Generate coverage report (main branch)
+      if: github.ref == 'refs/heads/main'
+      run: npm run coverage
     
     - name: Deploy to GitHub Pages (main branch)
       if: github.ref == 'refs/heads/main'

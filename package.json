@@ -66,7 +66,7 @@
 		"clean": "rimraf --glob dist test/**/*.txt test/**/imgs reports/test reports/coverage",
 		"prepare": "npm run build",
 		"test": "vitest",
-		"test:ui": "vitest --ui",
+		"test:ui": "vitest --ui --coverage",
 		"test:run": "vitest run",
 		"test:view": "vite preview --outDir reports",
 		"coverage": "vitest run --coverage",

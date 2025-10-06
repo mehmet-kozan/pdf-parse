@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
+	base: './', // Use relative paths for GitHub Pages compatibility
 	test: {
 		environment: 'node',
 		globals: true,
@@ -17,11 +18,11 @@ export default defineConfig({
 			],
 		],
 		coverage: {
-			enabled: true,
+			enabled: false,
 			provider: 'v8',
 			include: ['src/**/*.ts'],
 			exclude: ['src/**/*.d.ts', 'src/types/**', 'src/index.cjs.ts'],
-			reporter: ['html', 'json-summary'],
+			reporter: ['html', 'json-summary', 'json'],
 			reportsDirectory: './reports/coverage',
 			all: true, // Include all files, even if not tested
 			clean: true, // Clean coverage directory before generating new report
