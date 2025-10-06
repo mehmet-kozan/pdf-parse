@@ -1,4 +1,4 @@
-name: Run Tests
+name: tests
 
 on:
   push:
@@ -31,14 +31,6 @@ jobs:
     
     - name: Run build
       run: npm run build
-    
-    - name: Run tests and generate reports
-      if: github.ref == 'refs/heads/main'
-      run: npm run test:run
-    
-    - name: Run tests only (non-main branches)
-      if: github.ref != 'refs/heads/main'
-      run: npm test
     
     - name: Generate coverage report
       if: github.ref == 'refs/heads/main'

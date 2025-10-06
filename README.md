@@ -7,8 +7,8 @@
 [![npm downloads](https://img.shields.io/npm/dt/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 [![npm version](https://img.shields.io/npm/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 [![node version](https://img.shields.io/node/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
-[![Tests](https://github.com/mehmet-kozan/pdf-parse/actions/workflows/test.yml/badge.svg)](https://github.com/mehmet-kozan/pdf-parse/actions/workflows/test.yml)
-[![Test & Coverage Reports](https://img.shields.io/badge/reports-view-brightgreen.svg)](https://mehmet-kozan.github.io/pdf-parse/)
+[![tests](https://github.com/mehmet-kozan/pdf-parse/actions/workflows/test.yml/badge.svg)](https://github.com/mehmet-kozan/pdf-parse/actions/workflows/test.yml)
+[![test & coverage reports](https://img.shields.io/badge/test_reports-view-brightgreen.svg)](https://mehmet-kozan.github.io/pdf-parse/)
 
 > **Contributing Note:** When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently.
 
@@ -70,6 +70,14 @@ const parser = new PDFParse({ data: buffer });
 const textResult = await parser.getText();
 console.log(textResult.text);
 ```
+For a complete list of configuration options, see:
+- [`DocumentInitParameters`](https://mozilla.github.io/pdf.js/api/draft/module-pdfjsLib.html#~DocumentInitParameters) - PDF.js document initialization options
+- [`ParseParameters`](src/ParseParameters.ts) - pdf-parse specific options
+
+Usage Examples
+- Parse password protected PDF:  [`test/test-06-password`](test/test-06-password/pdf-password.test.ts)
+- Parse only specific pages: [`test/test-parse-parameters`](test/test-parse-parameters/pdf-parse-paremeters.test.ts)
+- Parse embeded hyperlinks: [`test/test-hyperlinks`](test/test-hyperlinks/pdf-hyperlink.test.ts)
 
 ### pageToImage — Render Page to PNG
 ```js
