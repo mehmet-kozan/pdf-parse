@@ -33,11 +33,7 @@ jobs:
       run: npm run build
     
     - name: Run tests only (all branches)
-      run: npm run test
-    
-    - name: Generate coverage report (main branch)
-      if: github.ref == 'refs/heads/main'
-      run: npm run coverage
+      run: npm run test:run
     
     - name: Deploy to GitHub Pages (main branch)
       if: github.ref == 'refs/heads/main'
