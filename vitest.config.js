@@ -11,13 +11,14 @@ export default defineConfig({
 		outputFile: {
 			html: 'reports/test/index.html',
 		},
+
 		coverage: {
 			enabled: true,
 			provider: 'v8',
 			include: ['src/**/*.ts'],
 			exclude: ['src/**/*.d.ts', 'src/types/**', 'src/index.cjs.ts'],
-			reporter: [['html', { subdir: 'coverage' }]],
-			reportsDirectory: 'reports',
+			reporter: [['html', { subdir: 'pdf-parse/reports/coverage' }]],
+			reportsDirectory: '../',
 			all: true, // Include all files, even if not tested
 			clean: false, // Clean coverage directory before generating new report
 		},
