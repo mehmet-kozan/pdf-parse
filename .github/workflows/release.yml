@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - 'v*.*.*'  # Trigger only on version tags (e.g., v1.2.3)
-    branches:
-      - main  # Only run when tag is pushed on main branch
 
 permissions:
   id-token: write  # Grants write access to id-token for provenance
