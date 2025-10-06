@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-	base: './', // Use relative paths for GitHub Pages compatibility
+	base: '/pdf-parse/', // Use relative paths for GitHub Pages compatibility
 	test: {
 		environment: 'node',
 		globals: true,
