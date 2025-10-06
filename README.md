@@ -7,7 +7,8 @@
 [![npm downloads](https://img.shields.io/npm/dt/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 [![npm version](https://img.shields.io/npm/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 [![node version](https://img.shields.io/node/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
-[![License](https://img.shields.io/npm/l/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
+[![Tests](https://github.com/mehmet-kozan/pdf-parse/actions/workflows/test.yml/badge.svg)](https://github.com/mehmet-kozan/pdf-parse/actions/workflows/test.yml)
+[![Coverage Report](https://img.shields.io/badge/coverage-report-blue.svg)](https://mehmet-kozan.github.io/pdf-parse/coverage/)
 
 > **Contributing Note:** When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently.
 
@@ -23,7 +24,6 @@
 ## Similar Packages
 * [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
 * [j-pdfjson](https://www.npmjs.com/package/j-pdfjson) — Fork of pdf2json
-* [pdf-parser](https://github.com/dunso/pdf-parse) — Buggy, no tests
 * [pdfreader](https://www.npmjs.com/package/pdfreader) — Uses pdf2json
 * [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Not cross-platform, depends on xpdf
 

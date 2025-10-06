@@ -1,0 +1,48 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - '**'  # Run on all branches
+  pull_request:
+    branches:
+      - '**'  # Run on all pull requests
+
+permissions:
+  contents: write  # Required for GitHub Pages deployment
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22.18.0'
+    
+    - name: Clean npm cache
+      run: npm cache clean --force
+    
+    - name: Install dependencies
+      run: npm i
+    
+    - name: Run build
+      run: npm run build
+    
+    - name: Run tests
+      run: npm test
+    
+    - name: Generate coverage report
+      if: github.ref == 'refs/heads/main'
+      run: npm run coverage
+    
+    - name: Deploy coverage to GitHub Pages
+      if: github.ref == 'refs/heads/main'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./coverage
+        destination_dir: coverage

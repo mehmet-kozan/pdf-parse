@@ -1,13 +1,14 @@
 import { PDFParse } from './PDFParse.js';
 
+import type { TypedArray  } from './DocumentInitParameters.js';
+
 export type { EmbeddedImage, ImageKindKey, ImageKindValue, ImageResult, PageImages } from './ImageResult.js';
 export type { InfoResult } from './InfoResult.js';
 export type { PageToImage, PageToImageResult } from './PageToImageResult.js';
-export type { ParseOptions } from './ParseOptions.js';
+export type { DocumentInitParameters, PDFDataRangeTransport, PDFWorker, TypedArray  } from './DocumentInitParameters.js';
 export type { PageTableResult, TableResult } from './TableResult.js';
 export type { PageTextResult, TextResult } from './TextResult.js';
 
-export type TypedArray = Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array;
 /**
  * The URL of the PDF.
  * -

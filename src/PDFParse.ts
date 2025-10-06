@@ -1,32 +1,32 @@
-import type { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import type { PageViewport, PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
 import * as WorkerUrl from 'pdfjs-dist/legacy/build/pdf.worker.mjs?url';
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
+import type { DocumentInitParameters } from './DocumentInitParameters.js';
 import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
 import type { TableData } from './geometry/TableData.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
 import type { InfoResult } from './InfoResult.js';
 import { PageToImageResult } from './PageToImageResult.js';
-import type { ParseOptions } from './ParseOptions.js';
+import type { ParseParameters } from './ParseParameters.js';
 import { type MinMax, PathGeometry } from './PathGeometry.js';
 import { type PageTableResult, TableResult } from './TableResult.js';
 import { TextResult } from './TextResult.js';
 
+type HyperlinkPosition = { rect: { left: number; top: number; right: number; bottom: number }; url: string; text: string; used: boolean };
+
 initPDFJS();
 
 export class PDFParse {
-	private readonly options: ParseOptions;
+	private readonly options: DocumentInitParameters;
 	private doc: PDFDocumentProxy | undefined;
 
-	constructor(options: ParseOptions) {
-		if (typeof options.data === 'object' && 'buffer' in options.data) {
-			options.data = new Uint8Array(options.data);
-		}
+	constructor(options: DocumentInitParameters) {
 		options.verbosity = pdfjs.VerbosityLevel.ERRORS;
 		this.options = options;
 	}
 
-	public async getText(): Promise<TextResult> {
+	public async getText(params: ParseParameters = {}): Promise<TextResult> {
 		const info = await this.load();
 		const result = new TextResult(info);
 
@@ -35,9 +35,9 @@ export class PDFParse {
 		}
 
 		for (let i: number = 1; i <= result.total; i++) {
-			if (this.shouldParse(i, result.total)) {
+			if (this.shouldParse(i, result.total, params)) {
 				const pageProxy = await this.doc.getPage(i);
-				const text = await this.getPageText(pageProxy);
+				const text = await this.getPageText(pageProxy, params);
 				result.pages.push({
 					text: text,
 					num: i,
@@ -59,9 +59,13 @@ export class PDFParse {
 	private async load(): Promise<InfoResult> {
 		const opts = { ...this.options };
 
-		if (this.options.data instanceof Uint8Array) {
+		if (typeof this.options.data === 'object' && 'buffer' in this.options.data) {
 			opts.data = new Uint8Array(this.options.data);
 		}
+
+		// if (this.options.data instanceof Uint8Array) {
+		// 	opts.data = new Uint8Array(this.options.data);
+		// }
 
 		const loadingTask = pdfjs.getDocument(opts);
 
@@ -75,37 +79,93 @@ export class PDFParse {
 		};
 	}
 
-	private shouldParse(currentPage: number, totalPage: number): boolean {
-		let parseFlag = false;
+	private shouldParse(currentPage: number, totalPage: number, params: ParseParameters): boolean {
+		params.partial = params?.partial ?? [];
+		params.first = params?.first ?? 0;
+		params.last = params?.last ?? 0;
 
-		if (this.options.partial) {
-			if (this.options.first && currentPage <= this.options.first) {
-				parseFlag = true;
+		// parse specific pages
+		if (params.partial.length > 0) {
+			if (params.partial.includes(currentPage)) {
+				return true;
 			}
-
-			if (!parseFlag) {
-				if (this.options.last && currentPage > totalPage - this.options.last) {
-					parseFlag = true;
-				}
-			}
-		} else {
-			parseFlag = true;
+			return false;
 		}
 
-		return parseFlag;
+		// parse pagest beetween first..last
+		if (params.first > 0 && params.last > 0) {
+			if (currentPage >= params.first && currentPage <= params.last) {
+				return true;
+			}
+			return false;
+		}
+
+		// parse first x page
+		if (params.first > 0) {
+			if (currentPage <= params.first) {
+				return true;
+			}
+			return false;
+		}
+
+		// parse last x page
+		if (params.last > 0) {
+			if (currentPage > totalPage - params.last) {
+				return true;
+			}
+			return false;
+		}
+
+		return true;
 	}
 
-	private async getPageText(page: PDFPageProxy): Promise<string> {
+	private async getPageText(page: PDFPageProxy, params: ParseParameters): Promise<string> {
+		const viewport = page.getViewport({ scale: 1 });
+
+		/**
+		 * includeMarkedContent
+		 * What it does:
+		 * Enables capturing the PDF's "marked content"
+		 * tags (MCID, role/props) and structural/accessibility information — e.g.
+		 * semantic tagging, sectioning, spans, alternate/alternative text, etc.
+		 * How to use:
+		 * Turn it on when you need structure/tag information or to map text ↔ structure using MCIDs (for example with page.getStructTree()).
+		 * For plain text extraction it's usually left false (trade-off: larger output/increased detail).
+		 */
+
 		const textContent = await page.getTextContent({
-			includeMarkedContent: false,
-			disableNormalization: false,
+			includeMarkedContent: !!params.includeMarkedContent,
+			disableNormalization: !!params.disableNormalization, // false = normalize in worker (recommended for plain text)
 		});
+
+		let links: Map<string, HyperlinkPosition[]> = new Map();
+
+		if (params.parseHyperlinks) {
+			links = await this.getHyperlinks(page, viewport);
+		}
 
 		const strBuf: Array<string> = [];
 
 		for (const item of textContent.items) {
 			if (!('str' in item)) continue;
-			strBuf.push(item.str);
+
+			if (params.parseHyperlinks) {
+				const tm = item.transform ?? item.transform;
+				const [x, y] = viewport.convertToViewportPoint(tm[4], tm[5]);
+				//const hit = links.find((l) => x > l.rect.left && x < l.rect.right && y > l.rect.top && y < l.rect.bottom);
+				//const hit = links.find((l) => Math.abs(x - l.rect.left) < 10 && Math.abs(y - l.rect.top) < 10);
+
+				const posArr = links.get(item.str) || [];
+				const hit = posArr.find((l) => x >= l.rect.left && x <= l.rect.right && y >= l.rect.top && y <= l.rect.bottom);
+				if (hit) {
+					strBuf.push(`[${item.str}](${hit.url})`);
+				} else {
+					strBuf.push(item.str);
+				}
+			} else {
+				strBuf.push(item.str);
+			}
+
 			if (item.hasEOL) {
 				strBuf.push('\n');
 			}
@@ -114,7 +174,40 @@ export class PDFParse {
 		return strBuf.join('');
 	}
 
-	public async getImage(): Promise<ImageResult> {
+	private async getHyperlinks(page: PDFPageProxy, viewport: PageViewport): Promise<Map<string, HyperlinkPosition[]>> {
+		const result: Map<string, HyperlinkPosition[]> = new Map();
+
+		const annotations: Array<any> = (await page.getAnnotations({ intent: 'display' })) || [];
+
+		for (const i of annotations) {
+			if (i.subtype !== 'Link') continue;
+
+			const url: string = i.url ?? i.unsafeUrl;
+			if (!url) continue;
+
+			const text: string = i.overlaidText;
+			if (!text) continue;
+
+			const rectVp = viewport.convertToViewportRectangle(i.rect);
+			const left = Math.min(rectVp[0], rectVp[2]) - 0.5;
+			const top = Math.min(rectVp[1], rectVp[3]) - 0.5;
+			const right = Math.max(rectVp[0], rectVp[2]) + 0.5;
+			const bottom = Math.max(rectVp[1], rectVp[3]) + 0.5;
+
+			const pos: HyperlinkPosition = { rect: { left, top, right, bottom }, url, text, used: false };
+
+			const el = result.get(text);
+			if (el) {
+				el.push(pos);
+			} else {
+				result.set(text, [pos]);
+			}
+		}
+
+		return result;
+	}
+
+	public async getImage(params: ParseParameters = {}): Promise<ImageResult> {
 		const info = await this.load();
 		const result = new ImageResult(info);
 
@@ -123,7 +216,7 @@ export class PDFParse {
 		}
 
 		for (let i: number = 1; i <= result.total; i++) {
-			if (this.shouldParse(i, result.total)) {
+			if (this.shouldParse(i, result.total, params)) {
 				const page = await this.doc.getPage(i);
 				const ops = await page.getOperatorList();
 
@@ -221,7 +314,7 @@ export class PDFParse {
 		});
 	}
 
-	public async pageToImage(): Promise<PageToImageResult> {
+	public async pageToImage(params: ParseParameters = {}): Promise<PageToImageResult> {
 		//const base = new URL('../../node_modules/pdfjs-dist/', import.meta.url);
 		//this.options.cMapUrl = new URL('cmaps/', base).href;
 		//this.options.cMapPacked = true;
@@ -235,7 +328,7 @@ export class PDFParse {
 		}
 
 		for (let i: number = 1; i <= result.total; i++) {
-			if (this.shouldParse(i, result.total)) {
+			if (this.shouldParse(i, result.total, params)) {
 				//const pageToImages: PageToImage = { pageNumber: i };
 				//result.pages.push(pageToImages);
 
@@ -274,7 +367,7 @@ export class PDFParse {
 		return result;
 	}
 
-	public async getTable(): Promise<TableResult> {
+	public async getTable(params: ParseParameters = {}): Promise<TableResult> {
 		const info = await this.load();
 		const result = new TableResult(info);
 
@@ -283,7 +376,7 @@ export class PDFParse {
 		}
 
 		for (let i: number = 1; i <= result.total; i++) {
-			if (this.shouldParse(i, result.total)) {
+			if (this.shouldParse(i, result.total, params)) {
 				const page = await this.doc.getPage(i);
 				const viewport = page.getViewport({ scale: 1 });
 
