@@ -4,11 +4,17 @@
 
 **A pure TypeScript/JavaScript, cross-platform module for extracting text, images, and tabular data from PDF files.**
 
-[![npm downloads](https://img.shields.io/npm/dt/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
+[![npm downloads](https://img.shields.io/npm/dm/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 [![npm version](https://img.shields.io/npm/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 [![node version](https://img.shields.io/node/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 [![tests](https://github.com/mehmet-kozan/pdf-parse/actions/workflows/test.yml/badge.svg)](https://github.com/mehmet-kozan/pdf-parse/actions/workflows/test.yml)
 [![test & coverage reports](https://img.shields.io/badge/test_reports-view-brightgreen.svg)](https://mehmet-kozan.github.io/pdf-parse/)
+[![biome](https://img.shields.io/badge/code_style-biome-60a5fa?logo=biome)](https://biomejs.dev)
+[![vitest](https://img.shields.io/badge/tested_with-vitest-6E9F18?logo=vitest)](https://vitest.dev)
+# [![codecov](https://codecov.io/github/mehmet-kozan/pdf-parse/graph/badge.svg?token=FZL3G8KNZ8)](https://codecov.io/github/mehmet-kozan/pdf-parse)
+
+
+
 
 > **Contributing Note:** When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently.
 
@@ -40,7 +46,6 @@ bun add pdf-parse
 
 ## Basic Usage
 
-API:
 - High-level helper for v1 compatibility: [`pdf`](src/index.cjs.ts)
 - Full API: [`PDFParse`](src/PDFParse.ts)
 

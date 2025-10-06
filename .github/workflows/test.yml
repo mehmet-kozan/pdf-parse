@@ -39,10 +39,19 @@ jobs:
     - name: Generate coverage report (main branch)
       if: github.ref == 'refs/heads/main'
       run: npm run coverage
+
+    - name: Upload results to Codecov
+      if: github.ref == 'refs/heads/main'
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        directory: ./reports/coverage
+        fail_ci_if_error: false
+
     
     - name: Deploy to GitHub Pages (main branch)
       if: github.ref == 'refs/heads/main'
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./pdf-parse
+        publish_dir: ./reports

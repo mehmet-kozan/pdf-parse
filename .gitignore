@@ -23,11 +23,9 @@ coverage
 *.lcov
 
 # Test and coverage reports
-reports/test
+reports/test-report
 reports/coverage
-
-pdf-parse/test-report
-pdf-parse/coverage
+reports/benchmark
 
 # nyc test coverage
 .nyc_output

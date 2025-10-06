@@ -1,11 +1,10 @@
+import type { TypedArray } from './DocumentInitParameters.js';
 import { PDFParse } from './PDFParse.js';
 
-import type { TypedArray  } from './DocumentInitParameters.js';
-
+export type { DocumentInitParameters, PDFDataRangeTransport, PDFWorker, TypedArray } from './DocumentInitParameters.js';
 export type { EmbeddedImage, ImageKindKey, ImageKindValue, ImageResult, PageImages } from './ImageResult.js';
 export type { InfoResult } from './InfoResult.js';
 export type { PageToImage, PageToImageResult } from './PageToImageResult.js';
-export type { DocumentInitParameters, PDFDataRangeTransport, PDFWorker, TypedArray  } from './DocumentInitParameters.js';
 export type { PageTableResult, TableResult } from './TableResult.js';
 export type { PageTextResult, TextResult } from './TextResult.js';
 

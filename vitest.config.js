@@ -8,7 +8,7 @@ export default defineConfig({
 		exclude: ['**/node_modules/**', '**/dist/**', '**/_*', '**/_*.test.*', '**/_*.spec.*'],
 		reporters: ['default', 'html'],
 		outputFile: {
-			html: 'pdf-parse/test-report/index.html',
+			html: 'reports/test-report/index.html',
 		},
 
 		coverage: {
@@ -16,10 +16,17 @@ export default defineConfig({
 			provider: 'v8',
 			include: ['src/**/*.ts'],
 			exclude: ['src/**/*.d.ts', 'src/types/**', 'src/index.cjs.ts'],
-			reporter: [['html', { subdir: 'coverage' }]],
-			reportsDirectory: './pdf-parse',
+			reporter: [['html', { subdir: 'html-report' }], 'lcov', 'json', 'text-summary'],
+			reportsDirectory: 'reports/coverage',
 			all: true, // Include all files, even if not tested
 			clean: false, // Clean coverage directory before generating new report
+		},
+
+		benchmark: {
+			reporters: ['verbose', 'html'],
+			outputFile: {
+				html: 'reports/benchmark/index.html',
+			},
 		},
 	},
 });
