@@ -6,13 +6,22 @@ export default defineConfig({
 		globals: true,
 		threads: false,
 		exclude: ['**/node_modules/**', '**/dist/**', '**/_*', '**/_*.test.*', '**/_*.spec.*'],
-		reporters: ['default', ['html', { outputFile: './reports/test/index.html' }]],
+		reporters: [
+			'default',
+			[
+				'html',
+				{
+					outputFile: './reports/test/index.html',
+					summaryFile: '../coverage/coverage-summary.json',
+				},
+			],
+		],
 		coverage: {
 			enabled: true,
 			provider: 'v8',
 			include: ['src/**/*.ts'],
 			exclude: ['src/**/*.d.ts', 'src/types/**', 'src/index.cjs.ts'],
-			reporter: ['html'],
+			reporter: ['html', 'json-summary'],
 			reportsDirectory: './reports/coverage',
 			all: true, // Include all files, even if not tested
 			clean: true, // Clean coverage directory before generating new report
