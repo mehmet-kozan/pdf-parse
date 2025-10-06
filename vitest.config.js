@@ -12,7 +12,7 @@ export default defineConfig({
 		},
 
 		coverage: {
-			enabled: true,
+			enabled: false,
 			provider: 'v8',
 			include: ['src/**/*.ts'],
 			exclude: ['src/**/*.d.ts', 'src/types/**', 'src/index.cjs.ts'],

@@ -1,4 +1,4 @@
-import type { InfoResult } from './InfoResult.js';
+import type { InfoResult, Metadata } from './InfoResult.js';
 
 export interface PageToImage {
 	// Raw binary image data (PNG/JPEG) normalized to Uint8Array.
@@ -13,6 +13,8 @@ export interface PageToImage {
 export class PageToImageResult implements InfoResult {
 	pages: Array<PageToImage> = [];
 	total: number = 0;
+	info?: object | undefined;
+	metadata?: Metadata | undefined;
 
 	constructor(info: InfoResult) {
 		Object.assign(this, info);

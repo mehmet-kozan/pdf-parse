@@ -1,5 +1,5 @@
 import type { ImageKind } from 'pdfjs-dist/legacy/build/pdf.mjs';
-import type { InfoResult } from './InfoResult.js';
+import type { InfoResult, Metadata } from './InfoResult.js';
 
 /**
  * ImageKindKey
@@ -16,6 +16,8 @@ export type ImageKindValue = (typeof ImageKind)[ImageKindKey];
 export class ImageResult implements InfoResult {
 	pages: Array<PageImages> = [];
 	total: number = 0;
+	info?: object | undefined;
+	metadata?: Metadata | undefined;
 
 	getPageImage(num: number, name: string): EmbeddedImage | null {
 		for (const pageData of this.pages) {

@@ -82,7 +82,8 @@ For a complete list of configuration options, see:
 Usage Examples
 - Parse password protected PDF:  [`test/test-06-password`](test/test-06-password/pdf-password.test.ts)
 - Parse only specific pages: [`test/test-parse-parameters`](test/test-parse-parameters/pdf-parse-paremeters.test.ts)
-- Parse embeded hyperlinks: [`test/test-hyperlinks`](test/test-hyperlinks/pdf-hyperlink.test.ts)
+- Parse embedded hyperlinks: [`test/test-hyperlinks`](test/test-hyperlinks/pdf-hyperlink.test.ts)
+- Load PDF from URL: [`test/test-types`](test/test-types/textresult-type.test.ts)
 
 ### pageToImage — Render Page to PNG
 ```js
