@@ -32,11 +32,14 @@ jobs:
     - name: Run build
       run: npm run build
     
-    - name: Generate coverage report
+    - name: Run tests only (all branches)
+      run: npm run test
+    
+    - name: Generate coverage report (main branch)
       if: github.ref == 'refs/heads/main'
       run: npm run coverage
     
-    - name: Deploy to GitHub Pages
+    - name: Deploy to GitHub Pages (main branch)
       if: github.ref == 'refs/heads/main'
       uses: peaceiris/actions-gh-pages@v3
       with:
