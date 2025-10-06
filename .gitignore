@@ -26,6 +26,9 @@ coverage
 reports/test
 reports/coverage
 
+pdf-parse/test-report
+pdf-parse/coverage
+
 # nyc test coverage
 .nyc_output
 
