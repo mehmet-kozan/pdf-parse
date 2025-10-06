@@ -18,7 +18,7 @@ export default defineConfig({
 			include: ['src/**/*.ts'],
 			exclude: ['src/**/*.d.ts', 'src/types/**', 'src/index.cjs.ts'],
 			reporter: [['html', { subdir: 'coverage' }]],
-			reportsDirectory: './reports/',
+			reportsDirectory: 'reports/test',
 			all: true, // Include all files, even if not tested
 			clean: false, // Clean coverage directory before generating new report
 		},

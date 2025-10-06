@@ -70,7 +70,7 @@
 		"test:run": "vitest run",
 		"test:view": "vite preview --outDir reports",
 		"coverage": "vitest run --coverage",
-		"report": "npm-run-all build coverage test:view",
+		"report": "npm-run-all build test:run test:view",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"format:all": "biome check --write .",
