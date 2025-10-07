@@ -3,6 +3,7 @@ const { createServer } = require('node:http');
 const os = require('node:os')
 const createBrowser = require('browserless');
 const pdf = require('pdf-parse');
+const local_pdf = require('../../dist/cjs/index.cjs');
 
 
 
@@ -42,8 +43,9 @@ async function run() {
         const buffer = await browserless.pdf(url);
         server.close();
         const data = await pdf(buffer);
+        const local_data = await local_pdf(buffer);
 
-        if(data.text.includes('hello world')){
+        if(data.text.includes('hello world') && local_data.text.includes('hello world')){
             process.exit(0);
         }
         else{

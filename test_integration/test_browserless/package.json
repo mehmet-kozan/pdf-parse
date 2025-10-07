@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "browserless": "latest",
-    "puppeteer": "latest",
+    "puppeteer": ">=1.13.0",
     "pdf-parse": "latest",
     "async-listen":"latest"
   }
