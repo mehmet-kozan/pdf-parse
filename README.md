@@ -34,9 +34,15 @@
 
 ## Similar Packages
 * [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
+* [pdfdataextract](https://www.npmjs.com/package/pdfdataextract) — `pdf-parse` based
+* [unpdf](https://www.npmjs.com/package/unpdf) — `pdf-parse` based
+* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Not cross-platform, depends on xpdf
 * [j-pdfjson](https://www.npmjs.com/package/j-pdfjson) — Fork of pdf2json
 * [pdfreader](https://www.npmjs.com/package/pdfreader) — Uses pdf2json
 * [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Not cross-platform, depends on xpdf
+
+> **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue.[`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/bench.html)
+
 
 ## Installation
 ```sh

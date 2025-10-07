@@ -1,19 +1,71 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import { readFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import PDF2JSON from 'pdf2json';
 import { bench, describe } from 'vitest';
-import { PDFParse } from '../../src/index';
+import { PDFParse } from '../../dist/esm/index';
+import pdf from '../../dist/cjs/index.cjs';
+import {PDFParse as BrowserPDFParse} from '../../dist/browser/pdf-parse.es.min.js';
 
-describe('Parsing Files', () => {
-	bench('pdf-parse', () => {});
-	// bench('@iptv/playlist', () => {
-	//   parseM3U(playlistString)
-	// })
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const __pdf = join(__dirname, 'bench.pdf');
 
-	// bench('iptv-playlist-parser', () => {
-	//   ippParser.parse(playlistString)
-	// })
+async function pdf_parse_esm_promise(buffer: Buffer<ArrayBufferLike>) {
+	const parser = new PDFParse({ data: buffer });
+	return await parser.getText();
+}
 
-	// bench('esx-iptv-playlist-parser', () => {
-	//   esxParser.parse(playlistString)
-	// })
+async function pdf_parse_cjs_promise(buffer: Buffer<ArrayBufferLike>) {
+	return await pdf(buffer);
+}
+
+async function pdf_parse_browser_promise(buffer: Buffer<ArrayBufferLike>) {
+	const parser = new BrowserPDFParse({ data: buffer });
+	return await parser.getText();
+}
+
+async function pdf2json_promise(buffer: Buffer<ArrayBufferLike>) {
+	const parser = new PDF2JSON();
+
+	return new Promise((resolve, reject) => {
+		parser.on('pdfParser_dataError', () => reject());
+		parser.on('pdfParser_dataReady', (pdfData) => resolve(pdfData));
+		parser.parseBuffer(buffer);
+	});
+}
+
+describe('Parsing Files', async () => {
+	const data = await readFile(__pdf);
+	bench(
+		'pdf-parse esm build',
+		async () => {
+			await pdf_parse_esm_promise(data);
+		},
+		{ iterations: 50 },
+	);
+
+	bench(
+		'pdf-parse cjs build',
+		async () => {
+			await pdf_parse_cjs_promise(data);
+		},
+		{ iterations: 50 },
+	);
+
+	bench(
+		'pdf-parse browser build',
+		async () => {
+			await pdf_parse_browser_promise(data);
+		},
+		{ iterations: 50 },
+	);
+
+	bench(
+		'pdf2json',
+		async () => {
+			await pdf2json_promise(data);
+		},
+		{ iterations: 50 },
+	);
 });

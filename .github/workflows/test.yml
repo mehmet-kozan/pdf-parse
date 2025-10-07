@@ -40,6 +40,10 @@ jobs:
       if: github.ref == 'refs/heads/main'
       run: npm run coverage
 
+    - name: Generate benchmark  report (main branch)
+      if: github.ref == 'refs/heads/main'
+      run: npm run bench
+
     - name: Upload results to Codecov
       if: github.ref == 'refs/heads/main'
       uses: codecov/codecov-action@v5

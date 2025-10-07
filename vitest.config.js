@@ -3,11 +3,13 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
 	test: {
 		environment: 'node',
+		timeout: 10000,
+		slowTestThreshold: 1000,
 		globals: true,
 		threads: false,
 		exclude: ['**/node_modules/**', '**/dist/**', '**/_*', '**/_*.test.*', '**/_*.spec.*'],
 		reporters: ['default', 'html'],
-		clean:true,
+		clean: true,
 		outputFile: {
 			html: 'gh-pages/test-report/index.html',
 		},
@@ -24,10 +26,8 @@ export default defineConfig({
 		},
 
 		benchmark: {
-			reporters: ['verbose', 'html'],
-			outputFile: {
-				html: 'gh-pages/benchmark/index.html',
-			},
+			reporters: ['default'],
+			outputJson: 'gh-pages/benchmark/bench.json',
 		},
 	},
 });
