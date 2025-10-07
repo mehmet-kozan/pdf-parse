@@ -55,26 +55,26 @@
 		"dist/"
 	],
 	"scripts": {
-		"build": "npm-run-all clean build:esm build:cjs build:browser build:browser:min",
+		"build": "npm-run-all clean clean:site build:esm build:cjs build:browser build:browser:min",
 		"build:esm": "tsc",
 		"build:cjs": "vite build --config vite.config.node.cjs.ts",
 		"build:browser": "vite build --config vite.config.browser.ts",
 		"build:browser:min": "vite build --config vite.config.browser.min.ts",
-		"clean": "rimraf --glob dist test/**/*.txt test/**/imgs reports/test-report reports/coverage reports/benchmark example/browser/dist-browser",
+		"clean": "rimraf --glob dist test/**/*.txt test/**/imgs",
+		"clean:site": "rimraf gh-pages/test-report gh-pages/coverage gh-pages/benchmark gh-pages/demo/dist-browser",
 		"prepare": "npm run build",
 		"test": "vitest run",
 		"test:ui": "vitest --ui --coverage",
 		"test:watch": "vitest",
-		"test:view": "vite preview --outDir reports",
 		"coverage": "vitest run --coverage",
 		"bench": "vitest bench",
-		"report": "npm-run-all build test:run test:view",
+		"site:build": "npm-run-all build coverage",
+		"site:view": "vite preview --outDir example/browser",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"format:all": "biome check --write .",
 		"format:check": "biome check .",
-		"pack": "npm pack --dry-run",
-		"example:view": "vite preview --outDir example/browser"
+		"pack": "npm pack --dry-run"
 	},
 	"dependencies": {
 		"pdfjs-dist": "^5.4.149"

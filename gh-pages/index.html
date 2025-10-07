@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pdf-parse - Test Reports</title>
+    <title>pdf-parse - Reports & Live Demo Landing Page</title>
     <style>
         * {
             margin: 0;
@@ -27,7 +27,7 @@
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             padding: 60px;
-            max-width: 600px;
+            max-width: 900px;
             width: 100%;
         }
 
@@ -44,20 +44,20 @@
         }
 
         .links {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
         }
 
         a {
             display: flex;
             align-items: center;
-            padding: 20px 30px;
+            padding: 15px 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             text-decoration: none;
             border-radius: 12px;
-            font-size: 1.2em;
+            font-size: 1em;
             font-weight: 600;
             transition: transform 0.2s, box-shadow 0.2s;
         }
@@ -112,7 +112,7 @@
 <body>
     <div class="container">
         <h1>📊 pdf-parse</h1>
-        <p class="subtitle">Test & Coverage Reports</p>
+        <p class="subtitle">Reports & Live</p>
         <div class="links">
             <a href="./test-report/index.html">
                 <span class="icon">🧪</span>
@@ -121,6 +121,34 @@
             <a href="./coverage/html-report/index.html">
                 <span class="icon">📈</span>
                 <span>Coverage Report</span>
+            </a>
+            <a href="./benchmark/index.html">
+                <span class="icon">⚡</span>
+                <span>Benchmark Results</span>
+            </a>
+            <a href="./demo/pdf-parse.esm.html">
+                <span class="icon">🔗</span>
+                <span>ESM Demo</span>
+            </a>
+            <a href="./demo/pdf-parse.umd.html">
+                <span class="icon">🔗</span>
+                <span>UMD Demo</span>
+            </a>
+            <a href="./demo/pdf-parse.umd.html">
+                <span class="icon">🔗</span>
+                <span>PageToImage, Screenshot Demo</span>
+            </a>
+            <a href="./demo/pdf-parse.umd.html">
+                <span class="icon">🔗</span>
+                <span>GetImage Demo</span>
+            </a>
+            <a href="./demo/pdf-parse.umd.html">
+                <span class="icon">🔗</span>
+                <span>GetTable Demo</span>
+            </a>
+            <a href="./demo/pdf-parse.umd.html">
+                <span class="icon">🔗</span>
+                <span>PDF Viewer Demo</span>
             </a>
         </div>
         <div class="footer">
@@ -131,9 +159,24 @@
                 <a href="https://www.npmjs.com/package/pdf-parse" target="_blank" rel="noopener">
                     <img src="https://img.shields.io/npm/v/pdf-parse.svg" alt="npm version">
                 </a>
-                <a href="https://www.npmjs.com/package/pdf-parse" target="_blank" rel="noopener">
-                    <img src="https://img.shields.io/npm/l/pdf-parse.svg" alt="License">
+                <a href="https://www.npmjs.com/package/pdf-parse#provenance" target="_blank" rel="noopener">
+                    <img src="https://img.shields.io/badge/provenance-enabled-blue" alt="npm provenance">
                 </a>
+                <a href="https://docs.npmjs.com/cli/v10/commands/npm-audit" target="_blank" rel="noopener">
+                    <img src="https://img.shields.io/badge/npm_audit-passing-brightgreen" alt="npm audit">
+                </a>
+                <a href="https://snyk.io/advisor/npm-package/pdf-parse" target="_blank" rel="noopener">
+                    <img src="https://snyk.io/advisor/npm-package/pdf-parse/badge.svg" alt="snyk">
+                </a>
+                <a href="https://socket.dev/npm/package/pdf-parse" target="_blank" rel="noopener">
+                    <img src="https://socket.dev/api/badge/npm/package/pdf-parse" alt="socket badge">
+                </a>
+                <a href="https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy" target="_blank"
+                    rel="noopener">
+                    <img src="https://img.shields.io/badge/security-policy-blue" alt="security policy">
+                </a>
+
+
             </p>
             <p class="npm-badge"><a href="https://www.npmjs.com/package/pdf-parse"><img
                         src="https://nodei.co/npm/pdf-parse.svg?data=d"></a></p>

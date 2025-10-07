@@ -7,8 +7,9 @@ export default defineConfig({
 		threads: false,
 		exclude: ['**/node_modules/**', '**/dist/**', '**/_*', '**/_*.test.*', '**/_*.spec.*'],
 		reporters: ['default', 'html'],
+		clean:true,
 		outputFile: {
-			html: 'reports/test-report/index.html',
+			html: 'gh-pages/test-report/index.html',
 		},
 
 		coverage: {
@@ -17,15 +18,15 @@ export default defineConfig({
 			include: ['src/**/*.ts'],
 			exclude: ['src/**/*.d.ts', 'src/types/**', 'src/index.cjs.ts'],
 			reporter: [['html', { subdir: 'html-report' }], 'lcov', 'json', 'text-summary'],
-			reportsDirectory: 'reports/coverage',
-			all: true, // Include all files, even if not tested
-			clean: false, // Clean coverage directory before generating new report
+			reportsDirectory: 'gh-pages/coverage',
+			all: true,
+			clean: true,
 		},
 
 		benchmark: {
 			reporters: ['verbose', 'html'],
 			outputFile: {
-				html: 'reports/benchmark/index.html',
+				html: 'gh-pages/benchmark/index.html',
 			},
 		},
 	},

@@ -27,6 +27,12 @@ reports/test-report
 reports/coverage
 reports/benchmark
 
+# Github Pages
+gh-pages/test-report
+gh-pages/coverage
+gh-pages/benchmark
+gh-pages/demo/dist-browser
+
 # Temp Example Files
 example/browser/dist-browser
 
