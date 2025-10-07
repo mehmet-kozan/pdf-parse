@@ -4,7 +4,7 @@ const path = require('path');
 
 
 
-const file = path.join(__dirname,'../data/test.pdf');
+const file = path.join(__dirname,'test.pdf');
 const data = fs.readFileSync(file);
 
 pdf(data).then(result=>{

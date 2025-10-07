@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 
 async function main() {
   try {
-    const filePath = path.join(__dirname, '..', '..', 'test', 'test-01', 'test.pdf');
+    const filePath = path.join(__dirname, 'test.pdf');
     const data = await fs.readFile(filePath);
 
     const result = await pdf(data);

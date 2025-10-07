@@ -8,7 +8,7 @@ const __dirname = dirname(__filename);
 
 
 
-const file = join(__dirname,'../data/test.pdf');
+const file = join(__dirname,'test.pdf');
 const data = await readFile(file);
 
 
