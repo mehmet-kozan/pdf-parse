@@ -175,7 +175,7 @@
 
 <body>
     <div class="container">
-        <h1>📄 PageToImage Demo - pdf-parse</h1>
+        <h1>📄 GetImage Demo - pdf-parse</h1>
         <p>Build the project first: <code>npm run build</code> then generate site: <code>npm run site:build</code></p>
         <div class="controls">
             <input id="file" type="file" accept="application/pdf" />
@@ -205,36 +205,51 @@
             }
 
             try {
-                out.innerHTML = '<div class="status">Reading and converting PDF to images...</div>';
+                out.innerHTML = '<div class="status">Reading and extracting images from PDF...</div>';
                 const buffer = await f.arrayBuffer();
                 const parser = new PDFParse({ data: buffer });
-                const result = await parser.pageToImage();
+                const result = await parser.getImage();
 
                 // Clear output and display images
                 out.innerHTML = '';
 
                 if (result.pages.length === 0) {
-                    out.innerHTML = '<div class="status">No pages found in PDF.</div>';
+                    out.innerHTML = '<div class="status">No images found in PDF.</div>';
                     return;
                 }
 
-                out.innerHTML += `<div class="status">Successfully converted ${result.pages.length} page(s) to images</div>`;
-
-                // Display each page as an image
+                // Count total images
+                let totalImages = 0;
                 for (const page of result.pages) {
-                    const pageDiv = document.createElement('div');
-                    pageDiv.className = 'page-image';
+                    totalImages += page.images.length;
+                }
 
-                    const pageTitle = document.createElement('h3');
-                    pageTitle.textContent = `Page ${page.pageNumber}`;
-                    pageDiv.appendChild(pageTitle);
+                if (totalImages === 0) {
+                    out.innerHTML = '<div class="status">No embedded images found in PDF.</div>';
+                    return;
+                }
 
-                    const img = document.createElement('img');
-                    img.src = page.dataUrl;
-                    img.alt = `Page ${page.pageNumber}`;
-                    pageDiv.appendChild(img);
+                out.innerHTML += `<div class="status">Successfully extracted ${totalImages} image(s) from ${result.pages.length} page(s)</div>`;
 
-                    out.appendChild(pageDiv);
+                // Display images from each page
+                for (const page of result.pages) {
+                    if (page.images.length === 0) continue;
+
+                    for (const image of page.images) {
+                        const pageDiv = document.createElement('div');
+                        pageDiv.className = 'page-image';
+
+                        const pageTitle = document.createElement('h3');
+                        pageTitle.textContent = `Page ${page.pageNumber} - ${image.fileName} (${image.width}x${image.height})`;
+                        pageDiv.appendChild(pageTitle);
+
+                        const img = document.createElement('img');
+                        img.src = image.dataUrl;
+                        img.alt = `${image.fileName} from page ${page.pageNumber}`;
+                        pageDiv.appendChild(img);
+
+                        out.appendChild(pageDiv);
+                    }
                 }
 
             } catch (err) {

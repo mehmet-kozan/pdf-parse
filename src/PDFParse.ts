@@ -1,6 +1,7 @@
 import type { PageViewport, PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
 import * as WorkerUrl from 'pdfjs-dist/legacy/build/pdf.worker.mjs?url';
+import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_factory.js';
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 import type { DocumentInitParameters } from './DocumentInitParameters.js';
 import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
@@ -251,21 +252,27 @@ export class PDFParse {
 							});
 						}
 						context.putImageData(imgData, 0, 0);
-						
+
 						// Browser and Node.js compatibility
-						let buff: Buffer;
+						let buff: Uint8Array;
 						let dataUrl: string;
-						
+
 						if (typeof canvasAndContext.canvas.toBuffer === 'function') {
 							// Node.js environment (canvas package)
-							buff = canvasAndContext.canvas.toBuffer('image/png');
-							const base64 = buff.toString('base64');
+							const nodeBuffer = canvasAndContext.canvas.toBuffer('image/png');
+							buff = new Uint8Array(nodeBuffer);
+							const base64 = nodeBuffer.toString('base64');
 							dataUrl = `data:image/png;base64,${base64}`;
 						} else {
 							// Browser environment
 							dataUrl = canvasAndContext.canvas.toDataURL('image/png');
 							const base64 = dataUrl.split(',')[1];
-							buff = Buffer.from(base64, 'base64');
+							// Convert base64 to Uint8Array
+							const binaryString = atob(base64);
+							buff = new Uint8Array(binaryString.length);
+							for (let i = 0; i < binaryString.length; i++) {
+								buff[i] = binaryString.charCodeAt(i);
+							}
 						}
 
 						pageImages.images.push({
@@ -289,6 +296,7 @@ export class PDFParse {
 
 	private convertToRGBA({ src, dest, width, height, kind }: { src: Uint8Array; dest: Uint32Array; width: number; height: number; kind: number }) {
 		if (kind === pdfjs.ImageKind.RGB_24BPP) {
+			// RGB 24-bit per pixel
 			for (let i = 0, j = 0; i < src.length; i += 3, j++) {
 				const r = src[i];
 				const g = src[i + 1];
@@ -296,7 +304,7 @@ export class PDFParse {
 				dest[j] = (255 << 24) | (b << 16) | (g << 8) | r;
 			}
 		} else if (kind === pdfjs.ImageKind.GRAYSCALE_1BPP) {
-			// Her bit bir pikseli temsil eder (0: siyah, 1: beyaz)
+			// Grayscale 1-bit per pixel
 			let pixelIndex = 0;
 			for (let i = 0; i < src.length; i++) {
 				const byte = src[i];
@@ -307,8 +315,39 @@ export class PDFParse {
 					dest[pixelIndex++] = (255 << 24) | (gray << 16) | (gray << 8) | gray;
 				}
 			}
+		} else if (kind === undefined || kind === null) {
+			// Unknown or undefined kind - try to infer from data length
+			const bytesPerPixel = src.length / (width * height);
+			if (Math.abs(bytesPerPixel - 3) < 0.1) {
+				// Likely RGB 24BPP
+				for (let i = 0, j = 0; i < src.length; i += 3, j++) {
+					const r = src[i];
+					const g = src[i + 1];
+					const b = src[i + 2];
+					dest[j] = (255 << 24) | (b << 16) | (g << 8) | r;
+				}
+			} else if (Math.abs(bytesPerPixel - 4) < 0.1) {
+				// Likely RGBA 32BPP
+				for (let i = 0, j = 0; i < src.length; i += 4, j++) {
+					const r = src[i];
+					const g = src[i + 1];
+					const b = src[i + 2];
+					const a = src[i + 3];
+					dest[j] = (a << 24) | (b << 16) | (g << 8) | r;
+				}
+			} else if (Math.abs(bytesPerPixel - 1) < 0.1) {
+				// Likely grayscale 8BPP
+				for (let i = 0; i < src.length; i++) {
+					const gray = src[i];
+					dest[i] = (255 << 24) | (gray << 16) | (gray << 8) | gray;
+				}
+			} else {
+				throw new Error(`convertToRGBA: Cannot infer image format. kind: ${kind}, bytesPerPixel: ${bytesPerPixel}, width: ${width}, height: ${height}, dataLength: ${src.length}`);
+			}
 		} else {
-			throw new Error(`convertToRGBA: Unsupported image kind: ${kind}`);
+			throw new Error(
+				`convertToRGBA: Unsupported image kind: ${kind}. Available kinds: GRAYSCALE_1BPP=${pdfjs.ImageKind.GRAYSCALE_1BPP}, RGB_24BPP=${pdfjs.ImageKind.RGB_24BPP}, RGBA_32BPP=${pdfjs.ImageKind.RGBA_32BPP}`,
+			);
 		}
 	}
 
@@ -317,7 +356,47 @@ export class PDFParse {
 			// biome-ignore lint/suspicious/noExplicitAny: <underlying library does not contain valid typedefs>
 			(pdfObjects as any).get(name, (imgData: any) => {
 				if (imgData) {
-					const dataBuff = new Uint8Array(imgData.data);
+					// Check different possible data sources
+					let dataBuff: Uint8Array | undefined;
+
+					if (imgData.data instanceof Uint8Array) {
+						dataBuff = imgData.data;
+					} else if (imgData.data instanceof Uint8ClampedArray) {
+						dataBuff = new Uint8Array(imgData.data);
+					} else if (imgData.data?.buffer) {
+						// Typed array with buffer
+						dataBuff = new Uint8Array(imgData.data.buffer);
+					} else if (imgData.bitmap) {
+						// Some browsers might use bitmap
+						// biome-ignore lint/suspicious/noExplicitAny: <underlying library does not contain valid typedefs>
+						const canvasFactory: BaseCanvasFactory = (this.doc as any).canvasFactory;
+						const canvasAndContext = canvasFactory.create(imgData.bitmap.width, imgData.bitmap.height);
+						canvasAndContext.context.drawImage(imgData.bitmap, 0, 0);
+						const imageData = canvasAndContext.context.getImageData(0, 0, imgData.bitmap.width, imgData.bitmap.height);
+						dataBuff = new Uint8Array(imageData.data.buffer);
+					} else if (ArrayBuffer.isView(imgData.data)) {
+						// Generic typed array
+						dataBuff = new Uint8Array(imgData.data.buffer, imgData.data.byteOffset, imgData.data.byteLength);
+					} else if (imgData.data) {
+						// Try to convert whatever we have
+						try {
+							dataBuff = new Uint8Array(imgData.data);
+						} catch (e) {
+							reject(new Error(`Image object ${name}: Cannot convert data to Uint8Array. Error: ${e}`));
+							return;
+						}
+					}
+
+					if (!dataBuff) {
+						reject(new Error(`Image object ${name}: data field is empty or invalid. Available fields: ${Object.keys(imgData).join(', ')}`));
+						return;
+					}
+
+					if (dataBuff.length === 0) {
+						reject(new Error(`Image object ${name}: data buffer is empty (length: 0)`));
+						return;
+					}
+
 					resolve({ width: imgData.width, height: imgData.height, kind: imgData.kind, data: dataBuff });
 				} else {
 					reject(new Error(`Image object ${name} not found`));
@@ -359,19 +438,25 @@ export class PDFParse {
 				const renderTask = page.render(renderContext);
 				await renderTask.promise;
 				// Convert the canvas to an image buffer.
-				let data: Buffer;
+				let data: Uint8Array;
 				let dataUrl: string;
-				
+
 				if (typeof canvasAndContext.canvas.toBuffer === 'function') {
-					// Node.js ortamı (canvas paketi)
-					data = canvasAndContext.canvas.toBuffer('image/png');
-					const base64 = data.toString('base64');
+					// Node.js environment (canvas package)
+					const nodeBuffer = canvasAndContext.canvas.toBuffer('image/png');
+					data = new Uint8Array(nodeBuffer);
+					const base64 = nodeBuffer.toString('base64');
 					dataUrl = `data:image/png;base64,${base64}`;
 				} else {
-					// Browser ortamı
+					// Browser environment
 					dataUrl = canvasAndContext.canvas.toDataURL('image/png');
 					const base64 = dataUrl.split(',')[1];
-					data = Buffer.from(base64, 'base64');
+					// Convert base64 to Uint8Array
+					const binaryString = atob(base64);
+					data = new Uint8Array(binaryString.length);
+					for (let i = 0; i < binaryString.length; i++) {
+						data[i] = binaryString.charCodeAt(i);
+					}
 				}
 
 				result.pages.push({
