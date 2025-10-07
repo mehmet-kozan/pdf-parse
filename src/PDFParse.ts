@@ -711,6 +711,7 @@ function initPDFJS() {
 
 	const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
 	const isCJS = typeof require !== 'undefined' && typeof module !== 'undefined' && typeof module.exports !== 'undefined';
+	const isESM = typeof window === 'undefined' && typeof require === 'undefined';
 
 	// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
 	const worker: any = WorkerUrl.default || WorkerUrl;
@@ -723,5 +724,14 @@ function initPDFJS() {
 		if (typeof worker === 'string' && worker.startsWith('data:text/javascript')) {
 			pdfjs.GlobalWorkerOptions.workerSrc = worker;
 		}
+	} else if (isESM) {
+		// For ESM in Node.js, the worker is imported at the top of the file
+		// to prevent "Invalid URL" error when using pnpm workspaces or ESM
+		// Import worker for ESM in Node.js to prevent "Invalid URL" error
+
+		// biome-ignore lint/suspicious/noExplicitAny: <worker module import>
+		import('pdfjs-dist/legacy/build/pdf.worker.mjs' as any).catch(() => {
+			// Worker import is optional, pdfjs will fall back to inline worker
+		});
 	}
 }
