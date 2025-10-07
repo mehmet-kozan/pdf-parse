@@ -18,12 +18,12 @@
 </div>
 <br />
 
-> **Contributing Note:** When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently. For detailed guidelines on how to contribute, report bugs, or submit pull requests, see: [contributing to `pdf-parse`](https://github.com/mehmet-kozan/pdf-parse?tab=contributing-ov-file)
+> **Contributing Note:** When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently. For detailed guidelines on how to contribute, report bugs, or submit pull requests, see: [`contributing to pdf-parse`](https://github.com/mehmet-kozan/pdf-parse?tab=contributing-ov-file#contributing-to-pdf-parse)
 
 ## Features
 - Supports Node.js and browsers 
 - CommonJS and ESM support 
-- Vulnerability and security info: [security policy](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file)
+- Vulnerability and security info: [`security policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
 - Extract page text: `getText` 
 - Extract embedded images: `getImage` 
 - Render pages as images: `pageToImage` 
@@ -142,13 +142,11 @@ for (const pageData of result.pages) {
 }
 ```
 
-### Example — Web / Browser
+## Web / Browser
 - After running `npm run build`, you will find both regular and minified browser bundles in `dist/browser` (e.g., `pdf-parse.es.js` and `pdf-parse.es.min.js`).
-- See a minimal browser example in [example/browser/pdf-parse.es.html](example/browser/pdf-parse.es.html).
+- See a minimal browser example in [example/browser/pdf-parse.es.cdn.html](example/browser/pdf-parse.es.cdn.html).
 
-You can use the minified versions (`.min.js`) for production to reduce file size, or the regular versions for development and debugging.
-
-Inline browser usage example:
+Use the minified versions (`.min.js`) for production to reduce file size, or the regular versions for development and debugging.
 
 > You can use any of the following browser bundles depending on your module system and requirements:  
 > - `pdf-parse.es.js` or `pdf-parse.es.min.js` for ES modules  
@@ -161,100 +159,9 @@ You can include the browser bundle directly from a CDN. Use the latest version:
 
 Or specify a particular version:
 
-- [https://cdn.jsdelivr.net/npm/pdf-parse@2.1.7/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.1.7/dist/browser/pdf-parse.es.min.js)
-- [https://unpkg.com/pdf-parse@2.1.7/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.1.7/dist/browser/pdf-parse.es.min.js)
+- [https://cdn.jsdelivr.net/npm/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js)
+- [https://unpkg.com/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js)
 
-
-
-```html
-<!-- Import the ES browser bundle built to dist/browser/pdf-parse.es.js -->
-<script type="module">
-import { pdf } from './dist/browser/pdf-parse.es.js';
-
-const input = document.querySelector('#file');
-const btn = document.querySelector('#parse');
-const out = document.querySelector('#output');
-
-btn.addEventListener('click', async () => {
-  const f = input.files?.[0];
-  if (!f) {
-    out.textContent = 'Please select a PDF file.';
-    return;
-  }
-  const ab = await f.arrayBuffer();
-  const result = await pdf(new Uint8Array(ab));
-  out.textContent = result.text?.slice(0, 10000) ?? 'No text found.';
-});
-</script>
-```
-
-### Options
-
-Most options are forwarded to pdfjs (`getDocument`). Common `ParseOptions` supported by the public API:
-
-- `data`: ArrayBuffer | Uint8Array | TypedArray | number[]  
-  The binary PDF data. Prefer `Uint8Array` to reduce main-thread memory usage (typed arrays can be transferred to the worker).
-- `url`: string | URL  
-  Remote PDF URL. The helper `pdf()` accepts a URL instance.
-- `partial`: boolean (default: false)  
-  Enable partial parsing of pages. When true, use `first` and/or `last`.
-- `first`: number  
-  If `partial` is true, parse the first N pages.
-- `last`: number  
-  If `partial` is true, parse the last N pages.
-- `verbosity`: pdfjs.VerbosityLevel  
-  Controls pdf.js logging. The library sets a default (ERRORS), but you can override it.
-- `cMapUrl`, `cMapPacked`, `standardFontDataUrl` (browser)  
-  Paths to cmap and standard font data when running in the browser build.
-
-Note: Any other options accepted by pdfjs `getDocument()` may also be provided and will be forwarded.
-
-#### Examples
-
-Node / ESM (text extraction, partial parsing)
-```js
-import fs from 'fs/promises';
-import { PDFParse, pdf } from 'pdf-parse';
-
-// Using the helper
-const result = await pdf(new Uint8Array(await fs.readFile('test/test-01/test.pdf')));
-console.log(result.text);
-
-// Full API with options
-const data = new Uint8Array(await fs.readFile('test/test-01/test.pdf'));
-const parser = new PDFParse({ data, partial: true, first: 2 }); // Only the first 2 pages
-const textRes = await parser.getText();
-console.log(textRes.pages.length);
-```
-
-Browser (file input, custom cmaps)
-```html
-<input id="file" type="file" accept="application/pdf">
-<button id="parse">Parse</button>
-<pre id="out"></pre>
-
-<script type="module">
-import { pdf, PDFParse } from './dist/browser/pdf-parse.es.js';
-
-document.querySelector('#parse').addEventListener('click', async () => {
-  const f = document.querySelector('#file').files[0];
-  if (!f) return;
-  const ab = await f.arrayBuffer();
-  // Using the helper
-  const res = await pdf(new Uint8Array(ab));
-  document.querySelector('#out').textContent = res.text.slice(0, 200);
-
-  // Or full API with browser-specific options
-  const parser = new PDFParse({
-    data: new Uint8Array(ab),
-    cMapUrl: '/cmaps/',
-    cMapPacked: true
-  });
-  const pages = await parser.pageToImage();
-  console.log(pages);
-});
-</script>
-```
 
 > **Worker Note:** In browser environments, the package sets `pdfjs.GlobalWorkerOptions.workerSrc` automatically when imported from the built browser bundle. If you use a custom build or host `pdf.worker` yourself, configure pdfjs accordingly.
 
