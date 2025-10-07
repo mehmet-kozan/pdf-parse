@@ -7,11 +7,15 @@ describe('TextResult, InfoResult, and Metadata Type Tests', () => {
 	let parser: PDFParse;
 	let result: TextResult;
 
-	test('should initialize parser and get text result', async () => {
-		parser = new PDFParse({ url: new URL(URL_STR) });
-		result = await parser.getText();
-		expect(result).toBeDefined();
-	});
+	test(
+		'should initialize parser and get text result',
+		async () => {
+			parser = new PDFParse({ url: new URL(URL_STR) });
+			result = await parser.getText();
+			expect(result).toBeDefined();
+		},
+		{ timeout: 15_000 },
+	);
 
 	describe('InfoResult properties', () => {
 		test('should have total property of type number', async () => {

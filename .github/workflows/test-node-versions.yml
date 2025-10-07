@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16, 18, 20, 21]  # Test etmek istediğiniz sürümler
+        node-version: [ 20, 21, 22]  # Test etmek istediğiniz sürümler
 
     steps:
     - uses: actions/checkout@v4
