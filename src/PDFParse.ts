@@ -64,10 +64,6 @@ export class PDFParse {
 			opts.data = new Uint8Array(this.options.data);
 		}
 
-		// if (this.options.data instanceof Uint8Array) {
-		// 	opts.data = new Uint8Array(this.options.data);
-		// }
-
 		const loadingTask = pdfjs.getDocument(opts);
 
 		this.doc = await loadingTask.promise;
@@ -123,20 +119,9 @@ export class PDFParse {
 	private async getPageText(page: PDFPageProxy, params: ParseParameters): Promise<string> {
 		const viewport = page.getViewport({ scale: 1 });
 
-		/**
-		 * includeMarkedContent
-		 * What it does:
-		 * Enables capturing the PDF's "marked content"
-		 * tags (MCID, role/props) and structural/accessibility information — e.g.
-		 * semantic tagging, sectioning, spans, alternate/alternative text, etc.
-		 * How to use:
-		 * Turn it on when you need structure/tag information or to map text ↔ structure using MCIDs (for example with page.getStructTree()).
-		 * For plain text extraction it's usually left false (trade-off: larger output/increased detail).
-		 */
-
 		const textContent = await page.getTextContent({
 			includeMarkedContent: !!params.includeMarkedContent,
-			disableNormalization: !!params.disableNormalization, // false = normalize in worker (recommended for plain text)
+			disableNormalization: !!params.disableNormalization,
 		});
 
 		let links: Map<string, HyperlinkPosition[]> = new Map();
@@ -153,8 +138,6 @@ export class PDFParse {
 			if (params.parseHyperlinks) {
 				const tm = item.transform ?? item.transform;
 				const [x, y] = viewport.convertToViewportPoint(tm[4], tm[5]);
-				//const hit = links.find((l) => x > l.rect.left && x < l.rect.right && y > l.rect.top && y < l.rect.bottom);
-				//const hit = links.find((l) => Math.abs(x - l.rect.left) < 10 && Math.abs(y - l.rect.top) < 10);
 
 				const posArr = links.get(item.str) || [];
 				const hit = posArr.find((l) => x >= l.rect.left && x <= l.rect.right && y >= l.rect.top && y <= l.rect.bottom);
@@ -178,6 +161,7 @@ export class PDFParse {
 	private async getHyperlinks(page: PDFPageProxy, viewport: PageViewport): Promise<Map<string, HyperlinkPosition[]>> {
 		const result: Map<string, HyperlinkPosition[]> = new Map();
 
+		// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
 		const annotations: Array<any> = (await page.getAnnotations({ intent: 'display' })) || [];
 
 		for (const i of annotations) {
@@ -354,7 +338,7 @@ export class PDFParse {
 	private resolveEmbeddedImage(pdfObjects: PDFObjects, name: string): Promise<{ width: number; height: number; kind: number; data: Uint8Array }> {
 		return new Promise((resolve, reject) => {
 			// biome-ignore lint/suspicious/noExplicitAny: <underlying library does not contain valid typedefs>
-			(pdfObjects as any).get(name, (imgData: any) => {
+			pdfObjects.get(name, (imgData: any) => {
 				if (imgData) {
 					// Check different possible data sources
 					let dataBuff: Uint8Array | undefined;
@@ -377,14 +361,6 @@ export class PDFParse {
 					} else if (ArrayBuffer.isView(imgData.data)) {
 						// Generic typed array
 						dataBuff = new Uint8Array(imgData.data.buffer, imgData.data.byteOffset, imgData.data.byteLength);
-					} else if (imgData.data) {
-						// Try to convert whatever we have
-						try {
-							dataBuff = new Uint8Array(imgData.data);
-						} catch (e) {
-							reject(new Error(`Image object ${name}: Cannot convert data to Uint8Array. Error: ${e}`));
-							return;
-						}
 					}
 
 					if (!dataBuff) {
@@ -420,9 +396,6 @@ export class PDFParse {
 
 		for (let i: number = 1; i <= result.total; i++) {
 			if (this.shouldParse(i, result.total, params)) {
-				//const pageToImages: PageToImage = { pageNumber: i };
-				//result.pages.push(pageToImages);
-
 				const page = await this.doc.getPage(i);
 
 				// biome-ignore lint/suspicious/noExplicitAny: <underlying library does not contain valid typedefs>
@@ -486,12 +459,10 @@ export class PDFParse {
 		for (let i: number = 1; i <= result.total; i++) {
 			if (this.shouldParse(i, result.total, params)) {
 				const page = await this.doc.getPage(i);
-				const viewport = page.getViewport({ scale: 1 });
-
+				//const viewport = page.getViewport({ scale: 1 });
 				//viewport.convertToViewportPoint(0, 0);
 
 				const store = await this.getPageTables(page);
-
 				//const store = await this.getPageGeometry(page);
 
 				store.normalize();
@@ -574,7 +545,7 @@ export class PDFParse {
 					line.transform(viewport.transform);
 					lineStore.add(line);
 				} else {
-					debugger;
+					//debugger;
 				}
 
 				// if (op === pdfjs.OPS.rectangle) {
@@ -594,7 +565,7 @@ export class PDFParse {
 				// 	//debugger;
 				// }
 			} else if (fn === pdfjs.OPS.setLineWidth) {
-				debugger;
+				//debugger;
 			} else if (fn === pdfjs.OPS.save) {
 				transformStack.push(transformMatrix);
 			} else if (fn === pdfjs.OPS.restore) {
@@ -611,84 +582,84 @@ export class PDFParse {
 		return lineStore;
 	}
 
-	private async getPageGeometry(page: PDFPageProxy): Promise<LineStore> {
-		const lineStore: LineStore = new LineStore();
-		const opList = await page.getOperatorList();
+	// private async getPageGeometry(page: PDFPageProxy): Promise<LineStore> {
+	// 	const lineStore: LineStore = new LineStore();
+	// 	const opList = await page.getOperatorList();
 
-		const viewport = page.getViewport({ scale: 1 });
+	// 	const viewport = page.getViewport({ scale: 1 });
 
-		let transformMatrix = [1, 0, 0, 1, 0, 0];
-		const transformStack: Array<Array<number>> = [];
+	// 	let transformMatrix = [1, 0, 0, 1, 0, 0];
+	// 	const transformStack: Array<Array<number>> = [];
 
-		let current_x: number = 0;
-		let current_y: number = 0;
+	// 	let current_x: number = 0;
+	// 	let current_y: number = 0;
 
-		for (let j = 0; j < opList.fnArray.length; j++) {
-			const fn = opList.fnArray[j];
-			const args = opList.argsArray[j];
+	// 	for (let j = 0; j < opList.fnArray.length; j++) {
+	// 		const fn = opList.fnArray[j];
+	// 		const args = opList.argsArray[j];
 
-			if (fn === pdfjs.OPS.constructPath) {
-				while (args[0].length) {
-					const op = args[0].shift();
+	// 		if (fn === pdfjs.OPS.constructPath) {
+	// 			while (args[0].length) {
+	// 				const op = args[0].shift();
 
-					const combinedMatrix = pdfjs.Util.transform(viewport.transform, transformMatrix);
+	// 				const combinedMatrix = pdfjs.Util.transform(viewport.transform, transformMatrix);
 
-					if (op === pdfjs.OPS.rectangle) {
-						const x = args[1].shift();
-						const y = args[1].shift();
-						const width = args[1].shift();
-						const height = args[1].shift();
+	// 				if (op === pdfjs.OPS.rectangle) {
+	// 					const x = args[1].shift();
+	// 					const y = args[1].shift();
+	// 					const width = args[1].shift();
+	// 					const height = args[1].shift();
 
-						if (Math.min(width, height) <= 2) {
-							// TODO remove
-							debugger;
-						}
+	// 					if (Math.min(width, height) <= 2) {
+	// 						// TODO remove
+	// 						debugger;
+	// 					}
 
-						const rect = new Rectangle(new Point(x, y), width, height);
-						rect.transform(combinedMatrix);
-						//rect.transform(viewport.transform);
+	// 					const rect = new Rectangle(new Point(x, y), width, height);
+	// 					rect.transform(combinedMatrix);
+	// 					//rect.transform(viewport.transform);
 
-						lineStore.addRectangle(rect);
-					} else if (op === pdfjs.OPS.moveTo) {
-						current_x = args[1].shift();
-						current_y = args[1].shift();
-					} else if (op === pdfjs.OPS.lineTo) {
-						const x = args[1].shift();
-						const y = args[1].shift();
+	// 					lineStore.addRectangle(rect);
+	// 				} else if (op === pdfjs.OPS.moveTo) {
+	// 					current_x = args[1].shift();
+	// 					current_y = args[1].shift();
+	// 				} else if (op === pdfjs.OPS.lineTo) {
+	// 					const x = args[1].shift();
+	// 					const y = args[1].shift();
 
-						//default trasform
-						const from = new Point(current_x, current_y);
-						const to = new Point(x, y);
-						const line = new Line(from, to);
-						line.transform(combinedMatrix);
-						//line.transform(viewport.transform);
+	// 					//default trasform
+	// 					const from = new Point(current_x, current_y);
+	// 					const to = new Point(x, y);
+	// 					const line = new Line(from, to);
+	// 					line.transform(combinedMatrix);
+	// 					//line.transform(viewport.transform);
 
-						// // viewport transform
-						// const _from = viewport.convertToViewportPoint(line.from.x, line.from.y)
-						// const _to = viewport.convertToViewportPoint(line.to.x, line.to.y)
-						//
-						// const transformedLine = new Line(new Point(_from[0], _from[1]), new Point(_to[0], _to[1]))
-						lineStore.add(line);
+	// 					// // viewport transform
+	// 					// const _from = viewport.convertToViewportPoint(line.from.x, line.from.y)
+	// 					// const _to = viewport.convertToViewportPoint(line.to.x, line.to.y)
+	// 					//
+	// 					// const transformedLine = new Line(new Point(_from[0], _from[1]), new Point(_to[0], _to[1]))
+	// 					lineStore.add(line);
 
-						current_x = x;
-						current_y = y;
-					}
-				}
-			} else if (fn === pdfjs.OPS.save) {
-				transformStack.push(transformMatrix);
-			} else if (fn === pdfjs.OPS.restore) {
-				const restoredMatrix = transformStack.pop();
-				if (restoredMatrix) {
-					transformMatrix = restoredMatrix;
-				}
-			} else if (fn === pdfjs.OPS.transform) {
-				//transformMatrix = this.transform_fn(transformMatrix, args);
-				transformMatrix = pdfjs.Util.transform(transformMatrix, args);
-			}
-		}
+	// 					current_x = x;
+	// 					current_y = y;
+	// 				}
+	// 			}
+	// 		} else if (fn === pdfjs.OPS.save) {
+	// 			transformStack.push(transformMatrix);
+	// 		} else if (fn === pdfjs.OPS.restore) {
+	// 			const restoredMatrix = transformStack.pop();
+	// 			if (restoredMatrix) {
+	// 				transformMatrix = restoredMatrix;
+	// 			}
+	// 		} else if (fn === pdfjs.OPS.transform) {
+	// 			//transformMatrix = this.transform_fn(transformMatrix, args);
+	// 			transformMatrix = pdfjs.Util.transform(transformMatrix, args);
+	// 		}
+	// 	}
 
-		return lineStore;
-	}
+	// 	return lineStore;
+	// }
 
 	private async fillPageTables(page: PDFPageProxy, pageTables: Array<TableData>): Promise<void> {
 		//const resultTable: Array<Table> = []
@@ -712,7 +683,6 @@ export class PDFParse {
 			const tx = pdfjs.Util.transform(pdfjs.Util.transform(viewport.transform, textItem.transform), [1, 0, 0, -1, 0, 0]);
 
 			//const resXY = viewport.convertToViewportPoint(tx[4], tx[5]);
-
 			// textItem.transform = pdfjs.Util.transform(viewport.transform, textItem.transform)
 			// textItem.transform[5] = viewport.height - textItem.transform[5] - textItem.height
 

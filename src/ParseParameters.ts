@@ -1,11 +1,18 @@
 export interface ParseParameters {
 	/**
 	 * - When true, include marked content items in the items array of TextContent.
+	 * - Enables capturing the PDF's "marked content"
+	 * - Tags (MCID, role/props) and structural/accessibility information — e.g.
+	 * - Semantic tagging, sectioning, spans, alternate/alternative text, etc.
+	 * - How to use:
+	 * - Turn it on when you need structure/tag information or to map text ↔ structure using MCIDs (for example with page.getStructTree()).
+	 * - For plain text extraction it's usually left false (trade-off: larger output/increased detail).
 	 *   Defaults to `false`.
 	 */
 	includeMarkedContent?: boolean | undefined;
 	/**
 	 * - When true, the text is *not* normalized in the worker thread.
+	 * - Normalize in worker (false recommended for plain text)
 	 *   Defaults to `false`.
 	 */
 	disableNormalization?: boolean | undefined;

@@ -45,7 +45,7 @@ jobs:
       uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        directory: ./reports/coverage
+        directory: ./gh-pages/coverage
         fail_ci_if_error: false
 
     
@@ -54,4 +54,4 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./reports
+        publish_dir: ./gh-pages
