@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Benchmark Report - pdf-parse</title>
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #222
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 36px auto;
+            padding: 28px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(2, 6, 23, 0.2)
+        }
+
+        header {
+            display: flex;
+            align-items: baseline;
+            gap: 16px
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin: 0
+        }
+
+        p.subtitle {
+            margin: 6px 0 18px;
+            color: #555
+        }
+
+        .file-block {
+            margin-top: 20px
+        }
+
+        .group-title {
+            margin: 18px 0 8px;
+            font-weight: 600;
+            color: #111
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem
+        }
+
+        thead th {
+            background: #f8fafc;
+            padding: 10px;
+            border-bottom: 1px solid #e6eef6;
+            text-align: left;
+            color: #334155
+        }
+
+        tbody td {
+            padding: 10px;
+            border-bottom: 1px solid #f1f5f9
+        }
+
+        .muted {
+            color: #667085;
+            font-size: 0.9rem
+        }
+
+        .rank {
+            font-weight: 700;
+            color: #0b69ff
+        }
+
+        .stat-key {
+            color: #475569
+        }
+
+        .empty {
+            padding: 18px;
+            text-align: center;
+            color: #666
+        }
+
+        /* make the Name column wider so long benchmark names fit */
+        thead th:nth-child(2),
+        tbody td:nth-child(2) {
+            min-width: 220px;
+            white-space: normal;
+            /* allow wrapping */
+        }
+
+        .note {
+            margin-top: 18px;
+            padding: 12px;
+            background: #fff7e6;
+            border-left: 4px solid #ffb020;
+            color: #664d03
+        }
+
+        .footer {
+            margin-top: 22px;
+            color: #667085;
+            font-size: 0.9rem
+        }
+
+        a.home {
+            display: inline-block;
+            margin-bottom: 10px;
+            color: #667eea;
+            text-decoration: none
+        }
+
+        @media (max-width:720px) {
+            .wrap {
+                padding: 16px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <a class="home" href="./index.html">← Back to project</a>
+        <header>
+            <h1>📊 Benchmark Report</h1>
+        </header>
+        <p class="subtitle">This report is generated from <code>bench.json</code> in this folder. It shows per-benchmark
+            statistics gathered by Vitest's benchmark runner.</p>
+
+        <div id="content">
+            <div class="empty">Loading benchmark data…</div>
+        </div>
+
+        <div class="footer">If the report is empty, regenerate the benchmark JSON by running the benchmark locally (the
+            repo's benchmark task). The JSON file used is <code>gh-pages/benchmark/bench.json</code>.</div>
+    </main>
+
+    <script>
+        (function () {
+            const jsonPath = './benchmark/bench.json';
+            const content = document.getElementById('content');
+
+            function fmt(n) {
+                if (n === null || n === undefined) return '-';
+                if (typeof n === 'number') return Number.isInteger(n) ? n.toString() : n.toFixed(3);
+                return String(n);
+            }
+
+            function render() {
+                fetch(jsonPath).then(res => {
+                    if (!res.ok) throw new Error(res.statusText);
+                    return res.json();
+                }).then(data => {
+                    content.innerHTML = '';
+                    if (!data || !data.files || !data.files.length) {
+                        content.innerHTML = '<div class="empty">No benchmark data found in JSON.</div>';
+                        return;
+                    }
+
+                    data.files.forEach(file => {
+                        const fileBlock = document.createElement('section');
+                        fileBlock.className = 'file-block';
+
+                        const pathPara = document.createElement('div');
+                        pathPara.className = 'muted';
+                        // show a repo-relative path if possible (e.g. 'test/benchmark/package.bench.ts')
+                        const rawPath = (file.filepath || file.file || 'unknown file').toString().replace(/\\/g, '/');
+                        const m = rawPath.match(/(test\/benchmark\/.*)$/);
+                        pathPara.textContent = m ? m[1] : rawPath;
+                        fileBlock.appendChild(pathPara);
+
+                        (file.groups || []).forEach(group => {
+                            const groupTitle = document.createElement('div');
+                            groupTitle.className = 'group-title';
+                            // show only the short group name (e.g. 'Parsing Files'), not the fullName which may include the file path
+                            groupTitle.textContent = group.name || '';
+                            fileBlock.appendChild(groupTitle);
+
+                            const benches = group.benchmarks || [];
+                            if (!benches.length) {
+                                const empty = document.createElement('div');
+                                empty.className = 'empty';
+                                empty.textContent = 'No benchmarks in this group.';
+                                fileBlock.appendChild(empty);
+                                return;
+                            }
+
+                            const table = document.createElement('table');
+                            const thead = document.createElement('thead');
+                            thead.innerHTML = '<tr><th>Rank</th><th>Name</th><th>Mean (ms)</th><th>Hz</th><th>Min (ms)</th><th>Max (ms)</th><th>RME (%)</th><th>Median</th><th>P75</th><th>P99</th><th>Samples</th><th>vs fastest</th></tr>';
+                            table.appendChild(thead);
+
+                            const tbody = document.createElement('tbody');
+                            // determine fastest by Hz (higher is faster)
+                            const hzVals = benches.map(x => x.hz || 0);
+                            const fastestHz = Math.max(...hzVals);
+                            const fastestBench = benches.find(x => (x.hz || 0) === fastestHz) || benches[0];
+
+                            benches.forEach(b => {
+                                const tr = document.createElement('tr');
+                                const vsFastest = (b.hz && fastestHz && b.hz > 0)
+                                    ? (b.hz === fastestHz ? 'fastest' : ((fastestHz / b.hz).toFixed(2) + '× faster'))
+                                    : '-';
+
+                                tr.innerHTML = '<td class="rank">' + fmt(b.rank) + '</td>' +
+                                    '<td>' + (b.name || '') + '</td>' +
+                                    '<td>' + fmt(b.mean) + '</td>' +
+                                    '<td>' + fmt(b.hz) + '</td>' +
+                                    '<td>' + fmt(b.min) + '</td>' +
+                                    '<td>' + fmt(b.max) + '</td>' +
+                                    '<td>' + fmt(b.rme) + '</td>' +
+                                    '<td>' + fmt(b.median) + '</td>' +
+                                    '<td>' + fmt(b.p75) + '</td>' +
+                                    '<td>' + fmt(b.p99) + '</td>' +
+                                    '<td>' + fmt(b.sampleCount || (b.samples && b.samples.length) || '-') + '</td>' +
+                                    '<td>' + vsFastest + '</td>';
+                                tbody.appendChild(tr);
+                            });
+
+                            table.appendChild(tbody);
+                            fileBlock.appendChild(table);
+
+                            // summary note
+                            const note = document.createElement('div');
+                            note.className = 'note';
+                            // build comparative summary in form: "fastestName 2.81x faster than otherName"
+                            if (fastestBench) {
+                                const others = benches.filter(b => b.name !== fastestBench.name && (b.hz || 0) > 0);
+                                const comparisons = others.map(b => {
+                                    const times = (fastestBench.hz && b.hz) ? (fastestBench.hz / b.hz) : NaN;
+                                    if (!isFinite(times)) return `${fastestBench.name} faster than ${b.name}`;
+                                    return `${fastestBench.name} ${times.toFixed(2)}x faster than ${b.name}`;
+                                });
+                                if (comparisons.length === 0) {
+                                    note.innerHTML = `Summary:<br>${fastestBench.name} (fastest)`;
+                                } else {
+                                    // write each comparison on its own line
+                                    note.innerHTML = 'Summary:<br>' + comparisons.join('<br>');
+                                }
+                            } else {
+                                note.innerHTML = 'Summary: ' + benches.map(b => `${b.name} mean ${fmt(b.mean)} ms`).join(' · ');
+                            }
+                            fileBlock.appendChild(note);
+                        });
+
+                        content.appendChild(fileBlock);
+                    });
+                }).catch(err => {
+                    console.error(err);
+                    content.innerHTML = '<div class="empty">Failed to load benchmark JSON: ' + (err && err.message) + '</div>';
+                });
+            }
+
+            render();
+        })();
+    </script>
+</body>
+
+</html>

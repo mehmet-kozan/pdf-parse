@@ -27,6 +27,7 @@
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             padding: 3rem;
+            position: relative;
             max-width: 900px;
             width: 100%;
         }
@@ -103,6 +104,25 @@
             transform: translateY(0);
         }
 
+        /* Back link styled as a small button in the top-right of the demo card */
+        a.home {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.25);
+        }
+
+        a.home:hover {
+            transform: translateY(-2px);
+        }
+
         h2 {
             color: #333;
             margin-bottom: 1rem;
@@ -177,6 +197,7 @@
     <div class="container">
         <h1>📄 GetImage Demo - pdf-parse</h1>
         <p>Build the project first: <code>npm run build</code> then generate site: <code>npm run site:build</code></p>
+        <p><a class="home" href="../index.html">← Back to project</a></p>
         <div class="controls">
             <input id="file" type="file" accept="application/pdf" />
             <button id="parse">Convert to Images</button>
