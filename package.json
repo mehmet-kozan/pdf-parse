@@ -18,7 +18,7 @@
 		}
 	},
 	"description": "A pure TypeScript/JavaScript, cross-platform module for extracting text, images, and tabular data from PDF files.",
-	"homepage": "https://github.com/mehmet-kozan/pdf-parse#readme",
+	"homepage": "https://mehmet-kozan.github.io/pdf-parse/",
 	"bugs": {
 		"url": "https://github.com/mehmet-kozan/pdf-parse/issues"
 	},

@@ -1,4 +1,4 @@
-# Test, Coverage &  Benchmark Reports and Web Demo
+## Test, Coverage & Benchmark Reports and Live Demo
 
 - This directory contains test, code coverage, benchmark reports and web demo for the pdf-parse project.
 - This directory automatically deployed to GitHub Pages on every push to the `main` branch

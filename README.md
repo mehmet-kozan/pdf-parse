@@ -29,7 +29,7 @@
 - Extract embedded images : `getImage` 
 - Render pages as images : `pageToImage` 
 - Detect and extract tabular data : `getTable` 
-- For additional usage examples, check the [`test`](./test) folder and [`Live Demo`](https://mehmet-kozan.github.io/pdf-parse/)
+- For additional usage examples, check the [`test`](./test) folder and [`live demo`](https://mehmet-kozan.github.io/pdf-parse/)
 - Live demo source: [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
 
 ## Similar Packages
@@ -146,7 +146,7 @@ for (const pageData of result.pages) {
 
 ## Web / Browser
 - After running `npm run build`, you will find both regular and minified browser bundles in `dist/browser` (e.g., `pdf-parse.es.js` and `pdf-parse.es.min.js`).
-- Check: [`Live Demo`](https://mehmet-kozan.github.io/pdf-parse/)
+- Check: [`live demo`](https://mehmet-kozan.github.io/pdf-parse/)
 - Live demo source: [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
 
 Use the minified versions (`.min.js`) for production to reduce file size, or the regular versions for development and debugging.
