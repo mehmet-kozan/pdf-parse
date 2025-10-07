@@ -18,11 +18,12 @@
 </div>
 <br />
 
-> **Contributing Note:** When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently.
+> **Contributing Note:** When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently. For detailed guidelines on how to contribute, report bugs, or submit pull requests, see: [contributing to `pdf-parse`](https://github.com/mehmet-kozan/pdf-parse?tab=contributing-ov-file)
 
 ## Features
 - Supports Node.js and browsers 
 - CommonJS and ESM support 
+- Vulnerability and security info: [security policy](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file)
 - Extract page text: `getText` 
 - Extract embedded images: `getImage` 
 - Render pages as images: `pageToImage` 
@@ -83,7 +84,7 @@ For a complete list of configuration options, see:
 
 Usage Examples
 - Parse password protected PDF:  [`test/test-06-password`](test/test-06-password/pdf-password.test.ts)
-- Parse only specific pages: [`test/test-parse-parameters`](test/test-parse-parameters/pdf-parse-paremeters.test.ts)
+- Parse only specific pages: [`test/test-parse-parameters`](test/test-parse-parameters/pdf-parse-parameters.test.ts)
 - Parse embedded hyperlinks: [`test/test-hyperlinks`](test/test-hyperlinks/pdf-hyperlink.test.ts)
 - Load PDF from URL: [`test/test-types`](test/test-types/textresult-type.test.ts)
 
