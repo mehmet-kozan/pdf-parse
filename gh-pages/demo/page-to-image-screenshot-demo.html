@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>pdf-parse browser example</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 3rem;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 0.95em;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            cursor: pointer;
+        }
+
+        input[type="file"]:hover {
+            border-color: #667eea;
+        }
+
+        input[type="file"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.5em;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        #output {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 1.5rem;
+            max-height: 70vh;
+            overflow: auto;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        #output::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        #output::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        #output::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        #output::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .page-image {
+            margin-bottom: 2rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .page-image h3 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1rem;
+            margin: 0;
+            font-size: 1.1em;
+        }
+
+        .page-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .status {
+            padding: 1rem;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>�️ PageToImage Demo - pdf-parse</h1>
+        <p>Build the project first: <code>npm run build</code> then generate site: <code>npm run site:build</code></p>
+        <div class="controls">
+            <input id="file" type="file" accept="application/pdf" />
+            <button id="parse">Convert to Images</button>
+        </div>
+        <h2>Output</h2>
+        <div id="output">No action yet. Please select a PDF file and click "Convert to Images".</div>
+    </div>
+
+    <script type="module">
+
+        // Import the browser bundle produced by the build step
+        // local import 
+        import { PDFParse } from './dist-browser/pdf-parse.es.js';
+        // cdn import
+        //import { PDFParse } from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.js';
+
+        const fileInput = document.getElementById('file');
+        const btn = document.getElementById('parse');
+        const out = document.getElementById('output');
+
+        btn.addEventListener('click', async () => {
+            const f = fileInput.files?.[0];
+            if (!f) {
+                out.innerHTML = '<div class="status">Please select a PDF file.</div>';
+                return;
+            }
+
+            try {
+                out.innerHTML = '<div class="status">Reading and converting PDF to images...</div>';
+                const buffer = await f.arrayBuffer();
+                const parser = new PDFParse({ data: buffer });
+                const result = await parser.pageToImage();
+
+                // Clear output and display images
+                out.innerHTML = '';
+
+                if (result.pages.length === 0) {
+                    out.innerHTML = '<div class="status">No pages found in PDF.</div>';
+                    return;
+                }
+
+                out.innerHTML += `<div class="status">Successfully converted ${result.pages.length} page(s) to images</div>`;
+
+                // Display each page as an image
+                for (const page of result.pages) {
+                    const pageDiv = document.createElement('div');
+                    pageDiv.className = 'page-image';
+
+                    const pageTitle = document.createElement('h3');
+                    pageTitle.textContent = `Page ${page.pageNumber}`;
+                    pageDiv.appendChild(pageTitle);
+
+                    const img = document.createElement('img');
+                    img.src = page.dataUrl;
+                    img.alt = `Page ${page.pageNumber}`;
+                    pageDiv.appendChild(img);
+
+                    out.appendChild(pageDiv);
+                }
+
+            } catch (err) {
+                out.innerHTML = '<div class="status">Error: ' + String(err) + '</div>';
+            }
+        });
+    </script>
+</body>
+
+</html>

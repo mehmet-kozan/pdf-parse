@@ -1,4 +1,4 @@
-const pdf  = require('../../dist/cjs/index.cjs');
+const pdf  = require('../dist/cjs/index.cjs');
 const fs = require('fs');
 const path = require('path');
 

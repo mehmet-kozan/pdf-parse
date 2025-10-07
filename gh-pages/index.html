@@ -4,7 +4,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pdf-parse - Reports & Live Demo Landing Page</title>
+
+    <!-- Primary Meta Tags -->
+    <title>pdf-parse - Pure JavaScript PDF Parser for Node.js and Browser | Extract Text, Images & Tables</title>
+    <meta name="title" content="pdf-parse - Pure JavaScript PDF Parser for Node.js and Browser">
+    <meta name="description"
+        content="A powerful, pure JavaScript PDF parsing library for Node.js and browsers. Extract text, images, and tables from PDF files. Zero native dependencies, MIT licensed, supports password-protected PDFs.">
+    <meta name="keywords"
+        content="pdf parser, javascript pdf, nodejs pdf, pdf extraction, pdf text extraction, pdf image extraction, pdf table extraction, pdfjs, pdf.js wrapper, browser pdf parser, pdf-parse, parse pdf javascript">
+    <meta name="author" content="Mehmet Kozan">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mehmet-kozan.github.io/pdf-parse/">
+    <meta property="og:title" content="pdf-parse - Pure JavaScript PDF Parser for Node.js and Browser">
+    <meta property="og:description"
+        content="Extract text, images, and tables from PDF files using pure JavaScript. Works in Node.js and browsers with zero native dependencies.">
+    <meta property="og:site_name" content="pdf-parse">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://mehmet-kozan.github.io/pdf-parse/">
+    <meta property="twitter:title" content="pdf-parse - Pure JavaScript PDF Parser">
+    <meta property="twitter:description"
+        content="Extract text, images, and tables from PDF files using pure JavaScript. Works in Node.js and browsers.">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://mehmet-kozan.github.io/pdf-parse/">
+
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="application-name" content="pdf-parse">
+
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "pdf-parse",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Cross-platform",
+      "description": "A powerful, pure JavaScript PDF parsing library for Node.js and browsers. Extract text, images, and tables from PDF files.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Mehmet Kozan"
+      },
+      "url": "https://mehmet-kozan.github.io/pdf-parse/",
+      "softwareVersion": "latest",
+      "programmingLanguage": "JavaScript",
+      "license": "https://opensource.org/licenses/MIT"
+    }
+    </script>
+
     <style>
         * {
             margin: 0;
@@ -27,7 +85,7 @@
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             padding: 60px;
-            max-width: 900px;
+            max-width: 1000px;
             width: 100%;
         }
 
@@ -45,7 +103,7 @@
 
         .links {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
         }
 
@@ -110,78 +168,104 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1>📊 pdf-parse</h1>
-        <p class="subtitle">Reports & Live</p>
-        <div class="links">
-            <a href="./test-report/index.html">
-                <span class="icon">🧪</span>
-                <span>Test Results</span>
-            </a>
-            <a href="./coverage/html-report/index.html">
-                <span class="icon">📈</span>
-                <span>Coverage Report</span>
-            </a>
-            <a href="./benchmark/index.html">
-                <span class="icon">⚡</span>
-                <span>Benchmark Results</span>
-            </a>
-            <a href="./demo/pdf-parse.esm.html">
-                <span class="icon">🔗</span>
-                <span>ESM Demo</span>
-            </a>
-            <a href="./demo/pdf-parse.umd.html">
-                <span class="icon">🔗</span>
-                <span>UMD Demo</span>
-            </a>
-            <a href="./demo/pdf-parse.umd.html">
-                <span class="icon">🔗</span>
-                <span>PageToImage, Screenshot Demo</span>
-            </a>
-            <a href="./demo/pdf-parse.umd.html">
-                <span class="icon">🔗</span>
-                <span>GetImage Demo</span>
-            </a>
-            <a href="./demo/pdf-parse.umd.html">
-                <span class="icon">🔗</span>
-                <span>GetTable Demo</span>
-            </a>
-            <a href="./demo/pdf-parse.umd.html">
-                <span class="icon">🔗</span>
-                <span>PDF Viewer Demo</span>
-            </a>
+    <main>
+        <div class="container">
+            <header>
+                <h1>📊 pdf-parse</h1>
+                <p class="subtitle">Pure JavaScript PDF Parser - Extract Text, Images & Tables from PDF Files</p>
+            </header>
+            <nav class="links" aria-label="Demo and report links">
+                <a href="./test-report/index.html" aria-label="View test results">
+                    <span class="icon" aria-hidden="true">🧪</span>
+                    <span>Test Results</span>
+                </a>
+                <a href="./coverage/html-report/index.html" aria-label="View code coverage report">
+                    <span class="icon" aria-hidden="true">📈</span>
+                    <span>Coverage Report</span>
+                </a>
+                <a href="./benchmark/index.html" aria-label="View benchmark performance results">
+                    <span class="icon" aria-hidden="true">⚡</span>
+                    <span>Benchmark Results</span>
+                </a>
+                <a href="./demo/pdf-parse.esm.html" aria-label="Try ESM module demo">
+                    <span class="icon" aria-hidden="true">🔗</span>
+                    <span>ESM Demo</span>
+                </a>
+                <a href="./demo/pdf-parse.umd.html" aria-label="Try UMD module demo">
+                    <span class="icon" aria-hidden="true">🔗</span>
+                    <span>UMD Demo</span>
+                </a>
+                <a href="./demo/page-to-image-screenshot-demo.html" aria-label="Try PageToImage demo">
+                    <span class="icon" aria-hidden="true">🔗</span>
+                    <span>PageToImage Demo</span>
+                </a>
+                <a href="./demo/pdf-parse.umd.html" aria-label="Try GetImage extraction demo">
+                    <span class="icon" aria-hidden="true">🔗</span>
+                    <span>GetImage Demo</span>
+                </a>
+                <a href="./demo/pdf-parse.umd.html" aria-label="Try GetTable extraction demo">
+                    <span class="icon" aria-hidden="true">🔗</span>
+                    <span>GetTable Demo</span>
+                </a>
+                <a href="./demo/pdf-parse.umd.html" aria-label="Try PDF viewer demo">
+                    <span class="icon" aria-hidden="true">🔗</span>
+                    <span>PDF Viewer Demo</span>
+                </a>
+            </nav>
+            <footer class="footer">
+                <p style="margin-bottom: 15px;">
+                    <a href="https://www.npmjs.com/package/pdf-parse" target="_blank" rel="noopener nofollow"
+                        aria-label="Total npm downloads">
+                        <img src="https://img.shields.io/npm/dt/pdf-parse.svg" alt="Total npm downloads for pdf-parse"
+                            width="120" height="20">
+                    </a>
+                    <a href="https://www.npmjs.com/package/pdf-parse" target="_blank" rel="noopener nofollow"
+                        aria-label="Current npm version">
+                        <img src="https://img.shields.io/npm/v/pdf-parse.svg" alt="Latest npm version of pdf-parse"
+                            width="90" height="20">
+                    </a>
+                    <a href="https://www.npmjs.com/package/pdf-parse#provenance" target="_blank" rel="noopener nofollow"
+                        aria-label="npm provenance status">
+                        <img src="https://img.shields.io/badge/provenance-enabled-blue" alt="npm provenance enabled"
+                            width="130" height="20">
+                    </a>
+                    <a href="https://docs.npmjs.com/cli/v10/commands/npm-audit" target="_blank" rel="noopener nofollow"
+                        aria-label="npm audit status">
+                        <img src="https://img.shields.io/badge/npm_audit-passing-brightgreen" alt="npm audit passing"
+                            width="110" height="20">
+                    </a>
+                    <a href="https://snyk.io/advisor/npm-package/pdf-parse" target="_blank" rel="noopener nofollow"
+                        aria-label="Snyk security score">
+                        <img src="https://snyk.io/advisor/npm-package/pdf-parse/badge.svg"
+                            alt="Snyk security score for pdf-parse" width="90" height="20">
+                    </a>
+                    <a href="https://socket.dev/npm/package/pdf-parse" target="_blank" rel="noopener nofollow"
+                        aria-label="Socket security score">
+                        <img src="https://socket.dev/api/badge/npm/package/pdf-parse"
+                            alt="Socket security analysis for pdf-parse" width="90" height="20">
+                    </a>
+                    <a href="https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy"
+                        target="_blank" rel="noopener nofollow" aria-label="Security policy">
+                        <img src="https://img.shields.io/badge/security-policy-blue" alt="Security policy for pdf-parse"
+                            width="110" height="20">
+                    </a>
+                </p>
+                <p class="npm-badge">
+                    <a href="https://www.npmjs.com/package/pdf-parse" rel="noopener nofollow"
+                        aria-label="pdf-parse on npm">
+                        <img src="https://nodei.co/npm/pdf-parse.svg?data=d" alt="pdf-parse npm package information"
+                            width="250" height="100">
+                    </a>
+                </p>
+                <p style="margin-top: 20px; font-size: 0.85em;">
+                    <a href="https://github.com/mehmet-kozan/pdf-parse" target="_blank" rel="noopener"
+                        style="color: #667eea;">GitHub Repository</a> |
+                    <a href="https://www.npmjs.com/package/pdf-parse" target="_blank" rel="noopener nofollow"
+                        style="color: #667eea;">npm Package</a>
+                </p>
+            </footer>
         </div>
-        <div class="footer">
-            <p style="margin-bottom: 15px;">
-                <a href="https://www.npmjs.com/package/pdf-parse" target="_blank" rel="noopener">
-                    <img src="https://img.shields.io/npm/dt/pdf-parse.svg" alt="npm downloads">
-                </a>
-                <a href="https://www.npmjs.com/package/pdf-parse" target="_blank" rel="noopener">
-                    <img src="https://img.shields.io/npm/v/pdf-parse.svg" alt="npm version">
-                </a>
-                <a href="https://www.npmjs.com/package/pdf-parse#provenance" target="_blank" rel="noopener">
-                    <img src="https://img.shields.io/badge/provenance-enabled-blue" alt="npm provenance">
-                </a>
-                <a href="https://docs.npmjs.com/cli/v10/commands/npm-audit" target="_blank" rel="noopener">
-                    <img src="https://img.shields.io/badge/npm_audit-passing-brightgreen" alt="npm audit">
-                </a>
-                <a href="https://snyk.io/advisor/npm-package/pdf-parse" target="_blank" rel="noopener">
-                    <img src="https://snyk.io/advisor/npm-package/pdf-parse/badge.svg" alt="snyk">
-                </a>
-                <a href="https://socket.dev/npm/package/pdf-parse" target="_blank" rel="noopener">
-                    <img src="https://socket.dev/api/badge/npm/package/pdf-parse" alt="socket badge">
-                </a>
-                <a href="https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy" target="_blank"
-                    rel="noopener">
-                    <img src="https://img.shields.io/badge/security-policy-blue" alt="security policy">
-                </a>
-
-
-            </p>
-            <p class="npm-badge"><a href="https://www.npmjs.com/package/pdf-parse"><img
-                        src="https://nodei.co/npm/pdf-parse.svg?data=d"></a></p>
-        </div>
-    </div>
+    </main>
 </body>
 
 </html>

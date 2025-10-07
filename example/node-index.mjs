@@ -1,4 +1,4 @@
-import {PDFParse} from '../../dist/esm/index.js'
+import {PDFParse} from '../dist/esm/index.js'
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import {readFile} from 'node:fs/promises';

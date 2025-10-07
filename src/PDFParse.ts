@@ -251,10 +251,22 @@ export class PDFParse {
 							});
 						}
 						context.putImageData(imgData, 0, 0);
-						const buff = canvasAndContext.canvas.toBuffer('image/png');
-
-						const base64 = buff.toString('base64');
-						const dataUrl = `data:image/png;base64,${base64}`;
+						
+						// Browser and Node.js compatibility
+						let buff: Buffer;
+						let dataUrl: string;
+						
+						if (typeof canvasAndContext.canvas.toBuffer === 'function') {
+							// Node.js environment (canvas package)
+							buff = canvasAndContext.canvas.toBuffer('image/png');
+							const base64 = buff.toString('base64');
+							dataUrl = `data:image/png;base64,${base64}`;
+						} else {
+							// Browser environment
+							dataUrl = canvasAndContext.canvas.toDataURL('image/png');
+							const base64 = dataUrl.split(',')[1];
+							buff = Buffer.from(base64, 'base64');
+						}
 
 						pageImages.images.push({
 							data: buff,
@@ -347,9 +359,20 @@ export class PDFParse {
 				const renderTask = page.render(renderContext);
 				await renderTask.promise;
 				// Convert the canvas to an image buffer.
-				const data = canvasAndContext.canvas.toBuffer('image/png');
-				const base64 = data.toString('base64');
-				const dataUrl = `data:image/png;base64,${base64}`;
+				let data: Buffer;
+				let dataUrl: string;
+				
+				if (typeof canvasAndContext.canvas.toBuffer === 'function') {
+					// Node.js ortamı (canvas paketi)
+					data = canvasAndContext.canvas.toBuffer('image/png');
+					const base64 = data.toString('base64');
+					dataUrl = `data:image/png;base64,${base64}`;
+				} else {
+					// Browser ortamı
+					dataUrl = canvasAndContext.canvas.toDataURL('image/png');
+					const base64 = dataUrl.split(',')[1];
+					data = Buffer.from(base64, 'base64');
+				}
 
 				result.pages.push({
 					data,
