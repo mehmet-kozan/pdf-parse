@@ -2,9 +2,9 @@
 
 # pdf-parse
 
-**A pure TypeScript/JavaScript, cross-platform module for extracting text, images, and tabular data from PDF files.**
-
 <div align="center">
+
+**A pure TypeScript/JavaScript, cross-platform module for extracting text, images, and tabular data from PDF files.**
 
 [![npm downloads](https://img.shields.io/npm/dm/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
 [![npm version](https://img.shields.io/npm/v/pdf-parse.svg)](https://www.npmjs.com/package/pdf-parse) 
@@ -13,6 +13,7 @@
 [![biome](https://img.shields.io/badge/code_style-biome-60a5fa?logo=biome)](https://biomejs.dev)
 [![vitest](https://img.shields.io/badge/tested_with-vitest-6E9F18?logo=vitest)](https://vitest.dev)
 [![codecov](https://codecov.io/github/mehmet-kozan/pdf-parse/graph/badge.svg?token=FZL3G8KNZ8)](https://codecov.io/github/mehmet-kozan/pdf-parse)
+[![socket badge](https://socket.dev/api/badge/npm/package/pdf-parse)](https://socket.dev/npm/package/pdf-parse)
 [![test & coverage reports](https://img.shields.io/badge/reports-view-brightgreen.svg)](https://mehmet-kozan.github.io/pdf-parse/)
 
 </div>
@@ -23,12 +24,13 @@
 ## Features
 - Supports Node.js and browsers 
 - CommonJS and ESM support 
-- Vulnerability and security info: [`security policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
-- Extract page text: `getText` 
-- Extract embedded images: `getImage` 
-- Render pages as images: `pageToImage` 
-- Detect and extract tabular data: `getTable` 
-- For additional usage examples, check the [`example`](./example) and [`test`](./test) folders. 
+- Vulnerability and security info : [`security policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
+- Extract page text : `getText` 
+- Extract embedded images : `getImage` 
+- Render pages as images : `pageToImage` 
+- Detect and extract tabular data : `getTable` 
+- For additional usage examples, check the [`test`](./test) folder and [`Live Demo`](https://mehmet-kozan.github.io/pdf-parse/)
+- Live demo source: [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
 
 ## Similar Packages
 * [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
@@ -144,7 +146,8 @@ for (const pageData of result.pages) {
 
 ## Web / Browser
 - After running `npm run build`, you will find both regular and minified browser bundles in `dist/browser` (e.g., `pdf-parse.es.js` and `pdf-parse.es.min.js`).
-- See a minimal browser example in [example/browser/pdf-parse.es.cdn.html](example/browser/pdf-parse.es.cdn.html).
+- Check: [`Live Demo`](https://mehmet-kozan.github.io/pdf-parse/)
+- Live demo source: [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
 
 Use the minified versions (`.min.js`) for production to reduce file size, or the regular versions for development and debugging.
 
