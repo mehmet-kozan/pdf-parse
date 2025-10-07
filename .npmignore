@@ -28,15 +28,21 @@ vite.config.js
 package-lock.json
 biome.json
 tsconfig.json
+vite.config.browser.min.ts
+vite.config.browser.ts
+vite.config.node.cjs.ts
+
 
 # Dokümantasyon ve diğer dosyalar
 docs/
 examples/
+example/
+reports/
 CONTRIBUTING.md
 CODE_OF_CONDUCT.md
 logo.png
 NOTES.md
-README.V1.md
+V1_MIGRATION.md
 
 
 # Geçici dosyalar

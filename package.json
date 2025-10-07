@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.1.8",
+	"version": "2.1.9",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
@@ -52,10 +52,7 @@
 	"license": "Apache-2.0",
 	"author": "Mehmet Kozan",
 	"files": [
-		"dist/",
-		"dist/**/*.d.ts",
-		"README.md",
-		"LICENSE"
+		"dist/"
 	],
 	"scripts": {
 		"build": "npm-run-all clean build:esm build:cjs build:browser build:browser:min",
@@ -63,7 +60,7 @@
 		"build:cjs": "vite build --config vite.config.node.cjs.ts",
 		"build:browser": "vite build --config vite.config.browser.ts",
 		"build:browser:min": "vite build --config vite.config.browser.min.ts",
-		"clean": "rimraf --glob dist test/**/*.txt test/**/imgs reports/test-report reports/coverage reports/benchmark",
+		"clean": "rimraf --glob dist test/**/*.txt test/**/imgs reports/test-report reports/coverage reports/benchmark example/browser/dist-browser",
 		"prepare": "npm run build",
 		"test": "vitest run",
 		"test:ui": "vitest --ui --coverage",
@@ -76,8 +73,8 @@
 		"format": "biome format --write .",
 		"format:all": "biome check --write .",
 		"format:check": "biome check .",
-		"pkg:check": "npm pack --dry-run",
-		"serve:example": "node ./example/serve-example.js"
+		"pack": "npm pack --dry-run",
+		"example:view": "vite preview --outDir example/browser"
 	},
 	"dependencies": {
 		"pdfjs-dist": "^5.4.149"
@@ -87,7 +84,6 @@
 		"@types/node": "^24.6.2",
 		"@vitest/coverage-v8": "^3.2.4",
 		"@vitest/ui": "^3.2.4",
-		"express": "^5.1.0",
 		"npm-run-all": "^4.1.5",
 		"rimraf": "^6.0.1",
 		"typescript": "^5.9.3",

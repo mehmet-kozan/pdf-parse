@@ -1,4 +1,4 @@
-import { copyFileSync } from 'node:fs';
+import { copyFileSync, cpSync } from 'node:fs';
 import { join } from 'node:path';
 import { defineConfig } from 'vite';
 
@@ -22,6 +22,14 @@ export default defineConfig({
 				const source = join(process.cwd(), 'node_modules', 'pdfjs-dist', 'legacy', 'build', 'pdf.worker.min.mjs');
 				const dest = join(process.cwd(), 'dist', 'browser', 'pdf.worker.min.mjs');
 				copyFileSync(source, dest);
+			},
+		},
+		{
+			name: 'copy-dist-to-example',
+			closeBundle() {
+				const source = join(process.cwd(), 'dist', 'browser');
+				const dest = join(process.cwd(), 'example', 'browser', 'dist-browser');
+				cpSync(source, dest, { recursive: true });
 			},
 		},
 	],

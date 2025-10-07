@@ -1,13 +1,13 @@
 # Test & Coverage Reports
 
-- This directory contains test reports and code coverage reports for the pdf-parse project.
+- This directory contains test, code coverage, and benchmark reports for the pdf-parse project.
 - This directory automatically deployed to GitHub Pages on every push to the `main` branch
 - **Live Reports**: [https://mehmet-kozan.github.io/pdf-parse/](https://mehmet-kozan.github.io/pdf-parse/)
 
 ## 📁 Directory Structure
 
 ```
-pdf-parse/
+reports/
 ├── index.html          # Landing page for viewing reports
 ├── test-report/        # Test reports (auto-generated)
 │   └── index.html

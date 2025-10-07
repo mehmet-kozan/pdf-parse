@@ -27,6 +27,9 @@ reports/test-report
 reports/coverage
 reports/benchmark
 
+# Temp Example Files
+example/browser/dist-browser
+
 # nyc test coverage
 .nyc_output
 
