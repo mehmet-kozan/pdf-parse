@@ -30993,6 +30993,12 @@ class PDFParse {
     options.verbosity = VerbosityLevel.ERRORS;
     this.options = options;
   }
+  enviroment() {
+    const isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
+    const isCJS = typeof require !== "undefined" && typeof module !== "undefined" && typeof module.exports !== "undefined";
+    const isESM = typeof window === "undefined" && typeof require === "undefined";
+    return { isBrowser, isCJS, isESM };
+  }
   async getText(params = {}) {
     const info2 = await this.load();
     const result = new TextResult(info2);
@@ -31487,24 +31493,20 @@ class PDFParse {
     }
   }
 }
-function initPDFJS() {
+function initPDFJS(workerSrc = void 0) {
   if (typeof globalThis.pdfjs === "undefined") {
     globalThis.pdfjs = pdfjs;
   }
-  const isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
-  const isCJS = typeof require !== "undefined" && typeof module !== "undefined" && typeof module.exports !== "undefined";
-  const isESM = typeof window === "undefined" && typeof require === "undefined";
   const worker = pdf_worker;
   if (GlobalWorkerOptions === null) return;
-  if (isBrowser) {
+  if (workerSrc !== void 0) {
+    GlobalWorkerOptions.workerSrc = workerSrc;
+    return;
+  }
+  const isNodeJS2 = typeof process === "object" && `${process}` === "[object process]" && !process.versions.nw && // biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
+  !(process.versions.electron && typeof process.type !== "undefined" && process.type !== "browser");
+  if (!isNodeJS2) {
     GlobalWorkerOptions.workerSrc = worker;
-  } else if (isCJS) {
-    if (worker.startsWith("data:text/javascript")) {
-      GlobalWorkerOptions.workerSrc = worker;
-    }
-  } else if (isESM) {
-    import("./pdf.worker-De4zQndo.js").catch(() => {
-    });
   }
 }
 async function pdf(data) {
@@ -31519,6 +31521,7 @@ async function pdf(data) {
 }
 export {
   PDFParse,
+  initPDFJS,
   pdf
 };
 //# sourceMappingURL=pdf-parse.es.js.map

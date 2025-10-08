@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.96% </span>
+                <span class="strong">78.34% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>368/466</span>
+                <span class='fraction'>369/471</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.01% </span>
+                <span class="strong">73.8% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>94/127</span>
+                <span class='fraction'>93/126</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">94.11% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>16/16</span>
+                <span class='fraction'>16/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.96% </span>
+                <span class="strong">78.34% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>368/466</span>
+                <span class='fraction'>369/471</span>
             </div>
         
             
@@ -800,7 +800,9 @@
 <a name='L735'></a><a href='#L735'>735</a>
 <a name='L736'></a><a href='#L736'>736</a>
 <a name='L737'></a><a href='#L737'>737</a>
-<a name='L738'></a><a href='#L738'>738</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L738'></a><a href='#L738'>738</a>
+<a name='L739'></a><a href='#L739'>739</a>
+<a name='L740'></a><a href='#L740'>740</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -828,6 +830,14 @@
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">19x</span>
@@ -1504,36 +1514,30 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">20x</span>
@@ -1565,6 +1569,14 @@ export class PDFParse {
 		options.verbosity = pdfjs.VerbosityLevel.ERRORS;
 		this.options = options;
 	}
+&nbsp;
+	public <span class="fstat-no" title="function not covered" >enviroment() {</span>
+<span class="cstat-no" title="statement not covered" >		const isBrowser = typeof window !== 'undefined' &amp;&amp; typeof document !== 'undefined';</span>
+<span class="cstat-no" title="statement not covered" >		const isCJS = typeof require !== 'undefined' &amp;&amp; typeof module !== 'undefined' &amp;&amp; typeof module.exports !== 'undefined';</span>
+<span class="cstat-no" title="statement not covered" >		const isESM = typeof window === 'undefined' &amp;&amp; typeof require === 'undefined';</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return { isBrowser, isCJS, isESM };</span>
+<span class="cstat-no" title="statement not covered" >	}</span>
 &nbsp;
 	public async getText(params: ParseParameters = {}): Promise&lt;TextResult&gt; {
 		const info = await this.load();
@@ -2241,37 +2253,31 @@ export class PDFParse {
 	}
 }
 &nbsp;
-function initPDFJS() {
+export function initPDFJS(workerSrc: string | undefined = undefined) {
 	// biome-ignore lint/suspicious/noExplicitAny: &lt;unsupported underline type&gt;
 	if (typeof (globalThis as any).pdfjs === 'undefined') {
 		// biome-ignore lint/suspicious/noExplicitAny: &lt;unsupported underline type&gt;
 		(globalThis as any).pdfjs = pdfjs;
 	}
 &nbsp;
-	const isBrowser = typeof window !== <span class="branch-0 cbranch-no" title="branch not covered" >'undefined' &amp;&amp; typeof document !== 'undefined';</span>
-	const isCJS = typeof require !== 'undefined' &amp;&amp; typeof module !== 'undefined' &amp;&amp; typeof module.exports !== 'undefined';
-	const isESM = typeof window === 'undefined' &amp;&amp; typeof require === 'undefined';
-&nbsp;
 	// biome-ignore lint/suspicious/noExplicitAny: &lt;unsupported underline type&gt;
 	const worker: any = WorkerUrl.<span class="branch-0 cbranch-no" title="branch not covered" >default || WorkerUrl;</span>
-&nbsp;
 	if (pdfjs?.GlobalWorkerOptions === null) <span class="branch-0 cbranch-no" title="branch not covered" >return;</span>
 &nbsp;
-	if (isBrowser) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >		pdfjs.GlobalWorkerOptions.workerSrc = worker;</span>
-	} else if (isCJS) {
-		if (typeof worker === 'string' &amp;&amp; worker.startsWith('data:text/javascript')) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >			pdfjs.GlobalWorkerOptions.workerSrc = worker;</span>
-<span class="cstat-no" title="statement not covered" >		}</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >	} else if (isESM) {</span>
-		// For ESM in Node.js, the worker is imported at the top of the file
-		// to prevent "Invalid URL" error when using pnpm workspaces or ESM
-		// Import worker for ESM in Node.js to prevent "Invalid URL" error
+	if (workerSrc !== undefined) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >		pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;</span>
+<span class="cstat-no" title="statement not covered" >		return;</span>
+<span class="cstat-no" title="statement not covered" >	}</span>
 &nbsp;
-		// biome-ignore lint/suspicious/noExplicitAny: &lt;worker module import&gt;
-<span class="cstat-no" title="statement not covered" >		import('pdfjs-dist/legacy/build/pdf.worker.mjs' as any).catch(() =&gt; {</span>
-			// Worker import is optional, pdfjs will fall back to inline worker
-<span class="cstat-no" title="statement not covered" >		});</span>
+	const isNodeJS =
+		typeof process === 'object' &amp;&amp;
+		`${process}` === '[object process]' &amp;&amp;
+		!process.versions.nw &amp;&amp;
+		// biome-ignore lint/suspicious/noExplicitAny: &lt;unsupported underline type&gt;
+		!(process.versions.<span class="branch-0 cbranch-no" title="branch not covered" >electron &amp;&amp; typeof (process as any).type !== <span class="branch-0 cbranch-no" title="branch not covered" >'undefined' &amp;&amp; (p</span>rocess as any).type !== 'browser');</span>
+&nbsp;
+	if (!isNodeJS) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >		pdfjs.GlobalWorkerOptions.workerSrc = worker;</span>
 <span class="cstat-no" title="statement not covered" >	}</span>
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -2281,7 +2287,7 @@ function initPDFJS() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-07T23:36:23.075Z
+                at 2025-10-08T02:59:40.164Z
             </div>
         <script src="../prettify.js"></script>
         <script>
