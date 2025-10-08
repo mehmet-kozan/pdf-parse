@@ -39,7 +39,7 @@
 * [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Not cross-platform, depends on xpdf
 * [j-pdfjson](https://www.npmjs.com/package/j-pdfjson) — Fork of pdf2json
 * [pdfreader](https://www.npmjs.com/package/pdfreader) — Uses pdf2json
-* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Not cross-platform, depends on xpdf
+* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Not cross-platform, depends on xpdf  
 
 > **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue.[`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/bench.html)
 
@@ -151,7 +151,7 @@ for (const pageData of result.pages) {
 ```
 
 ## Web / Browser
-- After running `npm run build`, you will find both regular and minified browser bundles in `dist/browser` (e.g., `pdf-parse.es.js` and `pdf-parse.es.min.js`).
+
 - Check: [`live demo`](https://mehmet-kozan.github.io/pdf-parse/)
 - Live demo source: [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
 
@@ -169,7 +169,7 @@ You can include the browser bundle directly from a CDN. Use the latest version:
 Or specify a particular version:
 
 - [https://cdn.jsdelivr.net/npm/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js)
-- [https://unpkg.com/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js)
+- [https://unpkg.com/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js)  
 
 
 > **Worker Note:** In browser environments, the package sets `pdfjs.GlobalWorkerOptions.workerSrc` automatically when imported from the built browser bundle. If you use a custom build or host `pdf.worker` yourself, configure pdfjs accordingly.
