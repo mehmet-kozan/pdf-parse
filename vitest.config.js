@@ -7,7 +7,7 @@ export default defineConfig({
 		slowTestThreshold: 1000,
 		globals: true,
 		threads: false,
-		exclude: ['**/node_modules/**', '**/dist/**', '**/_*', '**/_*.test.*', '**/_*.spec.*'],
+		exclude: ['**/node_modules/**', '**/dist/**', '**/_*', '**/_*.test.*', '**/_*.spec.*', '**/test_ava/**', '**/test_integration/**'],
 		reporters: ['default', 'html'],
 		clean: true,
 		outputFile: {

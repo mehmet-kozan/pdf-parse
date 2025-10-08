@@ -1,5 +1,5 @@
 import type { TypedArray } from './DocumentInitParameters.js';
-import { PDFParse } from './PDFParse.js';
+import { initPDFJS, PDFParse } from './PDFParse.js';
 
 export type { DocumentInitParameters, PDFDataRangeTransport, PDFWorker, TypedArray } from './DocumentInitParameters.js';
 export type { EmbeddedImage, ImageKindKey, ImageKindValue, ImageResult, PageImages } from './ImageResult.js';
@@ -32,4 +32,4 @@ async function pdf(data: string | URL | number[] | ArrayBuffer | TypedArray) {
 	return text;
 }
 
-export { PDFParse, pdf };
+export { PDFParse, pdf, initPDFJS };

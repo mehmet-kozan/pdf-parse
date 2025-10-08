@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.2.1",
+	"version": "2.2.2",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
@@ -64,6 +64,7 @@
 		"clean:site": "rimraf gh-pages/test-report gh-pages/coverage gh-pages/benchmark gh-pages/demo/dist-browser",
 		"prepare": "npm run build",
 		"test": "vitest run",
+		"test:ava": "ava test_ava --verbose --no-cache --serial --no-worker-threads",
 		"test:ui": "vitest --ui --coverage",
 		"test:watch": "vitest",
 		"coverage": "vitest run --coverage",
@@ -84,6 +85,7 @@
 		"@types/node": "^24.7.0",
 		"@vitest/coverage-v8": "^3.2.4",
 		"@vitest/ui": "^3.2.4",
+		"ava": "^6.4.1",
 		"npm-run-all": "^4.1.5",
 		"pdf2json": "^3.2.2",
 		"rimraf": "^6.0.1",

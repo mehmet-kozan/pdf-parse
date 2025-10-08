@@ -5,15 +5,40 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "debug vitest current file",
 			"type": "node",
 			"request": "launch",
-			"name": "debug test",
 			"autoAttachChildProcesses": true,
 			"skipFiles": ["<node_internals>/**", "**/node_modules/**"],
 			"program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
 			"args": ["run", "${relativeFile}", "--test-timeout=9999999"],
 			"smartStep": true,
 			"console": "integratedTerminal"
+		},
+		{
+			"name": "debug ava test",
+			"type": "node",
+			"request": "launch",
+			"runtimeArgs": ["--inspect-brk"],
+			"runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
+			"args": ["test_ava/common.test.cjs", "--no-worker-threads", "--serial", "--verbose"],
+			"cwd": "${workspaceFolder}",
+			"console": "integratedTerminal",
+			"autoAttachChildProcesses": true,
+			"smartStep": true,
+			"skipFiles": ["<node_internals>/**"]
+		},
+		{
+			"name": "debug current file",
+			"type": "node",
+			"request": "launch",
+			"program": "${file}",
+			"runtimeArgs": ["--inspect-brk"],
+			"cwd": "${workspaceFolder}",
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+			"autoAttachChildProcesses": false,
+			"internalConsoleOptions": "neverOpen"
 		}
 	]
 }

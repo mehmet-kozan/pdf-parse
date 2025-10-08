@@ -27,6 +27,14 @@ export class PDFParse {
 		this.options = options;
 	}
 
+	public enviroment() {
+		const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+		const isCJS = typeof require !== 'undefined' && typeof module !== 'undefined' && typeof module.exports !== 'undefined';
+		const isESM = typeof window === 'undefined' && typeof require === 'undefined';
+
+		return { isBrowser, isCJS, isESM };
+	}
+
 	public async getText(params: ParseParameters = {}): Promise<TextResult> {
 		const info = await this.load();
 		const result = new TextResult(info);
@@ -702,36 +710,30 @@ export class PDFParse {
 	}
 }
 
-function initPDFJS() {
+export function initPDFJS(workerSrc: string | undefined = undefined) {
 	// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
 	if (typeof (globalThis as any).pdfjs === 'undefined') {
 		// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
 		(globalThis as any).pdfjs = pdfjs;
 	}
 
-	const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
-	const isCJS = typeof require !== 'undefined' && typeof module !== 'undefined' && typeof module.exports !== 'undefined';
-	const isESM = typeof window === 'undefined' && typeof require === 'undefined';
-
 	// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
 	const worker: any = WorkerUrl.default || WorkerUrl;
-
 	if (pdfjs?.GlobalWorkerOptions === null) return;
 
-	if (isBrowser) {
-		pdfjs.GlobalWorkerOptions.workerSrc = worker;
-	} else if (isCJS) {
-		if (typeof worker === 'string' && worker.startsWith('data:text/javascript')) {
-			pdfjs.GlobalWorkerOptions.workerSrc = worker;
-		}
-	} else if (isESM) {
-		// For ESM in Node.js, the worker is imported at the top of the file
-		// to prevent "Invalid URL" error when using pnpm workspaces or ESM
-		// Import worker for ESM in Node.js to prevent "Invalid URL" error
+	if (workerSrc !== undefined) {
+		pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
+		return;
+	}
 
-		// biome-ignore lint/suspicious/noExplicitAny: <worker module import>
-		import('pdfjs-dist/legacy/build/pdf.worker.mjs' as any).catch(() => {
-			// Worker import is optional, pdfjs will fall back to inline worker
-		});
+	const isNodeJS =
+		typeof process === 'object' &&
+		`${process}` === '[object process]' &&
+		!process.versions.nw &&
+		// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
+		!(process.versions.electron && typeof (process as any).type !== 'undefined' && (process as any).type !== 'browser');
+
+	if (!isNodeJS) {
+		pdfjs.GlobalWorkerOptions.workerSrc = worker;
 	}
 }

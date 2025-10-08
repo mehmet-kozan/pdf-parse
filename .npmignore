@@ -5,6 +5,8 @@ example/
 # Test dosyaları
 tests/
 test/
+test_ava/
+test_integration/
 __tests__/
 *.test.js
 *.spec.js
