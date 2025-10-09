@@ -1,9 +1,9 @@
 import type { TypedArray } from './DocumentInitParameters.js';
-import { initPDFJS, PDFParse } from './PDFParse.js';
+import { PDFParse, setWorker } from './PDFParse.js';
 
 export type { DocumentInitParameters, PDFDataRangeTransport, PDFWorker, TypedArray } from './DocumentInitParameters.js';
 export type { EmbeddedImage, ImageKindKey, ImageKindValue, ImageResult, PageImages } from './ImageResult.js';
-export type { InfoResult, Metadata } from './InfoResult.js';
+export type { DateNode, InfoResult, LinkNode, Metadata, OutlineNode } from './InfoResult.js';
 export type { PageToImage, PageToImageResult } from './PageToImageResult.js';
 export type { PageTableResult, TableResult } from './TableResult.js';
 export type { PageTextResult, TextResult } from './TextResult.js';
@@ -32,4 +32,4 @@ async function pdf(data: string | URL | number[] | ArrayBuffer | TypedArray) {
 	return text;
 }
 
-export { PDFParse, pdf, initPDFJS };
+export { PDFParse, pdf, setWorker };

@@ -1,5 +1,4 @@
 import type { ImageKind } from 'pdfjs-dist/legacy/build/pdf.mjs';
-import type { InfoResult, Metadata } from './InfoResult.js';
 
 /**
  * ImageKindKey
@@ -13,13 +12,11 @@ export type ImageKindKey = keyof typeof ImageKind;
  */
 export type ImageKindValue = (typeof ImageKind)[ImageKindKey];
 
-export class ImageResult implements InfoResult {
+export class ImageResult {
 	pages: Array<PageImages> = [];
 	total: number = 0;
-	info?: object | undefined;
-	metadata?: Metadata | undefined;
 
-	getPageImage(num: number, name: string): EmbeddedImage | null {
+	public getPageImage(num: number, name: string): EmbeddedImage | null {
 		for (const pageData of this.pages) {
 			if (pageData.pageNumber === num) {
 				for (const img of pageData.images) {
@@ -32,8 +29,8 @@ export class ImageResult implements InfoResult {
 		return null;
 	}
 
-	constructor(info: InfoResult) {
-		Object.assign(this, info);
+	constructor(total: number) {
+		this.total = total;
 	}
 }
 

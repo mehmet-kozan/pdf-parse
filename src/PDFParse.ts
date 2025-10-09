@@ -7,7 +7,7 @@ import type { DocumentInitParameters } from './DocumentInitParameters.js';
 import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
 import type { TableData } from './geometry/TableData.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
-import type { InfoResult } from './InfoResult.js';
+import { InfoResult } from './InfoResult.js';
 import { PageToImageResult } from './PageToImageResult.js';
 import type { ParseParameters } from './ParseParameters.js';
 import { type MinMax, PathGeometry } from './PathGeometry.js';
@@ -16,36 +16,58 @@ import { TextResult } from './TextResult.js';
 
 type HyperlinkPosition = { rect: { left: number; top: number; right: number; bottom: number }; url: string; text: string; used: boolean };
 
-initPDFJS();
+setWorker();
 
 export class PDFParse {
 	private readonly options: DocumentInitParameters;
 	private doc: PDFDocumentProxy | undefined;
 
 	constructor(options: DocumentInitParameters) {
-		options.verbosity = pdfjs.VerbosityLevel.ERRORS;
+		if (options.verbosity === undefined) {
+			options.verbosity = pdfjs.VerbosityLevel.ERRORS;
+		}
+
+		if (typeof options.data === 'object' && 'buffer' in options.data) {
+			options.data = new Uint8Array(options.data);
+		}
+
 		this.options = options;
 	}
 
-	public enviroment() {
-		const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
-		const isCJS = typeof require !== 'undefined' && typeof module !== 'undefined' && typeof module.exports !== 'undefined';
-		const isESM = typeof window === 'undefined' && typeof require === 'undefined';
-
-		return { isBrowser, isCJS, isESM };
+	public async destroy() {
+		if (this.doc) {
+			await this.doc.destroy();
+			this.doc = undefined;
+		}
 	}
 
-	public async getText(params: ParseParameters = {}): Promise<TextResult> {
-		const info = await this.load();
-		const result = new TextResult(info);
+	public async getInfo(params: ParseParameters = {}): Promise<InfoResult> {
+		const doc = await this.load();
+		const result = new InfoResult(doc.numPages);
 
-		if (this.doc === undefined) {
-			throw new Error('PDF document not loaded');
+		const { info, metadata } = await doc.getMetadata();
+		result.info = info;
+		result.metadata = metadata;
+
+		result.fingerprints = doc.fingerprints;
+		result.outline = await doc.getOutline();
+		result.permission = await doc.getPermissions();
+
+		if (params.parseHyperlinks) {
 		}
+
+		return result;
+	}
+
+	// getLinks
+
+	public async getText(params: ParseParameters = {}): Promise<TextResult> {
+		const doc = await this.load();
+		const result = new TextResult(doc.numPages);
 
 		for (let i: number = 1; i <= result.total; i++) {
 			if (this.shouldParse(i, result.total, params)) {
-				const pageProxy = await this.doc.getPage(i);
+				const pageProxy = await doc.getPage(i);
 				const text = await this.getPageText(pageProxy, params);
 				result.pages.push({
 					text: text,
@@ -55,8 +77,8 @@ export class PDFParse {
 			}
 		}
 
-		await this.doc.destroy();
-		this.doc = undefined;
+		//await this.doc.destroy();
+		//this.doc = undefined;
 
 		for (const page of result.pages) {
 			result.text += `${page.text}\n\n`;
@@ -65,23 +87,13 @@ export class PDFParse {
 		return result;
 	}
 
-	private async load(): Promise<InfoResult> {
-		const opts = { ...this.options };
-
-		if (typeof this.options.data === 'object' && 'buffer' in this.options.data) {
-			opts.data = new Uint8Array(this.options.data);
+	private async load(): Promise<PDFDocumentProxy> {
+		if (this.doc === undefined) {
+			const loadingTask = pdfjs.getDocument(this.options);
+			this.doc = await loadingTask.promise;
 		}
 
-		const loadingTask = pdfjs.getDocument(opts);
-
-		this.doc = await loadingTask.promise;
-		const data = await this.doc.getMetadata();
-
-		return {
-			total: this.doc.numPages,
-			info: data.info,
-			metadata: data.metadata,
-		};
+		return this.doc;
 	}
 
 	private shouldParse(currentPage: number, totalPage: number, params: ParseParameters): boolean {
@@ -201,16 +213,12 @@ export class PDFParse {
 	}
 
 	public async getImage(params: ParseParameters = {}): Promise<ImageResult> {
-		const info = await this.load();
-		const result = new ImageResult(info);
-
-		if (this.doc === undefined) {
-			throw new Error('PDF document not loaded');
-		}
+		const doc = await this.load();
+		const result = new ImageResult(doc.numPages);
 
 		for (let i: number = 1; i <= result.total; i++) {
 			if (this.shouldParse(i, result.total, params)) {
-				const page = await this.doc.getPage(i);
+				const page = await doc.getPage(i);
 				const ops = await page.getOperatorList();
 
 				const pageImages: PageImages = { pageNumber: i, images: [] };
@@ -225,7 +233,7 @@ export class PDFParse {
 						const { width, height, kind, data } = await imgPromise;
 
 						// biome-ignore lint/suspicious/noExplicitAny: <underlying library does not contain valid typedefs>
-						const canvasFactory = (this.doc as any).canvasFactory;
+						const canvasFactory = (doc as any).canvasFactory;
 
 						const canvasAndContext = canvasFactory.create(width, height);
 						const context = canvasAndContext.context;
@@ -280,8 +288,8 @@ export class PDFParse {
 			}
 		}
 
-		await this.doc.destroy();
-		this.doc = undefined;
+		//await this.doc.destroy();
+		//this.doc = undefined;
 
 		return result;
 	}
@@ -395,8 +403,8 @@ export class PDFParse {
 		//this.options.cMapPacked = true;
 		//this.options.standardFontDataUrl = new URL('legacy/build/standard_fonts/', base).href;
 
-		const info = await this.load();
-		const result = new PageToImageResult(info);
+		const doc = await this.load();
+		const result = new PageToImageResult(doc.numPages);
 
 		if (this.doc === undefined) {
 			throw new Error('PDF document not loaded');
@@ -457,8 +465,8 @@ export class PDFParse {
 	}
 
 	public async getTable(params: ParseParameters = {}): Promise<TableResult> {
-		const info = await this.load();
-		const result = new TableResult(info);
+		const doc = await this.load();
+		const result = new TableResult(doc.numPages);
 
 		if (this.doc === undefined) {
 			throw new Error('PDF document not loaded');
@@ -710,7 +718,7 @@ export class PDFParse {
 	}
 }
 
-export function initPDFJS(workerSrc: string | undefined = undefined) {
+export function setWorker(workerSrc: string | undefined = undefined) {
 	// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
 	if (typeof (globalThis as any).pdfjs === 'undefined') {
 		// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
