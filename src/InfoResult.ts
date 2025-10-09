@@ -31,13 +31,21 @@ export type DateNode = {
 	XapMetadataDate?: Date | null;
 };
 
-export type LinkNode = {
-	// link text
-	text: string;
-	// link href
-	href: string;
+export type PageLinkResult = {
 	// pdf page number
-	num: number;
+	pageNumber: number;
+
+	// optional printed page label (as shown in PDF viewers). May be null/undefined when not available.
+	pageLabel?: string | null;
+
+	// page embed text hyperlinks
+	links: Array<{ text: string; url: string }>;
+
+	// page width
+	width: number;
+
+	// page height
+	height: number;
 };
 
 export class InfoResult {
@@ -48,7 +56,8 @@ export class InfoResult {
 	 *   The info object contains common fields like title,
 	 *   author, subject, and creation/modify dates.
 	 */
-	info?: object;
+	// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
+	info?: any;
 	//document metadata, XMP metadata, XAP metadata
 	metadata?: Metadata;
 
@@ -74,7 +83,7 @@ export class InfoResult {
 	outline?: Array<OutlineNode> | null;
 
 	// text-level embed hyperlink
-	links: Array<LinkNode> = [];
+	pages: Array<PageLinkResult> = [];
 
 	public getDateNode(): DateNode {
 		const result: DateNode = {};

@@ -3,7 +3,7 @@ import { PDFParse, setWorker } from './PDFParse.js';
 
 export type { DocumentInitParameters, PDFDataRangeTransport, PDFWorker, TypedArray } from './DocumentInitParameters.js';
 export type { EmbeddedImage, ImageKindKey, ImageKindValue, ImageResult, PageImages } from './ImageResult.js';
-export type { DateNode, InfoResult, LinkNode, Metadata, OutlineNode } from './InfoResult.js';
+export type { DateNode, InfoResult, Metadata, OutlineNode, PageLinkResult } from './InfoResult.js';
 export type { PageToImage, PageToImageResult } from './PageToImageResult.js';
 export type { PageTableResult, TableResult } from './TableResult.js';
 export type { PageTextResult, TextResult } from './TextResult.js';

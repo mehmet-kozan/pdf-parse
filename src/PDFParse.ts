@@ -7,7 +7,7 @@ import type { DocumentInitParameters } from './DocumentInitParameters.js';
 import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
 import type { TableData } from './geometry/TableData.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
-import { InfoResult } from './InfoResult.js';
+import { InfoResult, type PageLinkResult } from './InfoResult.js';
 import { PageToImageResult } from './PageToImageResult.js';
 import type { ParseParameters } from './ParseParameters.js';
 import { type MinMax, PathGeometry } from './PathGeometry.js';
@@ -52,14 +52,50 @@ export class PDFParse {
 		result.fingerprints = doc.fingerprints;
 		result.outline = await doc.getOutline();
 		result.permission = await doc.getPermissions();
+		const pageLabels = await doc.getPageLabels();
 
 		if (params.parseHyperlinks) {
+			for (let i: number = 1; i <= result.total; i++) {
+				if (this.shouldParse(i, result.total, params)) {
+					const page = await doc.getPage(i);
+
+					const pageLinkResult = await this.getPageLinks(page);
+					pageLinkResult.pageLabel = pageLabels?.[page.pageNumber];
+					result.pages.push(pageLinkResult);
+					page.cleanup();
+				}
+			}
 		}
 
 		return result;
 	}
 
-	// getLinks
+	private async getPageLinks(page: PDFPageProxy): Promise<PageLinkResult> {
+		const viewport = page.getViewport({ scale: 1 });
+
+		const result: PageLinkResult = {
+			pageNumber: page.pageNumber,
+			links: [],
+			width: viewport.width,
+			height: viewport.height,
+		};
+
+		// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
+		const annotations: Array<any> = (await page.getAnnotations({ intent: 'display' })) || [];
+
+		for (const i of annotations) {
+			if (i.subtype !== 'Link') continue;
+
+			const url: string = i.url ?? i.unsafeUrl;
+			if (!url) continue;
+
+			const text: string = i.overlaidText || '';
+
+			result.links.push({ url, text });
+		}
+
+		return result;
+	}
 
 	public async getText(params: ParseParameters = {}): Promise<TextResult> {
 		const doc = await this.load();
