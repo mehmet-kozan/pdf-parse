@@ -48,7 +48,7 @@ export class PDFParse {
 		return isNodeJS;
 	}
 
-	public static setWorker(workerSrc: string | undefined = undefined): string {
+	public static setWorker(workerSrc?: string): string {
 		// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
 		if (typeof (globalThis as any).pdfjs === 'undefined') {
 			// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
@@ -59,11 +59,12 @@ export class PDFParse {
 
 		if (workerSrc !== undefined) {
 			pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
-			return workerSrc;
+			return pdfjs.GlobalWorkerOptions.workerSrc;
 		}
 
 		if (!PDFParse.isNodeJS) {
-			pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.mjs';
+			pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs';
+			return pdfjs.GlobalWorkerOptions.workerSrc;
 		}
 
 		return pdfjs.GlobalWorkerOptions.workerSrc;

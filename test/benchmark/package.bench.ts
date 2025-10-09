@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import PDF2JSON from 'pdf2json';
 import { bench, describe } from 'vitest';
 import { PDFParse as BrowserPDFParse } from '../../dist/browser/pdf-parse.es.min.js';
-import pdf from '../../dist/cjs/index.cjs';
+import { PDFParse as PDFParseCJS } from '../../dist/cjs/index.cjs';
 import { PDFParse } from '../../dist/esm/index';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -19,10 +19,14 @@ async function pdf_parse_esm_promise(buffer: Buffer<ArrayBufferLike>) {
 }
 
 async function pdf_parse_cjs_promise(buffer: Buffer<ArrayBufferLike>) {
-	await pdf(buffer);
+	const parser = new PDFParseCJS({ data: buffer });
+
+	await parser.getText();
+	await parser.destroy();
 }
 
 async function pdf_parse_browser_promise(buffer: Buffer<ArrayBufferLike>) {
+	BrowserPDFParse.setWorker('https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs');
 	const parser = new BrowserPDFParse({ data: buffer });
 	await parser.getText();
 	await parser.destroy();
@@ -45,7 +49,7 @@ describe('Parsing Files', async () => {
 		async () => {
 			await pdf_parse_esm_promise(data);
 		},
-		{ iterations: 50 },
+		{ iterations: 10 },
 	);
 
 	bench(
@@ -53,7 +57,7 @@ describe('Parsing Files', async () => {
 		async () => {
 			await pdf_parse_cjs_promise(data);
 		},
-		{ iterations: 50 },
+		{ iterations: 10 },
 	);
 
 	bench(
@@ -61,7 +65,7 @@ describe('Parsing Files', async () => {
 		async () => {
 			await pdf_parse_browser_promise(data);
 		},
-		{ iterations: 50 },
+		{ iterations: 10 },
 	);
 
 	bench(
@@ -69,6 +73,6 @@ describe('Parsing Files', async () => {
 		async () => {
 			await pdf2json_promise(data);
 		},
-		{ iterations: 50 },
+		{ iterations: 10 },
 	);
 });
