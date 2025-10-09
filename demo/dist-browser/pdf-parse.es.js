@@ -31078,7 +31078,7 @@ class PDFParse {
     if (options.verbosity === void 0) {
       options.verbosity = VerbosityLevel.ERRORS;
     }
-    if (typeof options.data === "object" && "buffer" in options.data) {
+    if (typeof Buffer !== "undefined" && options.data instanceof Buffer) {
       options.data = new Uint8Array(options.data);
     }
     this.options = options;
@@ -31435,8 +31435,6 @@ class PDFParse {
         page.cleanup();
       }
     }
-    await this.doc.destroy();
-    this.doc = void 0;
     return result;
   }
   async getTable(params = {}) {
@@ -31459,7 +31457,6 @@ class PDFParse {
         page.cleanup();
       }
     }
-    await this.doc.destroy();
     return result;
   }
   getPathGeometry(mm) {
