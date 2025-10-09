@@ -19,9 +19,9 @@ var __webpack_modules__ = {
   /***/
   34: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var isCallable = __webpack_require__2(4901);
-      module2.exports = function(it) {
+      module.exports = function(it) {
         return typeof it == "object" ? it !== null : isCallable(it);
       };
     })
@@ -29,14 +29,14 @@ var __webpack_modules__ = {
   /***/
   81: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var call = __webpack_require__2(9565);
       var aCallable = __webpack_require__2(9306);
       var anObject = __webpack_require__2(8551);
       var tryToString = __webpack_require__2(6823);
       var getIteratorMethod = __webpack_require__2(851);
       var $TypeError = TypeError;
-      module2.exports = function(argument, usingIterator) {
+      module.exports = function(argument, usingIterator) {
         var iteratorMethod = arguments.length < 2 ? getIteratorMethod(argument) : usingIterator;
         if (aCallable(iteratorMethod)) return anObject(call(iteratorMethod, argument));
         throw new $TypeError(tryToString(argument) + " is not iterable");
@@ -77,7 +77,7 @@ var __webpack_modules__ = {
   /***/
   283: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
       var fails = __webpack_require__2(9039);
       var isCallable = __webpack_require__2(4901);
@@ -98,7 +98,7 @@ var __webpack_modules__ = {
         }, "length", { value: 8 }).length !== 8;
       });
       var TEMPLATE = String(String).split("String");
-      var makeBuiltIn = module2.exports = function(value, name, options) {
+      var makeBuiltIn = module.exports = function(value, name, options) {
         if (stringSlice($String(name), 0, 7) === "Symbol(") {
           name = "[" + replace($String(name), /^Symbol\(([^)]*)\).*$/, "$1") + "]";
         }
@@ -131,7 +131,7 @@ var __webpack_modules__ = {
   /***/
   350: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var DESCRIPTORS = __webpack_require__2(3724);
       var hasOwn = __webpack_require__2(9297);
       var FunctionPrototype = Function.prototype;
@@ -140,7 +140,7 @@ var __webpack_modules__ = {
       var PROPER = EXISTS && (function something() {
       }).name === "something";
       var CONFIGURABLE = EXISTS && (!DESCRIPTORS || DESCRIPTORS && getDescriptor(FunctionPrototype, "name").configurable);
-      module2.exports = {
+      module.exports = {
         EXISTS,
         PROPER,
         CONFIGURABLE
@@ -150,16 +150,16 @@ var __webpack_modules__ = {
   /***/
   397: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var getBuiltIn = __webpack_require__2(7751);
-      module2.exports = getBuiltIn("document", "documentElement");
+      module.exports = getBuiltIn("document", "documentElement");
     })
   ),
   /***/
   421: (
     /***/
-    ((module2) => {
-      module2.exports = {};
+    ((module) => {
+      module.exports = {};
     })
   ),
   /***/
@@ -198,9 +198,9 @@ var __webpack_modules__ = {
   /***/
   507: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var call = __webpack_require__2(9565);
-      module2.exports = function(record, fn, ITERATOR_INSTEAD_OF_RECORD) {
+      module.exports = function(record, fn, ITERATOR_INSTEAD_OF_RECORD) {
         var iterator = ITERATOR_INSTEAD_OF_RECORD ? record : record.iterator;
         var next = record.next;
         var step, result;
@@ -271,9 +271,9 @@ var __webpack_modules__ = {
   /***/
   616: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var fails = __webpack_require__2(9039);
-      module2.exports = !fails(function() {
+      module.exports = !fails(function() {
         var test = (function() {
         }).bind();
         return typeof test != "function" || test.hasOwnProperty("prototype");
@@ -283,10 +283,10 @@ var __webpack_modules__ = {
   /***/
   655: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var classof = __webpack_require__2(6955);
       var $String = String;
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         if (classof(argument) === "Symbol") throw new TypeError("Cannot convert a Symbol value to a string");
         return $String(argument);
       };
@@ -295,10 +295,10 @@ var __webpack_modules__ = {
   /***/
   679: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var isPrototypeOf = __webpack_require__2(1625);
       var $TypeError = TypeError;
-      module2.exports = function(it, Prototype) {
+      module.exports = function(it, Prototype) {
         if (isPrototypeOf(Prototype, it)) return it;
         throw new $TypeError("Incorrect invocation");
       };
@@ -307,8 +307,8 @@ var __webpack_modules__ = {
   /***/
   684: (
     /***/
-    ((module2) => {
-      module2.exports = function(methodName, argument) {
+    ((module) => {
+      module.exports = function(methodName, argument) {
         var method = typeof Iterator == "function" && Iterator.prototype[methodName];
         if (method) try {
           method.call({ next: null }, argument).next();
@@ -321,10 +321,10 @@ var __webpack_modules__ = {
   /***/
   741: (
     /***/
-    ((module2) => {
+    ((module) => {
       var ceil2 = Math.ceil;
       var floor2 = Math.floor;
-      module2.exports = Math.trunc || function trunc(x) {
+      module.exports = Math.trunc || function trunc(x) {
         var n = +x;
         return (n > 0 ? floor2 : ceil2)(n);
       };
@@ -333,13 +333,13 @@ var __webpack_modules__ = {
   /***/
   757: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var getBuiltIn = __webpack_require__2(7751);
       var isCallable = __webpack_require__2(4901);
       var isPrototypeOf = __webpack_require__2(1625);
       var USE_SYMBOL_AS_UID = __webpack_require__2(7040);
       var $Object = Object;
-      module2.exports = USE_SYMBOL_AS_UID ? function(it) {
+      module.exports = USE_SYMBOL_AS_UID ? function(it) {
         return typeof it == "symbol";
       } : function(it) {
         var $Symbol = getBuiltIn("Symbol");
@@ -350,14 +350,14 @@ var __webpack_modules__ = {
   /***/
   851: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var classof = __webpack_require__2(6955);
       var getMethod = __webpack_require__2(5966);
       var isNullOrUndefined = __webpack_require__2(4117);
       var Iterators = __webpack_require__2(6269);
       var wellKnownSymbol = __webpack_require__2(8227);
       var ITERATOR = wellKnownSymbol("iterator");
-      module2.exports = function(it) {
+      module.exports = function(it) {
         if (!isNullOrUndefined(it)) return getMethod(it, ITERATOR) || getMethod(it, "@@iterator") || Iterators[classof(it)];
       };
     })
@@ -365,9 +365,9 @@ var __webpack_modules__ = {
   /***/
   944: (
     /***/
-    ((module2) => {
+    ((module) => {
       var $TypeError = TypeError;
-      module2.exports = function(options) {
+      module.exports = function(options) {
         var alphabet = options && options.alphabet;
         if (alphabet === void 0 || alphabet === "base64" || alphabet === "base64url") return alphabet || "base64";
         throw new $TypeError("Incorrect `alphabet` option");
@@ -377,10 +377,10 @@ var __webpack_modules__ = {
   /***/
   1072: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var internalObjectKeys = __webpack_require__2(1828);
       var enumBugKeys = __webpack_require__2(8727);
-      module2.exports = Object.keys || function keys(O) {
+      module.exports = Object.keys || function keys(O) {
         return internalObjectKeys(O, enumBugKeys);
       };
     })
@@ -388,8 +388,8 @@ var __webpack_modules__ = {
   /***/
   1103: (
     /***/
-    ((module2) => {
-      module2.exports = function(exec) {
+    ((module) => {
+      module.exports = function(exec) {
         try {
           return { error: false, value: exec() };
         } catch (error) {
@@ -401,9 +401,9 @@ var __webpack_modules__ = {
   /***/
   1108: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var classof = __webpack_require__2(6955);
-      module2.exports = function(it) {
+      module.exports = function(it) {
         var klass = classof(it);
         return klass === "BigInt64Array" || klass === "BigUint64Array";
       };
@@ -443,7 +443,7 @@ var __webpack_modules__ = {
   /***/
   1181: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var NATIVE_WEAK_MAP = __webpack_require__2(8622);
       var globalThis2 = __webpack_require__2(4576);
       var isObject = __webpack_require__2(34);
@@ -501,7 +501,7 @@ var __webpack_modules__ = {
           return hasOwn(it, STATE);
         };
       }
-      module2.exports = {
+      module.exports = {
         set,
         get,
         has,
@@ -513,9 +513,9 @@ var __webpack_modules__ = {
   /***/
   1291: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var trunc = __webpack_require__2(741);
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         var number = +argument;
         return number !== number || number === 0 ? 0 : trunc(number);
       };
@@ -524,9 +524,9 @@ var __webpack_modules__ = {
   /***/
   1385: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var iteratorClose = __webpack_require__2(9539);
-      module2.exports = function(iters, kind, value) {
+      module.exports = function(iters, kind, value) {
         for (var i = iters.length - 1; i >= 0; i--) {
           if (iters[i] === void 0) continue;
           try {
@@ -544,13 +544,13 @@ var __webpack_modules__ = {
   /***/
   1548: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var fails = __webpack_require__2(9039);
       var V8 = __webpack_require__2(9519);
       var ENVIRONMENT = __webpack_require__2(4215);
       var structuredClone2 = globalThis2.structuredClone;
-      module2.exports = !!structuredClone2 && !fails(function() {
+      module.exports = !!structuredClone2 && !fails(function() {
         if (ENVIRONMENT === "DENO" && V8 > 92 || ENVIRONMENT === "NODE" && V8 > 94 || ENVIRONMENT === "BROWSER" && V8 > 97) return false;
         var buffer = new ArrayBuffer(8);
         var clone = structuredClone2(buffer, { transfer: [buffer] });
@@ -568,9 +568,9 @@ var __webpack_modules__ = {
   /***/
   1625: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
-      module2.exports = uncurryThis({}.isPrototypeOf);
+      module.exports = uncurryThis({}.isPrototypeOf);
     })
   ),
   /***/
@@ -662,8 +662,8 @@ var __webpack_modules__ = {
   /***/
   1767: (
     /***/
-    ((module2) => {
-      module2.exports = function(obj) {
+    ((module) => {
+      module.exports = function(obj) {
         return {
           iterator: obj,
           next: obj.next,
@@ -675,14 +675,14 @@ var __webpack_modules__ = {
   /***/
   1828: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
       var hasOwn = __webpack_require__2(9297);
       var toIndexedObject = __webpack_require__2(5397);
       var indexOf = __webpack_require__2(9617).indexOf;
       var hiddenKeys = __webpack_require__2(421);
       var push = uncurryThis([].push);
-      module2.exports = function(object, names) {
+      module.exports = function(object, names) {
         var O = toIndexedObject(object);
         var i = 0;
         var result = [];
@@ -698,10 +698,10 @@ var __webpack_modules__ = {
   /***/
   2106: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var makeBuiltIn = __webpack_require__2(283);
       var defineProperty = __webpack_require__2(4913);
-      module2.exports = function(target, name, descriptor) {
+      module.exports = function(target, name, descriptor) {
         if (descriptor.get) makeBuiltIn(descriptor.get, name, { getter: true });
         if (descriptor.set) makeBuiltIn(descriptor.set, name, { setter: true });
         return defineProperty.f(target, name, descriptor);
@@ -711,22 +711,22 @@ var __webpack_modules__ = {
   /***/
   2140: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var wellKnownSymbol = __webpack_require__2(8227);
       var TO_STRING_TAG = wellKnownSymbol("toStringTag");
       var test = {};
       test[TO_STRING_TAG] = "z";
-      module2.exports = String(test) === "[object z]";
+      module.exports = String(test) === "[object z]";
     })
   ),
   /***/
   2195: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
       var toString = uncurryThis({}.toString);
       var stringSlice = uncurryThis("".slice);
-      module2.exports = function(it) {
+      module.exports = function(it) {
         return stringSlice(toString(it), 8, -1);
       };
     })
@@ -734,9 +734,9 @@ var __webpack_modules__ = {
   /***/
   2211: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var fails = __webpack_require__2(9039);
-      module2.exports = !fails(function() {
+      module.exports = !fails(function() {
         function F() {
         }
         F.prototype.constructor = null;
@@ -747,7 +747,7 @@ var __webpack_modules__ = {
   /***/
   2303: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var uncurryThis = __webpack_require__2(9504);
       var Uint8Array2 = globalThis2.Uint8Array;
@@ -757,7 +757,7 @@ var __webpack_modules__ = {
       var NOT_HEX = /[^\da-f]/i;
       var exec = uncurryThis(NOT_HEX.exec);
       var stringSlice = uncurryThis("".slice);
-      module2.exports = function(string, into) {
+      module.exports = function(string, into) {
         var stringLength = string.length;
         if (stringLength % 2 !== 0) throw new SyntaxError2("String should be an even number of characters");
         var maxLength = into ? min(into.length, stringLength / 2) : stringLength / 2;
@@ -776,7 +776,7 @@ var __webpack_modules__ = {
   /***/
   2360: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var anObject = __webpack_require__2(8551);
       var definePropertiesModule = __webpack_require__2(6801);
       var enumBugKeys = __webpack_require__2(8727);
@@ -826,7 +826,7 @@ var __webpack_modules__ = {
         return NullProtoObject();
       };
       hiddenKeys[IE_PROTO] = true;
-      module2.exports = Object.create || function create(O, Properties) {
+      module.exports = Object.create || function create(O, Properties) {
         var result;
         if (O !== null) {
           EmptyConstructor[PROTOTYPE] = anObject(O);
@@ -904,8 +904,8 @@ var __webpack_modules__ = {
   /***/
   2529: (
     /***/
-    ((module2) => {
-      module2.exports = function(value, done) {
+    ((module) => {
+      module.exports = function(value, done) {
         return { value, done };
       };
     })
@@ -913,9 +913,9 @@ var __webpack_modules__ = {
   /***/
   2603: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var toString = __webpack_require__2(655);
-      module2.exports = function(argument, $default) {
+      module.exports = function(argument, $default) {
         return argument === void 0 ? arguments.length < 2 ? "" : $default : toString(argument);
       };
     })
@@ -923,7 +923,7 @@ var __webpack_modules__ = {
   /***/
   2652: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var bind = __webpack_require__2(6080);
       var call = __webpack_require__2(9565);
       var anObject = __webpack_require__2(8551);
@@ -940,7 +940,7 @@ var __webpack_modules__ = {
         this.result = result;
       };
       var ResultPrototype = Result.prototype;
-      module2.exports = function(iterable, unboundFunction, options) {
+      module.exports = function(iterable, unboundFunction, options) {
         var that = options && options.that;
         var AS_ENTRIES = !!(options && options.AS_ENTRIES);
         var IS_RECORD = !!(options && options.IS_RECORD);
@@ -991,7 +991,7 @@ var __webpack_modules__ = {
   /***/
   2777: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var call = __webpack_require__2(9565);
       var isObject = __webpack_require__2(34);
       var isSymbol = __webpack_require__2(757);
@@ -1000,7 +1000,7 @@ var __webpack_modules__ = {
       var wellKnownSymbol = __webpack_require__2(8227);
       var $TypeError = TypeError;
       var TO_PRIMITIVE = wellKnownSymbol("toPrimitive");
-      module2.exports = function(input, pref) {
+      module.exports = function(input, pref) {
         if (!isObject(input) || isSymbol(input)) return input;
         var exoticToPrim = getMethod(input, TO_PRIMITIVE);
         var result;
@@ -1018,7 +1018,7 @@ var __webpack_modules__ = {
   /***/
   2787: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var hasOwn = __webpack_require__2(9297);
       var isCallable = __webpack_require__2(4901);
       var toObject = __webpack_require__2(8981);
@@ -1027,7 +1027,7 @@ var __webpack_modules__ = {
       var IE_PROTO = sharedKey("IE_PROTO");
       var $Object = Object;
       var ObjectPrototype = $Object.prototype;
-      module2.exports = CORRECT_PROTOTYPE_GETTER ? $Object.getPrototypeOf : function(O) {
+      module.exports = CORRECT_PROTOTYPE_GETTER ? $Object.getPrototypeOf : function(O) {
         var object = toObject(O);
         if (hasOwn(object, IE_PROTO)) return object[IE_PROTO];
         var constructor = object.constructor;
@@ -1041,7 +1041,7 @@ var __webpack_modules__ = {
   /***/
   2796: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var fails = __webpack_require__2(9039);
       var isCallable = __webpack_require__2(4901);
       var replacement = /#|\.prototype\./;
@@ -1055,13 +1055,13 @@ var __webpack_modules__ = {
       var data = isForced.data = {};
       var NATIVE = isForced.NATIVE = "N";
       var POLYFILL = isForced.POLYFILL = "P";
-      module2.exports = isForced;
+      module.exports = isForced;
     })
   ),
   /***/
   2804: (
     /***/
-    ((module2) => {
+    ((module) => {
       var commonAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
       var base64Alphabet = commonAlphabet + "+/";
       var base64UrlAlphabet = commonAlphabet + "-_";
@@ -1071,7 +1071,7 @@ var __webpack_modules__ = {
         for (; index < 64; index++) result[characters.charAt(index)] = index;
         return result;
       };
-      module2.exports = {
+      module.exports = {
         i2c: base64Alphabet,
         c2i: inverse(base64Alphabet),
         i2cUrl: base64UrlAlphabet,
@@ -1082,9 +1082,9 @@ var __webpack_modules__ = {
   /***/
   2812: (
     /***/
-    ((module2) => {
+    ((module) => {
       var $TypeError = TypeError;
-      module2.exports = function(passed, required) {
+      module.exports = function(passed, required) {
         if (passed < required) throw new $TypeError("Not enough arguments");
         return passed;
       };
@@ -1093,22 +1093,22 @@ var __webpack_modules__ = {
   /***/
   2839: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var navigator2 = globalThis2.navigator;
       var userAgent = navigator2 && navigator2.userAgent;
-      module2.exports = userAgent ? String(userAgent) : "";
+      module.exports = userAgent ? String(userAgent) : "";
     })
   ),
   /***/
   2967: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThisAccessor = __webpack_require__2(6706);
       var isObject = __webpack_require__2(34);
       var requireObjectCoercible = __webpack_require__2(7750);
       var aPossiblePrototype = __webpack_require__2(3506);
-      module2.exports = Object.setPrototypeOf || ("__proto__" in {} ? (function() {
+      module.exports = Object.setPrototypeOf || ("__proto__" in {} ? (function() {
         var CORRECT_SETTER = false;
         var test = {};
         var setter;
@@ -1265,11 +1265,11 @@ var __webpack_modules__ = {
   /***/
   3167: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var isCallable = __webpack_require__2(4901);
       var isObject = __webpack_require__2(34);
       var setPrototypeOf = __webpack_require__2(2967);
-      module2.exports = function($this, dummy, Wrapper) {
+      module.exports = function($this, dummy, Wrapper) {
         var NewTarget, NewTargetPrototype;
         if (
           // it can work only with native `setPrototypeOf`
@@ -1283,12 +1283,12 @@ var __webpack_modules__ = {
   /***/
   3238: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var NATIVE_ARRAY_BUFFER = __webpack_require__2(7811);
       var arrayBufferByteLength = __webpack_require__2(7394);
       var DataView2 = globalThis2.DataView;
-      module2.exports = function(O) {
+      module.exports = function(O) {
         if (!NATIVE_ARRAY_BUFFER || arrayBufferByteLength(O) !== 0) return false;
         try {
           new DataView2(O);
@@ -1302,12 +1302,12 @@ var __webpack_modules__ = {
   /***/
   3392: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
       var id = 0;
       var postfix = Math.random();
       var toString = uncurryThis(1.1.toString);
-      module2.exports = function(key) {
+      module.exports = function(key) {
         return "Symbol(" + (key === void 0 ? "" : key) + ")_" + toString(++id + postfix, 36);
       };
     })
@@ -1315,7 +1315,7 @@ var __webpack_modules__ = {
   /***/
   3440: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var aSet = __webpack_require__2(7080);
       var SetHelpers = __webpack_require__2(4402);
       var clone = __webpack_require__2(9286);
@@ -1325,7 +1325,7 @@ var __webpack_modules__ = {
       var iterateSimple = __webpack_require__2(507);
       var has = SetHelpers.has;
       var remove = SetHelpers.remove;
-      module2.exports = function difference(other) {
+      module.exports = function difference(other) {
         var O = aSet(this);
         var otherRec = getSetRecord(other);
         var result = clone(O);
@@ -1342,9 +1342,9 @@ var __webpack_modules__ = {
   /***/
   3463: (
     /***/
-    ((module2) => {
+    ((module) => {
       var $TypeError = TypeError;
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         if (typeof argument == "string") return argument;
         throw new $TypeError("Argument is not a string");
       };
@@ -1353,11 +1353,11 @@ var __webpack_modules__ = {
   /***/
   3506: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var isPossiblePrototype = __webpack_require__2(3925);
       var $String = String;
       var $TypeError = TypeError;
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         if (isPossiblePrototype(argument)) return argument;
         throw new $TypeError("Can't set " + $String(argument) + " as a prototype");
       };
@@ -1397,7 +1397,7 @@ var __webpack_modules__ = {
   /***/
   3650: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var aSet = __webpack_require__2(7080);
       var SetHelpers = __webpack_require__2(4402);
       var clone = __webpack_require__2(9286);
@@ -1406,7 +1406,7 @@ var __webpack_modules__ = {
       var add = SetHelpers.add;
       var has = SetHelpers.has;
       var remove = SetHelpers.remove;
-      module2.exports = function symmetricDifference(other) {
+      module.exports = function symmetricDifference(other) {
         var O = aSet(this);
         var keysIter = getSetRecord(other).getIterator();
         var result = clone(O);
@@ -1421,7 +1421,7 @@ var __webpack_modules__ = {
   /***/
   3706: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
       var isCallable = __webpack_require__2(4901);
       var store = __webpack_require__2(7629);
@@ -1431,7 +1431,7 @@ var __webpack_modules__ = {
           return functionToString(it);
         };
       }
-      module2.exports = store.inspectSource;
+      module.exports = store.inspectSource;
     })
   ),
   /***/
@@ -1444,9 +1444,9 @@ var __webpack_modules__ = {
   /***/
   3724: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var fails = __webpack_require__2(9039);
-      module2.exports = !fails(function() {
+      module.exports = !fails(function() {
         return Object.defineProperty({}, 1, { get: function() {
           return 7;
         } })[1] !== 7;
@@ -1456,7 +1456,7 @@ var __webpack_modules__ = {
   /***/
   3789: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var aCallable = __webpack_require__2(9306);
       var anObject = __webpack_require__2(8551);
       var call = __webpack_require__2(9565);
@@ -1480,7 +1480,7 @@ var __webpack_modules__ = {
           return call(this.has, this.set, it);
         }
       };
-      module2.exports = function(obj) {
+      module.exports = function(obj) {
         anObject(obj);
         var numSize = +obj.size;
         if (numSize !== numSize) throw new $TypeError(INVALID_SIZE);
@@ -1493,12 +1493,12 @@ var __webpack_modules__ = {
   /***/
   3838: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var aSet = __webpack_require__2(7080);
       var size = __webpack_require__2(5170);
       var iterate = __webpack_require__2(8469);
       var getSetRecord = __webpack_require__2(3789);
-      module2.exports = function isSubsetOf(other) {
+      module.exports = function isSubsetOf(other) {
         var O = aSet(this);
         var otherRec = getSetRecord(other);
         if (size(O) > otherRec.size) return false;
@@ -1526,9 +1526,9 @@ var __webpack_modules__ = {
   /***/
   3925: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var isObject = __webpack_require__2(34);
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         return isObject(argument) || argument === null;
       };
     })
@@ -1536,11 +1536,11 @@ var __webpack_modules__ = {
   /***/
   3972: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var isObject = __webpack_require__2(34);
       var $String = String;
       var $TypeError = TypeError;
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         if (argument === void 0 || isObject(argument)) return argument;
         throw new $TypeError($String(argument) + " is not an object or undefined");
       };
@@ -1549,12 +1549,12 @@ var __webpack_modules__ = {
   /***/
   4055: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var isObject = __webpack_require__2(34);
       var document2 = globalThis2.document;
       var EXISTS = isObject(document2) && isObject(document2.createElement);
-      module2.exports = function(it) {
+      module.exports = function(it) {
         return EXISTS ? document2.createElement(it) : {};
       };
     })
@@ -1600,8 +1600,8 @@ var __webpack_modules__ = {
   /***/
   4117: (
     /***/
-    ((module2) => {
-      module2.exports = function(it) {
+    ((module) => {
+      module.exports = function(it) {
         return it === null || it === void 0;
       };
     })
@@ -1609,9 +1609,9 @@ var __webpack_modules__ = {
   /***/
   4149: (
     /***/
-    ((module2) => {
+    ((module) => {
       var $RangeError = RangeError;
-      module2.exports = function(it) {
+      module.exports = function(it) {
         if (it === it) return it;
         throw new $RangeError("NaN is not allowed");
       };
@@ -1620,10 +1620,10 @@ var __webpack_modules__ = {
   /***/
   4154: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var classof = __webpack_require__2(6955);
       var $TypeError = TypeError;
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         if (classof(argument) === "Uint8Array") return argument;
         throw new $TypeError("Argument is not an Uint8Array");
       };
@@ -1632,13 +1632,13 @@ var __webpack_modules__ = {
   /***/
   4204: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var aSet = __webpack_require__2(7080);
       var add = __webpack_require__2(4402).add;
       var clone = __webpack_require__2(9286);
       var getSetRecord = __webpack_require__2(3789);
       var iterateSimple = __webpack_require__2(507);
-      module2.exports = function union(other) {
+      module.exports = function union(other) {
         var O = aSet(this);
         var keysIter = getSetRecord(other).getIterator();
         var result = clone(O);
@@ -1652,12 +1652,12 @@ var __webpack_modules__ = {
   /***/
   4209: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var wellKnownSymbol = __webpack_require__2(8227);
       var Iterators = __webpack_require__2(6269);
       var ITERATOR = wellKnownSymbol("iterator");
       var ArrayPrototype = Array.prototype;
-      module2.exports = function(it) {
+      module.exports = function(it) {
         return it !== void 0 && (Iterators.Array === it || ArrayPrototype[ITERATOR] === it);
       };
     })
@@ -1665,14 +1665,14 @@ var __webpack_modules__ = {
   /***/
   4215: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var userAgent = __webpack_require__2(2839);
       var classof = __webpack_require__2(2195);
       var userAgentStartsWith = function(string) {
         return userAgent.slice(0, string.length) === string;
       };
-      module2.exports = (function() {
+      module.exports = (function() {
         if (userAgentStartsWith("Bun/")) return "BUN";
         if (userAgentStartsWith("Cloudflare-Workers")) return "CLOUDFLARE";
         if (userAgentStartsWith("Deno/")) return "DENO";
@@ -1716,12 +1716,12 @@ var __webpack_modules__ = {
   /***/
   4270: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var call = __webpack_require__2(9565);
       var isCallable = __webpack_require__2(4901);
       var isObject = __webpack_require__2(34);
       var $TypeError = TypeError;
-      module2.exports = function(input, pref) {
+      module.exports = function(input, pref) {
         var fn, val;
         if (pref === "string" && isCallable(fn = input.toString) && !isObject(val = call(fn, input))) return val;
         if (isCallable(fn = input.valueOf) && !isObject(val = call(fn, input))) return val;
@@ -1733,9 +1733,9 @@ var __webpack_modules__ = {
   /***/
   4376: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var classof = __webpack_require__2(2195);
-      module2.exports = Array.isArray || function isArray(argument) {
+      module.exports = Array.isArray || function isArray(argument) {
         return classof(argument) === "Array";
       };
     })
@@ -1743,10 +1743,10 @@ var __webpack_modules__ = {
   /***/
   4402: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
       var SetPrototype = Set.prototype;
-      module2.exports = {
+      module.exports = {
         // eslint-disable-next-line es/no-set -- safe
         Set,
         add: uncurryThis(SetPrototype.add),
@@ -1759,7 +1759,7 @@ var __webpack_modules__ = {
   /***/
   4449: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var aSet = __webpack_require__2(7080);
       var has = __webpack_require__2(4402).has;
       var size = __webpack_require__2(5170);
@@ -1767,7 +1767,7 @@ var __webpack_modules__ = {
       var iterateSet = __webpack_require__2(8469);
       var iterateSimple = __webpack_require__2(507);
       var iteratorClose = __webpack_require__2(9539);
-      module2.exports = function isDisjointFrom(other) {
+      module.exports = function isDisjointFrom(other) {
         var O = aSet(this);
         var otherRec = getSetRecord(other);
         if (size(O) <= otherRec.size) return iterateSet(O, function(e) {
@@ -1783,7 +1783,7 @@ var __webpack_modules__ = {
   /***/
   4483: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var getBuiltInNodeModule = __webpack_require__2(9429);
       var PROPER_STRUCTURED_CLONE_TRANSFER = __webpack_require__2(1548);
@@ -1814,18 +1814,18 @@ var __webpack_modules__ = {
         }
       } catch (error) {
       }
-      module2.exports = detach;
+      module.exports = detach;
     })
   ),
   /***/
   4495: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var V8_VERSION = __webpack_require__2(9519);
       var fails = __webpack_require__2(9039);
       var globalThis2 = __webpack_require__2(4576);
       var $String = globalThis2.String;
-      module2.exports = !!Object.getOwnPropertySymbols && !fails(function() {
+      module.exports = !!Object.getOwnPropertySymbols && !fails(function() {
         var symbol = Symbol("symbol detection");
         return !$String(symbol) || !(Object(symbol) instanceof Symbol) || // Chrome 38-40 symbols are not inherited from DOM collections prototypes to instances
         !Symbol.sham && V8_VERSION && V8_VERSION < 41;
@@ -1835,7 +1835,7 @@ var __webpack_modules__ = {
   /***/
   4527: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var DESCRIPTORS = __webpack_require__2(3724);
       var isArray = __webpack_require__2(4376);
       var $TypeError = TypeError;
@@ -1848,7 +1848,7 @@ var __webpack_modules__ = {
           return error instanceof TypeError;
         }
       })();
-      module2.exports = SILENT_ON_NON_WRITABLE_LENGTH_SET ? function(O, length) {
+      module.exports = SILENT_ON_NON_WRITABLE_LENGTH_SET ? function(O, length) {
         if (isArray(O) && !getOwnPropertyDescriptor(O, "length").writable) {
           throw new $TypeError("Cannot set read only .length");
         }
@@ -1861,9 +1861,9 @@ var __webpack_modules__ = {
   /***/
   4549: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
-      module2.exports = function(METHOD_NAME, ExpectedError) {
+      module.exports = function(METHOD_NAME, ExpectedError) {
         var Iterator2 = globalThis2.Iterator;
         var IteratorPrototype = Iterator2 && Iterator2.prototype;
         var method = IteratorPrototype && IteratorPrototype[METHOD_NAME];
@@ -1887,11 +1887,11 @@ var __webpack_modules__ = {
   /***/
   4576: (
     /***/
-    (function(module2) {
+    (function(module) {
       var check = function(it) {
         return it && it.Math === Math && it;
       };
-      module2.exports = // eslint-disable-next-line es/no-global-this -- safe
+      module.exports = // eslint-disable-next-line es/no-global-this -- safe
       check(typeof globalThis == "object" && globalThis) || check(typeof window == "object" && window) || // eslint-disable-next-line no-restricted-globals -- safe
       check(typeof self == "object" && self) || check(typeof global == "object" && global) || check(typeof this == "object" && this) || // eslint-disable-next-line no-new-func -- fallback
       /* @__PURE__ */ (function() {
@@ -1969,7 +1969,7 @@ var __webpack_modules__ = {
   /***/
   4644: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var NATIVE_ARRAY_BUFFER = __webpack_require__2(7811);
       var DESCRIPTORS = __webpack_require__2(3724);
       var globalThis2 = __webpack_require__2(4576);
@@ -2124,7 +2124,7 @@ var __webpack_modules__ = {
           createNonEnumerableProperty(globalThis2[NAME], TYPED_ARRAY_TAG, NAME);
         }
       }
-      module2.exports = {
+      module.exports = {
         NATIVE_ARRAY_BUFFER_VIEWS,
         TYPED_ARRAY_TAG: TYPED_ARRAY_TAG_REQUIRED && TYPED_ARRAY_TAG,
         aTypedArray,
@@ -2142,11 +2142,11 @@ var __webpack_modules__ = {
   /***/
   4659: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var DESCRIPTORS = __webpack_require__2(3724);
       var definePropertyModule = __webpack_require__2(4913);
       var createPropertyDescriptor = __webpack_require__2(6980);
-      module2.exports = function(object, key, value) {
+      module.exports = function(object, key, value) {
         if (DESCRIPTORS) definePropertyModule.f(object, key, createPropertyDescriptor(0, value));
         else object[key] = value;
       };
@@ -2155,9 +2155,9 @@ var __webpack_modules__ = {
   /***/
   4901: (
     /***/
-    ((module2) => {
+    ((module) => {
       var documentAll = typeof document == "object" && document.all;
-      module2.exports = typeof documentAll == "undefined" && documentAll !== void 0 ? function(argument) {
+      module.exports = typeof documentAll == "undefined" && documentAll !== void 0 ? function(argument) {
         return typeof argument == "function" || argument === documentAll;
       } : function(argument) {
         return typeof argument == "function";
@@ -2212,7 +2212,7 @@ var __webpack_modules__ = {
   /***/
   4916: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var getBuiltIn = __webpack_require__2(7751);
       var createSetLike = function(size) {
         return {
@@ -2240,7 +2240,7 @@ var __webpack_modules__ = {
           }
         };
       };
-      module2.exports = function(name, callback) {
+      module.exports = function(name, callback) {
         var Set2 = getBuiltIn("Set");
         try {
           new Set2()[name](createSetLike(0));
@@ -2368,8 +2368,8 @@ var __webpack_modules__ = {
   /***/
   5002: (
     /***/
-    ((module2) => {
-      module2.exports = {
+    ((module) => {
+      module.exports = {
         IndexSizeError: { s: "INDEX_SIZE_ERR", c: 1, m: 1 },
         DOMStringSizeError: { s: "DOMSTRING_SIZE_ERR", c: 2, m: 0 },
         HierarchyRequestError: { s: "HIERARCHY_REQUEST_ERR", c: 3, m: 1 },
@@ -2415,14 +2415,14 @@ var __webpack_modules__ = {
   /***/
   5031: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var getBuiltIn = __webpack_require__2(7751);
       var uncurryThis = __webpack_require__2(9504);
       var getOwnPropertyNamesModule = __webpack_require__2(8480);
       var getOwnPropertySymbolsModule = __webpack_require__2(3717);
       var anObject = __webpack_require__2(8551);
       var concat = uncurryThis([].concat);
-      module2.exports = getBuiltIn("Reflect", "ownKeys") || function ownKeys(it) {
+      module.exports = getBuiltIn("Reflect", "ownKeys") || function ownKeys(it) {
         var keys = getOwnPropertyNamesModule.f(anObject(it));
         var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
         return getOwnPropertySymbols ? concat(keys, getOwnPropertySymbols(it)) : keys;
@@ -2432,10 +2432,10 @@ var __webpack_modules__ = {
   /***/
   5169: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var isDetached = __webpack_require__2(3238);
       var $TypeError = TypeError;
-      module2.exports = function(it) {
+      module.exports = function(it) {
         if (isDetached(it)) throw new $TypeError("ArrayBuffer is detached");
         return it;
       };
@@ -2444,10 +2444,10 @@ var __webpack_modules__ = {
   /***/
   5170: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThisAccessor = __webpack_require__2(6706);
       var SetHelpers = __webpack_require__2(4402);
-      module2.exports = uncurryThisAccessor(SetHelpers.proto, "size", "get") || function(set) {
+      module.exports = uncurryThisAccessor(SetHelpers.proto, "size", "get") || function(set) {
         return set.size;
       };
     })
@@ -2484,9 +2484,9 @@ var __webpack_modules__ = {
   /***/
   5370: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var lengthOfArrayLike = __webpack_require__2(6198);
-      module2.exports = function(Constructor, list, $length) {
+      module.exports = function(Constructor, list, $length) {
         var index = 0;
         var length = arguments.length > 2 ? $length : lengthOfArrayLike(list);
         var result = new Constructor(length);
@@ -2498,10 +2498,10 @@ var __webpack_modules__ = {
   /***/
   5397: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var IndexedObject = __webpack_require__2(7055);
       var requireObjectCoercible = __webpack_require__2(7750);
-      module2.exports = function(it) {
+      module.exports = function(it) {
         return IndexedObject(requireObjectCoercible(it));
       };
     })
@@ -2509,11 +2509,11 @@ var __webpack_modules__ = {
   /***/
   5610: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var toIntegerOrInfinity = __webpack_require__2(1291);
       var max = Math.max;
       var min = Math.min;
-      module2.exports = function(index, length) {
+      module.exports = function(index, length) {
         var integer = toIntegerOrInfinity(index);
         return integer < 0 ? max(integer + length, 0) : min(integer, length);
       };
@@ -2529,7 +2529,7 @@ var __webpack_modules__ = {
   /***/
   5636: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var uncurryThis = __webpack_require__2(9504);
       var uncurryThisAccessor = __webpack_require__2(6706);
@@ -2549,7 +2549,7 @@ var __webpack_modules__ = {
       var maxByteLength = uncurryThisAccessor(ArrayBufferPrototype, "maxByteLength", "get");
       var getInt8 = uncurryThis(DataViewPrototype.getInt8);
       var setInt8 = uncurryThis(DataViewPrototype.setInt8);
-      module2.exports = (PROPER_STRUCTURED_CLONE_TRANSFER || detachTransferable) && function(arrayBuffer, newLength, preserveResizability) {
+      module.exports = (PROPER_STRUCTURED_CLONE_TRANSFER || detachTransferable) && function(arrayBuffer, newLength, preserveResizability) {
         var byteLength = arrayBufferByteLength(arrayBuffer);
         var newByteLength = newLength === void 0 ? byteLength : toIndex(newLength);
         var fixedLength = !isResizable || !isResizable(arrayBuffer);
@@ -2577,9 +2577,9 @@ var __webpack_modules__ = {
   /***/
   5745: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var store = __webpack_require__2(7629);
-      module2.exports = function(key, value) {
+      module.exports = function(key, value) {
         return store[key] || (store[key] = value || {});
       };
     })
@@ -2611,10 +2611,10 @@ var __webpack_modules__ = {
   /***/
   5854: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var toPrimitive = __webpack_require__2(2777);
       var $TypeError = TypeError;
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         var prim = toPrimitive(argument, "number");
         if (typeof prim == "number") throw new $TypeError("Can't convert number to bigint");
         return BigInt(prim);
@@ -2639,11 +2639,11 @@ var __webpack_modules__ = {
   /***/
   5917: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var DESCRIPTORS = __webpack_require__2(3724);
       var fails = __webpack_require__2(9039);
       var createElement = __webpack_require__2(4055);
-      module2.exports = !DESCRIPTORS && !fails(function() {
+      module.exports = !DESCRIPTORS && !fails(function() {
         return Object.defineProperty(createElement("div"), "a", {
           get: function() {
             return 7;
@@ -2655,10 +2655,10 @@ var __webpack_modules__ = {
   /***/
   5966: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var aCallable = __webpack_require__2(9306);
       var isNullOrUndefined = __webpack_require__2(4117);
-      module2.exports = function(V, P) {
+      module.exports = function(V, P) {
         var func = V[P];
         return isNullOrUndefined(func) ? void 0 : aCallable(func);
       };
@@ -2667,7 +2667,7 @@ var __webpack_modules__ = {
   /***/
   6043: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var aCallable = __webpack_require__2(9306);
       var $TypeError = TypeError;
       var PromiseCapability = function(C) {
@@ -2680,7 +2680,7 @@ var __webpack_modules__ = {
         this.resolve = aCallable(resolve);
         this.reject = aCallable(reject);
       };
-      module2.exports.f = function(C) {
+      module.exports.f = function(C) {
         return new PromiseCapability(C);
       };
     })
@@ -2688,12 +2688,12 @@ var __webpack_modules__ = {
   /***/
   6080: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(7476);
       var aCallable = __webpack_require__2(9306);
       var NATIVE_BIND = __webpack_require__2(616);
       var bind = uncurryThis(uncurryThis.bind);
-      module2.exports = function(fn, that) {
+      module.exports = function(fn, that) {
         aCallable(fn);
         return that === void 0 ? fn : NATIVE_BIND ? bind(fn, that) : function() {
           return fn.apply(that, arguments);
@@ -2704,11 +2704,11 @@ var __webpack_modules__ = {
   /***/
   6119: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var shared = __webpack_require__2(5745);
       var uid = __webpack_require__2(3392);
       var keys = shared("keys");
-      module2.exports = function(key) {
+      module.exports = function(key) {
         return keys[key] || (keys[key] = uid(key));
       };
     })
@@ -2716,17 +2716,17 @@ var __webpack_modules__ = {
   /***/
   6193: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var ENVIRONMENT = __webpack_require__2(4215);
-      module2.exports = ENVIRONMENT === "NODE";
+      module.exports = ENVIRONMENT === "NODE";
     })
   ),
   /***/
   6198: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var toLength = __webpack_require__2(8014);
-      module2.exports = function(obj) {
+      module.exports = function(obj) {
         return toLength(obj.length);
       };
     })
@@ -2734,16 +2734,16 @@ var __webpack_modules__ = {
   /***/
   6269: (
     /***/
-    ((module2) => {
-      module2.exports = {};
+    ((module) => {
+      module.exports = {};
     })
   ),
   /***/
   6279: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var defineBuiltIn = __webpack_require__2(6840);
-      module2.exports = function(target, src, options) {
+      module.exports = function(target, src, options) {
         for (var key in src) defineBuiltIn(target, key, src[key], options);
         return target;
       };
@@ -2752,10 +2752,10 @@ var __webpack_modules__ = {
   /***/
   6319: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var anObject = __webpack_require__2(8551);
       var iteratorClose = __webpack_require__2(9539);
-      module2.exports = function(iterator, fn, value, ENTRIES) {
+      module.exports = function(iterator, fn, value, ENTRIES) {
         try {
           return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
         } catch (error) {
@@ -2767,14 +2767,14 @@ var __webpack_modules__ = {
   /***/
   6395: (
     /***/
-    ((module2) => {
-      module2.exports = false;
+    ((module) => {
+      module.exports = false;
     })
   ),
   /***/
   6518: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var getOwnPropertyDescriptor = __webpack_require__2(7347).f;
       var createNonEnumerableProperty = __webpack_require__2(6699);
@@ -2782,7 +2782,7 @@ var __webpack_modules__ = {
       var defineGlobalProperty = __webpack_require__2(9433);
       var copyConstructorProperties = __webpack_require__2(7740);
       var isForced = __webpack_require__2(2796);
-      module2.exports = function(options, source) {
+      module.exports = function(options, source) {
         var TARGET = options.target;
         var GLOBAL = options.global;
         var STATIC = options.stat;
@@ -2870,11 +2870,11 @@ var __webpack_modules__ = {
   /***/
   6699: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var DESCRIPTORS = __webpack_require__2(3724);
       var definePropertyModule = __webpack_require__2(4913);
       var createPropertyDescriptor = __webpack_require__2(6980);
-      module2.exports = DESCRIPTORS ? function(object, key, value) {
+      module.exports = DESCRIPTORS ? function(object, key, value) {
         return definePropertyModule.f(object, key, createPropertyDescriptor(1, value));
       } : function(object, key, value) {
         object[key] = value;
@@ -2885,10 +2885,10 @@ var __webpack_modules__ = {
   /***/
   6706: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
       var aCallable = __webpack_require__2(9306);
-      module2.exports = function(object, key, method) {
+      module.exports = function(object, key, method) {
         try {
           return uncurryThis(aCallable(Object.getOwnPropertyDescriptor(object, key)[method]));
         } catch (error) {
@@ -2921,9 +2921,9 @@ var __webpack_modules__ = {
   /***/
   6823: (
     /***/
-    ((module2) => {
+    ((module) => {
       var $String = String;
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         try {
           return $String(argument);
         } catch (error) {
@@ -2935,10 +2935,10 @@ var __webpack_modules__ = {
   /***/
   6837: (
     /***/
-    ((module2) => {
+    ((module) => {
       var $TypeError = TypeError;
       var MAX_SAFE_INTEGER = 9007199254740991;
-      module2.exports = function(it) {
+      module.exports = function(it) {
         if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
         return it;
       };
@@ -2947,12 +2947,12 @@ var __webpack_modules__ = {
   /***/
   6840: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var isCallable = __webpack_require__2(4901);
       var definePropertyModule = __webpack_require__2(4913);
       var makeBuiltIn = __webpack_require__2(283);
       var defineGlobalProperty = __webpack_require__2(9433);
-      module2.exports = function(O, key, value, options) {
+      module.exports = function(O, key, value, options) {
         if (!options) options = {};
         var simple = options.enumerable;
         var name = options.name !== void 0 ? options.name : key;
@@ -2981,7 +2981,7 @@ var __webpack_modules__ = {
   /***/
   6955: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var TO_STRING_TAG_SUPPORT = __webpack_require__2(2140);
       var isCallable = __webpack_require__2(4901);
       var classofRaw = __webpack_require__2(2195);
@@ -2997,7 +2997,7 @@ var __webpack_modules__ = {
         } catch (error) {
         }
       };
-      module2.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function(it) {
+      module.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function(it) {
         var O, tag, result;
         return it === void 0 ? "Undefined" : it === null ? "Null" : typeof (tag = tryGet(O = $Object(it), TO_STRING_TAG)) == "string" ? tag : CORRECT_ARGUMENTS ? classofRaw(O) : (result = classofRaw(O)) === "Object" && isCallable(O.callee) ? "Arguments" : result;
       };
@@ -3006,10 +3006,10 @@ var __webpack_modules__ = {
   /***/
   6969: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var toPrimitive = __webpack_require__2(2777);
       var isSymbol = __webpack_require__2(757);
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         var key = toPrimitive(argument, "string");
         return isSymbol(key) ? key : key + "";
       };
@@ -3018,8 +3018,8 @@ var __webpack_modules__ = {
   /***/
   6980: (
     /***/
-    ((module2) => {
-      module2.exports = function(bitmap, value) {
+    ((module) => {
+      module.exports = function(bitmap, value) {
         return {
           enumerable: !(bitmap & 1),
           configurable: !(bitmap & 2),
@@ -3032,21 +3032,21 @@ var __webpack_modules__ = {
   /***/
   7040: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var NATIVE_SYMBOL = __webpack_require__2(4495);
-      module2.exports = NATIVE_SYMBOL && !Symbol.sham && typeof Symbol.iterator == "symbol";
+      module.exports = NATIVE_SYMBOL && !Symbol.sham && typeof Symbol.iterator == "symbol";
     })
   ),
   /***/
   7055: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
       var fails = __webpack_require__2(9039);
       var classof = __webpack_require__2(2195);
       var $Object = Object;
       var split = uncurryThis("".split);
-      module2.exports = fails(function() {
+      module.exports = fails(function() {
         return !$Object("z").propertyIsEnumerable(0);
       }) ? function(it) {
         return classof(it) === "String" ? split(it, "") : $Object(it);
@@ -3056,9 +3056,9 @@ var __webpack_modules__ = {
   /***/
   7080: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var has = __webpack_require__2(4402).has;
-      module2.exports = function(it) {
+      module.exports = function(it) {
         has(it);
         return it;
       };
@@ -3091,13 +3091,13 @@ var __webpack_modules__ = {
   /***/
   7394: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var uncurryThisAccessor = __webpack_require__2(6706);
       var classof = __webpack_require__2(2195);
       var ArrayBuffer2 = globalThis2.ArrayBuffer;
       var TypeError2 = globalThis2.TypeError;
-      module2.exports = ArrayBuffer2 && uncurryThisAccessor(ArrayBuffer2.prototype, "byteLength", "get") || function(O) {
+      module.exports = ArrayBuffer2 && uncurryThisAccessor(ArrayBuffer2.prototype, "byteLength", "get") || function(O) {
         if (classof(O) !== "ArrayBuffer") throw new TypeError2("ArrayBuffer expected");
         return O.byteLength;
       };
@@ -3106,13 +3106,13 @@ var __webpack_modules__ = {
   /***/
   7416: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var fails = __webpack_require__2(9039);
       var wellKnownSymbol = __webpack_require__2(8227);
       var DESCRIPTORS = __webpack_require__2(3724);
       var IS_PURE = __webpack_require__2(6395);
       var ITERATOR = wellKnownSymbol("iterator");
-      module2.exports = !fails(function() {
+      module.exports = !fails(function() {
         var url = new URL("b?a=1&b=2&c=3", "https://a");
         var params = url.searchParams;
         var params2 = new URLSearchParams("a=1&a=2&b=3");
@@ -3131,10 +3131,10 @@ var __webpack_modules__ = {
   /***/
   7476: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var classofRaw = __webpack_require__2(2195);
       var uncurryThis = __webpack_require__2(9504);
-      module2.exports = function(fn) {
+      module.exports = function(fn) {
         if (classofRaw(fn) === "Function") return uncurryThis(fn);
       };
     })
@@ -3203,12 +3203,12 @@ var __webpack_modules__ = {
   /***/
   7629: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var IS_PURE = __webpack_require__2(6395);
       var globalThis2 = __webpack_require__2(4576);
       var defineGlobalProperty = __webpack_require__2(9433);
       var SHARED = "__core-js_shared__";
-      var store = module2.exports = globalThis2[SHARED] || defineGlobalProperty(SHARED, {});
+      var store = module.exports = globalThis2[SHARED] || defineGlobalProperty(SHARED, {});
       (store.versions || (store.versions = [])).push({
         version: "3.45.1",
         mode: IS_PURE ? "pure" : "global",
@@ -3257,7 +3257,7 @@ var __webpack_modules__ = {
   /***/
   7657: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var fails = __webpack_require__2(9039);
       var isCallable = __webpack_require__2(4901);
       var isObject = __webpack_require__2(34);
@@ -3288,7 +3288,7 @@ var __webpack_modules__ = {
           return this;
         });
       }
-      module2.exports = {
+      module.exports = {
         IteratorPrototype,
         BUGGY_SAFARI_ITERATORS
       };
@@ -3297,19 +3297,19 @@ var __webpack_modules__ = {
   /***/
   7680: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
-      module2.exports = uncurryThis([].slice);
+      module.exports = uncurryThis([].slice);
     })
   ),
   /***/
   7696: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var toIntegerOrInfinity = __webpack_require__2(1291);
       var toLength = __webpack_require__2(8014);
       var $RangeError = RangeError;
-      module2.exports = function(it) {
+      module.exports = function(it) {
         if (it === void 0) return 0;
         var number = toIntegerOrInfinity(it);
         var length = toLength(number);
@@ -3321,12 +3321,12 @@ var __webpack_modules__ = {
   /***/
   7740: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var hasOwn = __webpack_require__2(9297);
       var ownKeys = __webpack_require__2(5031);
       var getOwnPropertyDescriptorModule = __webpack_require__2(7347);
       var definePropertyModule = __webpack_require__2(4913);
-      module2.exports = function(target, source, exceptions) {
+      module.exports = function(target, source, exceptions) {
         var keys = ownKeys(source);
         var defineProperty = definePropertyModule.f;
         var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
@@ -3342,10 +3342,10 @@ var __webpack_modules__ = {
   /***/
   7750: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var isNullOrUndefined = __webpack_require__2(4117);
       var $TypeError = TypeError;
-      module2.exports = function(it) {
+      module.exports = function(it) {
         if (isNullOrUndefined(it)) throw new $TypeError("Can't call method on " + it);
         return it;
       };
@@ -3354,13 +3354,13 @@ var __webpack_modules__ = {
   /***/
   7751: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var isCallable = __webpack_require__2(4901);
       var aFunction = function(argument) {
         return isCallable(argument) ? argument : void 0;
       };
-      module2.exports = function(namespace, method) {
+      module.exports = function(namespace, method) {
         return arguments.length < 2 ? aFunction(globalThis2[namespace]) : globalThis2[namespace] && globalThis2[namespace][method];
       };
     })
@@ -3368,8 +3368,8 @@ var __webpack_modules__ = {
   /***/
   7811: (
     /***/
-    ((module2) => {
-      module2.exports = typeof ArrayBuffer != "undefined" && typeof DataView != "undefined";
+    ((module) => {
+      module.exports = typeof ArrayBuffer != "undefined" && typeof DataView != "undefined";
     })
   ),
   /***/
@@ -3406,10 +3406,10 @@ var __webpack_modules__ = {
   /***/
   8014: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var toIntegerOrInfinity = __webpack_require__2(1291);
       var min = Math.min;
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         var len = toIntegerOrInfinity(argument);
         return len > 0 ? min(len, 9007199254740991) : 0;
       };
@@ -3487,7 +3487,7 @@ var __webpack_modules__ = {
   /***/
   8227: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var shared = __webpack_require__2(5745);
       var hasOwn = __webpack_require__2(9297);
@@ -3497,7 +3497,7 @@ var __webpack_modules__ = {
       var Symbol2 = globalThis2.Symbol;
       var WellKnownSymbolsStore = shared("wks");
       var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol2["for"] || Symbol2 : Symbol2 && Symbol2.withoutSetter || uid;
-      module2.exports = function(name) {
+      module.exports = function(name) {
         if (!hasOwn(WellKnownSymbolsStore, name)) {
           WellKnownSymbolsStore[name] = NATIVE_SYMBOL && hasOwn(Symbol2, name) ? Symbol2[name] : createWellKnownSymbol("Symbol." + name);
         }
@@ -3508,7 +3508,7 @@ var __webpack_modules__ = {
   /***/
   8235: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
       var hasOwn = __webpack_require__2(9297);
       var $SyntaxError = SyntaxError;
@@ -3529,7 +3529,7 @@ var __webpack_modules__ = {
       };
       var IS_4_HEX_DIGITS = /^[\da-f]{4}$/i;
       var IS_C0_CONTROL_CODE = /^[\u0000-\u001F]$/;
-      module2.exports = function(source, i) {
+      module.exports = function(source, i) {
         var unterminated = true;
         var value = "";
         while (i < source.length) {
@@ -3850,7 +3850,7 @@ var __webpack_modules__ = {
   /***/
   8469: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
       var iterateSimple = __webpack_require__2(507);
       var SetHelpers = __webpack_require__2(4402);
@@ -3859,7 +3859,7 @@ var __webpack_modules__ = {
       var forEach = uncurryThis(SetPrototype.forEach);
       var keys = uncurryThis(SetPrototype.keys);
       var next = keys(new Set2()).next;
-      module2.exports = function(set, fn, interruptible) {
+      module.exports = function(set, fn, interruptible) {
         return interruptible ? iterateSimple({ iterator: keys(set), next }, fn) : forEach(set, fn);
       };
     })
@@ -3879,14 +3879,14 @@ var __webpack_modules__ = {
   /***/
   8527: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var aSet = __webpack_require__2(7080);
       var has = __webpack_require__2(4402).has;
       var size = __webpack_require__2(5170);
       var getSetRecord = __webpack_require__2(3789);
       var iterateSimple = __webpack_require__2(507);
       var iteratorClose = __webpack_require__2(9539);
-      module2.exports = function isSupersetOf(other) {
+      module.exports = function isSupersetOf(other) {
         var O = aSet(this);
         var otherRec = getSetRecord(other);
         if (size(O) < otherRec.size) return false;
@@ -3900,11 +3900,11 @@ var __webpack_modules__ = {
   /***/
   8551: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var isObject = __webpack_require__2(34);
       var $String = String;
       var $TypeError = TypeError;
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         if (isObject(argument)) return argument;
         throw new $TypeError($String(argument) + " is not an object");
       };
@@ -3913,7 +3913,7 @@ var __webpack_modules__ = {
   /***/
   8574: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
       var $Error = Error;
       var replace = uncurryThis("".replace);
@@ -3922,7 +3922,7 @@ var __webpack_modules__ = {
       })("zxcasd");
       var V8_OR_CHAKRA_STACK_ENTRY = /\n\s*at [^:]*:[^\n]*/;
       var IS_V8_OR_CHAKRA_STACK = V8_OR_CHAKRA_STACK_ENTRY.test(TEST);
-      module2.exports = function(stack, dropEntries) {
+      module.exports = function(stack, dropEntries) {
         if (IS_V8_OR_CHAKRA_STACK && typeof stack == "string" && !$Error.prepareStackTrace) {
           while (dropEntries--) stack = replace(stack, V8_OR_CHAKRA_STACK_ENTRY, "");
         }
@@ -3933,22 +3933,22 @@ var __webpack_modules__ = {
   /***/
   8622: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var isCallable = __webpack_require__2(4901);
       var WeakMap2 = globalThis2.WeakMap;
-      module2.exports = isCallable(WeakMap2) && /native code/.test(String(WeakMap2));
+      module.exports = isCallable(WeakMap2) && /native code/.test(String(WeakMap2));
     })
   ),
   /***/
   8646: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var call = __webpack_require__2(9565);
       var anObject = __webpack_require__2(8551);
       var getIteratorDirect = __webpack_require__2(1767);
       var getIteratorMethod = __webpack_require__2(851);
-      module2.exports = function(obj, stringHandling) {
+      module.exports = function(obj, stringHandling) {
         if (!stringHandling || typeof obj !== "string") anObject(obj);
         var method = getIteratorMethod(obj);
         return getIteratorDirect(anObject(method !== void 0 ? call(method, obj) : obj));
@@ -3958,10 +3958,10 @@ var __webpack_modules__ = {
   /***/
   8686: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var DESCRIPTORS = __webpack_require__2(3724);
       var fails = __webpack_require__2(9039);
-      module2.exports = DESCRIPTORS && fails(function() {
+      module.exports = DESCRIPTORS && fails(function() {
         return Object.defineProperty(function() {
         }, "prototype", {
           value: 42,
@@ -3997,8 +3997,8 @@ var __webpack_modules__ = {
   /***/
   8727: (
     /***/
-    ((module2) => {
-      module2.exports = [
+    ((module) => {
+      module.exports = [
         "constructor",
         "hasOwnProperty",
         "isPrototypeOf",
@@ -4012,12 +4012,12 @@ var __webpack_modules__ = {
   /***/
   8745: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var NATIVE_BIND = __webpack_require__2(616);
       var FunctionPrototype = Function.prototype;
       var apply = FunctionPrototype.apply;
       var call = FunctionPrototype.call;
-      module2.exports = typeof Reflect == "object" && Reflect.apply || (NATIVE_BIND ? call.bind(apply) : function() {
+      module.exports = typeof Reflect == "object" && Reflect.apply || (NATIVE_BIND ? call.bind(apply) : function() {
         return call.apply(apply, arguments);
       });
     })
@@ -4025,7 +4025,7 @@ var __webpack_modules__ = {
   /***/
   8750: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var aSet = __webpack_require__2(7080);
       var SetHelpers = __webpack_require__2(4402);
       var size = __webpack_require__2(5170);
@@ -4035,7 +4035,7 @@ var __webpack_modules__ = {
       var Set2 = SetHelpers.Set;
       var add = SetHelpers.add;
       var has = SetHelpers.has;
-      module2.exports = function intersection(other) {
+      module.exports = function intersection(other) {
         var O = aSet(this);
         var otherRec = getSetRecord(other);
         var result = new Set2();
@@ -4068,10 +4068,10 @@ var __webpack_modules__ = {
   /***/
   8981: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var requireObjectCoercible = __webpack_require__2(7750);
       var $Object = Object;
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         return $Object(requireObjectCoercible(argument));
       };
     })
@@ -4079,8 +4079,8 @@ var __webpack_modules__ = {
   /***/
   9039: (
     /***/
-    ((module2) => {
-      module2.exports = function(exec) {
+    ((module) => {
+      module.exports = function(exec) {
         try {
           return !!exec();
         } catch (error) {
@@ -4092,7 +4092,7 @@ var __webpack_modules__ = {
   /***/
   9143: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var uncurryThis = __webpack_require__2(9504);
       var anObjectOrUndefined = __webpack_require__2(3972);
@@ -4146,7 +4146,7 @@ var __webpack_modules__ = {
         }
         return written + elementsLength;
       };
-      module2.exports = function(string, options, into, maxLength) {
+      module.exports = function(string, options, into, maxLength) {
         aString(string);
         anObjectOrUndefined(options);
         var alphabet = getAlphabetOption(options) === "base64" ? base64Alphabet : base64UrlAlphabet;
@@ -4231,12 +4231,12 @@ var __webpack_modules__ = {
   /***/
   9286: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var SetHelpers = __webpack_require__2(4402);
       var iterate = __webpack_require__2(8469);
       var Set2 = SetHelpers.Set;
       var add = SetHelpers.add;
-      module2.exports = function(set) {
+      module.exports = function(set) {
         var result = new Set2();
         iterate(set, function(it) {
           add(result, it);
@@ -4248,11 +4248,11 @@ var __webpack_modules__ = {
   /***/
   9297: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var uncurryThis = __webpack_require__2(9504);
       var toObject = __webpack_require__2(8981);
       var hasOwnProperty = uncurryThis({}.hasOwnProperty);
-      module2.exports = Object.hasOwn || function hasOwn(it, key) {
+      module.exports = Object.hasOwn || function hasOwn(it, key) {
         return hasOwnProperty(toObject(it), key);
       };
     })
@@ -4260,11 +4260,11 @@ var __webpack_modules__ = {
   /***/
   9306: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var isCallable = __webpack_require__2(4901);
       var tryToString = __webpack_require__2(6823);
       var $TypeError = TypeError;
-      module2.exports = function(argument) {
+      module.exports = function(argument) {
         if (isCallable(argument)) return argument;
         throw new $TypeError(tryToString(argument) + " is not a function");
       };
@@ -4322,10 +4322,10 @@ var __webpack_modules__ = {
   /***/
   9429: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var IS_NODE = __webpack_require__2(6193);
-      module2.exports = function(name) {
+      module.exports = function(name) {
         if (IS_NODE) {
           try {
             return globalThis2.process.getBuiltinModule(name);
@@ -4349,10 +4349,10 @@ var __webpack_modules__ = {
   /***/
   9433: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var defineProperty = Object.defineProperty;
-      module2.exports = function(key, value) {
+      module.exports = function(key, value) {
         try {
           defineProperty(globalThis2, key, { value, configurable: true, writable: true });
         } catch (error) {
@@ -4365,7 +4365,7 @@ var __webpack_modules__ = {
   /***/
   9462: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var call = __webpack_require__2(9565);
       var create = __webpack_require__2(2360);
       var createNonEnumerableProperty = __webpack_require__2(6699);
@@ -4424,7 +4424,7 @@ var __webpack_modules__ = {
       var WrapForValidIteratorPrototype = createIteratorProxyPrototype(true);
       var IteratorHelperPrototype = createIteratorProxyPrototype(false);
       createNonEnumerableProperty(IteratorHelperPrototype, TO_STRING_TAG, "Iterator Helper");
-      module2.exports = function(nextHandler, IS_ITERATOR, RETURN_HANDLER_RESULT) {
+      module.exports = function(nextHandler, IS_ITERATOR, RETURN_HANDLER_RESULT) {
         var IteratorProxy = function Iterator2(record, state) {
           if (state) {
             state.iterator = record.iterator;
@@ -4499,12 +4499,12 @@ var __webpack_modules__ = {
   /***/
   9504: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var NATIVE_BIND = __webpack_require__2(616);
       var FunctionPrototype = Function.prototype;
       var call = FunctionPrototype.call;
       var uncurryThisWithBind = NATIVE_BIND && FunctionPrototype.bind.bind(call, call);
-      module2.exports = NATIVE_BIND ? uncurryThisWithBind : function(fn) {
+      module.exports = NATIVE_BIND ? uncurryThisWithBind : function(fn) {
         return function() {
           return call.apply(fn, arguments);
         };
@@ -4514,7 +4514,7 @@ var __webpack_modules__ = {
   /***/
   9519: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var globalThis2 = __webpack_require__2(4576);
       var userAgent = __webpack_require__2(2839);
       var process2 = globalThis2.process;
@@ -4533,17 +4533,17 @@ var __webpack_modules__ = {
           if (match) version2 = +match[1];
         }
       }
-      module2.exports = version2;
+      module.exports = version2;
     })
   ),
   /***/
   9539: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var call = __webpack_require__2(9565);
       var anObject = __webpack_require__2(8551);
       var getMethod = __webpack_require__2(5966);
-      module2.exports = function(iterator, kind, value) {
+      module.exports = function(iterator, kind, value) {
         var innerResult, innerError;
         anObject(iterator);
         try {
@@ -4567,10 +4567,10 @@ var __webpack_modules__ = {
   /***/
   9565: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var NATIVE_BIND = __webpack_require__2(616);
       var call = Function.prototype.call;
-      module2.exports = NATIVE_BIND ? call.bind(call) : function() {
+      module.exports = NATIVE_BIND ? call.bind(call) : function() {
         return call.apply(call, arguments);
       };
     })
@@ -4614,10 +4614,10 @@ var __webpack_modules__ = {
   /***/
   9590: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var toIntegerOrInfinity = __webpack_require__2(1291);
       var $RangeError = RangeError;
-      module2.exports = function(it) {
+      module.exports = function(it) {
         var result = toIntegerOrInfinity(it);
         if (result < 0) throw new $RangeError("The argument can't be less than 0");
         return result;
@@ -4627,7 +4627,7 @@ var __webpack_modules__ = {
   /***/
   9617: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var toIndexedObject = __webpack_require__2(5397);
       var toAbsoluteIndex = __webpack_require__2(5610);
       var lengthOfArrayLike = __webpack_require__2(6198);
@@ -4648,7 +4648,7 @@ var __webpack_modules__ = {
           return !IS_INCLUDES && -1;
         };
       };
-      module2.exports = {
+      module.exports = {
         // `Array.prototype.includes` method
         // https://tc39.es/ecma262/#sec-array.prototype.includes
         includes: createMethod(true),
@@ -4675,8 +4675,8 @@ var __webpack_modules__ = {
   /***/
   9835: (
     /***/
-    ((module2) => {
-      module2.exports = function(METHOD_NAME) {
+    ((module) => {
+      module.exports = function(METHOD_NAME) {
         try {
           var baseSet = /* @__PURE__ */ new Set();
           var setLike = {
@@ -4707,11 +4707,11 @@ var __webpack_modules__ = {
   /***/
   9928: (
     /***/
-    ((module2, __unused_webpack_exports, __webpack_require__2) => {
+    ((module, __unused_webpack_exports, __webpack_require__2) => {
       var lengthOfArrayLike = __webpack_require__2(6198);
       var toIntegerOrInfinity = __webpack_require__2(1291);
       var $RangeError = RangeError;
-      module2.exports = function(O, C, index, value) {
+      module.exports = function(O, C, index, value) {
         var len = lengthOfArrayLike(O);
         var relativeIndex = toIntegerOrInfinity(index);
         var actualIndex = relativeIndex < 0 ? len + relativeIndex : relativeIndex;
@@ -4731,7 +4731,7 @@ function __webpack_require__(moduleId) {
   if (cachedModule !== void 0) {
     return cachedModule.exports;
   }
-  var module2 = __webpack_module_cache__[moduleId] = {
+  var module = __webpack_module_cache__[moduleId] = {
     /******/
     // no module.id needed
     /******/
@@ -4740,8 +4740,8 @@ function __webpack_require__(moduleId) {
     exports: {}
     /******/
   };
-  __webpack_modules__[moduleId].call(module2.exports, module2, module2.exports, __webpack_require__);
-  return module2.exports;
+  __webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+  return module.exports;
 }
 (() => {
   __webpack_require__.d = (exports, definition) => {
@@ -30925,8 +30925,6 @@ class Rectangle extends Shape {
 class ImageResult {
   pages = [];
   total = 0;
-  info;
-  metadata;
   getPageImage(num, name) {
     for (const pageData of this.pages) {
       if (pageData.pageNumber === num) {
@@ -30939,17 +30937,96 @@ class ImageResult {
     }
     return null;
   }
-  constructor(info2) {
-    Object.assign(this, info2);
+  constructor(total) {
+    this.total = total;
+  }
+}
+const XMP_DATE_PROPERTIES = ["xmp:createdate", "xmp:modifydate", "xmp:metadatadate", "xap:createdate", "xap:modifydate", "xap:metadatadate"];
+class InfoResult {
+  // total pdf page number
+  total;
+  /**
+   *   The info object contains common fields like title,
+   *   author, subject, and creation/modify dates.
+   */
+  info;
+  //document metadata, XMP metadata, XAP metadata
+  metadata;
+  /**
+   *   Document fingerprint(s).
+   *   Useful for identifying or caching documents.
+   */
+  fingerprints;
+  /**
+   *   Document permissions.
+   *   This describes restrictions such as printing
+   *   or copying permissions.
+   */
+  permission;
+  /**
+   * - Document outline / bookmarks.
+   *   This provides the top-level navigation/bookmark
+   *   structure when present. Defaults to `false`.
+   */
+  outline;
+  // text-level embed hyperlink
+  links = [];
+  getDateNode() {
+    const result = {};
+    const CreationDate = this.info?.CreationDate;
+    if (CreationDate) {
+      result.CreationDate = PDFDateString.toDateObject(CreationDate);
+    }
+    const ModDate = this.info?.ModDate;
+    if (ModDate) {
+      result.ModDate = PDFDateString.toDateObject(ModDate);
+    }
+    if (!this.metadata) {
+      return result;
+    }
+    for (const prop of XMP_DATE_PROPERTIES) {
+      const value = this.metadata?.get(prop);
+      const date = this.parseISODateString(value);
+      switch (prop) {
+        case XMP_DATE_PROPERTIES[0]:
+          result.XmpCreateDate = date;
+          break;
+        case XMP_DATE_PROPERTIES[1]:
+          result.XmpModifyDate = date;
+          break;
+        case XMP_DATE_PROPERTIES[2]:
+          result.XmpMetadataDate = date;
+          break;
+        case XMP_DATE_PROPERTIES[3]:
+          result.XapCreateDate = date;
+          break;
+        case XMP_DATE_PROPERTIES[4]:
+          result.XapModifyDate = date;
+          break;
+        case XMP_DATE_PROPERTIES[5]:
+          result.XapMetadataDate = date;
+          break;
+      }
+    }
+    return result;
+  }
+  parseISODateString(isoDateString) {
+    if (!isoDateString) return void 0;
+    const parsedDate = Date.parse(isoDateString);
+    if (!Number.isNaN(parsedDate)) {
+      return new Date(parsedDate);
+    }
+    return void 0;
+  }
+  constructor(total) {
+    this.total = total;
   }
 }
 class PageToImageResult {
   pages = [];
   total = 0;
-  info;
-  metadata;
-  constructor(info2) {
-    Object.assign(this, info2);
+  constructor(total) {
+    this.total = total;
   }
 }
 var PathGeometry = /* @__PURE__ */ ((PathGeometry2) => {
@@ -30963,51 +31040,62 @@ class TableResult {
   pages = [];
   mergedTables = [];
   total = 0;
-  info;
-  metadata;
-  constructor(info2) {
-    Object.assign(this, info2);
+  constructor(total) {
+    this.total = total;
   }
 }
 class TextResult {
   pages = [];
   text = "";
   total = 0;
-  info;
-  metadata;
   getPageText(num) {
     for (const pageData of this.pages) {
       if (pageData.num === num) return pageData.text;
     }
     return "";
   }
-  constructor(info2) {
-    Object.assign(this, info2);
+  constructor(total) {
+    this.total = total;
   }
 }
-initPDFJS();
+setWorker();
 class PDFParse {
   options;
   doc;
   constructor(options) {
-    options.verbosity = VerbosityLevel.ERRORS;
+    if (options.verbosity === void 0) {
+      options.verbosity = VerbosityLevel.ERRORS;
+    }
+    if (typeof options.data === "object" && "buffer" in options.data) {
+      options.data = new Uint8Array(options.data);
+    }
     this.options = options;
   }
-  enviroment() {
-    const isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
-    const isCJS = typeof require !== "undefined" && typeof module !== "undefined" && typeof module.exports !== "undefined";
-    const isESM = typeof window === "undefined" && typeof require === "undefined";
-    return { isBrowser, isCJS, isESM };
-  }
-  async getText(params = {}) {
-    const info2 = await this.load();
-    const result = new TextResult(info2);
-    if (this.doc === void 0) {
-      throw new Error("PDF document not loaded");
+  async destroy() {
+    if (this.doc) {
+      await this.doc.destroy();
+      this.doc = void 0;
     }
+  }
+  async getInfo(params = {}) {
+    const doc = await this.load();
+    const result = new InfoResult(doc.numPages);
+    const { info: info2, metadata } = await doc.getMetadata();
+    result.info = info2;
+    result.metadata = metadata;
+    result.fingerprints = doc.fingerprints;
+    result.outline = await doc.getOutline();
+    result.permission = await doc.getPermissions();
+    if (params.parseHyperlinks) ;
+    return result;
+  }
+  // getLinks
+  async getText(params = {}) {
+    const doc = await this.load();
+    const result = new TextResult(doc.numPages);
     for (let i = 1; i <= result.total; i++) {
       if (this.shouldParse(i, result.total, params)) {
-        const pageProxy = await this.doc.getPage(i);
+        const pageProxy = await doc.getPage(i);
         const text = await this.getPageText(pageProxy, params);
         result.pages.push({
           text,
@@ -31016,8 +31104,6 @@ class PDFParse {
         pageProxy.cleanup();
       }
     }
-    await this.doc.destroy();
-    this.doc = void 0;
     for (const page of result.pages) {
       result.text += `${page.text}
 
@@ -31026,18 +31112,11 @@ class PDFParse {
     return result;
   }
   async load() {
-    const opts = { ...this.options };
-    if (typeof this.options.data === "object" && "buffer" in this.options.data) {
-      opts.data = new Uint8Array(this.options.data);
+    if (this.doc === void 0) {
+      const loadingTask = getDocument(this.options);
+      this.doc = await loadingTask.promise;
     }
-    const loadingTask = getDocument(opts);
-    this.doc = await loadingTask.promise;
-    const data = await this.doc.getMetadata();
-    return {
-      total: this.doc.numPages,
-      info: data.info,
-      metadata: data.metadata
-    };
+    return this.doc;
   }
   shouldParse(currentPage, totalPage, params) {
     params.partial = params?.partial ?? [];
@@ -31126,14 +31205,11 @@ class PDFParse {
     return result;
   }
   async getImage(params = {}) {
-    const info2 = await this.load();
-    const result = new ImageResult(info2);
-    if (this.doc === void 0) {
-      throw new Error("PDF document not loaded");
-    }
+    const doc = await this.load();
+    const result = new ImageResult(doc.numPages);
     for (let i = 1; i <= result.total; i++) {
       if (this.shouldParse(i, result.total, params)) {
-        const page = await this.doc.getPage(i);
+        const page = await doc.getPage(i);
         const ops = await page.getOperatorList();
         const pageImages = { pageNumber: i, images: [] };
         result.pages.push(pageImages);
@@ -31143,7 +31219,7 @@ class PDFParse {
             const isCommon = page.commonObjs.has(name);
             const imgPromise = isCommon ? this.resolveEmbeddedImage(page.commonObjs, name) : this.resolveEmbeddedImage(page.objs, name);
             const { width, height, kind, data } = await imgPromise;
-            const canvasFactory = this.doc.canvasFactory;
+            const canvasFactory = doc.canvasFactory;
             const canvasAndContext = canvasFactory.create(width, height);
             const context = canvasAndContext.context;
             let imgData = null;
@@ -31189,8 +31265,6 @@ class PDFParse {
         }
       }
     }
-    await this.doc.destroy();
-    this.doc = void 0;
     return result;
   }
   convertToRGBA({ src, dest, width, height, kind }) {
@@ -31279,8 +31353,8 @@ class PDFParse {
     });
   }
   async pageToImage(params = {}) {
-    const info2 = await this.load();
-    const result = new PageToImageResult(info2);
+    const doc = await this.load();
+    const result = new PageToImageResult(doc.numPages);
     if (this.doc === void 0) {
       throw new Error("PDF document not loaded");
     }
@@ -31326,8 +31400,8 @@ class PDFParse {
     return result;
   }
   async getTable(params = {}) {
-    const info2 = await this.load();
-    const result = new TableResult(info2);
+    const doc = await this.load();
+    const result = new TableResult(doc.numPages);
     if (this.doc === void 0) {
       throw new Error("PDF document not loaded");
     }
@@ -31493,7 +31567,7 @@ class PDFParse {
     }
   }
 }
-function initPDFJS(workerSrc = void 0) {
+function setWorker(workerSrc = void 0) {
   if (typeof globalThis.pdfjs === "undefined") {
     globalThis.pdfjs = pdfjs;
   }
@@ -31521,7 +31595,7 @@ async function pdf(data) {
 }
 export {
   PDFParse,
-  initPDFJS,
-  pdf
+  pdf,
+  setWorker
 };
 //# sourceMappingURL=pdf-parse.es.js.map

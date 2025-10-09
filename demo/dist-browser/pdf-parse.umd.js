@@ -30930,8 +30930,6 @@ var __privateWrapper = (obj, member, setter, getter) => ({
   class ImageResult {
     pages = [];
     total = 0;
-    info;
-    metadata;
     getPageImage(num, name) {
       for (const pageData of this.pages) {
         if (pageData.pageNumber === num) {
@@ -30944,17 +30942,96 @@ var __privateWrapper = (obj, member, setter, getter) => ({
       }
       return null;
     }
-    constructor(info2) {
-      Object.assign(this, info2);
+    constructor(total) {
+      this.total = total;
+    }
+  }
+  const XMP_DATE_PROPERTIES = ["xmp:createdate", "xmp:modifydate", "xmp:metadatadate", "xap:createdate", "xap:modifydate", "xap:metadatadate"];
+  class InfoResult {
+    // total pdf page number
+    total;
+    /**
+     *   The info object contains common fields like title,
+     *   author, subject, and creation/modify dates.
+     */
+    info;
+    //document metadata, XMP metadata, XAP metadata
+    metadata;
+    /**
+     *   Document fingerprint(s).
+     *   Useful for identifying or caching documents.
+     */
+    fingerprints;
+    /**
+     *   Document permissions.
+     *   This describes restrictions such as printing
+     *   or copying permissions.
+     */
+    permission;
+    /**
+     * - Document outline / bookmarks.
+     *   This provides the top-level navigation/bookmark
+     *   structure when present. Defaults to `false`.
+     */
+    outline;
+    // text-level embed hyperlink
+    links = [];
+    getDateNode() {
+      const result = {};
+      const CreationDate = this.info?.CreationDate;
+      if (CreationDate) {
+        result.CreationDate = PDFDateString.toDateObject(CreationDate);
+      }
+      const ModDate = this.info?.ModDate;
+      if (ModDate) {
+        result.ModDate = PDFDateString.toDateObject(ModDate);
+      }
+      if (!this.metadata) {
+        return result;
+      }
+      for (const prop of XMP_DATE_PROPERTIES) {
+        const value = this.metadata?.get(prop);
+        const date = this.parseISODateString(value);
+        switch (prop) {
+          case XMP_DATE_PROPERTIES[0]:
+            result.XmpCreateDate = date;
+            break;
+          case XMP_DATE_PROPERTIES[1]:
+            result.XmpModifyDate = date;
+            break;
+          case XMP_DATE_PROPERTIES[2]:
+            result.XmpMetadataDate = date;
+            break;
+          case XMP_DATE_PROPERTIES[3]:
+            result.XapCreateDate = date;
+            break;
+          case XMP_DATE_PROPERTIES[4]:
+            result.XapModifyDate = date;
+            break;
+          case XMP_DATE_PROPERTIES[5]:
+            result.XapMetadataDate = date;
+            break;
+        }
+      }
+      return result;
+    }
+    parseISODateString(isoDateString) {
+      if (!isoDateString) return void 0;
+      const parsedDate = Date.parse(isoDateString);
+      if (!Number.isNaN(parsedDate)) {
+        return new Date(parsedDate);
+      }
+      return void 0;
+    }
+    constructor(total) {
+      this.total = total;
     }
   }
   class PageToImageResult {
     pages = [];
     total = 0;
-    info;
-    metadata;
-    constructor(info2) {
-      Object.assign(this, info2);
+    constructor(total) {
+      this.total = total;
     }
   }
   var PathGeometry = /* @__PURE__ */ ((PathGeometry2) => {
@@ -30968,51 +31045,62 @@ var __privateWrapper = (obj, member, setter, getter) => ({
     pages = [];
     mergedTables = [];
     total = 0;
-    info;
-    metadata;
-    constructor(info2) {
-      Object.assign(this, info2);
+    constructor(total) {
+      this.total = total;
     }
   }
   class TextResult {
     pages = [];
     text = "";
     total = 0;
-    info;
-    metadata;
     getPageText(num) {
       for (const pageData of this.pages) {
         if (pageData.num === num) return pageData.text;
       }
       return "";
     }
-    constructor(info2) {
-      Object.assign(this, info2);
+    constructor(total) {
+      this.total = total;
     }
   }
-  initPDFJS();
+  setWorker();
   class PDFParse {
     options;
     doc;
     constructor(options) {
-      options.verbosity = VerbosityLevel.ERRORS;
+      if (options.verbosity === void 0) {
+        options.verbosity = VerbosityLevel.ERRORS;
+      }
+      if (typeof options.data === "object" && "buffer" in options.data) {
+        options.data = new Uint8Array(options.data);
+      }
       this.options = options;
     }
-    enviroment() {
-      const isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
-      const isCJS = typeof require !== "undefined" && typeof module !== "undefined" && typeof module.exports !== "undefined";
-      const isESM = typeof window === "undefined" && typeof require === "undefined";
-      return { isBrowser, isCJS, isESM };
-    }
-    async getText(params = {}) {
-      const info2 = await this.load();
-      const result = new TextResult(info2);
-      if (this.doc === void 0) {
-        throw new Error("PDF document not loaded");
+    async destroy() {
+      if (this.doc) {
+        await this.doc.destroy();
+        this.doc = void 0;
       }
+    }
+    async getInfo(params = {}) {
+      const doc = await this.load();
+      const result = new InfoResult(doc.numPages);
+      const { info: info2, metadata } = await doc.getMetadata();
+      result.info = info2;
+      result.metadata = metadata;
+      result.fingerprints = doc.fingerprints;
+      result.outline = await doc.getOutline();
+      result.permission = await doc.getPermissions();
+      if (params.parseHyperlinks) ;
+      return result;
+    }
+    // getLinks
+    async getText(params = {}) {
+      const doc = await this.load();
+      const result = new TextResult(doc.numPages);
       for (let i = 1; i <= result.total; i++) {
         if (this.shouldParse(i, result.total, params)) {
-          const pageProxy = await this.doc.getPage(i);
+          const pageProxy = await doc.getPage(i);
           const text = await this.getPageText(pageProxy, params);
           result.pages.push({
             text,
@@ -31021,8 +31109,6 @@ var __privateWrapper = (obj, member, setter, getter) => ({
           pageProxy.cleanup();
         }
       }
-      await this.doc.destroy();
-      this.doc = void 0;
       for (const page of result.pages) {
         result.text += `${page.text}
 
@@ -31031,18 +31117,11 @@ var __privateWrapper = (obj, member, setter, getter) => ({
       return result;
     }
     async load() {
-      const opts = { ...this.options };
-      if (typeof this.options.data === "object" && "buffer" in this.options.data) {
-        opts.data = new Uint8Array(this.options.data);
+      if (this.doc === void 0) {
+        const loadingTask = getDocument(this.options);
+        this.doc = await loadingTask.promise;
       }
-      const loadingTask = getDocument(opts);
-      this.doc = await loadingTask.promise;
-      const data = await this.doc.getMetadata();
-      return {
-        total: this.doc.numPages,
-        info: data.info,
-        metadata: data.metadata
-      };
+      return this.doc;
     }
     shouldParse(currentPage, totalPage, params) {
       params.partial = params?.partial ?? [];
@@ -31131,14 +31210,11 @@ var __privateWrapper = (obj, member, setter, getter) => ({
       return result;
     }
     async getImage(params = {}) {
-      const info2 = await this.load();
-      const result = new ImageResult(info2);
-      if (this.doc === void 0) {
-        throw new Error("PDF document not loaded");
-      }
+      const doc = await this.load();
+      const result = new ImageResult(doc.numPages);
       for (let i = 1; i <= result.total; i++) {
         if (this.shouldParse(i, result.total, params)) {
-          const page = await this.doc.getPage(i);
+          const page = await doc.getPage(i);
           const ops = await page.getOperatorList();
           const pageImages = { pageNumber: i, images: [] };
           result.pages.push(pageImages);
@@ -31148,7 +31224,7 @@ var __privateWrapper = (obj, member, setter, getter) => ({
               const isCommon = page.commonObjs.has(name);
               const imgPromise = isCommon ? this.resolveEmbeddedImage(page.commonObjs, name) : this.resolveEmbeddedImage(page.objs, name);
               const { width, height, kind, data } = await imgPromise;
-              const canvasFactory = this.doc.canvasFactory;
+              const canvasFactory = doc.canvasFactory;
               const canvasAndContext = canvasFactory.create(width, height);
               const context = canvasAndContext.context;
               let imgData = null;
@@ -31194,8 +31270,6 @@ var __privateWrapper = (obj, member, setter, getter) => ({
           }
         }
       }
-      await this.doc.destroy();
-      this.doc = void 0;
       return result;
     }
     convertToRGBA({ src, dest, width, height, kind }) {
@@ -31284,8 +31358,8 @@ var __privateWrapper = (obj, member, setter, getter) => ({
       });
     }
     async pageToImage(params = {}) {
-      const info2 = await this.load();
-      const result = new PageToImageResult(info2);
+      const doc = await this.load();
+      const result = new PageToImageResult(doc.numPages);
       if (this.doc === void 0) {
         throw new Error("PDF document not loaded");
       }
@@ -31331,8 +31405,8 @@ var __privateWrapper = (obj, member, setter, getter) => ({
       return result;
     }
     async getTable(params = {}) {
-      const info2 = await this.load();
-      const result = new TableResult(info2);
+      const doc = await this.load();
+      const result = new TableResult(doc.numPages);
       if (this.doc === void 0) {
         throw new Error("PDF document not loaded");
       }
@@ -31498,7 +31572,7 @@ var __privateWrapper = (obj, member, setter, getter) => ({
       }
     }
   }
-  function initPDFJS(workerSrc = void 0) {
+  function setWorker(workerSrc = void 0) {
     if (typeof globalThis.pdfjs === "undefined") {
       globalThis.pdfjs = pdfjs;
     }
@@ -31525,8 +31599,8 @@ var __privateWrapper = (obj, member, setter, getter) => ({
     return text;
   }
   exports2.PDFParse = PDFParse;
-  exports2.initPDFJS = initPDFJS;
   exports2.pdf = pdf;
+  exports2.setWorker = setWorker;
   Object.defineProperty(exports2, Symbol.toStringTag, { value: "Module" });
 }));
 //# sourceMappingURL=pdf-parse.umd.js.map
