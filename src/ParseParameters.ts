@@ -27,6 +27,9 @@ export interface ParseParameters {
 	 */
 	last?: number;
 
+	// default true
+	destroy?: boolean | undefined;
+
 	/**
 	 * - When true, attempt to detect and include hyperlink annotations (e.g. URLs)
 	 *   associated with text. Detected links are formatted as Markdown inline links

@@ -11,6 +11,9 @@ describe('get-info page label number test', () => {
 	test('pdf-page-label-number.pdf', async () => {
 		const buffer = await readFile(join(__dir, 'pdf-page-label-number.pdf'));
 		const parser = new PDFParse({ data: buffer });
+		await parser.getInfo({ parseHyperlinks: true });
+		await parser.getInfo({ parseHyperlinks: true });
+		await parser.getInfo({ parseHyperlinks: true });
 		const result = await parser.getInfo({ parseHyperlinks: true });
 		expect(result.total).toEqual(5);
 		expect(result.pages).toMatchObject([

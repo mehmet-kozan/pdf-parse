@@ -13,16 +13,19 @@ const __pdf = join(__dirname, 'bench.pdf');
 
 async function pdf_parse_esm_promise(buffer: Buffer<ArrayBufferLike>) {
 	const parser = new PDFParse({ data: buffer });
-	return await parser.getText();
+
+	await parser.getText();
+	await parser.destroy();
 }
 
 async function pdf_parse_cjs_promise(buffer: Buffer<ArrayBufferLike>) {
-	return await pdf(buffer);
+	await pdf(buffer);
 }
 
 async function pdf_parse_browser_promise(buffer: Buffer<ArrayBufferLike>) {
 	const parser = new BrowserPDFParse({ data: buffer });
-	return await parser.getText();
+	await parser.getText();
+	await parser.destroy();
 }
 
 async function pdf2json_promise(buffer: Buffer<ArrayBufferLike>) {

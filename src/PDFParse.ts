@@ -67,6 +67,10 @@ export class PDFParse {
 			}
 		}
 
+		if (params.destroy === undefined || params.destroy) {
+			await this.destroy();
+		}
+
 		return result;
 	}
 
