@@ -203,10 +203,11 @@ try {
 
 ## Web / Browser
 
+- Use `pdf-parse` in your React, Vue, or Angular projects.
 - Check: [`live demo`](https://mehmet-kozan.github.io/pdf-parse/)
 - Live demo source: [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
-
-Use the minified versions (`.min.js`) for production to reduce file size, or the regular versions for development and debugging.
+- Use the minified versions (`.min.js`) for production to reduce file size.
+- Regular versions for development and debugging.
 
 > You can use any of the following browser bundles depending on your module system and requirements:  
 > - `pdf-parse.es.js` or `pdf-parse.es.min.js` for ES modules  
@@ -219,14 +220,30 @@ You can include the browser bundle directly from a CDN. Use the latest version:
 
 Or specify a particular version:
 
-- [https://cdn.jsdelivr.net/npm/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js)
-- [https://unpkg.com/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js)  
+- [https://cdn.jsdelivr.net/npm/pdf-parse@2.2.4/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.2.4/dist/browser/pdf-parse.es.min.js)
+- [https://unpkg.com/pdf-parse@2.2.4/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.2.4/dist/browser/pdf-parse.es.min.js)  
+
+### Worker Source
+
+If you use a custom build or host `pdf.worker.min.mjs` yourself in browser environments, configure worker accordingly. You can use one of CDN hosted scripts, see [`example\basic.html`](example\basic.html).
+
+- https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs
+- https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.mjs
+- https://unpkg.com/pdf-parse@latest/dist/browser/pdf.worker.min.mjs
+- https://unpkg.com/pdf-parse@latest/dist/browser/pdf.worker.mjs
+
+```js
+import { PDFParse } from '...';
+
+// before use PDFParse class.
+PDFParse.setWorker('https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs');
+
+const parser = new PDFParse({ data: .. });
+const info = await parser.getInfo();
+await parser.destroy();
+```
 
 
-
-
-
-> **Worker Note:** In browser environments, the package sets `pdfjs.GlobalWorkerOptions.workerSrc` automatically when imported from the built browser bundle. If you use a custom build or host `pdf.worker` yourself, configure worker accordingly.
 
 
 
