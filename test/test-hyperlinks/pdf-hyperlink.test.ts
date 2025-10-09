@@ -14,8 +14,7 @@ const __pdf_txt = join(__dirname, 'hyperlinks-test.txt');
 describe('test-space', async () => {
 	const buffer = await readFile(__pdf);
 	const parser = new PDFParse({ data: buffer });
-	const result = await parser.getText({parseHyperlinks:true});
-	
+	const result = await parser.getText({ parseHyperlinks: true });
 
 	await writeFile(__pdf_txt, result.text, {
 		encoding: 'utf8',

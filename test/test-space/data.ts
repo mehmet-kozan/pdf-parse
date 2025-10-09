@@ -3,7 +3,7 @@ export const TestData = {
 	pages: [
 		{
 			num: 1,
-			texts: ['Samsung’s', '5 nm','finFET process' ],
+			texts: ['Samsung’s', '5 nm', 'finFET process'],
 		},
 	],
 };

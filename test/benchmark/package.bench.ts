@@ -5,7 +5,7 @@ import PDF2JSON from 'pdf2json';
 import { bench, describe } from 'vitest';
 import { PDFParse } from '../../dist/esm/index';
 import pdf from '../../dist/cjs/index.cjs';
-import {PDFParse as BrowserPDFParse} from '../../dist/browser/pdf-parse.es.min.js';
+import { PDFParse as BrowserPDFParse } from '../../dist/browser/pdf-parse.es.min.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

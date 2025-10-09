@@ -154,7 +154,7 @@ export class Table {
 
 					if (dir === RelativeDirections.Left || dir === RelativeDirections.Top) {
 						// TODO remove
-						debugger;
+						// debugger;
 					}
 				}
 			}

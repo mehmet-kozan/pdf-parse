@@ -3,9 +3,8 @@
 	"editor.formatOnSave": true,
 	"editor.formatOnPaste": false,
 	"editor.codeActionsOnSave": {
-		"source.fixAll.biome": "explicit"
+		"source.fixAll.biome": "always"
 	},
-	//"editor.tabSize": 2,
 	"editor.defaultFormatter": "biomejs.biome",
 	"[javascript]": {
 		"editor.defaultFormatter": "biomejs.biome"

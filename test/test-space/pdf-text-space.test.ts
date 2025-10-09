@@ -16,7 +16,6 @@ describe('test-space', async () => {
 	const buffer = new Uint8Array(data);
 	const parser = new PDFParse({ data: buffer });
 	const result = await parser.getText();
-	
 
 	await writeFile(__pdf_txt, result.text, {
 		encoding: 'utf8',
