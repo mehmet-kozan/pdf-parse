@@ -31591,6 +31591,7 @@ async function pdf(data) {
     parser = new PDFParse({ data });
   }
   const text = await parser.getText();
+  await parser.destroy();
   return text;
 }
 export {

@@ -31596,6 +31596,7 @@ var __privateWrapper = (obj, member, setter, getter) => ({
       parser = new PDFParse({ data });
     }
     const text = await parser.getText();
+    await parser.destroy();
     return text;
   }
   exports2.PDFParse = PDFParse;
