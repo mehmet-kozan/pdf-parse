@@ -25,9 +25,10 @@
 - Supports Node.js and browsers 
 - CommonJS and ESM support 
 - Vulnerability and security info : [`security policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
+- Extract document info : `getInfo` 
 - Extract page text : `getText` 
+- Render Pages as PNG : `getScreenshot` 
 - Extract embedded images : `getImage` 
-- Render pages as images : `pageToImage` 
 - Detect and extract tabular data : `getTable` 
 - For additional usage examples, check the [`test`](./test) folder and [`live demo`](https://mehmet-kozan.github.io/pdf-parse/)
 - Live demo source: [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
@@ -130,7 +131,7 @@ Usage Examples:
 - Parse embedded hyperlinks: [`test/test-hyperlinks`](test/test-hyperlinks/pdf-hyperlink.test.ts)
 - Load PDF from URL: [`test/test-types`](test/test-types/text-result-type.test.ts)
 
-### pageToImage — Render Page to PNG
+### getScreenshot — Render Pages as PNG
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
@@ -139,7 +140,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 const buffer = await readFile('test/test-01/test.pdf');
 
 const parser = new PDFParse({ data: buffer });
-const result = await parser.pageToImage();
+const result = await parser.getScreenshot();
 await parser.destroy();
 
 for (const pageData of result.pages) {
@@ -207,6 +208,21 @@ Or specify a particular version:
 
 - [https://cdn.jsdelivr.net/npm/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js)
 - [https://unpkg.com/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js)  
+
+
+## Error Handling
+```js
+const parser = new PDFParse({ data: buffer });
+try {
+    const result = await parser.getText();
+} catch (error) {
+    console.error('PDF parsing failed:', error);
+} finally {
+    // Always call destroy() to free memory
+    await parser.destroy();
+}
+```
+
 
 
 > **Worker Note:** In browser environments, the package sets `pdfjs.GlobalWorkerOptions.workerSrc` automatically when imported from the built browser bundle. If you use a custom build or host `pdf.worker` yourself, configure pdfjs accordingly.
