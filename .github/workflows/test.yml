@@ -31,6 +31,9 @@ jobs:
     
     - name: Run build
       run: npm run build
+      
+    - name: Run ava tests only (non-main branches)
+      run: npm run test:ava
     
     - name: Run tests only (non-main branches)
       if: github.ref != 'refs/heads/main'
