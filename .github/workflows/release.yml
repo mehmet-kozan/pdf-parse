@@ -39,7 +39,7 @@ jobs:
     
     - uses: actions/setup-node@v3
       with:
-        node-version: '22.18.0'
+        node-version: '22.20.0'
         registry-url: 'https://registry.npmjs.org/'
     
     - run: npm cache clean --force
