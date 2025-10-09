@@ -23,7 +23,7 @@ async function processDir(dir) {
 			// If target exists on Windows, remove it first
 			try {
 				await unlink(newPath);
-			} catch (e) {
+			} catch {
 				/* ignore if not exists */
 			}
 
@@ -80,13 +80,13 @@ async function processDir(dir) {
 			// if target exists remove it first (Windows)
 			try {
 				await unlink(newPath);
-			} catch (e) {
+			} catch {
 				/* ignore */
 			}
 
 			await rename(fullPath, newPath);
 
-			let content = await readFile(newPath, 'utf-8');
+			const content = await readFile(newPath, 'utf-8');
 			const mapData = JSON.parse(content);
 			if (mapData.file && !mapData.file.startsWith('pdfjs-dist')) mapData.file = mapData.file.replace(/\.js$/, '.cjs');
 			await writeFile(newPath, JSON.stringify(mapData, null, 2), 'utf-8');

@@ -186,7 +186,20 @@ for (const pageData of result.pages) {
         console.log(table);
     }
 }
-```
+```  
+
+## Error Handling
+```js
+const parser = new PDFParse({ data: buffer });
+try {
+    const result = await parser.getText();
+} catch (error) {
+    console.error('PDF parsing failed:', error);
+} finally {
+    // Always call destroy() to free memory
+    await parser.destroy();
+}
+```  
 
 ## Web / Browser
 
@@ -210,18 +223,7 @@ Or specify a particular version:
 - [https://unpkg.com/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js)  
 
 
-## Error Handling
-```js
-const parser = new PDFParse({ data: buffer });
-try {
-    const result = await parser.getText();
-} catch (error) {
-    console.error('PDF parsing failed:', error);
-} finally {
-    // Always call destroy() to free memory
-    await parser.destroy();
-}
-```  
+
 
 
 > **Worker Note:** In browser environments, the package sets `pdfjs.GlobalWorkerOptions.workerSrc` automatically when imported from the built browser bundle. If you use a custom build or host `pdf.worker` yourself, configure worker accordingly.
