@@ -30943,34 +30943,41 @@ class ImageResult {
 }
 const XMP_DATE_PROPERTIES = ["xmp:createdate", "xmp:modifydate", "xmp:metadatadate", "xap:createdate", "xap:modifydate", "xap:metadatadate"];
 class InfoResult {
-  // total pdf page number
+  // Total number of pages in the PDF document (count of physical pages).
   total;
   /**
-   *   The info object contains common fields like title,
-   *   author, subject, and creation/modify dates.
+   * The PDF 'Info' dictionary. Typical fields include title, author, subject,
+   * Creator, Producer and Creation/Modification dates. The exact structure is
+   * determined by the PDF and as returned by PDF.js.
    */
+  // biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
   info;
-  //document metadata, XMP metadata, XAP metadata
+  // Low-level document metadata object (XMP). Use this to access extended
+  // properties that are not present in the Info dictionary.
   metadata;
   /**
-   *   Document fingerprint(s).
-   *   Useful for identifying or caching documents.
+   * An array of document fingerprint strings provided by PDF.js. Useful
+   * for caching, de-duplication or identifying a document across runs.
    */
   fingerprints;
   /**
-   *   Document permissions.
-   *   This describes restrictions such as printing
-   *   or copying permissions.
+   * Permission flags for the document as returned by PDF.js (or null).
+   * These flags indicate capabilities such as printing, copying and
+   * other restrictions imposed by the PDF security settings.
    */
   permission;
   /**
-   * - Document outline / bookmarks.
-   *   This provides the top-level navigation/bookmark
-   *   structure when present. Defaults to `false`.
+   * Optional document outline (bookmarks). When present this is the
+   * hierarchical navigation structure which viewers use for quick access.
    */
   outline;
-  // text-level embed hyperlink
-  links = [];
+  // Results with per-page hyperlink extraction. Empty array by default.
+  pages = [];
+  /**
+   * Collects dates from different sources (Info dictionary and XMP/XAP metadata)
+   * and returns them as a DateNode where available. This helps callers compare
+   * and choose the most relevant timestamp (for example a creation date vs XMP date).
+   */
   getDateNode() {
     const result = {};
     const CreationDate = this.info?.CreationDate;
@@ -31010,6 +31017,11 @@ class InfoResult {
     }
     return result;
   }
+  /**
+   * Try to parse an ISO-8601 date string from XMP/XAP metadata. If the
+   * value is falsy or cannot be parsed, undefined is returned to indicate
+   * absence or unparsable input.
+   */
   parseISODateString(isoDateString) {
     if (!isoDateString) return void 0;
     const parsedDate = Date.parse(isoDateString);
@@ -31086,10 +31098,38 @@ class PDFParse {
     result.fingerprints = doc.fingerprints;
     result.outline = await doc.getOutline();
     result.permission = await doc.getPermissions();
-    if (params.parseHyperlinks) ;
+    const pageLabels = await doc.getPageLabels();
+    if (params.parseHyperlinks) {
+      for (let i = 1; i <= result.total; i++) {
+        if (this.shouldParse(i, result.total, params)) {
+          const page = await doc.getPage(i);
+          const pageLinkResult = await this.getPageLinks(page);
+          pageLinkResult.pageLabel = pageLabels?.[page.pageNumber];
+          result.pages.push(pageLinkResult);
+          page.cleanup();
+        }
+      }
+    }
     return result;
   }
-  // getLinks
+  async getPageLinks(page) {
+    const viewport = page.getViewport({ scale: 1 });
+    const result = {
+      pageNumber: page.pageNumber,
+      links: [],
+      width: viewport.width,
+      height: viewport.height
+    };
+    const annotations = await page.getAnnotations({ intent: "display" }) || [];
+    for (const i of annotations) {
+      if (i.subtype !== "Link") continue;
+      const url = i.url ?? i.unsafeUrl;
+      if (!url) continue;
+      const text = i.overlaidText || "";
+      result.links.push({ url, text });
+    }
+    return result;
+  }
   async getText(params = {}) {
     const doc = await this.load();
     const result = new TextResult(doc.numPages);
