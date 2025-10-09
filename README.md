@@ -27,7 +27,7 @@
 - Vulnerability and security info : [`security policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
 - Extract document info : `getInfo` 
 - Extract page text : `getText` 
-- Render Pages as PNG : `getScreenshot` 
+- Render pages as PNG : `getScreenshot` 
 - Extract embedded images : `getImage` 
 - Detect and extract tabular data : `getTable` 
 - For additional usage examples, check the [`test`](./test) folder and [`live demo`](https://mehmet-kozan.github.io/pdf-parse/)
