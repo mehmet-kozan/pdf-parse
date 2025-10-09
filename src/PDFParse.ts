@@ -27,7 +27,7 @@ export class PDFParse {
 			options.verbosity = pdfjs.VerbosityLevel.ERRORS;
 		}
 
-		if (typeof options.data === 'object' && 'buffer' in options.data) {
+		if (typeof Buffer !== 'undefined' && options.data instanceof Buffer) {
 			options.data = new Uint8Array(options.data);
 		}
 
@@ -65,10 +65,6 @@ export class PDFParse {
 					page.cleanup();
 				}
 			}
-		}
-
-		if (params.destroy === undefined || params.destroy) {
-			await this.destroy();
 		}
 
 		return result;
@@ -116,9 +112,6 @@ export class PDFParse {
 				pageProxy.cleanup();
 			}
 		}
-
-		//await this.doc.destroy();
-		//this.doc = undefined;
 
 		for (const page of result.pages) {
 			result.text += `${page.text}\n\n`;
@@ -328,9 +321,6 @@ export class PDFParse {
 			}
 		}
 
-		//await this.doc.destroy();
-		//this.doc = undefined;
-
 		return result;
 	}
 
@@ -498,9 +488,6 @@ export class PDFParse {
 			}
 		}
 
-		await this.doc.destroy();
-		this.doc = undefined;
-
 		return result;
 	}
 
@@ -542,7 +529,6 @@ export class PDFParse {
 		//     const str = table.toString()
 		//     console.log(str)
 		// }
-		await this.doc.destroy();
 		return result;
 	}
 
