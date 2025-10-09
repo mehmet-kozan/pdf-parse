@@ -31039,13 +31039,6 @@ var __privateWrapper = (obj, member, setter, getter) => ({
       this.total = total;
     }
   }
-  class PageToImageResult {
-    pages = [];
-    total = 0;
-    constructor(total) {
-      this.total = total;
-    }
-  }
   var PathGeometry = /* @__PURE__ */ ((PathGeometry2) => {
     PathGeometry2[PathGeometry2["undefined"] = 0] = "undefined";
     PathGeometry2[PathGeometry2["hline"] = 1] = "hline";
@@ -31053,6 +31046,13 @@ var __privateWrapper = (obj, member, setter, getter) => ({
     PathGeometry2[PathGeometry2["rectangle"] = 3] = "rectangle";
     return PathGeometry2;
   })(PathGeometry || {});
+  class ScreenshotResult {
+    pages = [];
+    total = 0;
+    constructor(total) {
+      this.total = total;
+    }
+  }
   class TableResult {
     pages = [];
     mergedTables = [];
@@ -31397,9 +31397,9 @@ var __privateWrapper = (obj, member, setter, getter) => ({
         });
       });
     }
-    async pageToImage(params = {}) {
+    async getScreenshot(params = {}) {
       const doc = await this.load();
-      const result = new PageToImageResult(doc.numPages);
+      const result = new ScreenshotResult(doc.numPages);
       if (this.doc === void 0) {
         throw new Error("PDF document not loaded");
       }
