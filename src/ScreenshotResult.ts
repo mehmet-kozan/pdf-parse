@@ -1,4 +1,4 @@
-export interface PageToImage {
+export interface Screenshot {
 	// Raw binary image data (PNG/JPEG) normalized to Uint8Array.
 	data: Uint8Array;
 
@@ -8,8 +8,8 @@ export interface PageToImage {
 	pageNumber: number;
 }
 
-export class PageToImageResult {
-	pages: Array<PageToImage> = [];
+export class ScreenshotResult {
+	pages: Array<Screenshot> = [];
 	total: number = 0;
 
 	constructor(total: number) {

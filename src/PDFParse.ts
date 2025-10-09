@@ -8,9 +8,9 @@ import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
 import type { TableData } from './geometry/TableData.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
 import { InfoResult, type PageLinkResult } from './InfoResult.js';
-import { PageToImageResult } from './PageToImageResult.js';
 import type { ParseParameters } from './ParseParameters.js';
 import { type MinMax, PathGeometry } from './PathGeometry.js';
+import { ScreenshotResult } from './ScreenshotResult.js';
 import { type PageTableResult, TableResult } from './TableResult.js';
 import { TextResult } from './TextResult.js';
 
@@ -427,14 +427,14 @@ export class PDFParse {
 		});
 	}
 
-	public async pageToImage(params: ParseParameters = {}): Promise<PageToImageResult> {
+	public async getScreenshot(params: ParseParameters = {}): Promise<ScreenshotResult> {
 		//const base = new URL('../../node_modules/pdfjs-dist/', import.meta.url);
 		//this.options.cMapUrl = new URL('cmaps/', base).href;
 		//this.options.cMapPacked = true;
 		//this.options.standardFontDataUrl = new URL('legacy/build/standard_fonts/', base).href;
 
 		const doc = await this.load();
-		const result = new PageToImageResult(doc.numPages);
+		const result = new ScreenshotResult(doc.numPages);
 
 		if (this.doc === undefined) {
 			throw new Error('PDF document not loaded');

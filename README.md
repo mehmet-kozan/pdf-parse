@@ -74,6 +74,39 @@ pdf(data).then(result=>{
 });
 ```
 
+### getInfo — Extract Metadata and Document Information
+```js
+// Node / ESM
+import { PDFParse } from 'pdf-parse';
+import { readFile } from 'node:fs/promises';
+
+const buffer = await readFile('test/test-01/test.pdf');
+
+const parser = new PDFParse({ data: buffer });
+const info = await parser.getInfo();
+await parser.destroy();
+
+console.log(`Total pages: ${info.total}`);
+console.log(`Title: ${info.info?.Title}`);
+console.log(`Author: ${info.info?.Author}`);
+console.log(`Creator: ${info.info?.Creator}`);
+console.log(`Producer: ${info.info?.Producer}`);
+
+// Access parsed date information
+const dates = info.getDateNode();
+console.log(`Creation Date: ${dates.CreationDate}`);
+console.log(`Modification Date: ${dates.ModDate}`);
+
+// Links, pageLabel, width, height (when `parseHyperlinks` is enabled)
+console.log(`Per-page information: ${info.pages}`);
+
+```
+
+Usage Examples:
+- Parse hyperlinks from pages: [`test/test-get-info`](test/test-get-info/get-info.test.ts)
+- To extract hyperlinks, pass `{ parseHyperlinks: true }`
+- `const info = await parser.getInfo({ parseHyperlinks: true })`
+
 ### getText — Extract Text
 ```js
 // Node / ESM
@@ -91,7 +124,7 @@ For a complete list of configuration options, see:
 - [`DocumentInitParameters`](https://mozilla.github.io/pdf.js/api/draft/module-pdfjsLib.html#~DocumentInitParameters) - PDF.js document initialization options
 - [`ParseParameters`](src/ParseParameters.ts) - pdf-parse specific options
 
-Usage Examples
+Usage Examples:
 - Parse password protected PDF:  [`test/test-06-password`](test/test-06-password/pdf-password.test.ts)
 - Parse only specific pages: [`test/test-parse-parameters`](test/test-parse-parameters/pdf-parse-parameters.test.ts)
 - Parse embedded hyperlinks: [`test/test-hyperlinks`](test/test-hyperlinks/pdf-hyperlink.test.ts)
