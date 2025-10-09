@@ -1,6 +1,6 @@
 import type { PageViewport, PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
-import * as WorkerUrl from 'pdfjs-dist/legacy/build/pdf.worker.mjs?url';
+//import * as WorkerUrl from 'pdfjs-dist/legacy/build/pdf.worker.mjs?url';
 import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_factory.js';
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 import type { DocumentInitParameters } from './DocumentInitParameters.js';
@@ -12,11 +12,7 @@ import type { ParseParameters } from './ParseParameters.js';
 import { type MinMax, PathGeometry } from './PathGeometry.js';
 import { ScreenshotResult } from './ScreenshotResult.js';
 import { type PageTableResult, TableResult } from './TableResult.js';
-import { TextResult } from './TextResult.js';
-
-type HyperlinkPosition = { rect: { left: number; top: number; right: number; bottom: number }; url: string; text: string; used: boolean };
-
-setWorker();
+import { type HyperlinkPosition, TextResult } from './TextResult.js';
 
 export class PDFParse {
 	private readonly options: DocumentInitParameters;
@@ -39,6 +35,38 @@ export class PDFParse {
 			await this.doc.destroy();
 			this.doc = undefined;
 		}
+	}
+
+	public static get isNodeJS(): boolean {
+		const isNodeJS =
+			typeof process === 'object' &&
+			`${process}` === '[object process]' &&
+			!process.versions.nw &&
+			// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
+			!(process.versions.electron && typeof (process as any).type !== 'undefined' && (process as any).type !== 'browser');
+
+		return isNodeJS;
+	}
+
+	public static setWorker(workerSrc: string | undefined = undefined): string {
+		// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
+		if (typeof (globalThis as any).pdfjs === 'undefined') {
+			// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
+			(globalThis as any).pdfjs = pdfjs;
+		}
+
+		if (pdfjs?.GlobalWorkerOptions === null) return '';
+
+		if (workerSrc !== undefined) {
+			pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
+			return workerSrc;
+		}
+
+		if (!PDFParse.isNodeJS) {
+			pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.mjs';
+		}
+
+		return pdfjs.GlobalWorkerOptions.workerSrc;
 	}
 
 	public async getInfo(params: ParseParameters = {}): Promise<InfoResult> {
@@ -744,30 +772,4 @@ export class PDFParse {
 	}
 }
 
-export function setWorker(workerSrc: string | undefined = undefined) {
-	// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
-	if (typeof (globalThis as any).pdfjs === 'undefined') {
-		// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
-		(globalThis as any).pdfjs = pdfjs;
-	}
-
-	// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
-	const worker: any = WorkerUrl.default || WorkerUrl;
-	if (pdfjs?.GlobalWorkerOptions === null) return;
-
-	if (workerSrc !== undefined) {
-		pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
-		return;
-	}
-
-	const isNodeJS =
-		typeof process === 'object' &&
-		`${process}` === '[object process]' &&
-		!process.versions.nw &&
-		// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
-		!(process.versions.electron && typeof (process as any).type !== 'undefined' && (process as any).type !== 'browser');
-
-	if (!isNodeJS) {
-		pdfjs.GlobalWorkerOptions.workerSrc = worker;
-	}
-}
+PDFParse.setWorker();

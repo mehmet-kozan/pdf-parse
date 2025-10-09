@@ -20,16 +20,15 @@ export default defineConfig({
 			name: 'copy-pdf-worker',
 			closeBundle() {
 				const source = join(process.cwd(), 'node_modules', 'pdfjs-dist', 'legacy', 'build', 'pdf.worker.mjs');
-				const dest = join(process.cwd(), 'dist', 'browser', 'pdf.worker.mjs');
-				copyFileSync(source, dest);
-			},
-		},
-		{
-			name: 'copy-pdf-worker-to-esm',
-			closeBundle() {
-				const source = join(process.cwd(), 'node_modules', 'pdfjs-dist', 'legacy', 'build', 'pdf.worker.mjs');
-				const dest = join(process.cwd(), 'dist', 'esm', 'pdf.worker.mjs');
-				copyFileSync(source, dest);
+				const source_min = join(process.cwd(), 'node_modules', 'pdfjs-dist', 'legacy', 'build', 'pdf.worker.min.mjs');
+				const dest_browser = join(process.cwd(), 'dist', 'browser', 'pdf.worker.mjs');
+				const dest_browser_min = join(process.cwd(), 'dist', 'browser', 'pdf.worker.min.mjs');
+				const dest_esm = join(process.cwd(), 'dist', 'esm', 'pdf.worker.mjs');
+				const dest_cjs = join(process.cwd(), 'dist', 'cjs', 'pdf.worker.mjs');
+				copyFileSync(source, dest_browser);
+				copyFileSync(source_min, dest_browser_min);
+				copyFileSync(source, dest_esm);
+				copyFileSync(source, dest_cjs);
 			},
 		},
 		{

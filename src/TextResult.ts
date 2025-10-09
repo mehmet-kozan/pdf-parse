@@ -1,3 +1,5 @@
+export type HyperlinkPosition = { rect: { left: number; top: number; right: number; bottom: number }; url: string; text: string; used: boolean };
+
 export interface PageTextResult {
 	num: number;
 	text: string;

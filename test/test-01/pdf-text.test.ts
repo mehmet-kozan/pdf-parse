@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, test } from 'vitest';
-import { pdf } from '../../src/index';
+import { PDFParse } from '../../src/index';
 import { TestData } from './data';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -14,7 +14,8 @@ const __pdf_txt = join(__dirname, 'test.txt');
 describe('test-01 pdf-text all:true', async () => {
 	const data = await readFile(__pdf);
 	const buffer = new Uint8Array(data);
-	const result = await pdf(buffer);
+	const parser = new PDFParse({ data: buffer });
+	const result = await parser.getText();
 
 	await writeFile(__pdf_txt, result.text, {
 		encoding: 'utf8',

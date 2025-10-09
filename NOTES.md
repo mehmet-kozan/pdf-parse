@@ -1,4 +1,5 @@
-* // TODO https://github.com/adobe-type-tools/cmap-resources
+* https://github.com/adobe-type-tools/cmap-resources
+* https://mozilla.github.io/pdf.js/examples/
 
 
 

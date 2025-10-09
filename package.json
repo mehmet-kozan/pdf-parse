@@ -4,7 +4,7 @@
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
-	"types": "dist/esm/index.d.ts",
+	"types": "dist/cjs/index.d.ts",
 	"exports": {
 		".": {
 			"import": {
@@ -12,7 +12,7 @@
 				"default": "./dist/esm/index.js"
 			},
 			"require": {
-				"types": "./dist/cjs/index.cjs.d.ts",
+				"types": "./dist/cjs/index.d.ts",
 				"default": "./dist/cjs/index.cjs"
 			}
 		}
@@ -55,9 +55,10 @@
 		"dist/"
 	],
 	"scripts": {
-		"build": "npm-run-all clean clean:site build:esm build:cjs build:browser build:browser:min",
+		"build": "npm-run-all clean clean:site build:esm build:cjs build:cjs:rename build:browser build:browser:min",
 		"build:esm": "tsc",
-		"build:cjs": "vite build --config vite.config.node.cjs.ts",
+		"build:cjs": "tsc --project tsconfig.node.json",
+		"build:cjs:rename": "node scripts/rename-cjs.js",
 		"build:browser": "vite build --config vite.config.browser.ts",
 		"build:browser:min": "vite build --config vite.config.browser.min.ts",
 		"clean": "rimraf --glob dist test/**/*.txt test/**/imgs",

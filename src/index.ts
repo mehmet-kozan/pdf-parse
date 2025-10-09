@@ -1,5 +1,4 @@
-import type { TypedArray } from './DocumentInitParameters.js';
-import { PDFParse, setWorker } from './PDFParse.js';
+import { PDFParse } from './PDFParse.js';
 
 export type { DocumentInitParameters, PDFDataRangeTransport, PDFWorker, TypedArray } from './DocumentInitParameters.js';
 export type { EmbeddedImage, ImageKindKey, ImageKindValue, ImageResult, PageImages } from './ImageResult.js';
@@ -14,23 +13,11 @@ export type { PageTextResult, TextResult } from './TextResult.js';
  * Binary PDF data.
  * Use TypedArrays (Uint8Array) to improve the memory usage. If PDF data is
  * BASE64-encoded, use `atob()` to convert it to a binary string first.
+ * https://mozilla.github.io/pdf.js/examples/
  *
  * NOTE: If TypedArrays are used they will generally be transferred to the
  * worker-thread. This will help reduce main-thread memory usage, however
  * it will take ownership of the TypedArrays.
  */
 
-async function pdf(data: string | URL | number[] | ArrayBuffer | TypedArray) {
-	let parser: PDFParse;
-	if (data instanceof URL) {
-		parser = new PDFParse({ url: data });
-	} else {
-		parser = new PDFParse({ data });
-	}
-
-	const text = await parser.getText();
-	await parser.destroy();
-	return text;
-}
-
-export { pdf, PDFParse, setWorker };
+export { PDFParse };

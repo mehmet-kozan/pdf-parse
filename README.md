@@ -56,22 +56,22 @@ yarn add pdf-parse
 bun add pdf-parse
 ```
 
-## Basic Usage
+## Usage
 
-- High-level helper for v1 compatibility: [`pdf`](src/index.cjs.ts)
-- Full API: [`PDFParse`](src/PDFParse.ts)
-
-### CommonJS Example, helper for v1 compatibility
+### Migration From v1 to v2
 ```js
-const pdf  = require('pdf-parse');
-// or 
-// const {pdf,PDFParse}  = require('pdf-parse');
-const fs = require('fs');
+// v1
+const pdf = require('pdf-parse');
+pdf(buffer).then(result => console.log(result.text));
 
-const data = fs.readFileSync('test.pdf');
+// v2
+const { PDFParse } = require('pdf-parse');
+const parser = new PDFParse({ data: buffer });
 
-pdf(data).then(result=>{
-    console.log(result.text);
+parser.getText().then((result)=>{
+    console.log(result.text)
+}).finally(async ()=>{
+    await parser.destroy();
 });
 ```
 
@@ -221,11 +221,10 @@ try {
     // Always call destroy() to free memory
     await parser.destroy();
 }
-```
+```  
 
 
-
-> **Worker Note:** In browser environments, the package sets `pdfjs.GlobalWorkerOptions.workerSrc` automatically when imported from the built browser bundle. If you use a custom build or host `pdf.worker` yourself, configure pdfjs accordingly.
+> **Worker Note:** In browser environments, the package sets `pdfjs.GlobalWorkerOptions.workerSrc` automatically when imported from the built browser bundle. If you use a custom build or host `pdf.worker` yourself, configure worker accordingly.
 
 
 

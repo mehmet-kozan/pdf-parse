@@ -1,21 +1,20 @@
 {
 	"compilerOptions": {
-		"outDir": "dist/esm",
+		"outDir": "dist/cjs",
 		"declaration": true,
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"isolatedModules": true,
 		"target": "ES2022",
-		"module": "node16",
-		"moduleResolution": "node16",
+		"module": "CommonJS",
+		"moduleResolution": "node",
 		"jsx": "react",
 		"noEmit": false,
 		"noUncheckedIndexedAccess": false,
 		"skipLibCheck": true,
 		"strict": true,
 		"rootDir": "src",
-
-		"verbatimModuleSyntax": true
+		"verbatimModuleSyntax": false
 	},
 	"include": ["src"],
 	"exclude": ["dist", "example", "lib/**/*", "test/**/*", "src/**/_*", "src/_**/*"]
