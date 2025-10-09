@@ -31092,17 +31092,18 @@ class PDFParse {
     !(process.versions.electron && typeof process.type !== "undefined" && process.type !== "browser");
     return isNodeJS2;
   }
-  static setWorker(workerSrc = void 0) {
+  static setWorker(workerSrc) {
     if (typeof globalThis.pdfjs === "undefined") {
       globalThis.pdfjs = pdfjs;
     }
     if (GlobalWorkerOptions === null) return "";
     if (workerSrc !== void 0) {
       GlobalWorkerOptions.workerSrc = workerSrc;
-      return workerSrc;
+      return GlobalWorkerOptions.workerSrc;
     }
     if (!PDFParse.isNodeJS) {
-      GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.mjs";
+      GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs";
+      return GlobalWorkerOptions.workerSrc;
     }
     return GlobalWorkerOptions.workerSrc;
   }
