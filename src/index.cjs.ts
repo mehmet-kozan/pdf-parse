@@ -17,6 +17,7 @@ async function pdf(data: string | URL | number[] | ArrayBuffer | TypedArray) {
 	}
 
 	const text = await parser.getText();
+	await parser.destroy();
 	return text;
 }
 

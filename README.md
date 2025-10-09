@@ -84,6 +84,7 @@ const buffer = await readFile('test/test-01/test.pdf');
 
 const parser = new PDFParse({ data: buffer });
 const textResult = await parser.getText();
+await parser.destroy();
 console.log(textResult.text);
 ```
 For a complete list of configuration options, see:
@@ -106,6 +107,7 @@ const buffer = await readFile('test/test-01/test.pdf');
 
 const parser = new PDFParse({ data: buffer });
 const result = await parser.pageToImage();
+await parser.destroy();
 
 for (const pageData of result.pages) {
     const imgFileName = `page_${pageData.pageNumber}.png`;
@@ -123,6 +125,7 @@ const buffer = await readFile('test/test-01/test.pdf');
 
 const parser = new PDFParse({ data: buffer });
 const result = await parser.getImage();
+await parser.destroy();
 
 for (const pageData of result.pages) {
     for (const pageImage of pageData.images) {
@@ -142,6 +145,7 @@ const buffer = await readFile('test/test-01/test.pdf');
 
 const parser = new PDFParse({ data: buffer });
 const result = await parser.getTable();
+await parser.destroy();
 
 for (const pageData of result.pages) {
     for (const table of pageData.tables) {
@@ -168,8 +172,8 @@ You can include the browser bundle directly from a CDN. Use the latest version:
 
 Or specify a particular version:
 
-- [https://cdn.jsdelivr.net/npm/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js)
-- [https://unpkg.com/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.1.10/dist/browser/pdf-parse.es.min.js)  
+- [https://cdn.jsdelivr.net/npm/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js)
+- [https://unpkg.com/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.2.2/dist/browser/pdf-parse.es.min.js)  
 
 
 > **Worker Note:** In browser environments, the package sets `pdfjs.GlobalWorkerOptions.workerSrc` automatically when imported from the built browser bundle. If you use a custom build or host `pdf.worker` yourself, configure pdfjs accordingly.

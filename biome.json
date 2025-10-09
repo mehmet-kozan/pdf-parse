@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**", "!rollup", "!dist", "!@types", "!coverage", "!example", "!lib"]
+		"includes": ["**", "!dist", "!gh-pages/demo/dist-browser", "!gh-pages/test-report", "!gh-pages/coverage", "!gh-pages/benchmark"]
 	},
 	"formatter": {
 		"enabled": true,
