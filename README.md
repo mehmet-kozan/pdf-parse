@@ -32,6 +32,8 @@
 - Render pages as PNG : `getScreenshot` 
 - Extract embedded images : `getImage` 
 - Detect and extract tabular data : `getTable` 
+- Well-covered with unit tests (see [`unit tests`](./test)) ensuring core functionality and fast feedback
+- [`Integration tests`](./test_integration) to validate end-to-end behavior across environments
 - For additional usage examples, check the [`test`](./test) folder and [`live demo`](https://mehmet-kozan.github.io/pdf-parse/)
 - Live demo source: [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
 

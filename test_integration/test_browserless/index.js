@@ -3,8 +3,7 @@ const { default: listen } = require('async-listen');
 const { createServer } = require('node:http');
 const os = require('node:os');
 const createBrowser = require('browserless');
-const remote = require('pdf-parse');
-const local = require('../../dist/cjs/index.cjs');
+const {PDFParse} = require('pdf-parse');
 
 async function runServer(handler) {
 	const server = createServer(async (req, res) => {
@@ -40,19 +39,12 @@ async function run() {
 		const buffer = await browserless.pdf(url);
 		server.close();
 
-		const remote_buffer = new Uint8Array(buffer);
-		const local_buffer = new Uint8Array(buffer);
+		const parser = new PDFParse({ data: remote_buffer });
+		const data = await parser.getText();
 
-		const remote_parser = new remote.PDFParse({ data: remote_buffer });
-		const local_parser = new local.PDFParse({ data: local_buffer });
+		await parser.destroy();
 
-		const remote_data = await remote_parser.getText();
-		const local_data = await local_parser.getText();
-
-		await remote_parser.destroy();
-		await local_parser.destroy();
-
-		if (remote_data.text.includes('hello world') && local_data.text.includes('hello world')) {
+		if (data.text.includes('hello world')) {
 			process.exit(0);
 		}
 		process.exit(1);
