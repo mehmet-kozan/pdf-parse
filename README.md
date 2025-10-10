@@ -46,7 +46,7 @@
 * [pdfreader](https://www.npmjs.com/package/pdfreader) — Uses pdf2json
 * [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Not cross-platform, depends on xpdf  
 
-> **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue ( see [`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/bench.html)).
+> **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue, see [`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/bench.html).
 
 ## Supported Node.js Versions
 
