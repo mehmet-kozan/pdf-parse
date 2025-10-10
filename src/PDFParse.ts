@@ -133,7 +133,7 @@ export class PDFParse {
 		for (let i: number = 1; i <= result.total; i++) {
 			if (this.shouldParse(i, result.total, params)) {
 				const pageProxy = await doc.getPage(i);
-				const text = await this.getPageText(pageProxy, params);
+				const text = await this.getPageText(pageProxy, params, result.total);
 				result.pages.push({
 					text: text,
 					num: i,
@@ -198,8 +198,14 @@ export class PDFParse {
 		return true;
 	}
 
-	private async getPageText(page: PDFPageProxy, params: ParseParameters): Promise<string> {
+	private async getPageText(page: PDFPageProxy, params: ParseParameters, total: number): Promise<string> {
 		const viewport = page.getViewport({ scale: 1 });
+
+		params.lineThreshold = params?.lineThreshold ?? 4.6;
+		params.cellThreshold = params?.cellThreshold ?? 7;
+		params.cellSeparator = params?.cellSeparator ?? '\t';
+		params.lineEnforce = params?.lineEnforce ?? true;
+		params.pageJoiner = params?.pageJoiner ?? '\n-- page_number of total_number --';
 
 		const textContent = await page.getTextContent({
 			includeMarkedContent: !!params.includeMarkedContent,
@@ -214,27 +220,59 @@ export class PDFParse {
 
 		const strBuf: Array<string> = [];
 
+		let lastX: number | undefined;
+		let lastY: number | undefined;
+
 		for (const item of textContent.items) {
 			if (!('str' in item)) continue;
 
-			if (params.parseHyperlinks) {
-				const tm = item.transform ?? item.transform;
-				const [x, y] = viewport.convertToViewportPoint(tm[4], tm[5]);
+			const tm = item.transform ?? item.transform;
+			const [x, y] = viewport.convertToViewportPoint(tm[4], tm[5]);
 
+			if (params.parseHyperlinks) {
 				const posArr = links.get(item.str) || [];
 				const hit = posArr.find((l) => x >= l.rect.left && x <= l.rect.right && y >= l.rect.top && y <= l.rect.bottom);
 				if (hit) {
-					strBuf.push(`[${item.str}](${hit.url})`);
-				} else {
-					strBuf.push(item.str);
+					item.str = `[${item.str}](${hit.url})`;
 				}
-			} else {
-				strBuf.push(item.str);
 			}
+
+			if (params.lineEnforce) {
+				if (lastY !== undefined && Math.abs(lastY - y) > params.lineThreshold) {
+					const lastItem = strBuf.length ? strBuf[strBuf.length - 1] : undefined;
+					const isCurrentItemHasNewLine = item.str.startsWith('\n') || (item.str.trim() === '' && item.hasEOL);
+
+					if (lastItem?.endsWith('\n') === false && !isCurrentItemHasNewLine) {
+						strBuf.push('\n');
+					}
+				}
+			}
+
+			if (params.cellSeparator) {
+				if (lastY !== undefined && Math.abs(lastY - y) < params.lineThreshold) {
+					if (lastX !== undefined && Math.abs(lastX - x) > params.cellThreshold) {
+						item.str = `${params.cellSeparator}${item.str}`;
+					}
+				}
+			}
+
+			strBuf.push(item.str);
+			lastX = x + item.width;
+			lastY = y;
 
 			if (item.hasEOL) {
 				strBuf.push('\n');
 			}
+		}
+
+		if (params.pageJoiner) {
+			let pageNumber = params.pageJoiner.replace('page_number', `${page.pageNumber}`);
+			pageNumber = pageNumber.replace('total_number', `${total}`);
+			strBuf.push(pageNumber);
+		}
+
+		if (params.itemJoiner) {
+			return strBuf.join(params.itemJoiner);
 		}
 
 		return strBuf.join('');

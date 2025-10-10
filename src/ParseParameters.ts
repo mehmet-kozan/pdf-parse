@@ -33,7 +33,63 @@ export interface ParseParameters {
 	 *   (for example: [link text](https://example.com)).
 	 *   Defaults to `false`.
 	 */
-	parseHyperlinks?: boolean | undefined;
+	parseHyperlinks?: boolean;
+
+	/**
+	 * - When true, the extractor will try to enforce logical line breaks by
+	 *   inserting a newline between text items when the vertical distance
+	 *   between them exceeds `lineThreshold`.
+	 * - Useful to preserve paragraph/line structure when text items are
+	 *   emitted as separate segments by the PDF renderer.
+	 * - Default: `true`.
+	 */
+	lineEnforce?: boolean;
+
+	/**
+	 * - Threshold used to decide whether two nearby text
+	 *   items belong to different lines. A larger value makes the parser more
+	 *   likely to start a new line between items.
+	 * - Default: `4.6`.
+	 */
+	lineThreshold?: number;
+
+	/**
+	 * - String inserted between text items on the same line when a sufficiently
+	 *   large horizontal gap is detected (see `cellThreshold`). This is typically
+	 *   used to emulate a cell/column separator (for example, a tab).
+	 * - Example: `"\t"` to produce tab-separated cells.
+	 * - Default: `'\t'`.
+	 */
+	cellSeparator?: string;
+
+	/**
+	 * - Horizontal distance threshold used to decide when
+	 *   two text items on the same baseline should be considered separate cells
+	 *   (and thus separated by `cellSeparator`).
+	 * - A larger value produces fewer (wider) cells; smaller value creates more
+	 *   cell breaks.
+	 * - Default: `7`.
+	 */
+	cellThreshold?: number;
+
+	/**
+	 * - Optional string appended at the end of each page's extracted text to
+	 *   mark page boundaries. The string supports the placeholders
+	 *   `page_number` and `total_number`, which are substituted with the
+	 *   current page number and total page count respectively.
+	 * - If omitted or empty, no page boundary marker is added.
+	 * - Default: `'\n-- page_number of total_number --'`
+	 */
+	pageJoiner?: string;
+
+	/**
+	 * - Optional string used to join text items when returning a page's text.
+	 *   If provided, the extractor will use this value to join the sequence of
+	 *   text items instead of the default empty-string joining behavior.
+	 * - Use this to insert a custom separator between every text item.
+	 * - Default: `undefined`
+	 */
+	itemJoiner?: string;
 
 	/**
 	 * - When true, include marked content items in the items array of TextContent.
@@ -45,12 +101,12 @@ export interface ParseParameters {
 	 * - For plain text extraction it's usually left false (trade-off: larger output/increased detail).
 	 *   Defaults to `false`.
 	 */
-	includeMarkedContent?: boolean | undefined;
+	includeMarkedContent?: boolean;
 
 	/**
 	 * - When true, the text is *not* normalized in the worker thread.
 	 * - Normalize in worker (false recommended for plain text)
 	 *   Defaults to `false`.
 	 */
-	disableNormalization?: boolean | undefined;
+	disableNormalization?: boolean;
 }
