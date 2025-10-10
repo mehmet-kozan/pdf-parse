@@ -46,8 +46,14 @@
 * [pdfreader](https://www.npmjs.com/package/pdfreader) — Uses pdf2json
 * [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Not cross-platform, depends on xpdf  
 
-> **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue.[`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/bench.html)
+> **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue ( see [`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/bench.html)).
 
+## Supported Node.js Versions
+
+- Supported: Node.js 20 (>= 20.16.0), Node.js 22 (>= 22.3.0), Node.js 23 (>= 23.0.0), and Node.js 24 (>= 24.0.0).
+- Not supported: Node.js 21.x, and Node.js 19.x and earlier.
+
+Integration tests run on Node.js 20–24 ( see [`test_integration.yml`](./.github/workflows/test_integration.yml)).
 
 ## Installation
 ```sh
@@ -79,7 +85,7 @@ parser.getText().then((result)=>{
 });
 ```
 
-### getInfo — Extract Metadata and Document Information
+### `getInfo` — Extract Metadata and Document Information
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
@@ -112,7 +118,7 @@ Usage Examples:
 - To extract hyperlinks, pass `{ parseHyperlinks: true }`
 - `const info = await parser.getInfo({ parseHyperlinks: true })`
 
-### getText — Extract Text
+### `getText` — Extract Text
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
@@ -135,7 +141,7 @@ Usage Examples:
 - Parse embedded hyperlinks: [`test/test-hyperlinks`](test/test-hyperlinks/pdf-hyperlink.test.ts)
 - Load PDF from URL: [`test/test-types`](test/test-types/text-result-type.test.ts)
 
-### getScreenshot — Render Pages as PNG
+### `getScreenshot` — Render Pages as PNG
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
@@ -153,7 +159,7 @@ for (const pageData of result.pages) {
 }
 ```
 
-### getImage — Extract Embedded Images
+### `getImage` — Extract Embedded Images
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
@@ -173,7 +179,7 @@ for (const pageData of result.pages) {
 }
 ```
 
-### getTable — Extract Tabular Data
+### `getTable` — Extract Tabular Data
 ```js
 // Node / ESM
 import { PDFParse } from 'pdf-parse';
