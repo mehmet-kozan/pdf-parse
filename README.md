@@ -24,6 +24,7 @@
 ## Features
 - Supports Node.js and browsers 
 - CommonJS and ESM support 
+- Can be integrated with React, Vue, Angular, or any other web framework
 - Vulnerability and security info : [`security policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
 - Extract document info : `getInfo` 
 - Extract page text : `getText` 
