@@ -65,7 +65,7 @@
 		"clean:site": "rimraf gh-pages/test-report gh-pages/coverage gh-pages/benchmark gh-pages/demo/dist-browser",
 		"prepare": "npm run build",
 		"test": "vitest run --reporter=default",
-		"test:ava": "ava test_ava --verbose --no-cache --serial --no-worker-threads",
+		"test:ava": "ava test/test-ava --verbose --no-cache --serial --no-worker-threads",
 		"test:ui": "vitest --ui --coverage",
 		"test:watch": "vitest",
 		"coverage": "vitest run --coverage",

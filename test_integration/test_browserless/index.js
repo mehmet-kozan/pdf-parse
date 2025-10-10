@@ -1,9 +1,10 @@
+/** biome-ignore-all lint/suspicious/noConsole: <test file> */
 const { default: listen } = require('async-listen');
 const { createServer } = require('node:http');
 const os = require('node:os');
 const createBrowser = require('browserless');
-const pdf = require('pdf-parse');
-const local_pdf = require('../../dist/cjs/index.cjs');
+const remote = require('pdf-parse');
+const local = require('../../dist/cjs/index.cjs');
 
 async function runServer(handler) {
 	const server = createServer(async (req, res) => {
@@ -38,14 +39,25 @@ async function run() {
 		const { server, url } = await getUrl;
 		const buffer = await browserless.pdf(url);
 		server.close();
-		const data = await pdf(buffer);
-		const local_data = await local_pdf(buffer);
 
-		if (data.text.includes('hello world') && local_data.text.includes('hello world')) {
+		const remote_buffer = new Uint8Array(buffer);
+		const local_buffer = new Uint8Array(buffer);
+
+		const remote_parser = new remote.PDFParse({ data: remote_buffer });
+		const local_parser = new local.PDFParse({ data: local_buffer });
+
+		const remote_data = await remote_parser.getText();
+		const local_data = await local_parser.getText();
+
+		await remote_parser.destroy();
+		await local_parser.destroy();
+
+		if (remote_data.text.includes('hello world') && local_data.text.includes('hello world')) {
 			process.exit(0);
 		}
 		process.exit(1);
-	} catch {
+	} catch (error) {
+		console.error(error.message);
 		process.exit(1);
 	}
 }

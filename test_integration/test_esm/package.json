@@ -1,0 +1,15 @@
+{
+	"name": "test_esm",
+	"version": "1.0.0",
+	"description": "",
+	"license": "ISC",
+	"author": "",
+	"type": "module",
+	"main": "index.mjs",
+	"scripts": {
+		"test": "node ./index.mjs"
+	},
+	"dependencies": {
+		"pdf-parse": "latest"
+	}
+}
