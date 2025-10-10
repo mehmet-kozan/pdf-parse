@@ -188,6 +188,84 @@ for (const pageData of result.pages) {
 }
 ```  
 
+## Worker Configuration (Node.js/Backend)
+
+In Node.js environments, `pdf-parse` automatically handles the worker configuration. However, in certain scenarios—such as custom builds, Electron/NW.js, monorepos (pnpm/yarn workspaces), or specific deployment environments—you may need to manually configure the worker source.
+
+> **Note:** If you encounter "Invalid URL" errors with worker imports and need to manually configure the worker source, please open an issue. Normally, you don't need this configuration as it's handled automatically.
+
+When using CommonJS in Node.js, you need to convert the worker path to a `file://` URL to avoid module resolution issues:
+
+```js
+const { PDFParse } = require('pdf-parse');
+const { pathToFileURL } = require('url');
+
+// Resolve the worker module path
+const workerPath = require.resolve('pdfjs-dist/legacy/build/pdf.worker.mjs');
+
+// Convert to file:// URL for Node.js dynamic import compatibility
+const workerUrl = pathToFileURL(workerPath).href;
+
+// Set worker before creating PDFParse instances
+PDFParse.setWorker(workerUrl);
+
+// Now you can use PDFParse
+const fs = require('fs');
+const buffer = fs.readFileSync('document.pdf');
+const parser = new PDFParse({ data: buffer });
+
+parser.getText().then(async (result) => {
+    console.log(result.text);
+    await parser.destroy();
+});
+```
+
+For ES Modules in Node.js, you can use `import.meta.resolve` (Node.js 20.6+) or construct the path manually:
+
+```js
+import { PDFParse } from 'pdf-parse';
+import { pathToFileURL } from 'url';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+// Option 1: Using import.meta.resolve (Node.js 20.6+)
+const workerUrl = pathToFileURL(
+    fileURLToPath(await import.meta.resolve('pdfjs-dist/legacy/build/pdf.worker.mjs'))
+).href;
+
+// Option 2: Manual path resolution (compatible with older Node.js versions)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const workerPath = resolve(__dirname, 'node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs');
+const workerUrl = pathToFileURL(workerPath).href;
+
+// Set worker before creating PDFParse instances
+PDFParse.setWorker(workerUrl);
+
+// Now you can use PDFParse
+import { readFile } from 'fs/promises';
+const buffer = await readFile('document.pdf');
+const parser = new PDFParse({ data: buffer });
+const result = await parser.getText();
+console.log(result.text);
+await parser.destroy();
+```
+
+### Troubleshooting
+
+Error: "Invalid URL"
+- Ensure you're using `pathToFileURL()` to convert file paths to `file://` URLs
+- Check that the worker path is resolved correctly using `require.resolve()` or `import.meta.resolve()`
+
+Error: "Cannot find module 'pdfjs-dist'"
+- Make sure `pdfjs-dist` is installed: `npm install pdfjs-dist`
+- In monorepos, ensure dependencies are properly linked
+
+Worker not loading in serverless environments:
+- Bundle the worker file with your deployment package
+- Use relative paths or environment-specific path resolution
+- Consider using the browser bundle if Node.js APIs aren't required
+
 ## Error Handling
 ```js
 const parser = new PDFParse({ data: buffer });
@@ -203,45 +281,74 @@ try {
 
 ## Web / Browser
 
-- Use `pdf-parse` in your React, Vue, or Angular projects.
-- Check: [`live demo`](https://mehmet-kozan.github.io/pdf-parse/)
-- Live demo source: [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
-- Use the minified versions (`.min.js`) for production to reduce file size.
-- Regular versions for development and debugging.
+`pdf-parse` works seamlessly in browser environments and can be integrated into React, Vue, Angular, or any other web framework.
 
-> You can use any of the following browser bundles depending on your module system and requirements:  
-> - `pdf-parse.es.js` or `pdf-parse.es.min.js` for ES modules  
-> - `pdf-parse.umd.js` or `pdf-parse.umd.min.js` for UMD/global usage  
+- **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
+- **Demo Source Code:** [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
 
-You can include the browser bundle directly from a CDN. Use the latest version:
+### Available Browser Bundles
 
-- [https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js)
-- [https://unpkg.com/pdf-parse@latest/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@latest/dist/browser/pdf-parse.es.min.js)
+Choose the appropriate bundle based on your module system:
 
-Or specify a particular version:
+| Bundle Type | Development | Production (Minified) |
+|------------|-------------|----------------------|
+| **ES Module** | `pdf-parse.es.js` | `pdf-parse.es.min.js` |
+| **UMD/Global** | `pdf-parse.umd.js` | `pdf-parse.umd.min.js` |
 
-- [https://cdn.jsdelivr.net/npm/pdf-parse@2.2.4/dist/browser/pdf-parse.es.min.js](https://cdn.jsdelivr.net/npm/pdf-parse@2.2.4/dist/browser/pdf-parse.es.min.js)
-- [https://unpkg.com/pdf-parse@2.2.4/dist/browser/pdf-parse.es.min.js](https://unpkg.com/pdf-parse@2.2.4/dist/browser/pdf-parse.es.min.js)  
+> **Recommendation:** Use minified versions (`.min.js`) in production for optimal file size and performance.
 
-### Worker Source
+### CDN Usage
 
-If you use a custom build or host `pdf.worker.min.mjs` yourself in browser environments, configure worker accordingly. You can use one of CDN hosted scripts, see [`example\basic.html`](example\basic.html).
+Include `pdf-parse` directly from a CDN without any build step:
 
-- https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs
-- https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.mjs
-- https://unpkg.com/pdf-parse@latest/dist/browser/pdf.worker.min.mjs
-- https://unpkg.com/pdf-parse@latest/dist/browser/pdf.worker.mjs
+**Latest Version (Auto-updates):**
+```html
+<!-- ES Module -->
+<script type="module">
+  import { PDFParse } from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js';
+</script>
+```
+
+**CDN Options:**
+- jsDelivr: `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js`
+- unpkg: `https://unpkg.com/pdf-parse@latest/dist/browser/pdf-parse.es.min.js`
+
+**Pinned Version (Recommended for production):**
+- jsDelivr: `https://cdn.jsdelivr.net/npm/pdf-parse@2.2.4/dist/browser/pdf-parse.es.min.js`
+- unpkg: `https://unpkg.com/pdf-parse@2.2.4/dist/browser/pdf-parse.es.min.js`
+
+> **Production Tip:** Pin to a specific version to ensure stability and avoid unexpected breaking changes.
+
+### Worker Source Configuration
+
+In browser environments, `pdf-parse` requires a separate worker file to process PDFs in a background thread. By default, `pdf-parse` automatically loads the worker from the jsDelivr CDN. However, you can configure a custom worker source if needed.
+
+**When to Configure Worker Source:**
+- Using a custom build of `pdf-parse`
+- Self-hosting worker files for security or offline requirements
+- Using a different CDN provider
+
+**Available Worker Files:**
+
+| CDN | Minified | Non-minified |
+|-----|----------|--------------|
+| **jsDelivr** | `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs` | `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.mjs` |
+| **unpkg** | `https://unpkg.com/pdf-parse@latest/dist/browser/pdf.worker.min.mjs` | `https://unpkg.com/pdf-parse@latest/dist/browser/pdf.worker.mjs` |
+
+**Configuration Example:**
 
 ```js
-import { PDFParse } from '...';
+import { PDFParse } from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js';
 
-// before use PDFParse class.
+// Configure worker before creating PDFParse instances
 PDFParse.setWorker('https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs');
 
-const parser = new PDFParse({ data: .. });
-const info = await parser.getInfo();
+// Now you can use PDFParse
+const parser = new PDFParse({ data: arrayBuffer });
+const result = await parser.getText();
 await parser.destroy();
 ```
+See [`example/basic.html`](example/basic.html) for a working example of browser usage with worker configuration.
 
 
 
