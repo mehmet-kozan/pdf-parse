@@ -7,20 +7,42 @@ import { PDFParse } from 'pdf-parse';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const __pdf = join(__dirname, 'dummy.pdf');
-
 async function run() {
 	try {
-		const buffer = await readFile(__pdf);
-		const parser = new PDFParse({ data: buffer });
-		const data = await parser.getText();
+		let buffer = await readFile(join(__dirname, '../pdf_files/dummy-test.pdf'));
+		let parser = new PDFParse({ data: buffer });
+		let result = await parser.getText();
+		await parser.destroy();
+
+		if (!result.text.includes('Dummy PDF file')) {
+			process.exit(1);
+		}
+
+		buffer = await readFile(join(__dirname, '../pdf_files/full-test.pdf'));
+		parser = new PDFParse({ data: buffer });
+		result = await parser.getText({ last: 1 });
+		await parser.destroy();
+
+		if (!result.text.includes('be interpreted as necessarily')) {
+			process.exit(1);
+		}
+
+		buffer = await readFile(join(__dirname, '../pdf_files/image-test.pdf'));
+		parser = new PDFParse({ data: buffer });
+		const img_result = await parser.getImage();
+		const ss_result = await parser.getScreenshot();
 
 		await parser.destroy();
 
-		if (data.text.includes('Dummy PDF file')) {
-			process.exit(0);
+		if (img_result.pages[0].images[0].dataUrl.length <= 0) {
+			process.exit(1);
 		}
-		process.exit(1);
+
+		if (ss_result.pages[0].dataUrl.length <= 0) {
+			process.exit(1);
+		}
+
+		process.exit(0);
 	} catch (error) {
 		console.error(error.message);
 		process.exit(1);

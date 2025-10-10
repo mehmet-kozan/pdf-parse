@@ -1,0 +1,16 @@
+{
+	"name": "test_ava_suite_cjs",
+	"version": "1.0.0",
+	"description": "",
+	"license": "ISC",
+	"author": "",
+	"type": "commonjs",
+	"main": "common.test.cjs",
+	"scripts": {
+		"test": "ava common.test.cjs --verbose --no-cache --serial --no-worker-threads"
+	},
+	"dependencies": {
+		"ava": "^6.4.1",
+		"pdf-parse": "latest"
+	}
+}

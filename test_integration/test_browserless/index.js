@@ -3,7 +3,7 @@ const { default: listen } = require('async-listen');
 const { createServer } = require('node:http');
 const os = require('node:os');
 const createBrowser = require('browserless');
-const {PDFParse} = require('pdf-parse');
+const { PDFParse } = require('pdf-parse');
 
 async function runServer(handler) {
 	const server = createServer(async (req, res) => {
