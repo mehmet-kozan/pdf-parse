@@ -39,7 +39,7 @@ async function run() {
 		const buffer = await browserless.pdf(url);
 		server.close();
 
-		const parser = new PDFParse({ data: remote_buffer });
+		const parser = new PDFParse({ data: buffer });
 		const data = await parser.getText();
 
 		await parser.destroy();
