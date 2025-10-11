@@ -23,10 +23,10 @@
 > **Contributing Note:** When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently. For detailed guidelines on how to contribute, report bugs, or submit pull requests, see: [`contributing to pdf-parse`](https://github.com/mehmet-kozan/pdf-parse?tab=contributing-ov-file#contributing-to-pdf-parse)
 
 ## Features
-- Supports Node.js and browsers 
-- CommonJS and ESM support 
+- Supports Node.js and browsers
+- CommonJS and ESM support
 - Can be integrated with React, Vue, Angular, or any other web framework
-- Vulnerability and security info : [`security policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
+- Vulnerability and security info: [`security policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
 - Extract document info : `getInfo` 
 - Extract page text : `getText` 
 - Render pages as PNG : `getScreenshot` 
@@ -53,7 +53,7 @@
 - Supported: Node.js 20 (>= 20.16.0), Node.js 22 (>= 22.3.0), Node.js 23 (>= 23.0.0), and Node.js 24 (>= 24.0.0).
 - Not supported: Node.js 21.x, and Node.js 19.x and earlier.
 
-Integration tests run on Node.js 20–24 ( see [`test_integration.yml`](./.github/workflows/test_integration.yml)).
+Integration tests run on Node.js 20–24 (see [`test_integration.yml`](./.github/workflows/test_integration.yml)).
 
 ## Installation
 ```sh
@@ -142,7 +142,7 @@ Usage Examples:
 - Set verbosity level: [`test/test-example/password.test.ts`](test/test-example/password.test.ts)
 - Load PDF from URL: [`test/test-example/url.test.ts`](test/test-example/url.test.ts)
 - Load PDF from base64 data: [`test/test-example/base64.test.ts`](test/test-example/base64.test.ts)
-- Loading large file (> 10 MB): [`test/test-example/large-file.test.ts`](test/test-example/large-file.test.ts)
+- Loading large files (> 10 MB): [`test/test-example/large-file.test.ts`](test/test-example/large-file.test.ts)
 
 ### `getScreenshot` — Render Pages as PNG
 ```js
@@ -223,14 +223,6 @@ const workerUrl = pathToFileURL(workerPath).href;
 PDFParse.setWorker(workerUrl);
 
 // Now you can use PDFParse
-const fs = require('fs');
-const buffer = fs.readFileSync('document.pdf');
-const parser = new PDFParse({ data: buffer });
-
-parser.getText().then(async (result) => {
-    console.log(result.text);
-    await parser.destroy();
-});
 ```
 
 For ES Modules in Node.js, you can use `import.meta.resolve` (Node.js 20.6+) or construct the path manually:
@@ -256,28 +248,7 @@ const workerUrl = pathToFileURL(workerPath).href;
 PDFParse.setWorker(workerUrl);
 
 // Now you can use PDFParse
-import { readFile } from 'fs/promises';
-const buffer = await readFile('document.pdf');
-const parser = new PDFParse({ data: buffer });
-const result = await parser.getText();
-console.log(result.text);
-await parser.destroy();
 ```
-
-### Troubleshooting
-
-Error: "Invalid URL"
-- Ensure you're using `pathToFileURL()` to convert file paths to `file://` URLs
-- Check that the worker path is resolved correctly using `require.resolve()` or `import.meta.resolve()`
-
-Error: "Cannot find module 'pdfjs-dist'"
-- Make sure `pdfjs-dist` is installed: `npm install pdfjs-dist`
-- In monorepos, ensure dependencies are properly linked
-
-Worker not loading in serverless environments:
-- Bundle the worker file with your deployment package
-- Use relative paths or environment-specific path resolution
-- Consider using the browser bundle if Node.js APIs aren't required
 
 ## Error Handling
 ```js
@@ -294,27 +265,18 @@ try {
 
 ## Web / Browser
 
-`pdf-parse` works seamlessly in browser environments and can be integrated into React, Vue, Angular, or any other web framework.
-
+- Can be integrated into `React`, `Vue`, `Angular`, or any other web framework.
 - **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
 - **Demo Source Code:** [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
 
 ### Available Browser Bundles
-
-Choose the appropriate bundle based on your module system:
 
 | Bundle Type | Development | Production (Minified) |
 |------------|-------------|----------------------|
 | **ES Module** | `pdf-parse.es.js` | `pdf-parse.es.min.js` |
 | **UMD/Global** | `pdf-parse.umd.js` | `pdf-parse.umd.min.js` |
 
-> **Recommendation:** Use minified versions (`.min.js`) in production for optimal file size and performance.
-
-### CDN Usage
-
-Include `pdf-parse` directly from a CDN without any build step:
-
-**Latest Version (Auto-updates):**
+### CDN Usage  
 ```html
 <!-- ES Module -->
 <script type="module">
@@ -322,17 +284,12 @@ Include `pdf-parse` directly from a CDN without any build step:
 </script>
 ```
 
-**CDN Options:**
-- jsDelivr: `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js`
-- unpkg: `https://unpkg.com/pdf-parse@latest/dist/browser/pdf-parse.es.min.js`
+**CDN Options:**  
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.2.7/dist/browser/pdf-parse.es.min.js`
 
-**Pinned Version (Recommended for production):**
-- jsDelivr: `https://cdn.jsdelivr.net/npm/pdf-parse@2.2.4/dist/browser/pdf-parse.es.min.js`
-- unpkg: `https://unpkg.com/pdf-parse@2.2.4/dist/browser/pdf-parse.es.min.js`
 
-> **Production Tip:** Pin to a specific version to ensure stability and avoid unexpected breaking changes.
-
-### Worker Source Configuration
+### Worker Configuration
 
 In browser environments, `pdf-parse` requires a separate worker file to process PDFs in a background thread. By default, `pdf-parse` automatically loads the worker from the jsDelivr CDN. However, you can configure a custom worker source if needed.
 
@@ -343,24 +300,9 @@ In browser environments, `pdf-parse` requires a separate worker file to process 
 
 **Available Worker Files:**
 
-| CDN | Minified | Non-minified |
-|-----|----------|--------------|
-| **jsDelivr** | `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs` | `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.mjs` |
-| **unpkg** | `https://unpkg.com/pdf-parse@latest/dist/browser/pdf.worker.min.mjs` | `https://unpkg.com/pdf-parse@latest/dist/browser/pdf.worker.mjs` |
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.mjs`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs`
 
-**Configuration Example:**
-
-```js
-import { PDFParse } from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js';
-
-// Configure worker before creating PDFParse instances
-PDFParse.setWorker('https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs');
-
-// Now you can use PDFParse
-const parser = new PDFParse({ data: arrayBuffer });
-const result = await parser.getText();
-await parser.destroy();
-```
 See [`example/basic.html`](example/basic.html) for a working example of browser usage with worker configuration.
 
 
