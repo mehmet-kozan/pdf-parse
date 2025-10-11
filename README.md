@@ -263,20 +263,13 @@ try {
 }
 ```  
 
-## Web / Browser
+## Web / Browser [![npm downloads](https://img.shields.io/jsdelivr/npm/hm/pdf-parse)](https://www.jsdelivr.com/package/npm/pdf-parse) 
 
 - Can be integrated into `React`, `Vue`, `Angular`, or any other web framework.
 - **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
 - **Demo Source Code:** [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
 
-### Available Browser Bundles
-
-| Bundle Type | Development | Production (Minified) |
-|------------|-------------|----------------------|
-| **ES Module** | `pdf-parse.es.js` | `pdf-parse.es.min.js` |
-| **UMD/Global** | `pdf-parse.umd.js` | `pdf-parse.umd.min.js` |
-
-### CDN Usage  
+### CDN Usage [![npm downloads](https://img.shields.io/jsdelivr/npm/hm/pdf-parse)](https://www.jsdelivr.com/package/npm/pdf-parse) 
 ```html
 <!-- ES Module -->
 <script type="module">
@@ -284,9 +277,18 @@ try {
 </script>
 ```
 
-**CDN Options:**  
+| Bundle Type | Development | Production (Minified) |
+|------------|-------------|----------------------|
+| **ES Module** | `pdf-parse.es.js` | `pdf-parse.es.min.js` |
+| **UMD/Global** | `pdf-parse.umd.js` | `pdf-parse.umd.min.js` |
+
+**CDN Options: https://www.jsdelivr.com/package/npm/pdf-parse**
+
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.js`
 - `https://cdn.jsdelivr.net/npm/pdf-parse@2.2.7/dist/browser/pdf-parse.es.min.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.umd.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.2.7/dist/browser/pdf-parse.es.umd.js`
+
 
 
 ### Worker Configuration
