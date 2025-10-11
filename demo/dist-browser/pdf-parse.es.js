@@ -31072,6 +31072,7 @@ class TextResult {
 class PDFParse {
   options;
   doc;
+  progress = { loaded: -1, total: 0 };
   constructor(options) {
     if (options.verbosity === void 0) {
       options.verbosity = VerbosityLevel.ERRORS;
@@ -31153,13 +31154,13 @@ class PDFParse {
     const result = new TextResult(doc.numPages);
     for (let i = 1; i <= result.total; i++) {
       if (this.shouldParse(i, result.total, params)) {
-        const pageProxy = await doc.getPage(i);
-        const text = await this.getPageText(pageProxy, params, result.total);
+        const page = await doc.getPage(i);
+        const text = await this.getPageText(page, params, result.total);
         result.pages.push({
           text,
           num: i
         });
-        pageProxy.cleanup();
+        page.cleanup();
       }
     }
     for (const page of result.pages) {
@@ -31172,6 +31173,9 @@ class PDFParse {
   async load() {
     if (this.doc === void 0) {
       const loadingTask = getDocument(this.options);
+      loadingTask.onProgress = (progress) => {
+        this.progress = progress;
+      };
       this.doc = await loadingTask.promise;
     }
     return this.doc;
@@ -31654,6 +31658,7 @@ class PDFParse {
 }
 PDFParse.setWorker();
 export {
-  PDFParse
+  PDFParse,
+  VerbosityLevel
 };
 //# sourceMappingURL=pdf-parse.es.js.map

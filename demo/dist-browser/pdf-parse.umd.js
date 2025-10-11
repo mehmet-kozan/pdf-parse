@@ -31077,6 +31077,7 @@ var __privateWrapper = (obj, member, setter, getter) => ({
   class PDFParse {
     options;
     doc;
+    progress = { loaded: -1, total: 0 };
     constructor(options) {
       if (options.verbosity === void 0) {
         options.verbosity = VerbosityLevel.ERRORS;
@@ -31158,13 +31159,13 @@ var __privateWrapper = (obj, member, setter, getter) => ({
       const result = new TextResult(doc.numPages);
       for (let i = 1; i <= result.total; i++) {
         if (this.shouldParse(i, result.total, params)) {
-          const pageProxy = await doc.getPage(i);
-          const text = await this.getPageText(pageProxy, params, result.total);
+          const page = await doc.getPage(i);
+          const text = await this.getPageText(page, params, result.total);
           result.pages.push({
             text,
             num: i
           });
-          pageProxy.cleanup();
+          page.cleanup();
         }
       }
       for (const page of result.pages) {
@@ -31177,6 +31178,9 @@ var __privateWrapper = (obj, member, setter, getter) => ({
     async load() {
       if (this.doc === void 0) {
         const loadingTask = getDocument(this.options);
+        loadingTask.onProgress = (progress) => {
+          this.progress = progress;
+        };
         this.doc = await loadingTask.promise;
       }
       return this.doc;
@@ -31659,6 +31663,7 @@ var __privateWrapper = (obj, member, setter, getter) => ({
   }
   PDFParse.setWorker();
   exports2.PDFParse = PDFParse;
+  exports2.VerbosityLevel = VerbosityLevel;
   Object.defineProperty(exports2, Symbol.toStringTag, { value: "Module" });
 }));
 //# sourceMappingURL=pdf-parse.umd.js.map
