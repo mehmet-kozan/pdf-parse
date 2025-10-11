@@ -58,7 +58,7 @@ describe('Large PDF File Tests', () => {
 		expect(parser.progress.total).toBeGreaterThan(parser.progress.loaded);
 	});
 
-	test('should parse Bitcoin Whitepaper (small but reliable)', { timeout: 10000 }, async () => {
+	test('should parse Bitcoin Whitepaper (small but reliable)', { timeout: 30000 }, async () => {
 		// Bitcoin Whitepaper - ~180 KB (small but good for testing)
 		const url = 'https://bitcoin.org/bitcoin.pdf';
 
