@@ -38,6 +38,27 @@
     <meta name="theme-color" content="#667eea">
     <meta name="application-name" content="pdf-parse">
 
+    <script type="module">
+        (async () => {
+            // Cache-busting dynamic import: append a timestamp query so the
+            // browser requests a fresh copy instead of using a cached module.
+            const base = 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js';
+            const url = `${base}?_=${Date.now()}`;
+            try {
+                const mod = await import(url);
+                // Expose PDFParse to window for the demos that expect it.
+                // Support both named and default-export shapes.
+                // @ts-ignore - runtime assignment
+                window.PDFParse = mod.PDFParse ?? (mod.default && (mod.default.PDFParse ?? mod.default)) ?? null;
+            } catch (err) {
+                // Fail gracefully if the module cannot be loaded.
+                // This will show in browser console during debugging.
+                // eslint-disable-next-line no-console
+                console.error('Failed to dynamically import pdf-parse:', err);
+            }
+        })();
+    </script>
+
     <!-- Schema.org structured data -->
     <script type="application/ld+json">
     {
