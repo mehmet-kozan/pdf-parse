@@ -138,9 +138,11 @@ For a complete list of configuration options, see:
 Usage Examples:
 - Parse password protected PDF:  [`test/test-example/password.test.ts`](test/test-example/password.test.ts)
 - Parse only specific pages: [`test/test-example/specific-pages.test.ts`](test/test-example/specific-pages.test.ts)
-- Parse embedded hyperlinks: [`test/test-hyperlinks`](test/test-hyperlinks/pdf-hyperlink.test.ts)
+- Parse embedded hyperlinks: [`test/test-example/hyperlink.test.ts`](test/test-example/hyperlink.test.ts)
+- Set verbosity level: [`test/test-example/password.test.ts`](test/test-example/password.test.ts)
 - Load PDF from URL: [`test/test-example/url.test.ts`](test/test-example/url.test.ts)
 - Load PDF from base64 data: [`test/test-example/base64.test.ts`](test/test-example/base64.test.ts)
+- Loading large file (> 10 MB): [`test/test-example/large-file.test.ts`](test/test-example/large-file.test.ts)
 
 ### `getScreenshot` — Render Pages as PNG
 ```js

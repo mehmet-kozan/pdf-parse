@@ -1,6 +1,5 @@
 import type { PageViewport, PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
-//import * as WorkerUrl from 'pdfjs-dist/legacy/build/pdf.worker.mjs?url';
 import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_factory.js';
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 import type { DocumentInitParameters } from './DocumentInitParameters.js';
@@ -17,6 +16,7 @@ import { type HyperlinkPosition, TextResult } from './TextResult.js';
 export class PDFParse {
 	private readonly options: DocumentInitParameters;
 	private doc: PDFDocumentProxy | undefined;
+	public progress: { loaded: number; total: number } = { loaded: -1, total: 0 };
 
 	constructor(options: DocumentInitParameters) {
 		if (options.verbosity === undefined) {
@@ -132,13 +132,13 @@ export class PDFParse {
 
 		for (let i: number = 1; i <= result.total; i++) {
 			if (this.shouldParse(i, result.total, params)) {
-				const pageProxy = await doc.getPage(i);
-				const text = await this.getPageText(pageProxy, params, result.total);
+				const page = await doc.getPage(i);
+				const text = await this.getPageText(page, params, result.total);
 				result.pages.push({
 					text: text,
 					num: i,
 				});
-				pageProxy.cleanup();
+				page.cleanup();
 			}
 		}
 
@@ -152,6 +152,11 @@ export class PDFParse {
 	private async load(): Promise<PDFDocumentProxy> {
 		if (this.doc === undefined) {
 			const loadingTask = pdfjs.getDocument(this.options);
+
+			loadingTask.onProgress = (progress: { loaded: number; total: number }) => {
+				this.progress = progress;
+			};
+
 			this.doc = await loadingTask.promise;
 		}
 

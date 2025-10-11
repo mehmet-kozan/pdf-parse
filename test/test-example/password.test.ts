@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest';
-import { PDFParse } from '../../src/index';
+import { PDFParse, VerbosityLevel } from '../../src/index';
 import { data } from '../pdf_files/password-123456';
 
 describe('load password protected pdf', async () => {
 	const buffer = await data.getBuffer();
-	const parser = new PDFParse({ data: buffer, password: '123456' });
+	const parser = new PDFParse({ data: buffer, password: '123456', verbosity: VerbosityLevel.WARNINGS });
 	const infoResult = await parser.getInfo();
 	const textResult = await parser.getText();
 
