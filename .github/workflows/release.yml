@@ -1,5 +1,7 @@
 name: publish
 
+concurrency: publish
+
 on:
   push:
     tags:
@@ -12,6 +14,7 @@ permissions:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    environment: publish
     steps:
     - uses: actions/checkout@v3
     
