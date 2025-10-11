@@ -1,8 +1,8 @@
 import type { PageViewport, PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
+import type { DocumentInitParameters } from 'pdfjs-dist/types/src/display/api.js';
 import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_factory.js';
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
-import type { DocumentInitParameters } from './DocumentInitParameters.js';
 import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
 import type { TableData } from './geometry/TableData.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
