@@ -263,13 +263,14 @@ try {
 }
 ```  
 
-## Web / Browser [![npm downloads](https://img.shields.io/jsdelivr/npm/hm/pdf-parse)](https://www.jsdelivr.com/package/npm/pdf-parse) 
+## Web / Browser  
+<p align="right"><a href="https://www.jsdelivr.com/package/npm/pdf-parse"><img src="https://img.shields.io/jsdelivr/npm/hm/pdf-parse"></a></p>  
 
 - Can be integrated into `React`, `Vue`, `Angular`, or any other web framework.
 - **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
 - **Demo Source Code:** [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
 
-### CDN Usage [![npm downloads](https://img.shields.io/jsdelivr/npm/hm/pdf-parse)](https://www.jsdelivr.com/package/npm/pdf-parse) 
+### CDN Usage  
 ```html
 <!-- ES Module -->
 <script type="module">
