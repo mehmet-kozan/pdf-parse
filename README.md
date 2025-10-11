@@ -136,13 +136,13 @@ For a complete list of configuration options, see:
 - [`ParseParameters`](src/ParseParameters.ts) - pdf-parse specific options
 
 Usage Examples:
-- Parse password protected PDF:  [`test/test-example/password.test.ts`](test/test-example/password.test.ts)
-- Parse only specific pages: [`test/test-example/specific-pages.test.ts`](test/test-example/specific-pages.test.ts)
-- Parse embedded hyperlinks: [`test/test-example/hyperlink.test.ts`](test/test-example/hyperlink.test.ts)
-- Set verbosity level: [`test/test-example/password.test.ts`](test/test-example/password.test.ts)
-- Load PDF from URL: [`test/test-example/url.test.ts`](test/test-example/url.test.ts)
-- Load PDF from base64 data: [`test/test-example/base64.test.ts`](test/test-example/base64.test.ts)
-- Loading large files (> 10 MB): [`test/test-example/large-file.test.ts`](test/test-example/large-file.test.ts)
+- Parse password protected PDF:  [`password.test.ts`](test/test-example/password.test.ts)
+- Parse only specific pages: [`specific-pages.test.ts`](test/test-example/specific-pages.test.ts)
+- Parse embedded hyperlinks: [`hyperlink.test.ts`](test/test-example/hyperlink.test.ts)
+- Set verbosity level: [`password.test.ts`](test/test-example/password.test.ts)
+- Load PDF from URL: [`url.test.ts`](test/test-example/url.test.ts)
+- Load PDF from base64 data: [`base64.test.ts`](test/test-example/base64.test.ts)
+- Loading large files (> 10 MB): [`large-file.test.ts`](test/test-example/large-file.test.ts)
 
 ### `getScreenshot` — Render Pages as PNG
 ```js

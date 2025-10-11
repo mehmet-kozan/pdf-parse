@@ -337,6 +337,14 @@ export class PDFParse {
 
 						const { width, height, kind, data } = await imgPromise;
 
+						if (params.minImageWidth && params.minImageWidth > width) {
+							continue;
+						}
+
+						if (params.minImageHeight && params.minImageHeight > height) {
+							continue;
+						}
+
 						// biome-ignore lint/suspicious/noExplicitAny: <underlying library does not contain valid typedefs>
 						const canvasFactory = (doc as any).canvasFactory;
 

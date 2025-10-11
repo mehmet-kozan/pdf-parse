@@ -1,26 +1,26 @@
 import { describe, expect, test } from 'vitest';
 import { PDFParse } from '../../src/index';
 
-describe('test-load url string', async () => {
-	const parser = new PDFParse({ url: 'https://bugzilla.mozilla.org/attachment.cgi?id=733434' });
-	const infoResult = await parser.getInfo();
-	const textResult = await parser.getText();
-	test('results be correct', () => {
+describe('test-load url string', () => {
+	test('results be correct', { timeout: 10000 }, async () => {
+		const parser = new PDFParse({ url: 'https://bitcoin.org/bitcoin.pdf' });
+		const infoResult = await parser.getInfo();
+		const textResult = await parser.getText();
 		expect(infoResult.total).toEqual(9);
-		expect(infoResult.info.PDFFormatVersion).toEqual('1.7');
+		expect(infoResult.info.PDFFormatVersion).toEqual('1.4');
 		expect(textResult.total).toEqual(9);
-		expect(textResult.text).toContain('BMCL Digest');
+		expect(textResult.text).toContain('Bitcoin');
 	});
 });
 
-describe('test-load url object', async () => {
-	const parser = new PDFParse({ url: new URL('https://bugzilla.mozilla.org/attachment.cgi?id=733434') });
-	const infoResult = await parser.getInfo();
-	const textResult = await parser.getText();
-	test('results be correct', () => {
+describe('test-load url object', () => {
+	test('results be correct', { timeout: 10000 }, async () => {
+		const parser = new PDFParse({ url: new URL('https://bitcoin.org/bitcoin.pdf') });
+		const infoResult = await parser.getInfo();
+		const textResult = await parser.getText();
 		expect(infoResult.total).toEqual(9);
-		expect(infoResult.info.PDFFormatVersion).toEqual('1.7');
+		expect(infoResult.info.PDFFormatVersion).toEqual('1.4');
 		expect(textResult.total).toEqual(9);
-		expect(textResult.text).toContain('BMCL Digest');
+		expect(textResult.text).toContain('Bitcoin');
 	});
 });

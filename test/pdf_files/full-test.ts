@@ -5,7 +5,12 @@ class TestData extends PDFFile {
 	pages = [
 		{
 			num: 1,
-			texts: ['Trace-based Just-in-Time Type Specialization'],
+			texts: [
+				'Trace-based Just-in-Time Type Specialization',
+				'Just-in-Time Type Specialization for',
+				'Languages',
+				'Andreas Gal∗+, Brendan Eich∗, Mike Shaver∗, David Anderson∗, David Mandelin∗',
+			],
 		},
 		{
 			num: 2,
@@ -25,7 +30,7 @@ class TestData extends PDFFile {
 		},
 		{
 			num: 8,
-			texts: ['JavaScript object values are mappings of string-valued property'],
+			texts: ['JavaScript object values are mappings of string-valued property', 'Because traces are in SSA form and have no join points'],
 		},
 		{
 			num: 13,
@@ -33,7 +38,7 @@ class TestData extends PDFFile {
 		},
 		{
 			num: 14,
-			texts: ['A. Rigo. Representation-Based Just-In-time Specialization'],
+			texts: ['A. Rigo. Representation-Based Just-In-time Specialization', 'not be interpreted as necessarily representing the official views'],
 		},
 	];
 }

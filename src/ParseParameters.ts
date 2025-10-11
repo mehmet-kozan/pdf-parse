@@ -92,6 +92,22 @@ export interface ParseParameters {
 	itemJoiner?: string;
 
 	/**
+	 * - Minimum image width (in pixels). When set, images with a width smaller
+	 *   than this value will be ignored by getImage().
+	 * - Use to filter out very small embedded images (thumbnails, icons).
+	 * - Default: undefined (no minimum).
+	 */
+	minImageWidth?: number;
+
+	/**
+	 * - Minimum image height (in pixels). When set, images with a height smaller
+	 *   than this value will be ignored by getImage().
+	 * - Use together with minImageWidth to require both dimensions to meet the threshold.
+	 * - Default: undefined (no minimum).
+	 */
+	minImageHeight?: number;
+
+	/**
 	 * - When true, include marked content items in the items array of TextContent.
 	 * - Enables capturing the PDF's "marked content"
 	 * - Tags (MCID, role/props) and structural/accessibility information — e.g.

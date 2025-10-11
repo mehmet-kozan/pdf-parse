@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.2.7",
+	"version": "2.2.8",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
@@ -55,14 +55,16 @@
 		"dist/"
 	],
 	"scripts": {
-		"build": "npm-run-all clean clean:site build:esm build:cjs build:cjs:rename build:browser build:browser:min",
+		"build": "npm-run-all clean build:esm build:cjs build:cjs:rename build:browser build:browser:min",
 		"build:esm": "tsc",
 		"build:cjs": "tsc --project tsconfig.node.json",
 		"build:cjs:rename": "node scripts/rename-cjs.js",
 		"build:browser": "vite build --config vite.config.browser.ts",
 		"build:browser:min": "vite build --config vite.config.browser.min.ts",
-		"clean": "rimraf --glob dist test/**/*.txt test/**/imgs",
+		"clean:build": "rimraf dist",
 		"clean:site": "rimraf gh-pages/test-report gh-pages/coverage gh-pages/benchmark gh-pages/demo/dist-browser",
+		"clean:test": "rimraf --glob dist test/**/*.txt test/**/imgs test/**/*_images",
+		"clean": "npm-run-all clean:build clean:site clean:test",
 		"prepare": "npm run build",
 		"test": "vitest run --reporter=default",
 		"test:ava": "ava test/test-ava --verbose --no-cache --serial --no-worker-threads",

@@ -8,7 +8,7 @@ import { PDFParse } from '../../src/index';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const __pdf = join(__dirname, 'test.pdf');
+const __pdf = join(__dirname, 'nonvalid.pdf');
 
 describe('test-03 invalid pdf file', async () => {
 	const data = await readFile(__pdf);

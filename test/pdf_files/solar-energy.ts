@@ -1,6 +1,8 @@
-export const TestData = {
-	total: 5,
-	pages: [
+import { PDFFile } from './_helper';
+
+class TestData extends PDFFile {
+	total = 5;
+	pages = [
 		{
 			num: 1,
 			texts: ['According to literature, solar cells', 'investigated four different TJ designs'],
@@ -16,5 +18,7 @@ export const TestData = {
 			num: 5,
 			texts: ['fabricated by multi layer precursor method for improvement of its photo', 'royal Institute of Technology, Stockholm'],
 		},
-	],
-};
+	];
+}
+
+export const data = new TestData(import.meta.url);

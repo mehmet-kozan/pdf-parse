@@ -9,7 +9,7 @@ import { PDFParse } from '../../dist/esm/index';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const __pdf = join(__dirname, 'bench.pdf');
+const __pdf = join(__dirname, '../pdf_files/full-test.pdf');
 
 async function pdf_parse_esm_promise(buffer: Buffer<ArrayBufferLike>) {
 	const parser = new PDFParse({ data: buffer });

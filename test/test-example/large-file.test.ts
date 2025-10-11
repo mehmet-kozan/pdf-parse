@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { PDFParse } from '../../src/PDFParse';
 
 describe('Large PDF File Tests', () => {
-	it('should parse IPCC Climate Report (very large)', async () => {
+	test('should parse IPCC Climate Report (very large)', { timeout: 30000 }, async () => {
 		// IPCC Climate Report - 20+ MB
 		const url = 'https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_SPM.pdf';
 
@@ -34,9 +34,9 @@ describe('Large PDF File Tests', () => {
 		expect(result.pages.length).toBeLessThanOrEqual(3);
 		expect(result.text.length).toBeGreaterThan(0);
 		expect(parser.progress.total).toBeGreaterThan(parser.progress.loaded);
-	}, 60000);
+	});
 
-	it('should handle arxiv.org research paper', async () => {
+	test('should handle arxiv.org research paper', { timeout: 30000 }, async () => {
 		// ArXiv Academic Paper - ~1-3 MB
 		const url = 'https://arxiv.org/pdf/1706.03762.pdf';
 
@@ -56,9 +56,9 @@ describe('Large PDF File Tests', () => {
 		expect(result.text).toContain('We give two such examples above');
 		expect(result.pages.length).toBeLessThanOrEqual(1);
 		expect(parser.progress.total).toBeGreaterThan(parser.progress.loaded);
-	}, 30000);
+	});
 
-	it('should parse Bitcoin Whitepaper (small but reliable)', async () => {
+	test('should parse Bitcoin Whitepaper (small but reliable)', { timeout: 10000 }, async () => {
 		// Bitcoin Whitepaper - ~180 KB (small but good for testing)
 		const url = 'https://bitcoin.org/bitcoin.pdf';
 
@@ -70,5 +70,5 @@ describe('Large PDF File Tests', () => {
 		expect(result.text).toContain('Bitcoin');
 		expect(result.text).toContain('Satoshi Nakamoto');
 		expect(parser.progress.total).toBe(parser.progress.loaded);
-	}, 10000);
+	});
 });
