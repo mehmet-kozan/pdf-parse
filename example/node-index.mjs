@@ -8,7 +8,7 @@ import { PDFParse } from '../dist/esm/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const file = join(__dirname, 'test.pdf');
+const file = join(__dirname, '../test/pdf_files/full-test.pdf');
 const data = await readFile(file);
 
 const parser = new PDFParse({ data });

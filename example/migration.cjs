@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { PDFParse } = require('../dist/cjs/index.cjs');
 
-const file = path.join(__dirname, 'test.pdf');
+const file = path.join(__dirname, '../test/pdf_files/full-test.pdf');
 const buffer = fs.readFileSync(file);
 
 const parser = new PDFParse({ data: buffer });
