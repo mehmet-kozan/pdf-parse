@@ -136,10 +136,11 @@ For a complete list of configuration options, see:
 - [`ParseParameters`](src/ParseParameters.ts) - pdf-parse specific options
 
 Usage Examples:
-- Parse password protected PDF:  [`test/test-06-password`](test/test-06-password/pdf-password.test.ts)
-- Parse only specific pages: [`test/test-parse-parameters`](test/test-parse-parameters/pdf-parse-parameters.test.ts)
+- Parse password protected PDF:  [`test/test-example/password.test.ts`](test/test-example/password.test.ts)
+- Parse only specific pages: [`test/test-example/specific-pages.test.ts`](test/test-example/specific-pages.test.ts)
 - Parse embedded hyperlinks: [`test/test-hyperlinks`](test/test-hyperlinks/pdf-hyperlink.test.ts)
-- Load PDF from URL: [`test/test-types`](test/test-types/text-result-type.test.ts)
+- Load PDF from URL: [`test/test-example/url.test.ts`](test/test-example/url.test.ts)
+- Load PDF from base64 data: [`test/test-example/base64.test.ts`](test/test-example/base64.test.ts)
 
 ### `getScreenshot` — Render Pages as PNG
 ```js

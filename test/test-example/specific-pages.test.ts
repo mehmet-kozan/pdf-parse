@@ -1,17 +1,9 @@
-import { readFile } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { describe, expect, suite, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { PDFParse } from '../../src/index';
-import { TestData } from './data.js';
+import { data } from '../pdf_files/full-test';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const __pdf = join(__dirname, 'compressed.tracemonkey-pldi-09.pdf');
-
-suite('test-parse-parameters', async () => {
-	const buffer = await readFile(__pdf);
+describe('test-parse-parameters', async () => {
+	const buffer = await data.getBuffer();
 	const parser = new PDFParse({ data: buffer });
 
 	// Parse only the first page (page 1):
@@ -24,11 +16,11 @@ suite('test-parse-parameters', async () => {
 		test('check result', async () => {
 			expect(result.pages.length).toEqual(1);
 			expect(result.pages[0].num).toEqual(1);
-			expect(result.total).toEqual(TestData.total);
+			expect(result.total).toEqual(data.total);
 		});
 
 		test.each(result.pages)('page: $num must contains test sentences', ({ num, text }) => {
-			expect(text.includes(TestData.getPageText(num))).toBeTruthy();
+			expect(text.includes(data.getFirstText(num))).toBeTruthy();
 		});
 	});
 
@@ -44,11 +36,11 @@ suite('test-parse-parameters', async () => {
 			expect(result.pages[0].num).toEqual(2);
 			expect(result.pages[1].num).toEqual(5);
 			expect(result.pages[2].num).toEqual(7);
-			expect(result.total).toEqual(TestData.total);
+			expect(result.total).toEqual(data.total);
 		});
 
 		test.each(result.pages)('page: $num must contains test sentences', ({ num, text }) => {
-			expect(text.includes(TestData.getPageText(num))).toBeTruthy();
+			expect(text.includes(data.getFirstText(num))).toBeTruthy();
 		});
 	});
 
@@ -65,11 +57,11 @@ suite('test-parse-parameters', async () => {
 			expect(result.pages[1].num).toEqual(6);
 			expect(result.pages[2].num).toEqual(7);
 			expect(result.pages[3].num).toEqual(8);
-			expect(result.total).toEqual(TestData.total);
+			expect(result.total).toEqual(data.total);
 		});
 
 		test.each(result.pages)('page: $num must contains test sentences', ({ num, text }) => {
-			expect(text.includes(TestData.getPageText(num))).toBeTruthy();
+			expect(text.includes(data.getFirstText(num))).toBeTruthy();
 		});
 	});
 
@@ -83,11 +75,11 @@ suite('test-parse-parameters', async () => {
 			expect(result.pages.length).toEqual(2);
 			expect(result.pages[0].num).toEqual(1);
 			expect(result.pages[1].num).toEqual(2);
-			expect(result.total).toEqual(TestData.total);
+			expect(result.total).toEqual(data.total);
 		});
 
 		test.each(result.pages)('page: $num must contains test sentences', ({ num, text }) => {
-			expect(text.includes(TestData.getPageText(num))).toBeTruthy();
+			expect(text.includes(data.getFirstText(num))).toBeTruthy();
 		});
 	});
 
@@ -102,11 +94,11 @@ suite('test-parse-parameters', async () => {
 			expect(result.pages.length).toEqual(2);
 			expect(result.pages[0].num).toEqual(13);
 			expect(result.pages[1].num).toEqual(14);
-			expect(result.total).toEqual(TestData.total);
+			expect(result.total).toEqual(data.total);
 		});
 
 		test.each(result.pages)('page: $num must contains test sentences', ({ num, text }) => {
-			expect(text.includes(TestData.getPageText(num))).toBeTruthy();
+			expect(text.includes(data.getFirstText(num))).toBeTruthy();
 		});
 	});
 });

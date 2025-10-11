@@ -8,7 +8,7 @@ import { TestData } from './data';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const __pdf = join(__dirname, 'test.pdf');
+const __pdf = join(__dirname, '../pdf_files/password-123456.pdf');
 const __pdf_txt = join(__dirname, 'test.txt');
 
 describe('test-06-password all:true', async () => {

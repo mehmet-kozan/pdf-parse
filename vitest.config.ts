@@ -3,13 +3,10 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
 	test: {
 		environment: 'node',
-		timeout: 10000,
 		slowTestThreshold: 1000,
 		globals: true,
-		threads: false,
-		exclude: ['**/node_modules/**', '**/dist/**', '**/_*', '**/_*.test.*', '**/_*.spec.*', '**/test-ava/**', '**/test_integration/**'],
+		exclude: ['**/node_modules/**', '**/dist/**', '**/_*', '**/_*.test.*', '**/_*.spec.*', '**/test-ava/**', '**/test_integration/**', '**/pdf_files/**'],
 		reporters: ['default', 'html'],
-		clean: true,
 		outputFile: {
 			html: 'gh-pages/test-report/index.html',
 		},
