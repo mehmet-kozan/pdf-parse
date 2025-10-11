@@ -31311,6 +31311,12 @@ class PDFParse {
             const isCommon = page.commonObjs.has(name);
             const imgPromise = isCommon ? this.resolveEmbeddedImage(page.commonObjs, name) : this.resolveEmbeddedImage(page.objs, name);
             const { width, height, kind, data } = await imgPromise;
+            if (params.minImageWidth && params.minImageWidth > width) {
+              continue;
+            }
+            if (params.minImageHeight && params.minImageHeight > height) {
+              continue;
+            }
             const canvasFactory = doc.canvasFactory;
             const canvasAndContext = canvasFactory.create(width, height);
             const context = canvasAndContext.context;
