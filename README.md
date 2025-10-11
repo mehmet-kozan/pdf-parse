@@ -22,6 +22,23 @@
 
 > **Contributing Note:** When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently. For detailed guidelines on how to contribute, report bugs, or submit pull requests, see: [`contributing to pdf-parse`](https://github.com/mehmet-kozan/pdf-parse?tab=contributing-ov-file#contributing-to-pdf-parse)
 
+## Migration From v1 to v2
+```js
+// v1
+const pdf = require('pdf-parse');
+pdf(buffer).then(result => console.log(result.text));
+
+// v2
+const { PDFParse } = require('pdf-parse');
+const parser = new PDFParse({ data: buffer });
+
+parser.getText().then((result)=>{
+    console.log(result.text)
+}).finally(async ()=>{
+    await parser.destroy();
+});
+```
+
 ## Features
 - Supports Node.js and browsers
 - CommonJS and ESM support
@@ -67,23 +84,6 @@ bun add pdf-parse
 ```
 
 ## Usage
-
-### Migration From v1 to v2
-```js
-// v1
-const pdf = require('pdf-parse');
-pdf(buffer).then(result => console.log(result.text));
-
-// v2
-const { PDFParse } = require('pdf-parse');
-const parser = new PDFParse({ data: buffer });
-
-parser.getText().then((result)=>{
-    console.log(result.text)
-}).finally(async ()=>{
-    await parser.destroy();
-});
-```
 
 ### `getInfo` — Extract Metadata and Document Information
 ```js
