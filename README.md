@@ -41,7 +41,7 @@ parser.getText().then((result)=>{
 });
 ```  
 
-## Features <span style="float:right">[![demo](https://img.shields.io/badge/live-demo-brightgreen.svg)](https://mehmet-kozan.github.io/pdf-parse/)</span>  
+## Features <a href="https://mehmet-kozan.github.io/pdf-parse/" target="_blank"><img align="right" src="https://img.shields.io/badge/live-demo-brightgreen.svg" alt="demo"></a>
 - CommonJS, ESM, Node.js, and browser support
 - Can be integrated with React, Vue, Angular, or any other web framework
 - Security: [`security policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
@@ -264,19 +264,20 @@ try {
 }
 ```  
 
-## Web / Browser  
+## Web / Browser <a href="https://www.jsdelivr.com/package/npm/pdf-parse" target="_blank"><img align="right" src="https://img.shields.io/jsdelivr/npm/hm/pdf-parse"></a>  
 - Can be integrated into `React`, `Vue`, `Angular`, or any other web framework.
 - **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
 - **Demo Source Code:** [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
 
 ### CDN Usage  
+
 ```html
 <!-- ES Module -->
 <script type="module">
   import { PDFParse } from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js';
 </script>
 ```
-<p align="right"><a href="https://www.jsdelivr.com/package/npm/pdf-parse"><img src="https://img.shields.io/jsdelivr/npm/hm/pdf-parse"></a></p>
+
 
 | Bundle Type | Development | Production (Minified) |
 |------------|-------------|----------------------|
