@@ -1,21 +1,17 @@
 {
 	"name": "pdf-parse",
-	"version": "2.2.9",
+	"version": "2.2.10",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
-	"types": "dist/cjs/index.d.ts",
+	"types": "./dist/esm/index.d.ts",
 	"exports": {
 		".": {
-			"import": {
-				"types": "./dist/esm/index.d.ts",
-				"default": "./dist/esm/index.js"
-			},
-			"require": {
-				"types": "./dist/cjs/index.d.ts",
-				"default": "./dist/cjs/index.cjs"
-			}
-		}
+			"import": "./dist/esm/index.js",
+			"require": "./dist/cjs/index.cjs",
+			"default": "./dist/browser/pdf-parse.es.js"
+		},
+		"./node": "./dist/cjs/index.cjs"
 	},
 	"description": "A pure TypeScript/JavaScript, cross-platform module for extracting text, images, and tabular data from PDF files.",
 	"homepage": "https://mehmet-kozan.github.io/pdf-parse/",
@@ -52,13 +48,15 @@
 	"license": "Apache-2.0",
 	"author": "Mehmet Kozan",
 	"files": [
-		"dist/"
+		"dist/",
+		"src/"
 	],
 	"scripts": {
-		"build": "npm-run-all clean build:esm build:cjs build:cjs:rename build:browser build:browser:min",
+		"build": "npm-run-all clean build:esm build:cjs build:cjs:rename build:node build:browser build:browser:min",
 		"build:esm": "tsc",
 		"build:cjs": "tsc --project tsconfig.node.json",
 		"build:cjs:rename": "node scripts/rename-cjs.js",
+		"build:node": "vite build --config vite.config.node.ts",
 		"build:browser": "vite build --config vite.config.browser.ts",
 		"build:browser:min": "vite build --config vite.config.browser.min.ts",
 		"clean:build": "rimraf dist",
@@ -81,7 +79,8 @@
 		"pack": "npm pack --dry-run"
 	},
 	"dependencies": {
-		"pdfjs-dist": "^5.4.296"
+		"pdfjs-dist": "^5.4.296",
+		"vite-plugin-dts": "^4.5.4"
 	},
 	"optionalDependencies": {
 		"@napi-rs/canvas": "^0.1.80"

@@ -25,10 +25,12 @@ export default defineConfig({
 				const dest_browser_min = join(process.cwd(), 'dist', 'browser', 'pdf.worker.min.mjs');
 				const dest_esm = join(process.cwd(), 'dist', 'esm', 'pdf.worker.mjs');
 				const dest_cjs = join(process.cwd(), 'dist', 'cjs', 'pdf.worker.mjs');
+				const dest_node = join(process.cwd(), 'dist', 'node', 'pdf.worker.mjs');
 				copyFileSync(source, dest_browser);
 				copyFileSync(source_min, dest_browser_min);
 				copyFileSync(source, dest_esm);
 				copyFileSync(source, dest_cjs);
+				copyFileSync(source, dest_node);
 			},
 		},
 		{

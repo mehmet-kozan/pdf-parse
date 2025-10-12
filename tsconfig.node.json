@@ -1,7 +1,8 @@
 {
 	"compilerOptions": {
 		"outDir": "dist/cjs",
-		"declaration": true,
+		"declaration": false,
+		"declarationMap": false,
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"isolatedModules": true,
@@ -16,6 +17,6 @@
 		"rootDir": "src",
 		"verbatimModuleSyntax": false
 	},
-	"include": ["src"],
+	"include": ["src/**/*"],
 	"exclude": ["dist", "example", "lib/**/*", "test/**/*", "src/**/_*", "src/_**/*"]
 }

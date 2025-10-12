@@ -2,6 +2,7 @@
 	"compilerOptions": {
 		"outDir": "dist/esm",
 		"declaration": true,
+		"declarationMap": true,
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"isolatedModules": true,
@@ -17,6 +18,6 @@
 
 		"verbatimModuleSyntax": true
 	},
-	"include": ["src"],
-	"exclude": ["dist", "example", "lib/**/*", "test/**/*", "src/**/_*", "src/_**/*"]
+	"include": ["src/**/*"],
+	"exclude": ["dist", "example", "lib/**/*", "test/**/*", "scripts/**/*", "src/**/_*", "src/_**/*"]
 }
