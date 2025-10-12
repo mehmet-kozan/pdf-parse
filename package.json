@@ -1,17 +1,20 @@
 {
 	"name": "pdf-parse",
-	"version": "2.2.11",
+	"version": "2.2.12",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
-	"types": "./dist/esm/index.d.ts",
+	"types": "dist/esm/index.d.ts",
 	"exports": {
 		".": {
 			"import": "./dist/esm/index.js",
 			"require": "./dist/cjs/index.cjs",
 			"default": "./dist/browser/pdf-parse.es.js"
 		},
-		"./node": "./dist/cjs/index.cjs"
+		"./node": {
+			"types": "./dist/esm/index.d.ts",
+			"default": "./dist/node/index.cjs"
+		}
 	},
 	"description": "A pure TypeScript/JavaScript, cross-platform module for extracting text, images, and tabular data from PDF files.",
 	"homepage": "https://mehmet-kozan.github.io/pdf-parse/",
