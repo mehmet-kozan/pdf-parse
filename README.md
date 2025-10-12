@@ -41,9 +41,9 @@ parser.getText().then((result)=>{
 });
 ```  
 
-## Features <a href="https://mehmet-kozan.github.io/pdf-parse/" target="_blank"><img align="right" src="https://img.shields.io/badge/live-demo-brightgreen.svg" alt="demo"></a>
-- CommonJS, ESM, Node.js, and browser support
-- Can be integrated with React, Vue, Angular, or any other web framework
+## Features <a href="https://mehmet-kozan.github.io/pdf-parse/" target="_blank"><img align="right" src="https://img.shields.io/badge/live-demo-brightgreen.svg" alt="demo"></a>  
+- CommonJS, ESM, Node.js, and browser support.
+- Can be integrated with React, Vue, Angular, or any other web framework.
 - Security: [`security policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
 - Extract document info : `getInfo` 
 - Extract page text : `getText` 
@@ -51,18 +51,17 @@ parser.getText().then((result)=>{
 - Extract embedded images : `getImage` 
 - Detect and extract tabular data : `getTable` 
 - Well-covered with [`unit tests`](./test)
-- [`Integration tests`](./test_integration) to validate end-to-end behavior across environments
-- For additional usage examples, check the [`test`](./test) folder.
-
+- [`Integration tests`](./test_integration) to validate end-to-end behavior across environments.
+- For usage examples, see  [`example`](./example), [`test`](./test) and [`test/example`](./test/test-example) folders.
 
 ## Similar Packages
 * [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
 * [pdfdataextract](https://www.npmjs.com/package/pdfdataextract) — `pdf-parse` based
 * [unpdf](https://www.npmjs.com/package/unpdf) — `pdf-parse` based
-* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Not cross-platform, depends on xpdf
+* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Non cross-platform, depends on xpdf
 * [j-pdfjson](https://www.npmjs.com/package/j-pdfjson) — Fork of pdf2json
 * [pdfreader](https://www.npmjs.com/package/pdfreader) — Uses pdf2json
-* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Not cross-platform, depends on xpdf  
+* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Non cross-platform, depends on xpdf  
 
 > **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue, see [`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/bench.html).
 
@@ -71,7 +70,7 @@ parser.getText().then((result)=>{
 - Supported: Node.js 20 (>= 20.16.0), Node.js 22 (>= 22.3.0), Node.js 23 (>= 23.0.0), and Node.js 24 (>= 24.0.0).
 - Not supported: Node.js 21.x, and Node.js 19.x and earlier.
 
-Integration tests run on Node.js 20–24 (see [`test_integration.yml`](./.github/workflows/test_integration.yml)).
+Integration tests run on Node.js 20–24, see [`test_integration.yml`](./.github/workflows/test_integration.yml).
 
 ## Installation
 ```sh
@@ -133,8 +132,8 @@ await parser.destroy();
 console.log(textResult.text);
 ```
 For a complete list of configuration options, see:
-- [`DocumentInitParameters`](https://mozilla.github.io/pdf.js/api/draft/module-pdfjsLib.html#~DocumentInitParameters) - PDF.js document initialization options
-- [`ParseParameters`](src/ParseParameters.ts) - pdf-parse specific options
+- [`DocumentInitParameters`](https://mozilla.github.io/pdf.js/api/draft/module-pdfjsLib.html#~DocumentInitParameters) - document initialization options
+- [`ParseParameters`](src/ParseParameters.ts) - parse options
 
 Usage Examples:
 - Parse password protected PDF:  [`password.test.ts`](test/test-example/password.test.ts)
