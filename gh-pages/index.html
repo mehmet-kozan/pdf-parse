@@ -42,15 +42,31 @@
         (async () => {
             // Cache-busting dynamic import: append a timestamp query so the
             // browser requests a fresh copy instead of using a cached module.
-            const base = 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js';
-            const url = `${base}?_=${Date.now()}`;
             try {
-                const mod = await import(url);
+                const mod = await import(`https://cdn.jsdelivr.net/npm/pdf-parse@latest/+esm?_=${Date.now()}`);
                 // Expose PDFParse to window for the demos that expect it.
                 // Support both named and default-export shapes.
                 // @ts-ignore - runtime assignment
                 window.PDFParse = mod.PDFParse ?? (mod.default && (mod.default.PDFParse ?? mod.default)) ?? null;
+
+                const parser = new PDFParse({ url: './bitcoin.pdf' });
+
+                const result = await parser.getText();
+                await parser.destroy();
+
+                if (!result.text.includes('Satoshi Nakamoto')) {
+                    throw new Error('PDFParse failed!..');
+                }
+
+                // Başarılı - yeşil simge göster
+                document.getElementById('status-indicator').style.backgroundColor = '#4CAF50';
+                document.getElementById('status-indicator').title = 'PDF Parse: Success';
+
             } catch (err) {
+                // Hata - kırmızı simge göster
+                document.getElementById('status-indicator').style.backgroundColor = '#f44336';
+                document.getElementById('status-indicator').title = 'PDF Parse: Failed - ' + err.message;
+
                 // Fail gracefully if the module cannot be loaded.
                 // This will show in browser console during debugging.
                 // eslint-disable-next-line no-console
@@ -114,6 +130,19 @@
             color: #333;
             margin-bottom: 10px;
             font-size: 2.5em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        #status-indicator {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #ccc;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .subtitle {
@@ -267,9 +296,9 @@
                 </p>
                 <p style="margin-top: 20px; font-size: 1.3em;">
                     <a href="https://github.com/mehmet-kozan/pdf-parse" target="_blank" rel="noopener"
-                        style="color: #667eea;">GitHub</a> |
+                        style="color: #667eea;">GitHub </a> <span id="status-indicator"></span>
                     <a href="https://www.npmjs.com/package/pdf-parse" target="_blank" rel="noopener nofollow"
-                        style="color: #667eea;">Package</a>
+                        style="color: #667eea;">NPM Package</a>
                 </p>
             </footer>
         </div>
