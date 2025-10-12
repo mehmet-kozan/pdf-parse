@@ -16,7 +16,7 @@
 			"default": "./dist/node/index.cjs"
 		}
 	},
-	"description": "A pure TypeScript/JavaScript, cross-platform module for extracting text, images, and tabular data from PDF files.",
+	"description": "Pure TypeScript, cross-platform module for extracting text, images, and tabular data from PDFs. Run directly in your browser or in Node!",
 	"homepage": "https://mehmet-kozan.github.io/pdf-parse/",
 	"bugs": {
 		"url": "https://github.com/mehmet-kozan/pdf-parse/issues"
@@ -107,5 +107,6 @@
 	"engines": {
 		"node": ">=20.16.0 <21 || >=22.3.0"
 	},
-	"sideEffects": false
+	"sideEffects": false,
+	"jsdelivr": "./dist/browser/pdf-parse.es.min.js"
 }
