@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.2.14",
+	"version": "2.2.16",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
