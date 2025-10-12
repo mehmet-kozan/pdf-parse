@@ -52,7 +52,7 @@ parser.getText().then((result)=>{
 - Detect and extract tabular data : `getTable` 
 - Well-covered with [`unit tests`](./test)
 - [`Integration tests`](./test_integration) to validate end-to-end behavior across environments.
-- See [DocumentInitParameters](./README.OPTIONS.md#documentinitparameters) and [ParseParameters](./README.OPTIONS.md#parseparameters) for all available options.
+- See [DocumentInitParameters](./README.options.md#documentinitparameters) and [ParseParameters](./README.options.md#parseparameters) for all available options.
 - For usage examples, see  [`example`](./example), [`test`](./test) and [`test/example`](./test/test-example) folders.
 
 ## Similar Packages
@@ -134,8 +134,8 @@ console.log(textResult.text);
 ```
 For a complete list of configuration options, see:
 
-- [DocumentInitParameters](./README.OPTIONS.md#documentinitparameters) - document initialization options
-- [ParseParameters](./README.OPTIONS.md#parseparameters) - parse options
+- [DocumentInitParameters](./README.options.md#documentinitparameters) - document initialization options
+- [ParseParameters](./README.options.md#parseparameters) - parse options
 
 
 Usage Examples:
