@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.2.10",
+	"version": "2.2.11",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
@@ -79,8 +79,7 @@
 		"pack": "npm pack --dry-run"
 	},
 	"dependencies": {
-		"pdfjs-dist": "^5.4.296",
-		"vite-plugin-dts": "^4.5.4"
+		"pdfjs-dist": "^5.4.296"
 	},
 	"optionalDependencies": {
 		"@napi-rs/canvas": "^0.1.80"
