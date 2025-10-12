@@ -1,7 +1,7 @@
 <p align="right"><a href="https://www.npmjs.com/package/pdf-parse"><img src="https://nodei.co/npm/pdf-parse.svg?data=d"></a></p>
 
 # pdf-parse
-**Pure TypeScript, cross-platform module for extracting text, images, and tabular data from PDFs.**  
+**Pure TypeScript, cross-platform module for extracting text, images, and tables from PDFs.**  
 **Run 🤗 directly in your browser or in Node!**  
 
 <div align="center"> 

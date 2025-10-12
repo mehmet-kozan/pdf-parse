@@ -6,6 +6,7 @@ import { bench, describe } from 'vitest';
 import { PDFParse as BrowserPDFParse } from '../../dist/browser/pdf-parse.es.min.js';
 import { PDFParse as PDFParseCJS } from '../../dist/cjs/index.cjs';
 import { PDFParse } from '../../dist/esm/index';
+import { PDFParse as PDFParseNode } from '../../dist/node/index.cjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -25,6 +26,13 @@ async function pdf_parse_cjs_promise(buffer: Buffer<ArrayBufferLike>) {
 	await parser.destroy();
 }
 
+async function pdf_parse_node_promise(buffer: Buffer<ArrayBufferLike>) {
+	const parser = new PDFParseNode({ data: buffer });
+
+	await parser.getText();
+	await parser.destroy();
+}
+
 async function pdf_parse_browser_promise(buffer: Buffer<ArrayBufferLike>) {
 	BrowserPDFParse.setWorker('https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs');
 	const parser = new BrowserPDFParse({ data: buffer });
@@ -34,11 +42,16 @@ async function pdf_parse_browser_promise(buffer: Buffer<ArrayBufferLike>) {
 
 async function pdf2json_promise(buffer: Buffer<ArrayBufferLike>) {
 	const parser = new PDF2JSON();
+	process.env.PDF2JSON_DISABLE_LOGS = '1';
 
 	return new Promise((resolve, reject) => {
 		parser.on('pdfParser_dataError', () => reject());
-		parser.on('pdfParser_dataReady', (pdfData) => resolve(pdfData));
-		parser.parseBuffer(buffer);
+		parser.on('pdfParser_dataReady', (pdfData) => {
+			parser.destroy();
+			resolve(pdfData);
+		});
+
+		parser.parseBuffer(buffer, 0);
 	});
 }
 
@@ -56,6 +69,14 @@ describe('Parsing Files', async () => {
 		'pdf-parse cjs build',
 		async () => {
 			await pdf_parse_cjs_promise(data);
+		},
+		{ iterations: 10 },
+	);
+
+	bench(
+		'pdf-parse node build',
+		async () => {
+			await pdf_parse_node_promise(data);
 		},
 		{ iterations: 10 },
 	);
