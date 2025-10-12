@@ -19,6 +19,7 @@ export abstract class PDFFile {
 	pages?: Array<{
 		num: number;
 		texts: Array<string>;
+		imgs?: Array<{ name: string; dataUrl?: string }>;
 	}>;
 
 	constructor(callerUrl: string) {

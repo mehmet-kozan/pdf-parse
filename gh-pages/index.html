@@ -49,21 +49,21 @@
                 // @ts-ignore - runtime assignment
                 window.PDFParse = mod.PDFParse ?? (mod.default && (mod.default.PDFParse ?? mod.default)) ?? null;
 
-                const parser = new PDFParse({ url: './bitcoin.pdf' });
+                const parser = new PDFParse({ url: './dummy-test.pdf' });
 
                 const result = await parser.getText();
                 await parser.destroy();
 
-                if (!result.text.includes('Satoshi Nakamoto')) {
+                if (!result.text.includes('Dummy PDF file')) {
                     throw new Error('PDFParse failed!..');
                 }
 
-                // Başarılı - yeşil simge göster
+                // Success - show green indicator
                 document.getElementById('status-indicator').style.backgroundColor = '#4CAF50';
                 document.getElementById('status-indicator').title = 'PDF Parse: Success';
 
             } catch (err) {
-                // Hata - kırmızı simge göster
+                // Error - show red indicator
                 document.getElementById('status-indicator').style.backgroundColor = '#f44336';
                 document.getElementById('status-indicator').title = 'PDF Parse: Failed - ' + err.message;
 

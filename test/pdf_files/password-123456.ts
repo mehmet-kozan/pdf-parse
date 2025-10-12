@@ -1,39 +1,21 @@
 import { PDFFile } from './_helper';
 
 class TestData extends PDFFile {
-	total = 14;
+	total = 2;
+	password = '123456';
 	pages = [
 		{
 			num: 1,
-			texts: ['Trace-based Just-in-Time Type Specialization'],
+			texts: [
+				'Welcome to Adobe Acrobat',
+				'Here are 3 tips for a simpler way to work.',
+				'Desktop, web, or mobile — it’s up to you. Access your documents and easy-to-use PDF and e-signature',
+				'tools from any device.',
+			],
 		},
 		{
 			num: 2,
-			texts: ['We solve the nested loop problem'],
-		},
-		{
-			num: 5,
-			texts: ['With this approach we are able to cover type-unstable'],
-		},
-		{
-			num: 6,
-			texts: ['TraceMonkey does not currently support recording'],
-		},
-		{
-			num: 7,
-			texts: ['The key insight is that if each loop is represented'],
-		},
-		{
-			num: 8,
-			texts: ['JavaScript object values are mappings of string-valued property'],
-		},
-		{
-			num: 13,
-			texts: ['This paper described how to run dynamic languages efficiently by'],
-		},
-		{
-			num: 14,
-			texts: ['A. Rigo. Representation-Based Just-In-time Specialization'],
+			texts: ['Dropbox,\nBox, Google Drive, Google Chrome, Microsoft 365, and more.', 'Acrobat the best solution available'],
 		},
 	];
 }

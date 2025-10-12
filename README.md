@@ -30,6 +30,8 @@ pdf(buffer).then(result => console.log(result.text));
 
 // v2
 const { PDFParse } = require('pdf-parse');
+// Or use the bundled build 
+// const { PDFParse } = require('pdf-parse/node');
 const parser = new PDFParse({ data: buffer });
 
 parser.getText().then((result)=>{
@@ -37,22 +39,21 @@ parser.getText().then((result)=>{
 }).finally(async ()=>{
     await parser.destroy();
 });
-```
+```  
 
-## Features
-- Supports Node.js and browsers
-- CommonJS and ESM support
+## Features <span style="float:right">[![demo](https://img.shields.io/badge/live-demo-brightgreen.svg)](https://mehmet-kozan.github.io/pdf-parse/)</span>  
+- CommonJS, ESM, Node.js, and browser support
 - Can be integrated with React, Vue, Angular, or any other web framework
-- Vulnerability and security info: [`security policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
+- Security: [`security policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
 - Extract document info : `getInfo` 
 - Extract page text : `getText` 
 - Render pages as PNG : `getScreenshot` 
 - Extract embedded images : `getImage` 
 - Detect and extract tabular data : `getTable` 
-- Well-covered with unit tests (see [`unit tests`](./test)) ensuring core functionality and fast feedback
+- Well-covered with [`unit tests`](./test)
 - [`Integration tests`](./test_integration) to validate end-to-end behavior across environments
-- For additional usage examples, check the [`test`](./test) folder and [`live demo`](https://mehmet-kozan.github.io/pdf-parse/)
-- Live demo source: [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
+- For additional usage examples, check the [`test`](./test) folder.
+
 
 ## Similar Packages
 * [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
@@ -264,8 +265,6 @@ try {
 ```  
 
 ## Web / Browser  
-<p align="right"><a href="https://www.jsdelivr.com/package/npm/pdf-parse"><img src="https://img.shields.io/jsdelivr/npm/hm/pdf-parse"></a></p>  
-
 - Can be integrated into `React`, `Vue`, `Angular`, or any other web framework.
 - **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
 - **Demo Source Code:** [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
@@ -277,6 +276,7 @@ try {
   import { PDFParse } from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js';
 </script>
 ```
+<p align="right"><a href="https://www.jsdelivr.com/package/npm/pdf-parse"><img src="https://img.shields.io/jsdelivr/npm/hm/pdf-parse"></a></p>
 
 | Bundle Type | Development | Production (Minified) |
 |------------|-------------|----------------------|
