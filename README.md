@@ -52,6 +52,7 @@ parser.getText().then((result)=>{
 - Detect and extract tabular data : `getTable` 
 - Well-covered with [`unit tests`](./test)
 - [`Integration tests`](./test_integration) to validate end-to-end behavior across environments.
+- See [DocumentInitParameters](./README.OPTIONS.md#documentinitparameters) and [ParseParameters](./README.OPTIONS.md#parseparameters) for all available options.
 - For usage examples, see  [`example`](./example), [`test`](./test) and [`test/example`](./test/test-example) folders.
 
 ## Similar Packages
@@ -132,8 +133,10 @@ await parser.destroy();
 console.log(textResult.text);
 ```
 For a complete list of configuration options, see:
-- [`DocumentInitParameters`](https://mozilla.github.io/pdf.js/api/draft/module-pdfjsLib.html#~DocumentInitParameters) - document initialization options
-- [`ParseParameters`](src/ParseParameters.ts) - parse options
+
+- [DocumentInitParameters](./README.OPTIONS.md#documentinitparameters) - document initialization options
+- [ParseParameters](./README.OPTIONS.md#parseparameters) - parse options
+
 
 Usage Examples:
 - Parse password protected PDF:  [`password.test.ts`](test/test-example/password.test.ts)
