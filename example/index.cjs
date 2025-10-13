@@ -8,7 +8,7 @@ const pdfParse = require('../dist/esm/index.js');
 
 (async () => {
 	try {
-		const filePath = path.join(__dirname, '../test/pdf_files/full-test.pdf');
+		const filePath = path.join(__dirname, '../test/pdf_file/full-test.pdf');
 		const dataBuffer = fs.readFileSync(filePath);
 
 		// Assume pdfParse returns a Promise (consistent with tests)

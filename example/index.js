@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 
 async function main() {
 	try {
-		const filePath = path.join(__dirname, '../test/pdf_files/full-test.pdf');
+		const filePath = path.join(__dirname, '../test/pdf_file/full-test.pdf');
 		const data = await fs.readFile(filePath);
 
 		const result = await pdf(data);

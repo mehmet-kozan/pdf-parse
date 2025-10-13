@@ -30,7 +30,7 @@ pdf(buffer).then(result => console.log(result.text));
 
 // v2
 const { PDFParse } = require('pdf-parse');
-// Or use the bundled build 
+// or use the bundled build 
 // const { PDFParse } = require('pdf-parse/node');
 const parser = new PDFParse({ data: buffer });
 

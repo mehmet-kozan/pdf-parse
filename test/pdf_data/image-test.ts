@@ -1,6 +1,8 @@
-export const TestData = {
-	total: 1,
-	pages: [
+import { PDFFile } from './_helper';
+
+class TestData extends PDFFile {
+	total = 1;
+	pages = [
 		{
 			num: 1,
 			texts: ['Text-01', 'Text-02'],
@@ -12,5 +14,7 @@ export const TestData = {
 				},
 			],
 		},
-	],
-};
+	];
+}
+
+export const data = new TestData(import.meta.url);

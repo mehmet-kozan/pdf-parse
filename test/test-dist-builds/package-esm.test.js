@@ -9,7 +9,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 describe('test-dist local cjs test', async () => {
 	test('default export', async () => {
-		const file = path.join(__dirname, 'test.pdf');
+		const file = path.join(__dirname, '../pdf_file/full-test.pdf');
 		const data = fs.readFileSync(file);
 
 		const parser = new PDFParse({ data });

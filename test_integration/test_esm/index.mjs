@@ -6,7 +6,7 @@ import { PDFParse } from 'pdf-parse';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const __pdf_files = join(__dirname, '../../test/pdf_files');
+const __pdf_files = join(__dirname, '../../test/pdf_file');
 
 async function run() {
 	try {

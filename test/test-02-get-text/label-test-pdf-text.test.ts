@@ -2,7 +2,7 @@ import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { PDFParse } from '../../src/index';
-import { data } from '../pdf_files/label-test';
+import { data } from '../pdf_data/label-test';
 
 const __pdf_txt = join(__dirname, data.textFile);
 

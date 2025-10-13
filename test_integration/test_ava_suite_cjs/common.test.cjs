@@ -4,7 +4,7 @@ const pdf = require('pdf-parse/node');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const __pdf_files = path.join(__dirname, '../../test/pdf_files');
+const __pdf_files = path.join(__dirname, '../../test/pdf_file');
 
 test('ava framework test - dummy-test.pdf', async (t) => {
 	const data = fs.readFileSync(path.join(__pdf_files, 'dummy-test.pdf'));

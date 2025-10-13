@@ -1,30 +1,24 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { PDFParse } from '../../src/index';
-import { TestData } from './data';
+import { data } from '../pdf_data/image-test';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const __pdf = join(__dirname, 'test.pdf');
-const __pdf_txt = join(__dirname, 'test.txt');
-const __pdf_imgs = join(__dirname, 'imgs');
+const __pdf_imgs = join(__dirname, data.imageFolder);
 await mkdir(__pdf_imgs, { recursive: true });
 
 describe('test-07 pdf-image all:true', async () => {
-	const data = await readFile(__pdf);
-	const parser = new PDFParse({ data });
+	const buffer = await data.getBuffer();
+	const parser = new PDFParse({ data: buffer });
 
 	const textResult = await parser.getText();
 
 	const imageResult = await parser.getImage();
 
-	await writeFile(__pdf_txt, textResult.text, { encoding: 'utf8', flag: 'w' });
+	await writeFile(join(__dirname, data.textFile), textResult.text, { encoding: 'utf8', flag: 'w' });
 
 	test('total page count must be correct', () => {
-		expect(textResult.total).toEqual(TestData.total);
+		expect(textResult.total).toEqual(data.total);
 	});
 
 	for (const pageData of imageResult.pages) {
@@ -37,7 +31,7 @@ describe('test-07 pdf-image all:true', async () => {
 		}
 	}
 
-	test.each(TestData.pages)('page: $num must contains exact base64 image', ({ num, imgs }) => {
+	test.each(data.pages)('page: $num must contains exact base64 image', ({ num, imgs }) => {
 		if (imgs) {
 			for (const img of imgs) {
 				const pageImg = imageResult.getPageImage(num, img.name);

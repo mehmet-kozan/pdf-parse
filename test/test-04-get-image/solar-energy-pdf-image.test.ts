@@ -2,7 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { PDFParse } from '../../src/index';
-import { data } from '../pdf_files/solar-energy';
+import { data } from '../pdf_data/solar-energy';
 
 const folder = join(__dirname, data.imageFolder);
 await mkdir(folder, { recursive: true });

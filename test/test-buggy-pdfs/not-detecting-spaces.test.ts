@@ -2,9 +2,9 @@ import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { PDFParse } from '../../src/index';
-import { data } from '../pdf_data/solar-energy';
+import { data } from '../pdf_data/not-detecting-spaces';
 
-describe('test-02 all:true', async () => {
+describe('test-space', async () => {
 	const buffer = await data.getBuffer();
 	const parser = new PDFParse({ data: buffer });
 	const result = await parser.getText();
