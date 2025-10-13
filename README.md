@@ -84,7 +84,8 @@ console.log(`Status: ${headerResult.status}`);
 console.log(`Content-Length: ${headerResult.size}`);
 console.log(`Is PDF: ${headerResult.isPdf}`);
 console.log(`Headers:`, headerResult.headers);
-
+```
+```js
 // The getHeader function can also be used directly 
 // without creating a PDFParse instance by importing it from pdf-parse.
 import { getHeader } from 'pdf-parse';
@@ -94,7 +95,6 @@ Usage Examples:
 - Optionally validates PDFs by fetching the first 4 bytes (magic bytes).
 - Useful for checking file existence, size, and type before full parsing.
 - For URL-based PDFs, ensure CORS is configured if used in browsers.
-- Use directly without creating a PDFParse instance.
 
 
 ### `getInfo` — Extract Metadata and Document Information
