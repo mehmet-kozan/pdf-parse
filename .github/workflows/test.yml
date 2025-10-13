@@ -17,6 +17,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
     
     - name: Setup Node.js
       uses: actions/setup-node@v3
@@ -62,7 +64,6 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
         fail_ci_if_error: false 
 
-    
     - name: Deploy to GitHub Pages (main branch)
       if: github.ref == 'refs/heads/main'
       uses: peaceiris/actions-gh-pages@v3
