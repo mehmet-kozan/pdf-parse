@@ -4,7 +4,7 @@ import { describe, expect, test } from 'vitest';
 import { PDFParse } from '../../src/index';
 import { data } from '../pdf_files/solar-energy';
 
-const folder = join(__dirname, data.folder);
+const folder = join(__dirname, data.imageFolder);
 await mkdir(folder, { recursive: true });
 
 describe('test-01 pdf-image all:true', async () => {

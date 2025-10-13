@@ -6,6 +6,10 @@ export interface Screenshot {
 	dataUrl: string;
 
 	pageNumber: number;
+
+	width: number;
+	height: number;
+	scale: number;
 }
 
 export class ScreenshotResult {

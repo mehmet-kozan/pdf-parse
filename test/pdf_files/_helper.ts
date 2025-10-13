@@ -13,7 +13,7 @@ export abstract class PDFFile {
 	filePath: string;
 	fileName: string;
 	textFile: string;
-	folder: string;
+	imageFolder: string;
 	abstract total: number;
 	password?: string;
 	pages?: Array<{
@@ -25,12 +25,8 @@ export abstract class PDFFile {
 	constructor(callerUrl: string) {
 		const callerPath = fileURLToPath(callerUrl);
 		this.filePath = callerPath.replace('.ts', '.pdf');
-
 		this.fileName = basename(this.filePath);
-
-		this.folder = basename(this.filePath).replace('.pdf', '');
-		this.folder = `${this.folder}_images`;
-
+		this.imageFolder = `${this.fileName}_images`;
 		this.textFile = `${basename(this.filePath)}.txt`;
 	}
 

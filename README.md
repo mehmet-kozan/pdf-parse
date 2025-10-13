@@ -257,7 +257,10 @@ PDFParse.setWorker(workerUrl);
 
 ## Error Handling
 ```js
-const parser = new PDFParse({ data: buffer });
+import { PDFParse, VerbosityLevel } from 'pdf-parse';
+
+const parser = new PDFParse({ data: buffer, verbosity: VerbosityLevel.WARNINGS });
+
 try {
     const result = await parser.getText();
 } catch (error) {

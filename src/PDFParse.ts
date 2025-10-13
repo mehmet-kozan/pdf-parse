@@ -334,8 +334,8 @@ export class PDFParse {
 
 						const { width, height, kind, data } = await imgPromise;
 
-						if (params.minImageDimension) {
-							if (params.minImageDimension >= width || params.minImageDimension >= height) {
+						if (params.imageThreshold) {
+							if (params.imageThreshold >= width || params.imageThreshold >= height) {
 								continue;
 							}
 						}
@@ -502,11 +502,13 @@ export class PDFParse {
 		});
 	}
 
-	public async getScreenshot(params: ParseParameters = {}): Promise<ScreenshotResult> {
+	public async getScreenshot(parseParams: ParseParameters = {}): Promise<ScreenshotResult> {
 		//const base = new URL('../../node_modules/pdfjs-dist/', import.meta.url);
 		//this.options.cMapUrl = new URL('cmaps/', base).href;
 		//this.options.cMapPacked = true;
 		//this.options.standardFontDataUrl = new URL('legacy/build/standard_fonts/', base).href;
+
+		const params = setDefaultParseParameters(parseParams);
 
 		const doc = await this.load();
 		const result = new ScreenshotResult(doc.numPages);
@@ -519,9 +521,16 @@ export class PDFParse {
 			if (this.shouldParse(i, result.total, params)) {
 				const page = await this.doc.getPage(i);
 
+				let viewport = page.getViewport({ scale: params.scale });
+				if (params.desiredWidth) {
+					viewport = page.getViewport({ scale: 1 });
+					// desiredWidth
+					const scale = params.desiredWidth / viewport.width;
+					viewport = page.getViewport({ scale: scale });
+				}
+
 				// biome-ignore lint/suspicious/noExplicitAny: <underlying library does not contain valid typedefs>
 				const canvasFactory = (this.doc as any).canvasFactory;
-				const viewport = page.getViewport({ scale: 1.0 });
 				const canvasAndContext = canvasFactory.create(viewport.width, viewport.height);
 				const renderContext = {
 					canvasContext: canvasAndContext.context,
@@ -532,24 +541,43 @@ export class PDFParse {
 				const renderTask = page.render(renderContext);
 				await renderTask.promise;
 				// Convert the canvas to an image buffer.
-				let data: Uint8Array;
-				let dataUrl: string;
+				let data: Uint8Array = new Uint8Array();
+				let dataUrl: string = '';
 
 				if (typeof canvasAndContext.canvas.toBuffer === 'function') {
 					// Node.js environment (canvas package)
-					const nodeBuffer = canvasAndContext.canvas.toBuffer('image/png');
-					data = new Uint8Array(nodeBuffer);
-					const base64 = nodeBuffer.toString('base64');
-					dataUrl = `data:image/png;base64,${base64}`;
+					// biome-ignore lint/suspicious/noExplicitAny: <underline lib not support>
+					let nodeBuffer: any;
+
+					if (params.imageBuffer) {
+						nodeBuffer = canvasAndContext.canvas.toBuffer('image/png');
+						data = new Uint8Array(nodeBuffer);
+					}
+
+					if (params.imageDataUrl) {
+						if (nodeBuffer) {
+							dataUrl = `data:image/png;base64,${nodeBuffer.toString('base64')}`;
+						} else {
+							nodeBuffer = canvasAndContext.canvas.toBuffer('image/png');
+							data = new Uint8Array(nodeBuffer);
+							dataUrl = `data:image/png;base64,${nodeBuffer.toString('base64')}`;
+						}
+					}
 				} else {
 					// Browser environment
-					dataUrl = canvasAndContext.canvas.toDataURL('image/png');
-					const base64 = dataUrl.split(',')[1];
-					// Convert base64 to Uint8Array
-					const binaryString = atob(base64);
-					data = new Uint8Array(binaryString.length);
-					for (let i = 0; i < binaryString.length; i++) {
-						data[i] = binaryString.charCodeAt(i);
+					if (params.imageBuffer) {
+						const imageData = canvasAndContext.context.getImageData(0, 0, canvasAndContext.canvas.width, canvasAndContext.canvas.height);
+						data = new Uint8Array(imageData.data);
+					}
+
+					if (params.imageDataUrl) {
+						dataUrl = canvasAndContext.canvas.toDataURL('image/png');
+						//const base64 = dataUrl.split(',')[1];
+						//const binaryString = atob(base64);
+						//data = new Uint8Array(binaryString.length);
+						//for (let i = 0; i < binaryString.length; i++) {
+						//	data[i] = binaryString.charCodeAt(i);
+						//}
 					}
 				}
 
@@ -557,6 +585,9 @@ export class PDFParse {
 					data,
 					dataUrl,
 					pageNumber: i,
+					width: viewport.width,
+					height: viewport.height,
+					scale: viewport.scale,
 				});
 
 				page.cleanup();

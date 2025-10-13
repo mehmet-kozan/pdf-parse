@@ -8,13 +8,13 @@ import { data } from '../pdf_files/full-test';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const folder = join(__dirname, data.folder);
+const folder = join(__dirname, data.imageFolder);
 await mkdir(folder, { recursive: true });
 
 describe(`${data.fileName} screenshot test`, async () => {
 	const buffer = await data.getBuffer();
 	const parser = new PDFParse({ data: buffer });
-	const result: ScreenshotResult = await parser.getScreenshot();
+	const result: ScreenshotResult = await parser.getScreenshot({ scale: 2 });
 
 	for (const pageData of result.pages) {
 		const fileName = `page_${pageData.pageNumber}.png`;

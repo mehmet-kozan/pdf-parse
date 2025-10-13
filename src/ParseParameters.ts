@@ -23,6 +23,8 @@ export interface ParseParameters {
 	 */
 	last?: number;
 
+	// for getInfo()
+	// parse per page information
 	// Per-page information
 	// Links, title, pageLabel, width, height, isbn, doi
 
@@ -85,11 +87,25 @@ export interface ParseParameters {
 	 * by `getImage()`. Useful for excluding tiny decorative or tracking images.
 	 * Default: `undefined` (no filtering).
 	 */
-	minImageDimension?: number;
+	imageThreshold?: number;
 
-	screenshotScale?: number;
-	screenshotWidth?: number;
-	screenshotHeight?: number;
+	// scrrenshot scale
+	// for original size 1
+	// %50 bigger 1.5
+	scale?: number;
+
+	// desired screenshot width
+	desiredWidth?: number;
+
+	// for both getImage() and getScreenshot()
+	// default true
+	// get image base64 data url string
+	imageDataUrl?: boolean;
+
+	// for both getImage() and getScreenshot()
+	// default true
+	// get image buffer
+	imageBuffer?: boolean;
 
 	/**
 	 * Include marked content items in the items array of TextContent to capture PDF "marked content".
@@ -107,13 +123,19 @@ export interface ParseParameters {
 	disableNormalization?: boolean;
 }
 
-export function setDefaultParseParameters(params: ParseParameters) {
+export type SafeParseParameters = Required<Pick<ParseParameters, 'lineThreshold' | 'cellThreshold' | 'scale'>> & ParseParameters;
+
+export function setDefaultParseParameters(params: ParseParameters): SafeParseParameters {
 	params.lineThreshold = params?.lineThreshold ?? 4.6;
 	params.cellThreshold = params?.cellThreshold ?? 7;
 	params.cellSeparator = params?.cellSeparator ?? '\t';
 	params.lineEnforce = params?.lineEnforce ?? true;
 	params.pageJoiner = params?.pageJoiner ?? '\n-- page_number of total_number --';
-	params.minImageDimension = params?.minImageDimension ?? 80;
+	params.imageThreshold = params?.imageThreshold ?? 80;
 
-	return params as Required<Pick<ParseParameters, 'lineThreshold' | 'cellThreshold'>> & ParseParameters;
+	params.imageDataUrl = params?.imageDataUrl ?? true;
+	params.imageBuffer = params?.imageBuffer ?? true;
+	params.scale = params?.scale ?? 1;
+
+	return params as SafeParseParameters;
 }
