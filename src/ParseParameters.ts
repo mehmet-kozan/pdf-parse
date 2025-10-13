@@ -1,6 +1,6 @@
 export interface ParseParameters {
 	/**
-	 * Array of 1-based page numbers to parse.
+	 * Array of page numbers to parse.
 	 * When provided, only these pages will be parsed and returned in the same order.
 	 * Example: [1, 3, 5]. Parse only one page: [7].
 	 * Default: `undefined`.
@@ -23,11 +23,11 @@ export interface ParseParameters {
 	 */
 	last?: number;
 
-	// for getInfo()
-	// parse per page information
-	// Per-page information
-	// Links, title, pageLabel, width, height, isbn, doi
-
+	/**
+	 * Collect per-page metadata such as embedded links, title, pageLabel, and dimensions;
+	 * ISBN, DOI, abstract, and references are work in progress when getInfo() is used.
+	 * Default: `false`.
+	 */
 	parsePageInfo?: boolean;
 
 	/**
@@ -83,29 +83,36 @@ export interface ParseParameters {
 
 	/**
 	 * Minimum image dimension (in pixels) for width or height.
-	 * When set, images where width OR height are below or equal this value will be ignored
-	 * by `getImage()`. Useful for excluding tiny decorative or tracking images.
-	 * Default: `80` (filtering active).
-	 * Disable: '0'
+	 * When set, images where width OR height are below or equal this value will be ignored by `getImage()`.
+	 * Useful for excluding tiny decorative or tracking images.
+	 * Default: `80`.
+	 * Disable: `0`.
 	 */
 	imageThreshold?: number;
 
-	// scrrenshot scale
-	// for original size 1
-	// %50 bigger 1.5
+	/**
+	 * Screenshot scale factor: use 1 for the original size, 1.5 for a 50% larger image, etc.
+	 * Default: `1`.
+	 */
 	scale?: number;
 
-	// desired screenshot width
+	/**
+	 * Desired screenshot width in pixels.
+	 * When set, the scale option is ignored.
+	 * Default: `undefined`.
+	 */
 	desiredWidth?: number;
 
-	// for both getImage() and getScreenshot()
-	// default true
-	// get image base64 data url string
+	/**
+	 * Applies to both getImage() and getScreenshot(): include the image as a base64 data URL string.
+	 * Default: `true`.
+	 */
 	imageDataUrl?: boolean;
 
-	// for both getImage() and getScreenshot()
-	// default true
-	// get image buffer
+	/**
+	 * Applies to both getImage() and getScreenshot(): include the image as a binary buffer.
+	 * Default: `true`.
+	 */
 	imageBuffer?: boolean;
 
 	/**
