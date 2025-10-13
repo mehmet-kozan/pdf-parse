@@ -22,8 +22,6 @@
 </div>
 <br />
 
-> **Contributing Note:** When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently. For detailed guidelines on how to contribute, report bugs, or submit pull requests, see: [`contributing to pdf-parse`](https://github.com/mehmet-kozan/pdf-parse?tab=contributing-ov-file#contributing-to-pdf-parse)
-
 ## Getting Started with v2 (Coming from v1)
 ```js
 // v1
@@ -58,23 +56,6 @@ parser.getText().then((result)=>{
 - See [DocumentInitParameters](./README.options.md#documentinitparameters) and [ParseParameters](./README.options.md#parseparameters) for all available options.
 - For usage examples, see  [`example`](./example), [`test`](./test) and [`test/example`](./test/test-example) folders.
 
-## Similar Packages
-* [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
-* [pdfdataextract](https://www.npmjs.com/package/pdfdataextract) — `pdf-parse` based
-* [unpdf](https://www.npmjs.com/package/unpdf) — `pdf-parse` based
-* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Non cross-platform, depends on xpdf
-* [j-pdfjson](https://www.npmjs.com/package/j-pdfjson) — Fork of pdf2json
-* [pdfreader](https://www.npmjs.com/package/pdfreader) — Uses pdf2json
-* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Non cross-platform, depends on xpdf  
-
-> **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue, see [`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/bench.html).
-
-## Supported Node.js Versions
-
-- Supported: Node.js 20 (>= 20.16.0), Node.js 22 (>= 22.3.0), Node.js 23 (>= 23.0.0), and Node.js 24 (>= 24.0.0).
-- Not supported: Node.js 21.x, and Node.js 19.x and earlier.
-
-Integration tests run on Node.js 20–24, see [`test_integration.yml`](./.github/workflows/test_integration.yml).
 
 ## Installation
 ```sh
@@ -320,6 +301,29 @@ In browser environments, `pdf-parse` requires a separate worker file to process 
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs`
 
 See [`example/basic.esm.worker.html`](example/basic.esm.worker.html) for a working example of browser usage with worker configuration.
+
+## Similar Packages
+* [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
+* [pdfdataextract](https://www.npmjs.com/package/pdfdataextract) — `pdf-parse` based
+* [unpdf](https://www.npmjs.com/package/unpdf) — `pdf-parse` based
+* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Non cross-platform, depends on xpdf
+* [j-pdfjson](https://www.npmjs.com/package/j-pdfjson) — Fork of pdf2json
+* [pdfreader](https://www.npmjs.com/package/pdfreader) — Uses pdf2json
+* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Non cross-platform, depends on xpdf  
+
+> **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue, see [`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/bench.html).
+
+## Supported Node.js Versions
+
+- Supported: Node.js 20 (>= 20.16.0), Node.js 22 (>= 22.3.0), Node.js 23 (>= 23.0.0), and Node.js 24 (>= 24.0.0).
+- Not supported: Node.js 21.x, and Node.js 19.x and earlier.
+
+Integration tests run on Node.js 20–24, see [`test_integration.yml`](./.github/workflows/test_integration.yml).
+
+## Contributing
+
+ When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently. For detailed guidelines on how to contribute, report bugs, or submit pull requests, see: [`contributing to pdf-parse`](https://github.com/mehmet-kozan/pdf-parse?tab=contributing-ov-file#contributing-to-pdf-parse)
+
 
 
 

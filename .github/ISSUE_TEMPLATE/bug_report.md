@@ -7,4 +7,5 @@ assignees: ''
 
 ---
 
-When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently.
+- When opening an issue, please attach the relevant PDF file if possible. 
+- Providing the file will help us reproduce and resolve your issue more efficiently.
