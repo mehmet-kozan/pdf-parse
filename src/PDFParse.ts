@@ -7,7 +7,7 @@ import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
 import type { TableData } from './geometry/TableData.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
 import { InfoResult, type PageLinkResult } from './InfoResult.js';
-import type { ParseParameters } from './ParseParameters.js';
+import { type ParseParameters, setDefaultParseParameters } from './ParseParameters.js';
 import { type MinMax, PathGeometry } from './PathGeometry.js';
 import { ScreenshotResult } from './ScreenshotResult.js';
 import { type PageTableResult, TableResult } from './TableResult.js';
@@ -83,7 +83,7 @@ export class PDFParse {
 		result.permission = await doc.getPermissions();
 		const pageLabels = await doc.getPageLabels();
 
-		if (params.parseHyperlinks) {
+		if (params.parsePageInfo) {
 			for (let i: number = 1; i <= result.total; i++) {
 				if (this.shouldParse(i, result.total, params)) {
 					const page = await doc.getPage(i);
@@ -203,14 +203,10 @@ export class PDFParse {
 		return true;
 	}
 
-	private async getPageText(page: PDFPageProxy, params: ParseParameters, total: number): Promise<string> {
+	private async getPageText(page: PDFPageProxy, parseParams: ParseParameters, total: number): Promise<string> {
 		const viewport = page.getViewport({ scale: 1 });
 
-		params.lineThreshold = params?.lineThreshold ?? 4.6;
-		params.cellThreshold = params?.cellThreshold ?? 7;
-		params.cellSeparator = params?.cellSeparator ?? '\t';
-		params.lineEnforce = params?.lineEnforce ?? true;
-		params.pageJoiner = params?.pageJoiner ?? '\n-- page_number of total_number --';
+		const params = setDefaultParseParameters(parseParams);
 
 		const textContent = await page.getTextContent({
 			includeMarkedContent: !!params.includeMarkedContent,
@@ -320,6 +316,7 @@ export class PDFParse {
 	public async getImage(params: ParseParameters = {}): Promise<ImageResult> {
 		const doc = await this.load();
 		const result = new ImageResult(doc.numPages);
+		setDefaultParseParameters(params);
 
 		for (let i: number = 1; i <= result.total; i++) {
 			if (this.shouldParse(i, result.total, params)) {
@@ -337,12 +334,10 @@ export class PDFParse {
 
 						const { width, height, kind, data } = await imgPromise;
 
-						if (params.minImageWidth && params.minImageWidth > width) {
-							continue;
-						}
-
-						if (params.minImageHeight && params.minImageHeight > height) {
-							continue;
+						if (params.minImageDimension) {
+							if (params.minImageDimension >= width || params.minImageDimension >= height) {
+								continue;
+							}
 						}
 
 						// biome-ignore lint/suspicious/noExplicitAny: <underlying library does not contain valid typedefs>

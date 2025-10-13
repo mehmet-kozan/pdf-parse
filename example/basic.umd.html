@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Load the UMD bundle as a script tag (not as module) -->
+    <script src="https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.umd.js"></script>
+</head>
+
+<body>
+    <input type="file" id="file-input" accept=".pdf">
+    <pre id="output"></pre>
+
+    <script>
+
+        // UMD bundle exposes PdfParse global object with PDFParse and pdf exports
+        const { PDFParse } = window.PdfParse;
+
+        async function parsePDF(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const parser = new PDFParse({ data: arrayBuffer });
+            const result = await parser.getText();
+            //await parser.destroy();
+            return result.text;
+        }
+
+        document.getElementById('file-input').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            const text = await parsePDF(file);
+            document.getElementById('output').textContent = text;
+        });
+    </script>
+
+</body>
+
+</html>

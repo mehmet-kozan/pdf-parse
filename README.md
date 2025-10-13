@@ -111,15 +111,15 @@ const dates = info.getDateNode();
 console.log(`Creation Date: ${dates.CreationDate}`);
 console.log(`Modification Date: ${dates.ModDate}`);
 
-// Links, pageLabel, width, height (when `parseHyperlinks` is enabled)
+// Links, pageLabel, width, height (when `parsePageInfo` is true)
 console.log(`Per-page information: ${info.pages}`);
 
 ```
 
 Usage Examples:
-- Parse hyperlinks from pages: [`test/test-get-info`](test/test-get-info/get-info.test.ts)
-- To extract hyperlinks, pass `{ parseHyperlinks: true }`
-- `const info = await parser.getInfo({ parseHyperlinks: true })`
+- Parse hyperlinks from pages: [`test/test-01-get-info`](test/test-01-get-info/get-info.test.ts)
+- To extract hyperlinks, pass `{ parsePageInfo: true }`
+- `const info = await parser.getInfo({ parsePageInfo: true })`
 
 ### `getText` — Extract Text
 ```js
@@ -147,7 +147,7 @@ Usage Examples:
 - Set verbosity level: [`password.test.ts`](test/test-example/password.test.ts)
 - Load PDF from URL: [`url.test.ts`](test/test-example/url.test.ts)
 - Load PDF from base64 data: [`base64.test.ts`](test/test-example/base64.test.ts)
-- Loading large files (> 10 MB): [`large-file.test.ts`](test/test-example/large-file.test.ts)
+- Loading large files (> 5 MB): [`large-file.test.ts`](test/test-example/large-file.test.ts)
 
 ### `getScreenshot` — Render Pages as PNG
 ```js
@@ -311,7 +311,7 @@ In browser environments, `pdf-parse` requires a separate worker file to process 
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.mjs`
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs`
 
-See [`example/basic.html`](example/basic.html) for a working example of browser usage with worker configuration.
+See [`example/basic.esm.worker.html`](example/basic.esm.worker.html) for a working example of browser usage with worker configuration.
 
 
 

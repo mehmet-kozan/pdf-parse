@@ -1,128 +1,119 @@
 export interface ParseParameters {
 	/**
-	 * - Array of 1-based page numbers to parse. When provided, only these pages
-	 *   will be parsed and returned in the same order as specified.
-	 *   Example: [1, 3, 5].
-	 *   Parse only one page: [7].
+	 * Array of 1-based page numbers to parse.
+	 * When provided, only these pages will be parsed and returned in the same order.
+	 * Example: [1, 3, 5]. Parse only one page: [7].
+	 * Default: `undefined`.
 	 */
 	partial?: Array<number>;
 
 	/**
-	 * - If set to a positive integer N, parse the first N pages (pages 1..N).
-	 *   Ignored when `partial` is provided.
-	 * - If both `first` and `last` are set, they define an explicit inclusive
-	 *   page range and only pages from `first` to `last` will be parsed. In that
-	 *   case `first` is treated as the starting page number and the "first N"
-	 *   semantics is ignored.
+	 * Parse the first N pages (pages 1..N).
+	 * Ignored when `partial` is provided. If both `first` and `last` are set, they define
+	 * an explicit inclusive page range (first..last) and this "first N" semantics is ignored.
+	 * Default: `undefined`.
 	 */
 	first?: number;
 
 	/**
-	 * - If set to a positive integer N, parse the last N pages (pages total-N+1..total).
-	 *   Ignored when `partial` is provided.
-	 * - If both `first` and `last` are set, they define an explicit inclusive
-	 *   page range and only pages from `first` to `last` will be parsed. In that
-	 *   case `last` is treated as the ending page number and the "last N"
-	 *   semantics is ignored.
+	 * Parse the last N pages (pages total-N+1..total).
+	 * Ignored when `partial` is provided. If both `first` and `last` are set, they define
+	 * an explicit inclusive page range (first..last) and this "last N" semantics is ignored.
+	 * Default: `undefined`.
 	 */
 	last?: number;
 
+	// Per-page information
+	// Links, title, pageLabel, width, height, isbn, doi
+
+	parsePageInfo?: boolean;
+
 	/**
-	 * - When true, attempt to detect and include hyperlink annotations (e.g. URLs)
-	 *   associated with text. Detected links are formatted as Markdown inline links
-	 *   (for example: [link text](https://example.com)).
-	 *   Defaults to `false`.
+	 * Attempt to detect and include hyperlink annotations (e.g. URLs) associated with text.
+	 * Detected links are formatted as Markdown inline links (for example: [text](https://example.com)).
+	 * Default: `false`.
 	 */
 	parseHyperlinks?: boolean;
 
 	/**
-	 * - When true, the extractor will try to enforce logical line breaks by
-	 *   inserting a newline between text items when the vertical distance
-	 *   between them exceeds `lineThreshold`.
-	 * - Useful to preserve paragraph/line structure when text items are
-	 *   emitted as separate segments by the PDF renderer.
-	 * - Default: `true`.
+	 * Enforce logical line breaks by inserting a newline when the vertical distance
+	 * between text items exceeds `lineThreshold`.
+	 * Useful to preserve paragraph/line structure when text items are emitted as separate segments.
+	 * Default: `true`.
 	 */
 	lineEnforce?: boolean;
 
 	/**
-	 * - Threshold used to decide whether two nearby text
-	 *   items belong to different lines. A larger value makes the parser more
-	 *   likely to start a new line between items.
-	 * - Default: `4.6`.
+	 * Threshold to decide whether nearby text items belong to different lines.
+	 * Larger values make the parser more likely to start a new line between items.
+	 * Default: `4.6`.
 	 */
 	lineThreshold?: number;
 
 	/**
-	 * - String inserted between text items on the same line when a sufficiently
-	 *   large horizontal gap is detected (see `cellThreshold`). This is typically
-	 *   used to emulate a cell/column separator (for example, a tab).
-	 * - Example: `"\t"` to produce tab-separated cells.
-	 * - Default: `'\t'`.
+	 * String inserted between text items on the same line when a sufficiently large horizontal gap is detected.
+	 * Typically used to emulate a cell/column separator (for example, "\\t" for tabs).
+	 * Default: `'\t'`.
 	 */
 	cellSeparator?: string;
 
 	/**
-	 * - Horizontal distance threshold used to decide when
-	 *   two text items on the same baseline should be considered separate cells
-	 *   (and thus separated by `cellSeparator`).
-	 * - A larger value produces fewer (wider) cells; smaller value creates more
-	 *   cell breaks.
-	 * - Default: `7`.
+	 * Horizontal distance threshold to decide when two text items on the same baseline should be treated as separate cells.
+	 * Larger value produces fewer (wider) cells; smaller value creates more cell breaks.
+	 * Default: `7`.
 	 */
 	cellThreshold?: number;
 
 	/**
-	 * - Optional string appended at the end of each page's extracted text to
-	 *   mark page boundaries. The string supports the placeholders
-	 *   `page_number` and `total_number`, which are substituted with the
-	 *   current page number and total page count respectively.
-	 * - If omitted or empty, no page boundary marker is added.
-	 * - Default: `'\n-- page_number of total_number --'`
+	 * Optional string appended at the end of each page's extracted text to mark page boundaries.
+	 * Supports placeholders `page_number` and `total_number` which are substituted accordingly.
+	 * If omitted or empty, no page boundary marker is added.
+	 * Default: `'\n-- page_number of total_number --'`.
 	 */
 	pageJoiner?: string;
 
 	/**
-	 * - Optional string used to join text items when returning a page's text.
-	 *   If provided, the extractor will use this value to join the sequence of
-	 *   text items instead of the default empty-string joining behavior.
-	 * - Use this to insert a custom separator between every text item.
-	 * - Default: `undefined`
+	 * Optional string used to join text items when returning a page's text.
+	 * If provided, this value is used instead of the default empty-string joining behavior.
+	 * Default: `undefined`.
 	 */
 	itemJoiner?: string;
 
 	/**
-	 * - Minimum image width (in pixels). When set, images with a width smaller
-	 *   than this value will be ignored by getImage().
-	 * - Use to filter out very small embedded images (thumbnails, icons).
-	 * - Default: undefined (no minimum).
+	 * Minimum image dimension (in pixels) for width or height.
+	 * When set, images where width OR height are below or equal this value will be ignored
+	 * by `getImage()`. Useful for excluding tiny decorative or tracking images.
+	 * Default: `undefined` (no filtering).
 	 */
-	minImageWidth?: number;
+	minImageDimension?: number;
+
+	screenshotScale?: number;
+	screenshotWidth?: number;
+	screenshotHeight?: number;
 
 	/**
-	 * - Minimum image height (in pixels). When set, images with a height smaller
-	 *   than this value will be ignored by getImage().
-	 * - Use together with minImageWidth to require both dimensions to meet the threshold.
-	 * - Default: undefined (no minimum).
-	 */
-	minImageHeight?: number;
-
-	/**
-	 * - When true, include marked content items in the items array of TextContent.
-	 * - Enables capturing the PDF's "marked content"
-	 * - Tags (MCID, role/props) and structural/accessibility information — e.g.
-	 * - Semantic tagging, sectioning, spans, alternate/alternative text, etc.
-	 * - How to use:
-	 * - Turn it on when you need structure/tag information or to map text ↔ structure using MCIDs (for example with page.getStructTree()).
-	 * - For plain text extraction it's usually left false (trade-off: larger output/increased detail).
-	 *   Defaults to `false`.
+	 * Include marked content items in the items array of TextContent to capture PDF "marked content".
+	 * Enables tags (MCID, role/props) and structural/accessibility information useful for mapping text ↔ structure.
+	 * For plain text extraction it's usually false (trade-off: larger output).
+	 * Default: `false`.
 	 */
 	includeMarkedContent?: boolean;
 
 	/**
-	 * - When true, the text is *not* normalized in the worker thread.
-	 * - Normalize in worker (false recommended for plain text)
-	 *   Defaults to `false`.
+	 * When true, text normalization is NOT performed in the worker thread.
+	 * For plain text extraction, normalizing in the worker (false) is usually recommended.
+	 * Default: `false`.
 	 */
 	disableNormalization?: boolean;
+}
+
+export function setDefaultParseParameters(params: ParseParameters) {
+	params.lineThreshold = params?.lineThreshold ?? 4.6;
+	params.cellThreshold = params?.cellThreshold ?? 7;
+	params.cellSeparator = params?.cellSeparator ?? '\t';
+	params.lineEnforce = params?.lineEnforce ?? true;
+	params.pageJoiner = params?.pageJoiner ?? '\n-- page_number of total_number --';
+	params.minImageDimension = params?.minImageDimension ?? 80;
+
+	return params as Required<Pick<ParseParameters, 'lineThreshold' | 'cellThreshold'>> & ParseParameters;
 }
