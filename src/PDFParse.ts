@@ -5,6 +5,7 @@ import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_fact
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
 import type { TableData } from './geometry/TableData.js';
+import type { HeaderResult } from './HeaderResult.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
 import { InfoResult, type PageLinkResult } from './InfoResult.js';
 import { type ParseParameters, setDefaultParseParameters } from './ParseParameters.js';
@@ -13,11 +14,19 @@ import { ScreenshotResult } from './ScreenshotResult.js';
 import { type PageTableResult, TableResult } from './TableResult.js';
 import { type HyperlinkPosition, TextResult } from './TextResult.js';
 
+/**
+ * Loads PDF documents and exposes helpers for text, image, table, metadata, and screenshot extraction.
+ */
 export class PDFParse {
 	private readonly options: DocumentInitParameters;
 	private doc: PDFDocumentProxy | undefined;
 	public progress: { loaded: number; total: number } = { loaded: -1, total: 0 };
 
+	/**
+	 * Create a new parser with `DocumentInitParameters`.
+	 * Converts Node.js `Buffer` data to `Uint8Array` automatically and ensures a default verbosity level.
+	 * @param options Initialization parameters.
+	 */
 	constructor(options: DocumentInitParameters) {
 		if (options.verbosity === undefined) {
 			options.verbosity = pdfjs.VerbosityLevel.ERRORS;
@@ -70,6 +79,63 @@ export class PDFParse {
 		return pdfjs.GlobalWorkerOptions.workerSrc;
 	}
 
+	/**
+	 * Perform an HTTP HEAD request to retrieve the file size and verify existence;
+	 * when `check` is true, fetch a small range and inspect the magic number to confirm the URL points to a valid PDF.
+	 * @param check When `true`, download a small byte range to validate the file signature.
+	 * Default: `false`.
+	 */
+	public async getHeader(check: boolean = false): Promise<HeaderResult> {
+		if (!this.options.url) {
+			throw new Error('getHeader: options.url is not set');
+		}
+
+		try {
+			// Try using global fetch when available (browser / Node 18+)
+			// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
+			const fetch: typeof globalThis.fetch = (globalThis as any).fetch;
+
+			if (typeof fetch === 'function') {
+				const headResp = await fetch(this.options.url, { method: 'HEAD' });
+				const headersObj: Record<string, string> = {};
+				headResp.headers.forEach((v: string, k: string) => {
+					headersObj[k] = v;
+				});
+
+				const size = headResp.headers.get('content-length') ? parseInt(headResp.headers.get('content-length') as string, 10) : undefined;
+
+				let isPdf: boolean | undefined;
+				if (check) {
+					// Try range request to fetch initial bytes
+					const rangeResp = await fetch(this.options.url, { method: 'GET', headers: { Range: 'bytes=0-4' } });
+					if (rangeResp.ok) {
+						const buf = new Uint8Array(await rangeResp.arrayBuffer());
+						const headerStr = Array.from(buf)
+							.map((b) => String.fromCharCode(b))
+							.join('');
+						isPdf = headerStr.startsWith('%PDF');
+					} else {
+						isPdf = false;
+					}
+				}
+
+				return { ok: headResp.ok, status: headResp.status, size, isPdf, headers: headersObj };
+			}
+
+			throw new Error('Fetch API not available');
+		} catch (err) {
+			// Network error or unexpected failure: return an object indicating failure
+			// biome-ignore lint/suspicious/noConsole: <for test>
+			console.error(err);
+			return { ok: false, status: undefined, size: undefined, isPdf: false, headers: {} };
+		}
+	}
+
+	/**
+	 * Load document-level metadata (info, outline, permissions, page labels) and optionally gather per-page link details.
+	 * @param params Parse options; set `parsePageInfo` to collect per-page metadata described in `ParseParameters`.
+	 * @returns Aggregated document metadata in an `InfoResult`.
+	 */
 	public async getInfo(params: ParseParameters = {}): Promise<InfoResult> {
 		const doc = await this.load();
 		const result = new InfoResult(doc.numPages);
@@ -126,6 +192,11 @@ export class PDFParse {
 		return result;
 	}
 
+	/**
+	 * Extract plain text for each requested page, optionally enriching hyperlinks and enforcing line or cell separators.
+	 * @param params Parse options controlling pagination, link handling, and line/cell thresholds.
+	 * @returns A `TextResult` containing page-wise text and a concatenated document string.
+	 */
 	public async getText(params: ParseParameters = {}): Promise<TextResult> {
 		const doc = await this.load();
 		const result = new TextResult(doc.numPages);
@@ -313,6 +384,21 @@ export class PDFParse {
 		return result;
 	}
 
+	/**
+	 * Extract embedded images from requested pages.
+	 *
+	 * Behavior notes:
+	 * - Pages are selected according to ParseParameters (partial, first, last).
+	 * - Images smaller than `params.imageThreshold` (width OR height) are skipped.
+	 * - Returned ImageResult contains per-page PageImages; each image entry includes:
+	 *     - data: Uint8Array (present when params.imageBuffer === true)
+	 *     - dataUrl: string (present when params.imageDataUrl === true)
+	 *     - width, height, kind, name
+	 * - Works in both Node.js (canvas.toBuffer) and browser (canvas.toDataURL) environments.
+	 *
+	 * @param params ParseParameters controlling page selection, thresholds and output format.
+	 * @returns Promise<ImageResult> with extracted images grouped by page.
+	 */
 	public async getImage(params: ParseParameters = {}): Promise<ImageResult> {
 		const doc = await this.load();
 		const result = new ImageResult(doc.numPages);
@@ -515,6 +601,21 @@ export class PDFParse {
 		});
 	}
 
+	/**
+	 * Render pages to raster screenshots.
+	 *
+	 * Behavior notes:
+	 * - Pages are selected according to ParseParameters (partial, first, last).
+	 * - Use params.scale for zoom; if params.desiredWidth is specified it takes precedence.
+	 * - Each ScreenshotResult page contains:
+	 *     - data: Uint8Array (when params.imageBuffer === true)
+	 *     - dataUrl: string (when params.imageDataUrl === true)
+	 *     - pageNumber, width, height, scale
+	 * - Works in both Node.js (canvas.toBuffer) and browser (canvas.toDataURL) environments.
+	 *
+	 * @param parseParams ParseParameters controlling page selection and render options.
+	 * @returns Promise<ScreenshotResult> with rendered page images.
+	 */
 	public async getScreenshot(parseParams: ParseParameters = {}): Promise<ScreenshotResult> {
 		//const base = new URL('../../node_modules/pdfjs-dist/', import.meta.url);
 		//this.options.cMapUrl = new URL('cmaps/', base).href;
@@ -610,6 +711,17 @@ export class PDFParse {
 		return result;
 	}
 
+	/**
+	 * Detect and extract tables from pages by analysing vector drawing operators, then populate cells with text.
+	 *
+	 * Behavior notes:
+	 * - Scans operator lists for rectangles/lines that form table grids (uses PathGeometry and LineStore).
+	 * - Normalizes detected geometry and matches positioned text to table cells.
+	 * - Honors ParseParameters for page selection.
+	 *
+	 * @param params ParseParameters controlling which pages to analyse (partial/first/last).
+	 * @returns Promise<TableResult> containing discovered tables per page.
+	 */
 	public async getTable(params: ParseParameters = {}): Promise<TableResult> {
 		const doc = await this.load();
 		const result = new TableResult(doc.numPages);
