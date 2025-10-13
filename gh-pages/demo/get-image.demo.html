@@ -261,12 +261,12 @@
                         pageDiv.className = 'page-image';
 
                         const pageTitle = document.createElement('h3');
-                        pageTitle.textContent = `Page ${page.pageNumber} - ${image.fileName} (${image.width}x${image.height})`;
+                        pageTitle.textContent = `Page ${page.pageNumber} - ${image.name} (${image.width}x${image.height})`;
                         pageDiv.appendChild(pageTitle);
 
                         const img = document.createElement('img');
                         img.src = image.dataUrl;
-                        img.alt = `${image.fileName} from page ${page.pageNumber}`;
+                        img.alt = `${image.name} from page ${page.pageNumber}`;
                         pageDiv.appendChild(img);
 
                         out.appendChild(pageDiv);

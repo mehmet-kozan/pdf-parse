@@ -14,7 +14,7 @@ describe('test-01 pdf-image all:true', async () => {
 
 	for (const pageData of result.pages) {
 		for (const pageImage of pageData.images) {
-			const imgFileName = `page_${pageData.pageNumber}-${pageImage.fileName}.png`;
+			const imgFileName = `page_${pageData.pageNumber}-${pageImage.name}.png`;
 			const imgPath = join(folder, imgFileName);
 			await writeFile(imgPath, pageImage.data, {
 				flag: 'w',

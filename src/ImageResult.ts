@@ -20,7 +20,7 @@ export class ImageResult {
 		for (const pageData of this.pages) {
 			if (pageData.pageNumber === num) {
 				for (const img of pageData.images) {
-					if (img.fileName === name) {
+					if (img.name === name) {
 						return img;
 					}
 				}
@@ -51,9 +51,9 @@ export interface PageImages {
  * - `data`: Raw image bytes (e.g. PNG/JPEG) as Uint8Array. Use this for file writing or binary processing.
  * - `dataUrl`: Optional data URL (e.g. "data:image/png;base64,...") for directly embedding in <img> src.
  *   Storing both lets consumers choose the most convenient form; consider omitting one to save memory.
- * - `fileName`: Suggested filename or resource name for the image (used when saving to disk).
+ * - `name`: Resource name for the image.
  * - `width` / `height`: Dimensions in pixels.
- * - `kind`: ImageKindValue from pdfjs-dist indicating the pixel format (e.g. GRAYSCALE_1BPP / RGB_24BPP / RGBA_32BPP).
+ * - `kind`: ImageKindValue from indicating the pixel format (e.g. GRAYSCALE_1BPP / RGB_24BPP / RGBA_32BPP).
  */
 export interface EmbeddedImage {
 	// Raw binary image data (PNG/JPEG) normalized to Uint8Array.
@@ -62,8 +62,8 @@ export interface EmbeddedImage {
 	// Optional base64 data URL for easy embedding in HTML.
 	dataUrl: string;
 
-	// Suggested filename or resource identifier for the image.
-	fileName: string;
+	// Resource identifier for the image.
+	name: string;
 
 	// Image dimensions in pixels.
 	width: number;

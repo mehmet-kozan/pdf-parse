@@ -85,7 +85,8 @@ export interface ParseParameters {
 	 * Minimum image dimension (in pixels) for width or height.
 	 * When set, images where width OR height are below or equal this value will be ignored
 	 * by `getImage()`. Useful for excluding tiny decorative or tracking images.
-	 * Default: `undefined` (no filtering).
+	 * Default: `80` (filtering active).
+	 * Disable: '0'
 	 */
 	imageThreshold?: number;
 

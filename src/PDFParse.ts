@@ -362,31 +362,44 @@ export class PDFParse {
 						context.putImageData(imgData, 0, 0);
 
 						// Browser and Node.js compatibility
-						let buff: Uint8Array;
-						let dataUrl: string;
+						let buffer: Uint8Array = new Uint8Array();
+						let dataUrl: string = '';
 
 						if (typeof canvasAndContext.canvas.toBuffer === 'function') {
 							// Node.js environment (canvas package)
-							const nodeBuffer = canvasAndContext.canvas.toBuffer('image/png');
-							buff = new Uint8Array(nodeBuffer);
-							const base64 = nodeBuffer.toString('base64');
-							dataUrl = `data:image/png;base64,${base64}`;
+							// biome-ignore lint/suspicious/noExplicitAny: <underline lib not support>
+							let nodeBuffer: any;
+
+							if (params.imageBuffer) {
+								nodeBuffer = canvasAndContext.canvas.toBuffer('image/png');
+								buffer = new Uint8Array(nodeBuffer);
+							}
+
+							if (params.imageDataUrl) {
+								if (nodeBuffer) {
+									dataUrl = `data:image/png;base64,${nodeBuffer.toString('base64')}`;
+								} else {
+									nodeBuffer = canvasAndContext.canvas.toBuffer('image/png');
+									buffer = new Uint8Array(nodeBuffer);
+									dataUrl = `data:image/png;base64,${nodeBuffer.toString('base64')}`;
+								}
+							}
 						} else {
 							// Browser environment
-							dataUrl = canvasAndContext.canvas.toDataURL('image/png');
-							const base64 = dataUrl.split(',')[1];
-							// Convert base64 to Uint8Array
-							const binaryString = atob(base64);
-							buff = new Uint8Array(binaryString.length);
-							for (let i = 0; i < binaryString.length; i++) {
-								buff[i] = binaryString.charCodeAt(i);
+							if (params.imageBuffer) {
+								const imageData = canvasAndContext.context.getImageData(0, 0, canvasAndContext.canvas.width, canvasAndContext.canvas.height);
+								buffer = new Uint8Array(imageData.data);
+							}
+
+							if (params.imageDataUrl) {
+								dataUrl = canvasAndContext.canvas.toDataURL('image/png');
 							}
 						}
 
 						pageImages.images.push({
-							data: buff,
+							data: buffer,
 							dataUrl,
-							fileName: name,
+							name,
 							height,
 							width,
 							kind,
