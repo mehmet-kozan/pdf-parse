@@ -5,6 +5,7 @@
 [![npm provenance](https://img.shields.io/badge/provenance-enabled-blue)](https://www.npmjs.com/package/pdf-parse#provenance)
 [![socket badge](https://socket.dev/api/badge/npm/package/pdf-parse)](https://socket.dev/npm/package/pdf-parse)
 [![snyk](https://snyk.io/advisor/npm-package/pdf-parse/badge.svg)](https://snyk.io/advisor/npm-package/pdf-parse)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=mehmet-kozan_pdf-parse&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=mehmet-kozan_pdf-parse)
 [![npm audit](https://img.shields.io/badge/npm_audit-passing-brightgreen)](https://docs.npmjs.com/cli/v10/commands/npm-audit)
 
 </div>

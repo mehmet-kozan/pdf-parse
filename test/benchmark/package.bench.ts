@@ -10,30 +10,30 @@ import { PDFParse as PDFParseNode } from '../../dist/node/index.cjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const __pdf = join(__dirname, '../pdf_files/full-test.pdf');
+const __pdf = join(__dirname, '../pdf_file/full-test.pdf');
 
-async function pdf_parse_esm_promise(buffer: Buffer<ArrayBufferLike>) {
+async function pdf_parse_esm_promise(buffer: Uint8Array) {
 	const parser = new PDFParse({ data: buffer });
 
 	await parser.getText();
 	await parser.destroy();
 }
 
-async function pdf_parse_cjs_promise(buffer: Buffer<ArrayBufferLike>) {
+async function pdf_parse_cjs_promise(buffer: Uint8Array) {
 	const parser = new PDFParseCJS({ data: buffer });
 
 	await parser.getText();
 	await parser.destroy();
 }
 
-async function pdf_parse_node_promise(buffer: Buffer<ArrayBufferLike>) {
+async function pdf_parse_node_promise(buffer: Uint8Array) {
 	const parser = new PDFParseNode({ data: buffer });
 
 	await parser.getText();
 	await parser.destroy();
 }
 
-async function pdf_parse_browser_promise(buffer: Buffer<ArrayBufferLike>) {
+async function pdf_parse_browser_promise(buffer: Uint8Array) {
 	BrowserPDFParse.setWorker('https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs');
 	const parser = new BrowserPDFParse({ data: buffer });
 	await parser.getText();
@@ -57,10 +57,11 @@ async function pdf2json_promise(buffer: Buffer<ArrayBufferLike>) {
 
 describe('Parsing Files', async () => {
 	const data = await readFile(__pdf);
+	const buffer = new Uint8Array(data);
 	bench(
 		'pdf-parse esm build',
 		async () => {
-			await pdf_parse_esm_promise(data);
+			await pdf_parse_esm_promise(new Uint8Array(buffer));
 		},
 		{ iterations: 10 },
 	);
@@ -68,7 +69,7 @@ describe('Parsing Files', async () => {
 	bench(
 		'pdf-parse cjs build',
 		async () => {
-			await pdf_parse_cjs_promise(data);
+			await pdf_parse_cjs_promise(new Uint8Array(buffer));
 		},
 		{ iterations: 10 },
 	);
@@ -76,7 +77,7 @@ describe('Parsing Files', async () => {
 	bench(
 		'pdf-parse node build',
 		async () => {
-			await pdf_parse_node_promise(data);
+			await pdf_parse_node_promise(new Uint8Array(buffer));
 		},
 		{ iterations: 10 },
 	);
@@ -84,7 +85,7 @@ describe('Parsing Files', async () => {
 	bench(
 		'pdf-parse browser build',
 		async () => {
-			await pdf_parse_browser_promise(data);
+			await pdf_parse_browser_promise(new Uint8Array(buffer));
 		},
 		{ iterations: 10 },
 	);
@@ -92,7 +93,7 @@ describe('Parsing Files', async () => {
 	bench(
 		'pdf2json',
 		async () => {
-			await pdf2json_promise(data);
+			await pdf2json_promise(Buffer.from(buffer));
 		},
 		{ iterations: 10 },
 	);
