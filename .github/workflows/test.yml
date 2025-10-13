@@ -55,6 +55,13 @@ jobs:
         directory: ./gh-pages/coverage
         fail_ci_if_error: false
 
+    - name: Upload results to SonarQube Scan
+      if: github.ref == 'refs/heads/main'
+      uses: SonarSource/sonarqube-scan-action@v6
+      env:
+        token: ${{ secrets.SONARCLOUD_TOKEN }}
+        fail_ci_if_error: false 
+
     
     - name: Deploy to GitHub Pages (main branch)
       if: github.ref == 'refs/heads/main'
