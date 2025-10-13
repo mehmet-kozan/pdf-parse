@@ -34,7 +34,7 @@ jobs:
     - name: Run build
       run: npm run build
       
-    - name: Run ava tests only (non-main branches)
+    - name: Run ava tests
       run: npm run test:ava
     
     - name: Run tests only (non-main branches)
@@ -45,9 +45,9 @@ jobs:
       if: github.ref == 'refs/heads/main'
       run: npm run coverage
 
-    - name: Generate benchmark  report (main branch)
-      if: github.ref == 'refs/heads/main'
-      run: npm run bench
+    #- name: Generate benchmark  report (main branch)
+    #  if: github.ref == 'refs/heads/main'
+    #  run: npm run bench
 
     - name: Upload results to Codecov
       if: github.ref == 'refs/heads/main'

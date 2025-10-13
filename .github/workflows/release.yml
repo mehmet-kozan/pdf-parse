@@ -50,6 +50,9 @@ jobs:
     - run: npm cache clean --force
     - run: npm i
     - run: npm run build
+
+    - name: Run ava tests
+      run: npm run test:ava
     
     - name: Run tests
       run: npm test

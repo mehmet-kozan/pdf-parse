@@ -24,7 +24,7 @@ export default defineConfig({
 
 		benchmark: {
 			reporters: ['default'],
-			outputJson: 'gh-pages/benchmark/bench.json',
+			outputJson: 'gh-pages/bench.json',
 		},
 	},
 });
