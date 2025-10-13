@@ -4,4 +4,5 @@ export interface HeaderResult {
 	size?: number;
 	isPdf?: boolean;
 	headers?: Record<string, string>;
+	error?: Error;
 }

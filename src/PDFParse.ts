@@ -123,11 +123,8 @@ export class PDFParse {
 			}
 
 			throw new Error('Fetch API not available');
-		} catch (err) {
-			// Network error or unexpected failure: return an object indicating failure
-			// biome-ignore lint/suspicious/noConsole: <for test>
-			console.error(err);
-			return { ok: false, status: undefined, size: undefined, isPdf: false, headers: {} };
+		} catch (error) {
+			return { ok: false, status: undefined, size: undefined, isPdf: false, headers: {}, error: new Error(String(error)) };
 		}
 	}
 
