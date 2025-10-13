@@ -194,6 +194,18 @@ for (const pageData of result.pages) {
 }
 ```
 
+Usage Examples:
+- Limit output resolution or specific pages using [ParseParameters](./README.options.md#parseparameters)
+- `getScreenshot({scale:1.5})` — Increase rendering scale (higher DPI / larger image)
+- `getScreenshot({desiredWidth:1024})` — Request a target width in pixels; height scales to keep aspect ratio
+- `imageDataUrl` (default: `true`) — include base64 data URL string in the result.
+- `imageBuffer` (default: `true`) — include a binary buffer for each image.
+- Select specific pages with `partial` (e.g. `getScreenshot({ partial: [1,3] })`) 
+- `partial` overrides `first`/`last`.
+- Use `first` to render the first N pages (e.g. `getScreenshot({ first: 3 })`).
+- Use `last` to render the last N pages (e.g. `getScreenshot({ last: 2 })`).
+- When both `first` and `last` are provided they form an inclusive range (`first..last`).
+
 ### `getImage` — Extract Embedded Images
 ```js
 // Node / ESM
@@ -213,6 +225,17 @@ for (const pageData of result.pages) {
     }
 }
 ```
+
+Usage Examples:
+- Exclude images width or height <= 50 px: `getImage({ imageThreshold: 50 })`
+- Default `imageThreshold` is `80` (pixels)
+- Useful for excluding tiny decorative or tracking images.
+- To disable size-based filtering and include all images, set `imageThreshold: 0`.
+- `imageDataUrl` (default: `true`) — include base64 data URL string in the result.
+- `imageBuffer` (default: `true`) — include a binary buffer for each image.
+- Extract images from specific pages: `getImage({ partial: [2,4] })`
+
+
 
 ### `getTable` — Extract Tabular Data
 ```js
