@@ -59,7 +59,7 @@ jobs:
       if: github.ref == 'refs/heads/main'
       uses: SonarSource/sonarqube-scan-action@v6
       env:
-        token: ${{ secrets.SONARCLOUD_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
         fail_ci_if_error: false 
 
     
