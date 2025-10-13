@@ -1,15 +1,10 @@
-name: tests
+name: Unit Tests
 
-on:
-  push:
-    branches:
-      - '**'  # Run on all branches
-  pull_request:
-    branches:
-      - '**'  # Run on all pull requests
+on: [push, pull_request]
 
 permissions:
-  contents: write  # Required for GitHub Pages deployment
+  contents: read
+  pull-requests: read
 
 jobs:
   test:
@@ -34,39 +29,6 @@ jobs:
     - name: Run build
       run: npm run build
       
-    - name: Run ava tests
-      run: npm run test:ava
     
-    - name: Run tests only (non-main branches)
-      if: github.ref != 'refs/heads/main'
+    - name: Run tests
       run: npm test
-    
-    - name: Generate coverage report (main branch)
-      if: github.ref == 'refs/heads/main'
-      run: npm run coverage
-
-    #- name: Generate benchmark  report (main branch)
-    #  if: github.ref == 'refs/heads/main'
-    #  run: npm run bench
-
-    - name: Upload results to Codecov
-      if: github.ref == 'refs/heads/main'
-      uses: codecov/codecov-action@v5
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        directory: ./gh-pages/coverage
-        fail_ci_if_error: false
-
-    # - name: Upload results to SonarQube Scan
-    #   if: github.ref == 'refs/heads/main'
-    #   uses: SonarSource/sonarqube-scan-action@v6
-    #   env:
-    #     SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
-    #     fail_ci_if_error: false 
-
-    - name: Deploy to GitHub Pages (main branch)
-      if: github.ref == 'refs/heads/main'
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./gh-pages

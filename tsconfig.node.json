@@ -18,5 +18,5 @@
 		"verbatimModuleSyntax": false
 	},
 	"include": ["src/**/*"],
-	"exclude": ["dist", "example", "lib/**/*", "test/**/*", "src/**/_*", "src/_**/*"]
+	"exclude": ["src/**/_*", "src/_**/*"]
 }

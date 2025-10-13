@@ -10,9 +10,9 @@
 		"test": "node ./index.js"
 	},
 	"dependencies": {
-		"browserless": "latest",
-		"puppeteer": ">=1.13.0",
+		"browserless": "10.9.7",
+		"puppeteer": "24.24.1",
 		"pdf-parse": "latest",
-		"async-listen": "latest"
+		"async-listen": "3.1.0"
 	}
 }
