@@ -5,7 +5,7 @@ import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_fact
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
 import type { TableData } from './geometry/TableData.js';
-import type { HeaderResult } from './HeaderResult.js';
+import { getHeader, type HeaderResult } from './HeaderResult.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
 import { InfoResult, type PageLinkResult } from './InfoResult.js';
 import { type ParseParameters, setDefaultParseParameters } from './ParseParameters.js';
@@ -90,42 +90,7 @@ export class PDFParse {
 			throw new Error('getHeader: options.url is not set');
 		}
 
-		try {
-			// Try using global fetch when available (browser / Node 18+)
-			// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
-			const fetch: typeof globalThis.fetch = (globalThis as any).fetch;
-
-			if (typeof fetch === 'function') {
-				const headResp = await fetch(this.options.url, { method: 'HEAD' });
-				const headersObj: Record<string, string> = {};
-				headResp.headers.forEach((v: string, k: string) => {
-					headersObj[k] = v;
-				});
-
-				const size = headResp.headers.get('content-length') ? parseInt(headResp.headers.get('content-length') as string, 10) : undefined;
-
-				let isPdf: boolean | undefined;
-				if (check) {
-					// Try range request to fetch initial bytes
-					const rangeResp = await fetch(this.options.url, { method: 'GET', headers: { Range: 'bytes=0-4' } });
-					if (rangeResp.ok) {
-						const buf = new Uint8Array(await rangeResp.arrayBuffer());
-						const headerStr = Array.from(buf)
-							.map((b) => String.fromCharCode(b))
-							.join('');
-						isPdf = headerStr.startsWith('%PDF');
-					} else {
-						isPdf = false;
-					}
-				}
-
-				return { ok: headResp.ok, status: headResp.status, size, isPdf, headers: headersObj };
-			}
-
-			throw new Error('Fetch API not available');
-		} catch (error) {
-			return { ok: false, status: undefined, size: undefined, isPdf: false, headers: {}, error: new Error(String(error)) };
-		}
+		return await getHeader(this.options.url, check);
 	}
 
 	/**

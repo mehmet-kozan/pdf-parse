@@ -88,6 +88,33 @@ bun add pdf-parse
 
 ## Usage
 
+### `getHeader`
+```js
+// Node / ESM
+import { PDFParse } from 'pdf-parse';
+
+const parser = new PDFParse({ url: 'https://bitcoin.org/bitcoin.pdf' });
+// HEAD request to retrieve HTTP headers and file size without downloading the full file.
+// Pass `true` to check PDF magic bytes via range request
+const headerResult = await parser.getHeader(true);
+
+console.log(`Status: ${headerResult.status}`);
+console.log(`Content-Length: ${headerResult.size}`);
+console.log(`Is PDF: ${headerResult.isPdf}`);
+console.log(`Headers:`, headerResult.headers);
+
+// The getHeader function can also be used directly 
+// without creating a PDFParse instance by importing it from pdf-parse.
+import { getHeader } from 'pdf-parse';
+const headerResult = await getHeader('https://bitcoin.org/bitcoin.pdf', true); 
+```
+Usage Examples:
+- Optionally validates PDFs by fetching the first 4 bytes (magic bytes).
+- Useful for checking file existence, size, and type before full parsing.
+- For URL-based PDFs, ensure CORS is configured if used in browsers.
+- Use directly without creating a PDFParse instance.
+
+
 ### `getInfo` — Extract Metadata and Document Information
 ```js
 // Node / ESM
@@ -119,7 +146,6 @@ console.log(`Per-page information: ${info.pages}`);
 Usage Examples:
 - Parse hyperlinks from pages: [`test/test-01-get-info`](test/test-01-get-info/get-info.test.ts)
 - To extract hyperlinks, pass `{ parsePageInfo: true }`
-- `const info = await parser.getInfo({ parsePageInfo: true })`
 
 ### `getText` — Extract Text
 ```js
@@ -181,7 +207,7 @@ await parser.destroy();
 
 for (const pageData of result.pages) {
     for (const pageImage of pageData.images) {
-        const imgFileName = `page_${pageData.pageNumber}-${pageImage.fileName}.png`;
+        const imgFileName = `page_${pageData.pageNumber}-${pageImage.name}.png`;
         await writeFile(imgFileName, pageImage.data, { flag: 'w' });
     }
 }
