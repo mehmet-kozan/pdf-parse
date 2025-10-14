@@ -37,11 +37,8 @@ describe('Large PDF File Tests', () => {
 	});
 
 	test('should handle arxiv.org research paper', { timeout: 30000 }, async () => {
-		// ArXiv Academic Paper - ~1-3 MB
-		const url = 'https://arxiv.org/pdf/1706.03762.pdf';
-
 		const parser = new PDFParse({
-			url,
+			url: 'https://arxiv.org/pdf/1706.03762.pdf',
 			disableAutoFetch: true,
 			disableStream: true,
 			rangeChunkSize: 65536,
