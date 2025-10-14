@@ -1,25 +1,27 @@
 {
 	"name": "pdf-parse",
-	"version": "2.3.6",
+	"version": "2.3.7",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
 	"types": "dist/esm/index.d.ts",
 	"exports": {
 		".": {
+			"types": "./dist/esm/index.d.ts",
 			"import": "./dist/esm/index.js",
 			"require": "./dist/cjs/index.cjs",
-			"default": "./dist/browser/pdf-parse.es.js"
+			"browser": "./dist/browser/pdf-parse.es.min.js",
+			"default": "./dist/esm/index.js"
 		},
 		"./node": {
 			"types": "./dist/esm/index.d.ts",
 			"default": "./dist/node/index.cjs"
 		},
-		"./worker/source": {
+		"./worker_source": {
 			"import": "./dist/worker/source.js",
 			"require": "./dist/worker/source.cjs"
 		},
-		"./worker/path": {
+		"./worker_path": {
 			"import": "./bin/worker.js",
 			"require": "./bin/worker.cjs"
 		}
@@ -120,11 +122,6 @@
 	"engines": {
 		"node": ">=20.16.0 <21 || >=22.3.0"
 	},
-	"devEngines": {
-		"packageManager": {
-			"name": "npm"
-		}
-	},
-	"sideEffects": false,
-	"jsdelivr": "./dist/browser/pdf-parse.es.min.js"
+	"jsdelivr": "./dist/browser/pdf-parse.es.min.js",
+	"unpkg": "./dist/browser/pdf-parse.es.min.js"
 }
