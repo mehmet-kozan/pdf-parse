@@ -1,10 +1,11 @@
 {
 	"name": "pdf-parse",
-	"version": "2.3.8",
+	"version": "2.3.9",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
 	"types": "dist/esm/index.d.ts",
+
 	"exports": {
 		".": {
 			"types": "./dist/esm/index.d.ts",
@@ -14,24 +15,26 @@
 		},
 		"./node": {
 			"types": "./dist/esm/index.d.ts",
-			"default": "./dist/node/index.cjs"
+			"require": "./dist/node/index.cjs"
 		},
-		"./worker_source": {
+		"./source": {
 			"types": "./dist/worker/index.d.ts",
 			"import": "./dist/worker/index.js",
 			"require": "./dist/worker/index.cjs"
 		},
-		"./worker_path": {
+		"./path": {
 			"types": "./bin/worker.d.ts",
 			"import": "./bin/worker.js",
 			"require": "./bin/worker.cjs"
 		}
 	},
+
 	"description": "Pure TypeScript, cross-platform module for extracting text, images, and tabular data from PDFs. Run directly in your browser or in Node!",
 	"homepage": "https://mehmet-kozan.github.io/pdf-parse/",
 	"bugs": {
 		"url": "https://github.com/mehmet-kozan/pdf-parse/issues"
 	},
+
 	"keywords": [
 		"pdf",
 		"pdf-parse",
@@ -59,10 +62,12 @@
 		"pdf-reader",
 		"server-side-pdf-parsing"
 	],
+
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/mehmet-kozan/pdf-parse.git"
 	},
+
 	"license": "Apache-2.0",
 	"author": "Mehmet Kozan",
 	"files": [
@@ -99,12 +104,15 @@
 		"format:check": "biome check .",
 		"pack": "npm pack --dry-run"
 	},
+
 	"dependencies": {
 		"pdfjs-dist": "^5.4.296"
 	},
+
 	"optionalDependencies": {
 		"@napi-rs/canvas": "^0.1.80"
 	},
+
 	"devDependencies": {
 		"@biomejs/biome": "^2.2.6",
 		"@types/node": "^24.7.2",
@@ -117,13 +125,24 @@
 		"vite-plugin-dts": "^4.5.4",
 		"vitest": "^3.2.4"
 	},
+
 	"publishConfig": {
 		"access": "public",
 		"provenance": true
 	},
+
 	"engines": {
 		"node": ">=20.16.0 <21 || >=22.3.0"
 	},
+
+	"browser": {
+		"canvas": false,
+		"fs": false,
+		"http": false,
+		"https": false,
+		"url": false
+	},
+
 	"jsdelivr": "./dist/browser/pdf-parse.es.min.js",
 	"unpkg": "./dist/browser/pdf-parse.es.min.js"
 }
