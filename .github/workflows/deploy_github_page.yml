@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: gh_pages/
-          name: report-pages
+          name: report-site
 
   deploy:
     runs-on: ubuntu-latest
@@ -67,4 +67,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          artifact_name: report-pages
+          artifact_name: report-site
