@@ -93,6 +93,7 @@ jobs:
         with:
           node-version: "22.20.0"
           package-manager-cache: false
+          registry-url: "https://registry.npmjs.org"
 
       - name: Clean NPM Cache
         run: npm cache clean --force
