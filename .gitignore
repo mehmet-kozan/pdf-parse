@@ -26,7 +26,7 @@ coverage
 reports_site/test-report
 reports_site/coverage
 reports_site/benchmark
-reports_site/demo/dist-browser
+reports_site/live_demo/dist-browser
 
 # Temp Example Files
 example/browser/dist-browser
