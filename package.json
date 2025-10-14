@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.3.9",
+	"version": "2.3.10",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
@@ -17,15 +17,15 @@
 			"types": "./dist/esm/index.d.ts",
 			"require": "./dist/node/index.cjs"
 		},
-		"./source": {
-			"types": "./dist/worker/index.d.ts",
-			"import": "./dist/worker/index.js",
-			"require": "./dist/worker/index.cjs"
-		},
-		"./path": {
-			"types": "./bin/worker.d.ts",
-			"import": "./bin/worker.js",
-			"require": "./bin/worker.cjs"
+		"./worker": {
+			"import": {
+				"types": "./bin/worker/worker.d.ts",
+				"default": "./bin/worker/worker.js"
+			},
+			"require": {
+				"types": "./bin/worker/worker.d.cts",
+				"default": "./bin/worker/worker.cjs"
+			}
 		}
 	},
 
@@ -87,7 +87,8 @@
 		"clean:build": "rimraf dist",
 		"clean:site": "rimraf reports_site/test-report reports_site/coverage reports_site/live_demo/dist-browser",
 		"clean:test": "rimraf --glob dist test/**/*.txt test/**/imgs test/**/*_images",
-		"clean": "npm-run-all clean:build clean:site clean:test",
+		"clean:worker": "rimraf bin/worker/worker_source.js bin/worker/worker_source.cjs",
+		"clean": "npm-run-all clean:build clean:worker clean:site clean:test",
 		"prepare": "npm run build",
 		"test": "vitest run --reporter=default",
 		"test:ui": "vitest --ui --coverage",
@@ -122,7 +123,6 @@
 		"rimraf": "^6.0.1",
 		"typescript": "^5.9.3",
 		"vite": "^7.1.5",
-		"vite-plugin-dts": "^4.5.4",
 		"vitest": "^3.2.4"
 	},
 
