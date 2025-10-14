@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import * as WorkerUrl from 'pdfjs-dist/legacy/build/pdf.worker.mjs?url';
 
 /**
@@ -5,5 +6,5 @@ import * as WorkerUrl from 'pdfjs-dist/legacy/build/pdf.worker.mjs?url';
  * @returns {string} The worker base64 data URL string.
  */
 export function getSource() {
-	return WorkerUrl.default || WorkerUrl;
+	return WorkerUrl.default;
 }

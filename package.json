@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.3.7",
+	"version": "2.3.8",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
@@ -8,20 +8,21 @@
 	"exports": {
 		".": {
 			"types": "./dist/esm/index.d.ts",
+			"browser": "./dist/browser/pdf-parse.es.js",
 			"import": "./dist/esm/index.js",
-			"require": "./dist/cjs/index.cjs",
-			"browser": "./dist/browser/pdf-parse.es.min.js",
-			"default": "./dist/esm/index.js"
+			"require": "./dist/cjs/index.cjs"
 		},
 		"./node": {
 			"types": "./dist/esm/index.d.ts",
 			"default": "./dist/node/index.cjs"
 		},
 		"./worker_source": {
-			"import": "./dist/worker/source.js",
-			"require": "./dist/worker/source.cjs"
+			"types": "./dist/worker/index.d.ts",
+			"import": "./dist/worker/index.js",
+			"require": "./dist/worker/index.cjs"
 		},
 		"./worker_path": {
+			"types": "./bin/worker.d.ts",
 			"import": "./bin/worker.js",
 			"require": "./bin/worker.cjs"
 		}
@@ -113,6 +114,7 @@
 		"rimraf": "^6.0.1",
 		"typescript": "^5.9.3",
 		"vite": "^7.1.5",
+		"vite-plugin-dts": "^4.5.4",
 		"vitest": "^3.2.4"
 	},
 	"publishConfig": {
