@@ -19,10 +19,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
+    # Do not set the `environment` here; protected environments tied to `main` can block
+    # GitHub Actions from completing deployments. Instead, build the site and deploy the
+    # artifact to Pages. The workflow still runs on `main` pushes but won't require
+    # the `github-pages` environment approval.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -43,8 +44,8 @@ jobs:
       - name: Install
         run: npm i
 
-      - name: Install
-        run: npm run coverage
+      - name: Site Build
+        run: npm run site:build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -55,7 +56,14 @@ jobs:
           path: gh_pages/
           name: report-pages
 
-      - name: Deploy to GitHub Pages
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
         with:
