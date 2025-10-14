@@ -1,0 +1,20 @@
+{
+	"name": "test_browserless",
+	"version": "1.0.0",
+	"description": "",
+	"license": "ISC",
+	"author": "",
+	"type": "commonjs",
+	"main": "index.js",
+	"private": "true",
+	"scripts": {
+		"test": "node ./index.js"
+	},
+	"devDependencies": {
+		"async-listen": "latest",
+		"browserless": "latest",
+		"lodash": "latest",
+		"pdf-parse": "latest",
+		"puppeteer": "24.23.0"
+	}
+}

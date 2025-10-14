@@ -6,11 +6,12 @@
 	"author": "",
 	"type": "commonjs",
 	"main": "common.test.cjs",
+	"private": "true",
 	"scripts": {
 		"test": "ava common.test.cjs --verbose --no-cache --serial --no-worker-threads"
 	},
-	"dependencies": {
-		"ava": "6.4.1",
+	"devDependencies": {
+		"ava": "latest",
 		"pdf-parse": "latest"
 	}
 }
