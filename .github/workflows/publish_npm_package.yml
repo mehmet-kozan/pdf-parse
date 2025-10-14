@@ -31,16 +31,13 @@ jobs:
     - name: Clean npm cache
       run: npm cache clean --force
 
-    - name: Install dependencies
+    - name: Install
       run: npm i
 
-    # - name: Run build
-    #   run: npm run build
-
-    - name: Run tests
+    - name: Unit tests
       run: npm test
 
-    - name: Run install & tests in test_integration subfolders
+    - name: Integration tests
       run: |
         set -euo pipefail
         echo "Looking for subfolders in test_integration/..."
@@ -91,13 +88,13 @@ jobs:
         node-version: '22.20.0'
         registry-url: 'https://registry.npmjs.org/'
     
-    - run: npm cache clean --force
-    - run: npm i
-
-    # - name: Run build
-    #   run: npm run build
+    - name: Clean npm cache
+      run: npm cache clean --force
     
-    - name: Run coverage
+    - name: Install
+      run: npm i
+    
+    - name: Unit tests & coverage
       run: npm run coverage
 
     - name: Upload coverage to Codecov

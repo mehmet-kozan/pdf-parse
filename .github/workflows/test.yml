@@ -23,11 +23,8 @@ jobs:
     - name: Clean npm cache
       run: npm cache clean --force
     
-    - name: Install dependencies
+    - name: Install
       run: npm i
-    
-    # - name: Run build
-    #   run: npm run build
       
-    - name: Run tests
+    - name: Unit tests
       run: npm test

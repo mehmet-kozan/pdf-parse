@@ -23,7 +23,16 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Run install & tests in test_integration subfolders
+    - name: Clean npm cache
+      run: npm cache clean --force
+    
+    - name: Install
+      run: npm i
+    
+    - name: Unit tests
+      run: npm test
+
+    - name: Integration tests
       run: |
         set -euo pipefail
         echo "Looking for subfolders in test_integration/..."
