@@ -7,7 +7,7 @@
 		"source.fixAll.biome": "always",
 		"source.organizeImports": "always"
 	},
-	"editor.defaultFormatter": "biomejs.biome",
+	//"editor.defaultFormatter": "biomejs.biome",
 	"[javascript]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
@@ -22,6 +22,13 @@
 	},
 	"[json]": {
 		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[yaml]": {
+		"editor.insertSpaces": true,
+		"editor.tabSize": 2,
+		"editor.autoIndent": "full",
+		"editor.formatOnSave": true,
+		"editor.formatOnPaste": true
 	},
 	"liveServer.settings.port": 5501,
 	"editor.minimap.enabled": false,

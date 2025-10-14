@@ -108,6 +108,11 @@
 	"engines": {
 		"node": ">=20.16.0 <21 || >=22.3.0"
 	},
+	"devEngines": {
+		"packageManager": {
+			"name": "npm"
+		}
+	},
 	"sideEffects": false,
 	"jsdelivr": "./dist/browser/pdf-parse.es.min.js"
 }
