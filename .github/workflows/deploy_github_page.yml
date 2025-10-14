@@ -47,14 +47,21 @@ jobs:
       - name: Site Build
         run: npm run site:build
 
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./reports_site/coverage
+          fail_ci_if_error: false
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload static files
         uses: actions/upload-pages-artifact@v4
         with:
-          path: gh_pages/
-          name: report-site
+          path: reports_site/
+          name: reports-and-live-demo
 
   deploy:
     runs-on: ubuntu-latest
@@ -67,4 +74,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          artifact_name: report-site
+          artifact_name: reports-and-live-demo

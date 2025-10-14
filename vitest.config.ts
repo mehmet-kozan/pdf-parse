@@ -9,7 +9,7 @@ export default defineConfig({
 		exclude: ['test/**/_*', 'test/_**/*'],
 		reporters: ['default', 'html'],
 		outputFile: {
-			html: 'gh_pages/test-report/index.html',
+			html: 'reports_site/test-report/index.html',
 		},
 
 		coverage: {
@@ -18,14 +18,14 @@ export default defineConfig({
 			include: ['src/**/*.ts'],
 			exclude: ['src/**/_*', 'src/_**/*'],
 			reporter: [['html', { subdir: 'html-report' }], 'lcov', 'json', 'text-summary'],
-			reportsDirectory: 'gh_pages/coverage',
+			reportsDirectory: 'reports_site/coverage',
 			all: true,
 			clean: true,
 		},
 
 		benchmark: {
 			reporters: ['default'],
-			outputJson: 'gh_pages/bench.json',
+			outputJson: 'reports_site/benchmark/bench.json',
 		},
 	},
 });

@@ -7,7 +7,7 @@
 ## 📁 Directory Structure
 
 ```
-gh_pages/
+reports_site/
 ├── index.html          # Landing page for viewing reports
 ├── test-report/        # Test reports (auto-generated)
 │   └── index.html

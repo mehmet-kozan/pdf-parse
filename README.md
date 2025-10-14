@@ -54,7 +54,7 @@ parser.getText().then((result)=>{
 - Well-covered with [`unit tests`](./test)
 - [`Integration tests`](./test_integration) to validate end-to-end behavior across environments.
 - See [DocumentInitParameters](./README.options.md#documentinitparameters) and [ParseParameters](./README.options.md#parseparameters) for all available options.
-- For usage examples, see  [`example`](./example), [`test`](./test) and [`test/example`](./test/test-example) folders.
+- For usage examples, see  [`live_demo`](./reports_site/live_demo/), [`example`](./example/), [`test`](./test/) and [`test/example`](./test/test-example/) folders.
 
 
 ## Installation
@@ -260,7 +260,7 @@ try {
 ## Web / Browser <a href="https://www.jsdelivr.com/package/npm/pdf-parse" target="_blank"><img align="right" src="https://img.shields.io/jsdelivr/npm/hm/pdf-parse"></a>  
 - Can be integrated into `React`, `Vue`, `Angular`, or any other web framework.
 - **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
-- **Demo Source Code:** [`gh-pages branch`](https://github.com/mehmet-kozan/pdf-parse/tree/gh-pages)
+- **Demo Source:** [`reports_site/live_demo`](reports_site/live_demo)
 
 ### CDN Usage  
 

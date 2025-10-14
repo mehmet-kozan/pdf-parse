@@ -34,10 +34,10 @@ export default defineConfig({
 			},
 		},
 		{
-			name: 'copy-dist-to-github-pages',
+			name: 'copy-dist-to-report_site',
 			closeBundle() {
 				const source = join(process.cwd(), 'dist', 'browser');
-				const dest = join(process.cwd(), 'gh_pages', 'demo', 'dist-browser');
+				const dest = join(process.cwd(), 'reports_site', 'live_demo', 'dist-browser');
 				cpSync(source, dest, { recursive: true });
 			},
 		},

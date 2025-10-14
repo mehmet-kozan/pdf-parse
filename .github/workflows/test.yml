@@ -9,22 +9,25 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '22.20.0'
-    
-    - name: Clean npm cache
-      run: npm cache clean --force
-    
-    - name: Install
-      run: npm i
-      
-    - name: Unit tests
-      run: npm test
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+          show-progress: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22.20.0"
+          package-manager-cache: false
+
+      - name: Clean NPM Cache
+        run: npm cache clean --force
+
+      - name: Install
+        run: npm i
+
+      - name: Unit tests
+        run: npm test

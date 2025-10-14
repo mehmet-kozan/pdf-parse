@@ -7,42 +7,45 @@ permissions:
   pull-requests: read
 
 jobs:
-  test:
+  integration_test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [20, 22, 23, 24]
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+          show-progress: false
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          package-manager-cache: false
 
-    - name: Clean npm cache
-      run: npm cache clean --force
-    
-    - name: Install
-      run: npm i
-    
-    - name: Unit tests
-      run: npm test
+      - name: Clean NPM Cache
+        run: npm cache clean --force
 
-    - name: Integration tests
-      run: |
-        set -euo pipefail
-        echo "Looking for subfolders in test_integration/..."
-        for d in test_integration/*; do
-          if [ -d "$d" ]; then
-            echo "--- Entering $d ---"
-            if [ -f "$d/package.json" ]; then
-              (cd "$d" && npm i && npm test)
-            else
-              echo "skipping $d (no package.json)"
+      - name: Install
+        run: npm i
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Integration tests
+        run: |
+          set -euo pipefail
+          echo "Looking for subfolders in test_integration/..."
+          for d in test_integration/*; do
+            if [ -d "$d" ]; then
+              echo "--- Entering $d ---"
+              if [ -f "$d/package.json" ]; then
+                (cd "$d" && npm i && npm test)
+              else
+                echo "skipping $d (no package.json)"
+              fi
             fi
-          fi
-        done
+          done
