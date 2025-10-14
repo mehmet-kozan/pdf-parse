@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.3.5",
+	"version": "2.3.6",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
@@ -14,6 +14,14 @@
 		"./node": {
 			"types": "./dist/esm/index.d.ts",
 			"default": "./dist/node/index.cjs"
+		},
+		"./worker/source": {
+			"import": "./dist/worker/source.js",
+			"require": "./dist/worker/source.cjs"
+		},
+		"./worker/path": {
+			"import": "./bin/worker.js",
+			"require": "./bin/worker.cjs"
 		}
 	},
 	"description": "Pure TypeScript, cross-platform module for extracting text, images, and tabular data from PDFs. Run directly in your browser or in Node!",
@@ -56,16 +64,18 @@
 	"author": "Mehmet Kozan",
 	"files": [
 		"dist/",
-		"src/"
+		"src/",
+		"bin/"
 	],
 	"scripts": {
-		"build": "npm-run-all clean build:esm build:cjs build:cjs:rename build:node build:browser build:browser:min",
+		"build": "npm-run-all clean build:esm build:cjs build:cjs:rename build:node build:browser build:browser:min build:worker",
 		"build:esm": "tsc",
 		"build:cjs": "tsc --project tsconfig.node.json",
 		"build:cjs:rename": "node scripts/rename-cjs.js",
 		"build:node": "vite build --config vite.config.node.ts",
 		"build:browser": "vite build --config vite.config.browser.ts",
 		"build:browser:min": "vite build --config vite.config.browser.min.ts",
+		"build:worker": "vite build --config vite.config.worker.ts",
 		"clean:build": "rimraf dist",
 		"clean:site": "rimraf reports_site/test-report reports_site/coverage reports_site/live_demo/dist-browser",
 		"clean:test": "rimraf --glob dist test/**/*.txt test/**/imgs test/**/*_images",
