@@ -7,7 +7,16 @@
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"includes": ["**", "!dist", "!reports_site/live_demo/dist-browser", "!reports_site/test-report", "!reports_site/coverage", "!reports_site/benchmark"]
+		"includes": [
+			"**",
+			"!dist",
+			"!reports_site/live_demo/dist-browser",
+			"!reports_site/test-report",
+			"!reports_site/coverage",
+			"!reports_site/benchmark",
+			"!bin/worker/worker_source.js",
+			"!bin/worker/worker_source.cjs"
+		]
 	},
 	"formatter": {
 		"enabled": true,

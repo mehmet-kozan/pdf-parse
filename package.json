@@ -76,33 +76,36 @@
 		"bin/"
 	],
 	"scripts": {
-		"build": "npm-run-all clean build:esm build:cjs build:cjs:rename build:node build:browser build:browser:min build:worker",
-		"build:esm": "tsc",
-		"build:cjs": "tsc --project tsconfig.node.json",
-		"build:cjs:rename": "node scripts/rename-cjs.js",
+		"build": "npm run clean && npm run build:ts && npm run build:node && npm run build:browser && npm run build:worker",
+		"build:ts": "tsc && tsc --project tsconfig.node.json && node scripts/rename-cjs.js",
 		"build:node": "vite build --config vite.config.node.ts",
-		"build:browser": "vite build --config vite.config.browser.ts",
-		"build:browser:min": "vite build --config vite.config.browser.min.ts",
+		"build:browser": "vite build --config vite.config.browser.ts && vite build --config vite.config.browser.min.ts",
 		"build:worker": "vite build --config vite.config.worker.ts",
+
+		"clean": "npm run clean:build && npm run clean:worker && npm run clean:site && npm run clean:test",
 		"clean:build": "rimraf dist",
 		"clean:site": "rimraf reports_site/test-report reports_site/coverage reports_site/live_demo/dist-browser",
 		"clean:test": "rimraf --glob dist test/**/*.txt test/**/imgs test/**/*_images",
 		"clean:worker": "rimraf bin/worker/worker_source.js bin/worker/worker_source.cjs",
-		"clean": "npm-run-all clean:build clean:worker clean:site clean:test",
-		"prepare": "npm run build",
+
 		"test": "vitest run --reporter=default",
 		"test:ui": "vitest --ui --coverage",
 		"test:watch": "vitest",
+
 		"coverage": "vitest run --coverage",
+
+		"bench": "npm run bench:install && vitest bench --run",
 		"bench:install": "npm install --no-save pdf2json",
-		"bench:run": "vitest bench --run",
-		"bench": "npm-run-all bench:install bench:run",
-		"site:build": "npm-run-all build coverage bench",
-		"site:view": "vite preview --outDir reports_site",
+
+		"site": "npm run site:build && vite preview --outDir reports_site",
+		"site:build": "npm run build && npm run coverage && npm run bench",
+
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"format:all": "biome check --write .",
 		"format:check": "biome check .",
+
+		"prepare": "npm run build",
 		"pack": "npm pack --dry-run"
 	},
 
@@ -119,7 +122,6 @@
 		"@types/node": "^24.7.2",
 		"@vitest/coverage-v8": "^3.2.4",
 		"@vitest/ui": "^3.2.4",
-		"npm-run-all": "^4.1.5",
 		"rimraf": "^6.0.1",
 		"typescript": "^5.9.3",
 		"vite": "^7.1.5",
