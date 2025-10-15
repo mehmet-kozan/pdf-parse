@@ -1,0 +1,27 @@
+name: Create Release
+
+on:
+    push:
+        tags:
+            - "v*.*.*"
+
+jobs:
+    release:
+        name: Create GitHub Release
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write # Gerekli izin
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v5
+
+            - name: Create Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  name: Release ${{ github.ref_name }}
+                  body: ${{ github.ref_name }}
+                  draft: false
+                  generate_release_notes: true
+                  prerelease: false
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

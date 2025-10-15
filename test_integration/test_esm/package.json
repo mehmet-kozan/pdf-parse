@@ -8,6 +8,7 @@
 	"main": "index.mjs",
 	"private": "true",
 	"scripts": {
+		"build": "",
 		"test": "node ./index.mjs"
 	},
 	"devDependencies": {

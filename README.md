@@ -54,8 +54,8 @@ parser.getText().then((result)=>{
 - Well-covered with [`unit tests`](./test)
 - [`Integration tests`](./test_integration) to validate end-to-end behavior across environments.
 - See [DocumentInitParameters](./README.options.md#documentinitparameters) and [ParseParameters](./README.options.md#parseparameters) for all available options.
-- For usage examples, see  [`live_demo`](./reports_site/live_demo/), [`example`](./example/), [`test`](./test/) and [`test/example`](./test/test-example/) folders.
-- [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo)
+- For usage examples, see [`live_demo`](./reports_site/live_demo/), [`example`](./example/), [`test`](./test/) and [`test/example`](./test/test-example/) folders.
+- Serverless-ready, see [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
 
 
 ## Installation
@@ -238,7 +238,8 @@ for (const pageData of result.pages) {
 }
 ```  
 
-## Worker Configuration (Node.js / Backend)
+## Worker Configuration (Node Backend / Serverless Platforms / Next.js & Vercel)
+Edge Functions, Serverless Functions, AWS Lambda, Netlify Functions, or Cloudflare Workers
 
 If you only need the default behavior you can ignore worker configuration — `pdf-parse` will automatically configure the worker for most environments. If you need advanced or platform-specific instructions, see: [`README.worker.md`](./README.worker.md)
 

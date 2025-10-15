@@ -8,6 +8,7 @@
 	"main": "index.js",
 	"private": "true",
 	"scripts": {
+		"build": "",
 		"test": "node ./index.js"
 	},
 	"devDependencies": {
