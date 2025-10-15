@@ -82,11 +82,10 @@
 		"build:browser": "vite build --config vite.config.browser.ts && vite build --config vite.config.browser.min.ts",
 		"build:worker": "vite build --config vite.config.worker.ts",
 
-		"clean": "npm run clean:build && npm run clean:worker && npm run clean:site && npm run clean:test",
-		"clean:build": "rimraf dist",
+		"clean": "npm run clean:build && npm run clean:site && npm run clean:test",
+		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
 		"clean:site": "rimraf reports_site/test-report reports_site/coverage reports_site/live_demo/dist-browser",
 		"clean:test": "rimraf --glob dist test/**/*.txt test/**/imgs test/**/*_images",
-		"clean:worker": "rimraf bin/worker/worker_source.js bin/worker/worker_source.cjs",
 
 		"test": "vitest run --reporter=default",
 		"test:ui": "vitest --ui --coverage",

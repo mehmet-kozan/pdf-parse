@@ -14,20 +14,24 @@ When reporting issues, please:
 The following scripts are available in `package.json` to help with development:
 
 ### Build Scripts
-- **`npm run build`**: Builds all versions (ESM, CJS, browser, and minified browser) and cleans artifacts
-- **`npm run build:esm`**: Builds the ES module version using TypeScript compiler
-- **`npm run build:cjs`**: Builds the CommonJS version using Vite
-- **`npm run build:browser`**: Builds the browser version
-- **`npm run build:browser:min`**: Builds the minified browser version
-- **`npm run clean`**: Removes build artifacts and test outputs (dist, test txt files, and images)
-- **`npm run clean:site`**: Removes site artifacts (test-report, coverage, benchmark, demo/dist-browser)
+- **`npm run build`**: Cleans artifacts, compiles TypeScript (ESM + CJS), and builds Node, browser (normal + minified), and worker bundles
+- **`npm run build:ts`**: Compiles TypeScript outputs (ESM + CJS) and performs CJS filename adjustments
+   - Internally runs: `tsc` (ESM) + `tsc --project tsconfig.node.json` (CJS) + `node scripts/rename-cjs.js`
+- **`npm run build:node`**: Builds the Node bundle via Vite (`vite.config.node.ts`)
+- **`npm run build:browser`**: Builds the browser bundle and its minified variant via Vite (`vite.config.browser.ts` and `vite.config.browser.min.ts`)
+- **`npm run build:worker`**: Builds the web worker bundle via Vite (`vite.config.worker.ts`)
+- **`npm run clean`**: Removes build and test artifacts
+   - Internally runs: `clean:build`, `clean:site`, `clean:test`
+- **`npm run clean:build`**: Removes `dist/` and worker temp sources (`bin/worker/worker_source.js`, `.cjs`)
+- **`npm run clean:site`**: Removes site artifacts (`reports_site/test-report`, `reports_site/coverage`, `reports_site/live_demo/dist-browser`)
+- **`npm run clean:test`**: Removes test outputs (txt files and generated images)
 
 ### Testing Scripts
 - **`npm test`**: Runs all tests once (no watch mode) using Vitest
 - **`npm run test:ui`**: Opens the Vitest UI with coverage for interactive test viewing
 - **`npm run test:watch`**: Runs all tests in watch mode
 - **`npm run coverage`**: Runs tests and generates code coverage report
-- **`npm run bench`**: Runs benchmark tests using Vitest
+- **`npm run bench`**: Installs benchmark dependency and runs Vitest benchmarks (calls `bench:install` then `vitest bench --run`)
 
 ### Code Quality Scripts
 - **`npm run lint`**: Lints the codebase using Biome
@@ -36,8 +40,8 @@ The following scripts are available in `package.json` to help with development:
 - **`npm run format:check`**: Checks formatting without making changes
 
 ### Site & Other Scripts
-- **`npm run site:build`**: Builds the project and generates coverage reports for the site
-- **`npm run site:view`**: Previews the example browser application
+- **`npm run site:build`**: Builds the project and generates coverage and benchmarks for the site
+- **`npm run site`**: Builds the site and previews it locally with Vite
 - **`npm run prepare`**: Automatically runs build before publishing (pre-publish hook)
 - **`npm run pack`**: Performs a dry-run of `npm pack` to verify package contents
 
@@ -51,7 +55,6 @@ This project uses several key dependencies for development. Understanding these 
 ### Build Tools
 - **`typescript`** (^5.9.3): TypeScript compiler for type-safe JavaScript development
 - **`vite`** (^7.1.5): Fast build tool and development server for building browser and Node.js versions
-- **`vite-plugin-dts`** (^4.5.4): Vite plugin for generating TypeScript declaration files (.d.ts)
 
 ### Testing Framework
 - **`vitest`** (^3.2.4): Fast unit test framework with native ESM support
@@ -59,17 +62,17 @@ This project uses several key dependencies for development. Understanding these 
 - **`@vitest/coverage-v8`** (^3.2.4): Code coverage reporting using V8's native coverage
 
 ### Code Quality
-- **`@biomejs/biome`** (^2.2.5): Fast formatter and linter for JavaScript/TypeScript - replaces ESLint and Prettier with better performance
+- **`@biomejs/biome`** (^2.2.6): Fast formatter and linter for JavaScript/TypeScript - replaces ESLint and Prettier with better performance
 
 ### Utilities
-- **`npm-run-all`** (^4.1.5): Run multiple npm scripts sequentially or in parallel
 - **`rimraf`** (^6.0.1): Cross-platform tool for removing files and directories
-- **`@types/node`** (^24.7.0): TypeScript type definitions for Node.js APIs
+- **`@types/node`** (^24.7.2): TypeScript type definitions for Node.js APIs
 
 ### Key Configuration Files
 - **`tsconfig.json`**: TypeScript compiler configuration
+- **`tsconfig.node.json`**: Secondary TypeScript config used to emit CJS artifacts
 - **`vite.config.*.ts`**: Vite build configurations for different targets (ESM, CJS, browser, minified)
-- **`vitest.config.js`**: Vitest test runner configuration
+- **`vitest.config.ts`**: Vitest test runner configuration
 - **`biome.json`**: Biome code quality configuration
 
 ## Development Guidelines
