@@ -239,9 +239,31 @@ for (const pageData of result.pages) {
 ```  
 
 ## Worker Configuration (Node Backend / Serverless Platforms / Next.js & Vercel)
-Edge Functions, Serverless Functions, AWS Lambda, Netlify Functions, or Cloudflare Workers
 
-If you only need the default behavior you can ignore worker configuration — `pdf-parse` will automatically configure the worker for most environments. If you need advanced or platform-specific instructions, see: [`README.worker.md`](./README.worker.md)
+Edge Functions, Serverless Functions, AWS Lambda, Netlify Functions, or Cloudflare Workers may require additional worker configuration.
+
+This will most likely resolve all worker-related issues.
+```js
+import {PDFParse} from "pdf-parse";
+import "pdf-parse/worker"; // use this for serverless platforms
+// or commonjs
+// require('pdf-parse/worker');
+
+```
+
+Custom builds, Electron/NW.js, monorepos (pnpm/yarn workspaces), or specific deployment environments—you may need to manually configure the worker source.
+
+```js
+import {PDFParse} from "pdf-parse";
+import {getWorkerPath, getWorkerSource} from "pdf-parse/worker";
+// CommonJS
+// const {getWorkerSource, getWorkerPath} = require('pdf-parse/worker');
+
+PDFParse.setWorker(getWorkerPath());
+// or PDFParse.setWorker(getWorkerSource());
+
+```
+
 
 ## Error Handling
 ```js
