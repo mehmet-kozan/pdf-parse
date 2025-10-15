@@ -15,6 +15,24 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v5
 
+            - name: Setup Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: "22.20.0"
+                  package-manager-cache: false
+
+            - name: Clean NPM Cache
+              run: npm cache clean --force
+
+            - name: Install
+              run: npm i
+
+            - name: Unit tests
+              run: npm test
+
+            - name: NPM Generate Package
+              run: npm pack
+
             - name: Create Release
               uses: softprops/action-gh-release@v2
               with:
@@ -23,5 +41,8 @@ jobs:
                   draft: false
                   generate_release_notes: true
                   prerelease: false
+                  append_body: true
+                  make_latest: true
+                  files: "pdf-parse-*.*.*.tgz"
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,69 @@
+# .github/workflows/label-pr.yml
+name: Auto Label PR
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          show-progress: false
+
+      - name: Get PR title and commits
+        id: pr_data
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          echo "title=${PR_TITLE}" >> $GITHUB_OUTPUT
+          COMMITS=$(git log --format="%s" ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} | tr '\n' ' ')
+          echo "commits=${COMMITS}" >> $GITHUB_OUTPUT
+
+      - name: Add labels based on content
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          LABELS=()
+
+          # Breaking change detection
+          if [[ "${{ steps.pr_data.outputs.title }}" == *"BREAKING"* ]] || \
+             [[ "${{ steps.pr_data.outputs.commits }}" == *"BREAKING CHANGE"* ]]; then
+            LABELS+=("breaking-change")
+          fi
+
+          # Feature detection
+          if [[ "${{ steps.pr_data.outputs.title }}" == feat:* ]] || \
+             [[ "${{ steps.pr_data.outputs.commits }}" == *"feat:"* ]]; then
+            LABELS+=("enhancement")
+          fi
+
+          # Bug fix detection
+          if [[ "${{ steps.pr_data.outputs.title }}" == fix:* ]] || \
+             [[ "${{ steps.pr_data.outputs.commits }}" == *"fix:"* ]]; then
+            LABELS+=("bug")
+          fi
+
+          # Doc change detection
+          if [[ "${{ steps.pr_data.outputs.title }}" == *"Documentation"* ]] || \
+             [[ "${{ steps.pr_data.outputs.commits }}" == *"README"* ]]; then
+            LABELS+=("documentation")
+          fi
+
+          # Apply labels if any
+          if [ ${#LABELS[@]} -gt 0 ]; then
+            gh pr edit "$PR_NUMBER" --add-label "${LABELS[*]}"
+            echo "Added labels: ${LABELS[*]}"
+          else
+            echo "No labels to add."
+          fi

@@ -1,18 +1,33 @@
-# .github/release.yml
-
 changelog:
   exclude:
     labels:
       - ignore-for-release
+      - github-actions
+      - dependabot[bot]
     authors:
       - octocat
+      - renovate[bot]
   categories:
-    - title: Breaking Changes 🛠
+    - title: "🚨 Breaking Changes"
       labels:
         - breaking-change
-    - title: Exciting New Features 🎉
+        - breaking
+
+    - title: "✨ New Features"
       labels:
         - enhancement
-    - title: Other Changes
+        - feature
+
+    - title: "🐛 Bug Fixes"
+      labels:
+        - bug
+        - fix
+
+    - title: "📚 Documentation"
+      labels:
+        - documentation
+        - doc
+
+    - title: "🧰 Other Changes"
       labels:
         - "*"
