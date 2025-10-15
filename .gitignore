@@ -91,6 +91,8 @@ out
 .nuxt
 dist
 build
+bin/worker/worker_source.js
+bin/worker/worker_source.cjs
 
 # Gatsby files
 .cache/
