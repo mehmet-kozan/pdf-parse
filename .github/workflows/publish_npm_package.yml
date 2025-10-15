@@ -41,19 +41,7 @@ jobs:
         run: npm test
 
       - name: Integration tests
-        run: |
-          set -euo pipefail
-          echo "Looking for subfolders in test_integration/..."
-          for d in test_integration/*; do
-            if [ -d "$d" ]; then
-              echo "--- Entering $d ---"
-              if [ -f "$d/package.json" ]; then
-                (cd "$d" && npm i && npm test)
-              else
-                echo "skipping $d (no package.json)"
-              fi
-            fi
-          done
+        run: npm run test:i
 
   publish:
     runs-on: ubuntu-latest

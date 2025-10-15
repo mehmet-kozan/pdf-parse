@@ -1,5 +1,7 @@
 ## Worker Configuration (Node.js / Backend)
 
+If you only need the default behavior you can ignore worker configuration — `pdf-parse` will automatically configure the worker for most environments. If you need advanced or platform-specific instructions, see: [`README.worker.md`](./README.worker.md)
+
 In Node.js environments, `pdf-parse` automatically handles the worker configuration. However, in certain scenarios—such as custom builds, Electron/NW.js, monorepos (pnpm/yarn workspaces), or specific deployment environments—you may need to manually configure the worker source.
 
 > **Note:** If you encounter "Invalid URL" errors with worker imports and need to manually configure the worker source, please open an issue. Normally, you don't need this configuration as it's handled automatically.

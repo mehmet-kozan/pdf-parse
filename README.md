@@ -54,8 +54,8 @@ parser.getText().then((result)=>{
 - Well-covered with [`unit tests`](./test)
 - [`Integration tests`](./test_integration) to validate end-to-end behavior across environments.
 - See [DocumentInitParameters](./README.options.md#documentinitparameters) and [ParseParameters](./README.options.md#parseparameters) for all available options.
-- For usage examples, see  [`live_demo`](./reports_site/live_demo/), [`example`](./example/), [`test`](./test/) and [`test/example`](./test/test-example/) folders.
-- [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo)
+- For usage examples, see [`live_demo`](./reports_site/live_demo/), [`example`](./example/), [`test`](./test/) and [`test/example`](./test/test-example/) folders.
+- Serverless-ready, see [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
 
 
 ## Installation
@@ -238,9 +238,47 @@ for (const pageData of result.pages) {
 }
 ```  
 
-## Worker Configuration (Node.js / Backend)
+## Worker Configuration (Node Backend / Serverless Platforms / Next.js & Vercel)
 
-If you only need the default behavior you can ignore worker configuration — `pdf-parse` will automatically configure the worker for most environments. If you need advanced or platform-specific instructions, see: [`README.worker.md`](./README.worker.md)
+Edge Functions, Serverless Functions, AWS Lambda, Netlify Functions, or Cloudflare Workers may require additional worker configuration.
+
+This will most likely resolve all worker-related issues.
+```js
+import {PDFParse} from "pdf-parse";
+import "pdf-parse/worker"; // use this for serverless platforms
+// or commonjs
+// require('pdf-parse/worker');
+
+```
+
+To ensure `pdf-parse` works correctly with Next.js (especially on serverless platforms like Vercel), add the following configuration to your `next.config.ts` file. This allows Next.js to include `pdf-parse` as an external package for server-side usage:
+
+```js
+// next.config.ts
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  serverExternalPackages: ["pdf-parse"],
+};
+
+export default nextConfig;
+```
+
+> **Note:** Similar configuration may be required for other serverless platforms (such as AWS Lambda, Netlify, or Cloudflare Workers) to ensure that `pdf-parse` and its worker files are properly included and executed in your deployment environment.
+
+Custom builds, Electron/NW.js, monorepos (pnpm/yarn workspaces), or specific deployment environments—you may need to manually configure the worker source.
+
+```js
+import {PDFParse} from "pdf-parse";
+import {getWorkerPath, getWorkerSource} from "pdf-parse/worker";
+// CommonJS
+// const {getWorkerSource, getWorkerPath} = require('pdf-parse/worker');
+
+PDFParse.setWorker(getWorkerPath());
+// or PDFParse.setWorker(getWorkerSource());
+
+```
+
 
 ## Error Handling
 ```js

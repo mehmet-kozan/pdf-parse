@@ -8,6 +8,7 @@
 	"main": "common.test.cjs",
 	"private": "true",
 	"scripts": {
+		"build": "",
 		"test": "ava common.test.cjs --verbose --no-cache --serial --no-worker-threads"
 	},
 	"devDependencies": {
