@@ -1,4 +1,3 @@
-# .github/workflows/label-pr.yml
 name: Auto Label PR
 
 on:

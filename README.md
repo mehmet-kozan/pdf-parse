@@ -238,9 +238,9 @@ for (const pageData of result.pages) {
 }
 ```  
 
-## Worker Configuration (Node Backend / Serverless Platforms / Next.js & Vercel)
+## Worker Configuration (Node / Serverless Platforms)
 
-Edge Functions, Serverless Functions, AWS Lambda, Netlify Functions, or Cloudflare Workers may require additional worker configuration.
+ Next.js & Vercel, Edge Functions, Serverless Functions, AWS Lambda, Netlify Functions, or Cloudflare Workers may require additional worker configuration.
 
 This will most likely resolve all worker-related issues.
 ```js
