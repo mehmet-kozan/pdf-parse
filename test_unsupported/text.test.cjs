@@ -1,9 +1,9 @@
-const { PDFParse } = require('pdf-parse');
+const { CustomCanvasFactory } = require('pdf-parse/canvas');
 const { describe, it } = require('node:test');
 const assert = require('node:assert');
 const { join } = require('node:path');
-const { CustomCanvasFactory } = require('pdf-parse/canvas');
 const { readFileSync } = require('node:fs');
+const { PDFParse } = require('pdf-parse');
 
 const __pdf = join(__dirname, '../test/pdf_file/image-test.pdf');
 

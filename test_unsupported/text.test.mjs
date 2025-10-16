@@ -1,10 +1,10 @@
+import { CustomCanvasFactory } from 'pdf-parse/canvas';
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { describe, it } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { PDFParse } from 'pdf-parse';
-import { CustomCanvasFactory } from 'pdf-parse/canvas';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
