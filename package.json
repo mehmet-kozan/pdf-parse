@@ -93,7 +93,7 @@
 		"clean": "npm run clean:build && npm run clean:site && npm run clean:test && npm run clean:test:i",
 		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
 		"clean:site": "rimraf reports_site/test-report reports_site/coverage reports_site/live_demo/dist-browser",
-		"clean:test": "rimraf --glob test/**/*.txt test/**/imgs test/**/*_images",
+		"clean:test": "rimraf --glob test/**/*.txt test/**/imgs test/**/*_images temp",
 		"clean:test:i": "rimraf --glob test_integration/**/node_modules test_integration/**/package-lock.json test_integration/**/dist",
 		"test": "vitest run --reporter=default",
 		"test:i": "node scripts/integration.test.mjs",

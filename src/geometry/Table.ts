@@ -128,7 +128,10 @@ export class Table {
 			const currLine = lines[i];
 
 			if (Math.abs(prevLine.to.x - currLine.from.x) > Shape.tolerance) {
-				const gapLine = new Line(new Point(prevLine.to.x, prevLine.from.y), new Point(currLine.from.x, currLine.from.y));
+				const gapLine = new Line(
+					new Point(prevLine.to.x, prevLine.from.y),
+					new Point(currLine.from.x, currLine.from.y),
+				);
 				resultLine.addGap(gapLine);
 			}
 		}

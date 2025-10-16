@@ -1,10 +1,11 @@
 /** biome-ignore-all lint/suspicious/noConsole: <example code> */
 
-// Import ESM entry from package root (package.json -> exports)
-import { pdf } from '../dist/esm/index.js';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+// Import ESM entry from package root (package.json -> exports)
+import { pdf } from '../dist/esm/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

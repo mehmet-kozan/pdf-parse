@@ -21,7 +21,7 @@
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab",
-		"lineWidth": 180
+		"lineWidth": 120
 	},
 	"linter": {
 		"enabled": true,
@@ -53,7 +53,15 @@
 				"organizeImports": {
 					"level": "on",
 					"options": {
-						"groups": [":PATH:", ":URL:", ":NODE:"]
+						"groups": [
+							["**/pdf_data/**"],
+							["pdf-parse/worker", "../pdf_data/_helper"],
+							[":NODE:"],
+							[":PACKAGE:"],
+							":BLANK_LINE:",
+							[":URL:", ":PATH:"],
+							"**"
+						]
 					}
 				}
 			}

@@ -11,14 +11,11 @@ export default defineConfig({
 			name: 'PdfParse',
 			fileName: 'index',
 			formats: ['cjs'],
-			
 		},
-		rollupOptions:{
-
-		},
+		rollupOptions: {},
 		// https://github.com/rollup/plugins/tree/master/packages/commonjs#options
-		commonjsOptions:{
-			sourceMap:true
-		}
-	}
+		commonjsOptions: {
+			sourceMap: true,
+		},
+	},
 });

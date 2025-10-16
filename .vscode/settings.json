@@ -4,9 +4,8 @@
 	"editor.formatOnPaste": false,
 
 	"editor.codeActionsOnSave": {
-		"source.fixAll": "always",
-		"source.fixAll.biome": "always"
-		//"source.organizeImports": "always"
+		"source.fixAll.biome": "always",
+		"source.organizeImports.biome": "always"
 	},
 
 	"editor.defaultFormatter": "biomejs.biome",
@@ -55,6 +54,6 @@
 	"javascript.preferences.importModuleSpecifier": "relative",
 
 	"files.associations": {
-    	"api-extractor.json": "jsonc"
+		"api-extractor.json": "jsonc"
 	}
 }

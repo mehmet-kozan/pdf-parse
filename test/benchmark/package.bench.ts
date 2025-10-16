@@ -1,12 +1,13 @@
-import { PDFParse as BrowserPDFParse } from '../../dist/browser/pdf-parse.es.min.js';
-import { PDFParse as PDFParseCJS } from '../../dist/cjs/index.cjs';
-import { PDFParse } from '../../dist/esm/index';
-import { PDFParse as PDFParseNode } from '../../dist/node/index.cjs';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import PDF2JSON from 'pdf2json';
 import { bench, describe } from 'vitest';
+
+import { PDFParse as BrowserPDFParse } from '../../dist/browser/pdf-parse.es.min.js';
+import { PDFParse as PDFParseCJS } from '../../dist/cjs/index.cjs';
+import { PDFParse } from '../../dist/esm/index';
+import { PDFParse as PDFParseNode } from '../../dist/node/index.cjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

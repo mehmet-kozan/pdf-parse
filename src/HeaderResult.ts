@@ -28,7 +28,9 @@ export async function getHeader(url: string | URL, check: boolean = false): Prom
 				headersObj[k] = v;
 			});
 
-			const size = headResp.headers.get('content-length') ? parseInt(headResp.headers.get('content-length') as string, 10) : undefined;
+			const size = headResp.headers.get('content-length')
+				? parseInt(headResp.headers.get('content-length') as string, 10)
+				: undefined;
 
 			let isPdf: boolean | undefined;
 			if (check) {
@@ -50,6 +52,13 @@ export async function getHeader(url: string | URL, check: boolean = false): Prom
 
 		throw new Error('Fetch API not available');
 	} catch (error) {
-		return { ok: false, status: undefined, size: undefined, isPdf: false, headers: {}, error: new Error(String(error)) };
+		return {
+			ok: false,
+			status: undefined,
+			size: undefined,
+			isPdf: false,
+			headers: {},
+			error: new Error(String(error)),
+		};
 	}
 }

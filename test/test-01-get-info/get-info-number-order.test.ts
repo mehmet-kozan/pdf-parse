@@ -1,7 +1,8 @@
-import { PDFParse } from '../../src/index';
+import '../pdf_data/_helper';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
 
 const __filename = fileURLToPath(import.meta.url);

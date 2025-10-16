@@ -1,9 +1,9 @@
-/** biome-ignore-all lint/suspicious/noConsole: <test file> */
+/** biome-ignore-all lint/suspicious/noConsole: test file */
+import 'pdf-parse/worker';
 import { promises as fs } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import 'pdf-parse/worker';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

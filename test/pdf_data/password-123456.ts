@@ -15,7 +15,10 @@ class TestData extends PDFFile {
 		},
 		{
 			num: 2,
-			texts: ['Dropbox,\nBox, Google Drive, Google Chrome, Microsoft 365, and more.', 'Acrobat the best solution available'],
+			texts: [
+				'Dropbox,\nBox, Google Drive, Google Chrome, Microsoft 365, and more.',
+				'Acrobat the best solution available',
+			],
 		},
 	];
 }

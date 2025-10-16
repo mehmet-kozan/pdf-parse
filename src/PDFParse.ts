@@ -1,3 +1,9 @@
+import type { PageViewport, PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
+import type { DocumentInitParameters } from 'pdfjs-dist/types/src/display/api.js';
+import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_factory.js';
+import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
+
 import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
 import type { TableData } from './geometry/TableData.js';
 import { getHeader, type HeaderResult } from './HeaderResult.js';
@@ -8,11 +14,6 @@ import { type MinMax, PathGeometry } from './PathGeometry.js';
 import { ScreenshotResult } from './ScreenshotResult.js';
 import { type PageTableResult, TableResult } from './TableResult.js';
 import { type HyperlinkPosition, TextResult } from './TextResult.js';
-import type { PageViewport, PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
-import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
-import type { DocumentInitParameters } from 'pdfjs-dist/types/src/display/api.js';
-import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_factory.js';
-import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 
 /**
  * Loads PDF documents and exposes helpers for text, image, table, metadata, and screenshot extraction.
@@ -46,21 +47,23 @@ export class PDFParse {
 		}
 	}
 
+	// biome-ignore-start lint/suspicious/noExplicitAny: unsupported underline type
 	public static get isNodeJS(): boolean {
 		const isNodeJS =
 			typeof process === 'object' &&
 			`${process}` === '[object process]' &&
 			!process.versions.nw &&
-			// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
-			!(process.versions.electron && typeof (process as any).type !== 'undefined' && (process as any).type !== 'browser');
+			!(
+				process.versions.electron &&
+				typeof (process as any).type !== 'undefined' &&
+				(process as any).type !== 'browser'
+			);
 
 		return isNodeJS;
 	}
 
 	public static setWorker(workerSrc?: string): string {
-		// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
 		if (typeof (globalThis as any).pdfjs === 'undefined') {
-			// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
 			(globalThis as any).pdfjs = pdfjs;
 		}
 
@@ -72,12 +75,14 @@ export class PDFParse {
 		}
 
 		if (!PDFParse.isNodeJS) {
-			pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs';
+			pdfjs.GlobalWorkerOptions.workerSrc =
+				'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs';
 			return pdfjs.GlobalWorkerOptions.workerSrc;
 		}
 
 		return pdfjs.GlobalWorkerOptions.workerSrc;
 	}
+	// biome-ignore-end lint/suspicious/noExplicitAny: unsupported underline type
 
 	/**
 	 * Perform an HTTP HEAD request to retrieve the file size and verify existence;
@@ -378,7 +383,9 @@ export class PDFParse {
 					if (ops.fnArray[j] === pdfjs.OPS.paintInlineImageXObject || ops.fnArray[j] === pdfjs.OPS.paintImageXObject) {
 						const name = ops.argsArray[j][0];
 						const isCommon = page.commonObjs.has(name);
-						const imgPromise = isCommon ? this.resolveEmbeddedImage(page.commonObjs, name) : this.resolveEmbeddedImage(page.objs, name);
+						const imgPromise = isCommon
+							? this.resolveEmbeddedImage(page.commonObjs, name)
+							: this.resolveEmbeddedImage(page.objs, name);
 
 						const { width, height, kind, data } = await imgPromise;
 
@@ -435,7 +442,12 @@ export class PDFParse {
 						} else {
 							// Browser environment
 							if (params.imageBuffer) {
-								const imageData = canvasAndContext.context.getImageData(0, 0, canvasAndContext.canvas.width, canvasAndContext.canvas.height);
+								const imageData = canvasAndContext.context.getImageData(
+									0,
+									0,
+									canvasAndContext.canvas.width,
+									canvasAndContext.canvas.height,
+								);
 								buffer = new Uint8Array(imageData.data);
 							}
 
@@ -460,7 +472,19 @@ export class PDFParse {
 		return result;
 	}
 
-	private convertToRGBA({ src, dest, width, height, kind }: { src: Uint8Array; dest: Uint32Array; width: number; height: number; kind: number }) {
+	private convertToRGBA({
+		src,
+		dest,
+		width,
+		height,
+		kind,
+	}: {
+		src: Uint8Array;
+		dest: Uint32Array;
+		width: number;
+		height: number;
+		kind: number;
+	}) {
 		if (kind === pdfjs.ImageKind.RGB_24BPP) {
 			// RGB 24-bit per pixel
 			for (let i = 0, j = 0; i < src.length; i += 3, j++) {
@@ -508,7 +532,9 @@ export class PDFParse {
 					dest[i] = (255 << 24) | (gray << 16) | (gray << 8) | gray;
 				}
 			} else {
-				throw new Error(`convertToRGBA: Cannot infer image format. kind: ${kind}, bytesPerPixel: ${bytesPerPixel}, width: ${width}, height: ${height}, dataLength: ${src.length}`);
+				throw new Error(
+					`convertToRGBA: Cannot infer image format. kind: ${kind}, bytesPerPixel: ${bytesPerPixel}, width: ${width}, height: ${height}, dataLength: ${src.length}`,
+				);
 			}
 		} else {
 			throw new Error(
@@ -517,7 +543,10 @@ export class PDFParse {
 		}
 	}
 
-	private resolveEmbeddedImage(pdfObjects: PDFObjects, name: string): Promise<{ width: number; height: number; kind: number; data: Uint8Array }> {
+	private resolveEmbeddedImage(
+		pdfObjects: PDFObjects,
+		name: string,
+	): Promise<{ width: number; height: number; kind: number; data: Uint8Array }> {
 		return new Promise((resolve, reject) => {
 			// biome-ignore lint/suspicious/noExplicitAny: <underlying library does not contain valid typedefs>
 			pdfObjects.get(name, (imgData: any) => {
@@ -546,7 +575,11 @@ export class PDFParse {
 					}
 
 					if (!dataBuff) {
-						reject(new Error(`Image object ${name}: data field is empty or invalid. Available fields: ${Object.keys(imgData).join(', ')}`));
+						reject(
+							new Error(
+								`Image object ${name}: data field is empty or invalid. Available fields: ${Object.keys(imgData).join(', ')}`,
+							),
+						);
 						return;
 					}
 
@@ -642,7 +675,12 @@ export class PDFParse {
 				} else {
 					// Browser environment
 					if (params.imageBuffer) {
-						const imageData = canvasAndContext.context.getImageData(0, 0, canvasAndContext.canvas.width, canvasAndContext.canvas.height);
+						const imageData = canvasAndContext.context.getImageData(
+							0,
+							0,
+							canvasAndContext.canvas.width,
+							canvasAndContext.canvas.height,
+						);
 						data = new Uint8Array(imageData.data);
 					}
 
@@ -915,7 +953,10 @@ export class PDFParse {
 		for (const textItem of textContent.items) {
 			if (!('str' in textItem)) continue;
 
-			const tx = pdfjs.Util.transform(pdfjs.Util.transform(viewport.transform, textItem.transform), [1, 0, 0, -1, 0, 0]);
+			const tx = pdfjs.Util.transform(
+				pdfjs.Util.transform(viewport.transform, textItem.transform),
+				[1, 0, 0, -1, 0, 0],
+			);
 
 			//const resXY = viewport.convertToViewportPoint(tx[4], tx[5]);
 			// textItem.transform = pdfjs.Util.transform(viewport.transform, textItem.transform)
