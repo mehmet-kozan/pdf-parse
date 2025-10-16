@@ -1,6 +1,6 @@
+import 'pdf-parse/worker';
+import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
-
-import { PDFParse } from '../../src/PDFParse';
 
 // https://www.ipcc.ch/report/ar6/syr/?spm=a2ty_o01.29997173.0.0.bd03c921juVCxB
 // https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Full_Report.pdf?spm=a2ty_o01.29997173.0.0.bd03c921juVCxB&file=IPCC_AR6_WGI_Full_Report.pdf

@@ -1,6 +1,6 @@
+import 'pdf-parse/worker';
+import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
-
-import { PDFParse } from '../../src/index';
 
 const base64PdfData = atob(
 	'JVBERi0xLjcKCjEgMCBvYmogICUgZW50cnkgcG9pbnQKPDwKICAvVHlwZSAvQ2F0YWxvZwog' +
