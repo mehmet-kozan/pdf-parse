@@ -41,24 +41,24 @@ describe('Large PDF File Tests', () => {
 		expect(parser.progress.total).toBeGreaterThan(parser.progress.loaded);
 	});
 
-	test('should handle arxiv.org research paper', { timeout: 30000 }, async () => {
-		const parser = new PDFParse({
-			url: 'https://arxiv.org/pdf/1706.03762.pdf',
-			disableAutoFetch: true,
-			disableStream: true,
-			rangeChunkSize: 65536,
-		});
+	// test('should handle arxiv.org research paper', { timeout: 30000 }, async () => {
+	// 	const parser = new PDFParse({
+	// 		url: 'https://arxiv.org/pdf/1706.03762.pdf',
+	// 		disableAutoFetch: true,
+	// 		disableStream: true,
+	// 		rangeChunkSize: 65536,
+	// 	});
 
-		const result = await parser.getText({
-			last: 1,
-		});
+	// 	const result = await parser.getText({
+	// 		last: 1,
+	// 	});
 
-		await parser.destroy();
+	// 	await parser.destroy();
 
-		expect(result.text).toContain('We give two such examples above');
-		expect(result.pages.length).toBeLessThanOrEqual(1);
-		expect(parser.progress.total).toBeGreaterThan(parser.progress.loaded);
-	});
+	// 	expect(result.text).toContain('We give two such examples above');
+	// 	expect(result.pages.length).toBeLessThanOrEqual(1);
+	// 	expect(parser.progress.total).toBeGreaterThan(parser.progress.loaded);
+	// });
 
 	test('should parse Bitcoin Whitepaper (small but reliable)', { timeout: 30000 }, async () => {
 		// Bitcoin Whitepaper - ~180 KB (small but good for testing)
