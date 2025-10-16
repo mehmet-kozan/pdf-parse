@@ -1,6 +1,11 @@
 const { join } = require('node:path');
 const { DOMMatrix, ImageData, Path2D } = require('@napi-rs/canvas');
-//require('pdfjs-dist/legacy/build/pdf.worker.mjs');
+
+// Wrap the await in an async IIFE to fix the top-level await issue in CommonJS
+(async () => {
+	await import('pdfjs-dist/legacy/build/pdf.worker.mjs');
+	// Use workerModule here if needed
+})();
 
 const { getWorkerSource } = require('./worker_source.cjs');
 

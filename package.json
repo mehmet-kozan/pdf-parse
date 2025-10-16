@@ -32,6 +32,24 @@
 			"require": {
 				"types": "./bin/worker/worker.d.cts",
 				"default": "./bin/worker/worker.cjs"
+			},
+			"default": {
+				"types": "./bin/worker/worker.d.cts",
+				"default": "./bin/worker/worker.cjs"
+			}
+		},
+		"./canvas": {
+			"import": {
+				"types": "./bin/canvas/canvas.d.ts",
+				"default": "./bin/canvas/canvas.js"
+			},
+			"require": {
+				"types": "./bin/canvas/canvas.d.cts",
+				"default": "./bin/canvas/canvas.cjs"
+			},
+			"default": {
+				"types": "./bin/canvas/canvas.d.cts",
+				"default": "./bin/canvas/canvas.cjs"
 			}
 		},
 		"./webworker": {
