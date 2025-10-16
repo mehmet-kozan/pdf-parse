@@ -5,8 +5,8 @@
 
 	"editor.codeActionsOnSave": {
 		"source.fixAll": "always",
-		"source.fixAll.biome": "always",
-		"source.organizeImports": "never"
+		"source.fixAll.biome": "always"
+		//"source.organizeImports": "always"
 	},
 
 	"editor.defaultFormatter": "biomejs.biome",

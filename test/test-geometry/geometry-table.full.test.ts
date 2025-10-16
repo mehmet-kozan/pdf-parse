@@ -1,7 +1,7 @@
-﻿import { describe, expect, test } from 'vitest';
-import { Line } from '../../src/geometry/Line';
+﻿import { Line } from '../../src/geometry/Line';
 import { Point } from '../../src/geometry/Point';
 import { Table } from '../../src/geometry/Table';
+import { describe, expect, test } from 'vitest';
 
 describe('Table constructor tests', (): void => {
 	test('table constructor with horizontal line', (): void => {

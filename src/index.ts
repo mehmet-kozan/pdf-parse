@@ -1,8 +1,5 @@
 import { PDFParse } from './PDFParse.js';
 
-export { VerbosityLevel } from 'pdfjs-dist/legacy/build/pdf.mjs';
-
-export type { DocumentInitParameters, PDFDataRangeTransport, PDFWorker, TypedArray } from 'pdfjs-dist/types/src/display/api.js';
 export { getHeader, type HeaderResult } from './HeaderResult.js';
 export type { EmbeddedImage, ImageKindKey, ImageKindValue, ImageResult, PageImages } from './ImageResult.js';
 export type { DateNode, InfoResult, Metadata, OutlineNode, PageLinkResult } from './InfoResult.js';
@@ -10,6 +7,8 @@ export type { ParseParameters } from './ParseParameters.js';
 export type { Screenshot, ScreenshotResult } from './ScreenshotResult.js';
 export type { PageTableResult, TableResult } from './TableResult.js';
 export type { PageTextResult, TextResult } from './TextResult.js';
+export { VerbosityLevel } from 'pdfjs-dist/legacy/build/pdf.mjs';
+export type { DocumentInitParameters, PDFDataRangeTransport, PDFWorker, TypedArray } from 'pdfjs-dist/types/src/display/api.js';
 
 /**
  * The URL of the PDF.

@@ -1,8 +1,3 @@
-import type { PageViewport, PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
-import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
-import type { DocumentInitParameters } from 'pdfjs-dist/types/src/display/api.js';
-import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_factory.js';
-import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
 import type { TableData } from './geometry/TableData.js';
 import { getHeader, type HeaderResult } from './HeaderResult.js';
@@ -13,6 +8,11 @@ import { type MinMax, PathGeometry } from './PathGeometry.js';
 import { ScreenshotResult } from './ScreenshotResult.js';
 import { type PageTableResult, TableResult } from './TableResult.js';
 import { type HyperlinkPosition, TextResult } from './TextResult.js';
+import type { PageViewport, PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
+import type { DocumentInitParameters } from 'pdfjs-dist/types/src/display/api.js';
+import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_factory.js';
+import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 
 /**
  * Loads PDF documents and exposes helpers for text, image, table, metadata, and screenshot extraction.

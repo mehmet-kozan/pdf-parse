@@ -1,5 +1,5 @@
-import { describe, expect, test } from 'vitest';
 import { type DocumentInitParameters, PDFParse } from '../../src/index';
+import { describe, expect, test } from 'vitest';
 
 const URL_STR = 'https://bugzilla.mozilla.org/attachment.cgi?id=733434';
 

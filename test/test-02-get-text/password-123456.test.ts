@@ -1,8 +1,8 @@
+import { PDFParse } from '../../src/index';
+import { data } from '../pdf_data/password-123456';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
-import { PDFParse } from '../../src/index';
-import { data } from '../pdf_data/password-123456';
 
 const __pdf_txt = join(__dirname, data.textFile);
 

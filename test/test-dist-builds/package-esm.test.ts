@@ -1,9 +1,8 @@
+import { PDFParse } from '../../dist/esm';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, test } from 'vitest';
-
-import { PDFParse } from '../../dist/esm';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

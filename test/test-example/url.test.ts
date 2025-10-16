@@ -1,5 +1,5 @@
-import { describe, expect, test } from 'vitest';
 import { PDFParse } from '../../src/index';
+import { describe, expect, test } from 'vitest';
 
 describe('test-load url string', () => {
 	test('results be correct', { timeout: 10000 }, async () => {

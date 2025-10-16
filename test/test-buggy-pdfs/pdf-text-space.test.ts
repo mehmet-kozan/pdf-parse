@@ -1,9 +1,9 @@
+import { PDFParse } from '../../src/index';
+import { TestData } from './data.js';
 import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, test } from 'vitest';
-import { PDFParse } from '../../src/index';
-import { TestData } from './data.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

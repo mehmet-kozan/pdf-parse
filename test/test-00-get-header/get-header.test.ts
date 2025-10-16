@@ -1,5 +1,5 @@
-import { describe, expect, test } from 'vitest';
 import { getHeader, PDFParse } from '../../src/index';
+import { describe, expect, test } from 'vitest';
 
 describe('get-header test', () => {
 	test('check bitcoin url', async () => {
