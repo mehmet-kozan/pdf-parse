@@ -148,6 +148,11 @@
 		"url": false
 	},
 
+	"sideEffects": [
+		"./bin/worker/worker.js",
+		"./bin/worker/worker.cjs"
+	],
+
 	"jsdelivr": "./dist/browser/pdf-parse.es.min.js",
 	"unpkg": "./dist/browser/pdf-parse.es.min.js"
 }
