@@ -151,7 +151,7 @@
 		"provenance": true
 	},
 	"engines": {
-		"node": ">=20.16.0 || >=22.3.0"
+		"node": ">=20.16.0 <21 || >=22.3.0"
 	},
 	"browser": {
 		"canvas": false,
