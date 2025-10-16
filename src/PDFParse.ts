@@ -74,11 +74,11 @@ export class PDFParse {
 			return pdfjs.GlobalWorkerOptions.workerSrc;
 		}
 
-		if (!PDFParse.isNodeJS) {
-			pdfjs.GlobalWorkerOptions.workerSrc =
-				'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs';
-			return pdfjs.GlobalWorkerOptions.workerSrc;
-		}
+		// if (!PDFParse.isNodeJS) {
+		// 	pdfjs.GlobalWorkerOptions.workerSrc =
+		// 		'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs';
+		// 	return pdfjs.GlobalWorkerOptions.workerSrc;
+		// }
 
 		return pdfjs.GlobalWorkerOptions.workerSrc;
 	}
@@ -978,4 +978,4 @@ export class PDFParse {
 	}
 }
 
-PDFParse.setWorker();
+//PDFParse.setWorker();

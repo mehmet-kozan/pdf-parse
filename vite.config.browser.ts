@@ -7,7 +7,7 @@ export default defineConfig({
 		sourcemap: true,
 		minify: false,
 		lib: {
-			entry: 'src/index.ts',
+			entry: 'src/index.browser.ts',
 			name: 'PdfParse',
 			fileName: (format) => `pdf-parse.${format}.js`,
 			formats: ['es', 'umd'],

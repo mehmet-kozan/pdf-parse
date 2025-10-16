@@ -268,7 +268,8 @@ export default nextConfig;
 Custom builds, Electron/NW.js, or specific deployment environments—you may need to manually configure the worker source.
 
 ```js
-import {getWorkerPath, getWorkerSource} from "pdf-parse/worker"; // Import this before importing "pdf-parse"
+// Import this before importing "pdf-parse"
+import {getWorkerPath, getWorkerSource} from "pdf-parse/worker"; 
 import {PDFParse} from "pdf-parse";
 
 // CommonJS
@@ -306,7 +307,10 @@ try {
 ```html
 <!-- ES Module -->
 <script type="module">
-  import { PDFParse } from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.min.js';
+  import {PDFParse} from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/+esm';
+  const parser = new PDFParse({url:'https://mehmet-kozan.github.io/pdf-parse/pdf/bitcoin.pdf'});
+  const result = await parser.getText()
+  console.log(result.text)
 </script>
 ```
 
@@ -325,21 +329,7 @@ try {
 
 
 
-### Worker Configuration
 
-In browser environments, `pdf-parse` requires a separate worker file to process PDFs in a background thread. By default, `pdf-parse` automatically loads the worker from the jsDelivr CDN. However, you can configure a custom worker source if needed.
-
-**When to Configure Worker Source:**
-- Using a custom build of `pdf-parse`
-- Self-hosting worker files for security or offline requirements
-- Using a different CDN provider
-
-**Available Worker Files:**
-
-- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.mjs`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs`
-
-See [`example/basic.esm.worker.html`](example/basic.esm.worker.html) for a working example of browser usage with worker configuration.
 
 ## Similar Packages
 * [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
@@ -365,7 +355,8 @@ Requires additional setup — import and configure a compatible CanvasFactory or
 
 ESM 
 ```js
-import { CustomCanvasFactory } from 'pdf-parse/canvas'; // Import this before importing "pdf-parse"
+// Import this before importing "pdf-parse"
+import { CustomCanvasFactory } from 'pdf-parse/canvas'; 
 import { PDFParse } from 'pdf-parse';
 
 const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory });
@@ -374,7 +365,8 @@ const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory }
 
 CommonJS
 ```js
-const { CustomCanvasFactory } = require('pdf-parse/canvas'); // Import this before importing "pdf-parse"
+// Import this before importing "pdf-parse"
+const { CustomCanvasFactory } = require('pdf-parse/canvas'); 
 const { PDFParse } = require('pdf-parse');
 
 const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory });

@@ -19,5 +19,5 @@
 		"verbatimModuleSyntax": false
 	},
 	"include": ["src/**/*"],
-	"exclude": ["src/**/_*", "src/_**/*"]
+	"exclude": ["src/**/_*", "src/_**/*", "src/index.browser.ts"]
 }

@@ -7,9 +7,9 @@ export default defineConfig({
 		outDir: 'dist/browser',
 		emptyOutDir: false,
 		sourcemap: false,
-		minify: true,
+		minify: 'terser',
 		lib: {
-			entry: 'src/index.ts',
+			entry: 'src/index.browser.ts',
 			name: 'PdfParse',
 			fileName: (format) => `pdf-parse.${format}.min.js`,
 			formats: ['es', 'umd'],
