@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+
 import { Line } from '../../src/geometry/Line';
 import { LineStore } from '../../src/geometry/LineStore';
 import { Point } from '../../src/geometry/Point';
@@ -44,9 +45,17 @@ describe('basic table test', (): void => {
 });
 
 describe('rowspan table test', (): void => {
-	const hLines: Array<Line> = [new Line(new Point(0, 0), new Point(20, 0)), new Line(new Point(10, 5), new Point(20, 5)), new Line(new Point(0, 10), new Point(20, 10))];
+	const hLines: Array<Line> = [
+		new Line(new Point(0, 0), new Point(20, 0)),
+		new Line(new Point(10, 5), new Point(20, 5)),
+		new Line(new Point(0, 10), new Point(20, 10)),
+	];
 
-	const vLines: Array<Line> = [new Line(new Point(0, 0), new Point(0, 10)), new Line(new Point(10, 0), new Point(10, 10)), new Line(new Point(20, 0), new Point(20, 10))];
+	const vLines: Array<Line> = [
+		new Line(new Point(0, 0), new Point(0, 10)),
+		new Line(new Point(10, 0), new Point(10, 10)),
+		new Line(new Point(20, 0), new Point(20, 10)),
+	];
 
 	test('line store, rowspan table test', (): void => {
 		const store = new LineStore();
@@ -72,7 +81,11 @@ describe('rowspan table test', (): void => {
 });
 
 describe('rowspan & colspan table test', (): void => {
-	const hLines: Array<Line> = [new Line(new Point(0, 0), new Point(20, 0)), new Line(new Point(10, 5), new Point(20, 5)), new Line(new Point(0, 10), new Point(20, 10))];
+	const hLines: Array<Line> = [
+		new Line(new Point(0, 0), new Point(20, 0)),
+		new Line(new Point(10, 5), new Point(20, 5)),
+		new Line(new Point(0, 10), new Point(20, 10)),
+	];
 
 	const vLines: Array<Line> = [
 		new Line(new Point(0, 0), new Point(0, 10)),

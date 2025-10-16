@@ -61,9 +61,15 @@ export class Line extends Shape {
 
 	get normalized(): Line {
 		if (this.direction === LineDirection.Horizontal) {
-			return new Line(new Point(this.from.x - Shape.tolerance, this.from.y), new Point(this.to.x + Shape.tolerance, this.from.y));
+			return new Line(
+				new Point(this.from.x - Shape.tolerance, this.from.y),
+				new Point(this.to.x + Shape.tolerance, this.from.y),
+			);
 		} else if (this.direction === LineDirection.Vertical) {
-			return new Line(new Point(this.from.x, this.from.y - Shape.tolerance), new Point(this.from.x, this.to.y + Shape.tolerance));
+			return new Line(
+				new Point(this.from.x, this.from.y - Shape.tolerance),
+				new Point(this.from.x, this.to.y + Shape.tolerance),
+			);
 		}
 		return this;
 	}
@@ -112,7 +118,8 @@ export class Line extends Shape {
 		if (this.direction === LineDirection.Horizontal && line.direction === LineDirection.Vertical) {
 			const x = lineNormalized.from.x;
 			const y = thisNormalized.from.y;
-			const isOk = x > thisNormalized.from.x && x < thisNormalized.to.x && y > lineNormalized.from.y && y < lineNormalized.to.y;
+			const isOk =
+				x > thisNormalized.from.x && x < thisNormalized.to.x && y > lineNormalized.from.y && y < lineNormalized.to.y;
 
 			if (isOk) {
 				const intPoint = new Point(x, y);
@@ -123,7 +130,8 @@ export class Line extends Shape {
 		} else if (this.direction === LineDirection.Vertical && line.direction === LineDirection.Horizontal) {
 			const x = thisNormalized.from.x;
 			const y = lineNormalized.from.y;
-			const isOk = x > lineNormalized.from.x && x < lineNormalized.to.x && y > thisNormalized.from.y && y < thisNormalized.to.y;
+			const isOk =
+				x > lineNormalized.from.x && x < lineNormalized.to.x && y > thisNormalized.from.y && y < thisNormalized.to.y;
 
 			if (isOk) {
 				const intPoint = new Point(x, y);

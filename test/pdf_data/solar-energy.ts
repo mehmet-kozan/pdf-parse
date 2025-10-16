@@ -16,7 +16,10 @@ class TestData extends PDFFile {
 		},
 		{
 			num: 5,
-			texts: ['fabricated by multi layer precursor method for improvement of its photo', 'royal Institute of Technology, Stockholm'],
+			texts: [
+				'fabricated by multi layer precursor method for improvement of its photo',
+				'royal Institute of Technology, Stockholm',
+			],
 		},
 	];
 }

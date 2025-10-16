@@ -1,4 +1,5 @@
 ﻿import { describe, expect, test } from 'vitest';
+
 import { Point } from '../../src/geometry/Point';
 import { Rectangle } from '../../src/geometry/Rectangle';
 

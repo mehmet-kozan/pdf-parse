@@ -40,7 +40,7 @@ function runCommand(cmd, cwd) {
 				console.error(`Error running ${cmd} in ${cwd}:`, stderr);
 				reject(error);
 			} else {
-				console.log(`Output of ${cmd} in ${cwd}:`, stdout);
+				//console.log(`Output of ${cmd} in ${cwd}:`, stdout);
 				resolve(stdout);
 			}
 		});
@@ -64,10 +64,10 @@ async function main() {
 
 main()
 	.then(() => {
-		console.log('Integration Tests Succeeded!..\n');
+		console.log('\nIntegration Tests Succeeded!..\n');
 		process.exit(0);
 	})
 	.catch((err) => {
-		console.error('Integration Tests Failed!..\n', err);
+		console.error('\nIntegration Tests Failed!..\n', err);
 		process.exit(1);
 	});

@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, test } from 'vitest';
+
 import { PDFParse } from '../../src/index';
 
 const __filename = fileURLToPath(import.meta.url);

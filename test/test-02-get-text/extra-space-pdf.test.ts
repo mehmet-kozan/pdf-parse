@@ -1,8 +1,8 @@
+import { data } from '../pdf_data/extra-space';
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
-import { PDFParse } from '../../src/index';
-import { data } from '../pdf_data/extra-space';
 
 const __pdf_txt = join(__dirname, data.textFile);
 

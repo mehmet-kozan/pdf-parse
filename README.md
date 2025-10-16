@@ -30,8 +30,6 @@ pdf(buffer).then(result => console.log(result.text));
 
 // v2
 const { PDFParse } = require('pdf-parse');
-// or use the bundled build 
-// const { PDFParse } = require('pdf-parse/node');
 const parser = new PDFParse({ data: buffer });
 
 parser.getText().then((result)=>{
@@ -238,17 +236,18 @@ for (const pageData of result.pages) {
 }
 ```  
 
-## Worker Configuration (Node Backend / Serverless Platforms / Next.js & Vercel)
+## Worker Configuration (Node / Serverless Platforms)
 
-Edge Functions, Serverless Functions, AWS Lambda, Netlify Functions, or Cloudflare Workers may require additional worker configuration.
+ Next.js & Vercel, Edge Functions, Serverless Functions, AWS Lambda, Netlify Functions, or Cloudflare Workers may require additional worker configuration.
 
 This will most likely resolve all worker-related issues.
 ```js
-import {PDFParse} from "pdf-parse";
-import "pdf-parse/worker"; // use this for serverless platforms
-// or commonjs
-// require('pdf-parse/worker');
+import 'pdf-parse/worker'; // Import this before importing "pdf-parse"
+import {PDFParse} from 'pdf-parse';
 
+// or CommonJS
+require ('pdf-parse/worker'); // Import this before importing "pdf-parse"
+const {PDFParse} = require('pdf-parse');
 ```
 
 To ensure `pdf-parse` works correctly with Next.js (especially on serverless platforms like Vercel), add the following configuration to your `next.config.ts` file. This allows Next.js to include `pdf-parse` as an external package for server-side usage:

@@ -1,8 +1,8 @@
+import { data } from '../pdf_data/full-test';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
-import { PDFParse } from '../../src/index';
-import { data } from '../pdf_data/full-test';
 
 const folder = join(__dirname, data.imageFolder);
 await mkdir(folder, { recursive: true });

@@ -1,4 +1,4 @@
-import { PDFFile } from './_helper';
+import { PDFFile } from './_helper.ts';
 
 class TestData extends PDFFile {
 	total = 14;
@@ -30,7 +30,10 @@ class TestData extends PDFFile {
 		},
 		{
 			num: 8,
-			texts: ['JavaScript object values are mappings of string-valued property', 'Because traces are in SSA form and have no join points'],
+			texts: [
+				'JavaScript object values are mappings of string-valued property',
+				'Because traces are in SSA form and have no join points',
+			],
 		},
 		{
 			num: 13,
@@ -38,7 +41,10 @@ class TestData extends PDFFile {
 		},
 		{
 			num: 14,
-			texts: ['A. Rigo. Representation-Based Just-In-time Specialization', 'not be interpreted as necessarily representing the official views'],
+			texts: [
+				'A. Rigo. Representation-Based Just-In-time Specialization',
+				'not be interpreted as necessarily representing the official views',
+			],
 		},
 	];
 }

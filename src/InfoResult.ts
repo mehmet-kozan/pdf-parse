@@ -1,7 +1,14 @@
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
 import type { Metadata } from 'pdfjs-dist/types/src/display/metadata.js';
 
-const XMP_DATE_PROPERTIES = ['xmp:createdate', 'xmp:modifydate', 'xmp:metadatadate', 'xap:createdate', 'xap:modifydate', 'xap:metadatadate'];
+const XMP_DATE_PROPERTIES = [
+	'xmp:createdate',
+	'xmp:modifydate',
+	'xmp:metadatadate',
+	'xap:createdate',
+	'xap:modifydate',
+	'xap:metadatadate',
+];
 
 export type { Metadata } from 'pdfjs-dist/types/src/display/metadata.js';
 

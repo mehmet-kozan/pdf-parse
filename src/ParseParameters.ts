@@ -131,7 +131,8 @@ export interface ParseParameters {
 	disableNormalization?: boolean;
 }
 
-export type SafeParseParameters = Required<Pick<ParseParameters, 'lineThreshold' | 'cellThreshold' | 'scale'>> & ParseParameters;
+export type SafeParseParameters = Required<Pick<ParseParameters, 'lineThreshold' | 'cellThreshold' | 'scale'>> &
+	ParseParameters;
 
 export function setDefaultParseParameters(params: ParseParameters): SafeParseParameters {
 	params.lineThreshold = params?.lineThreshold ?? 4.6;

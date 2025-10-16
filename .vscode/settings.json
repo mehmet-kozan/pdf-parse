@@ -4,9 +4,9 @@
 	"editor.formatOnPaste": false,
 
 	"editor.codeActionsOnSave": {
-		"source.fixAll": "always",
 		"source.fixAll.biome": "always",
-		"source.organizeImports": "always"
+		"source.organizeImports.biome": "always",
+		"source.removeUnusedImports.biome": "never"
 	},
 
 	"editor.defaultFormatter": "biomejs.biome",
@@ -52,5 +52,9 @@
 	"liveServer.settings.port": 5501,
 	"editor.minimap.enabled": false,
 	"typescript.preferences.importModuleSpecifier": "relative",
-	"javascript.preferences.importModuleSpecifier": "relative"
+	"javascript.preferences.importModuleSpecifier": "relative",
+
+	"files.associations": {
+		"api-extractor.json": "jsonc"
+	}
 }

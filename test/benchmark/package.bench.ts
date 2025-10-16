@@ -3,6 +3,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import PDF2JSON from 'pdf2json';
 import { bench, describe } from 'vitest';
+
 import { PDFParse as BrowserPDFParse } from '../../dist/browser/pdf-parse.es.min.js';
 import { PDFParse as PDFParseCJS } from '../../dist/cjs/index.cjs';
 import { PDFParse } from '../../dist/esm/index';

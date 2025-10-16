@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"outDir": "dist",
+		"declaration": true,
+		"sourceMap": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"target": "esnext",
+		"module": "node16",
+		"moduleResolution": "node16",
+		"jsx": "react",
+		"noEmit": false,
+		"noUncheckedIndexedAccess": false,
+		"skipLibCheck": true,
+		"strict": true,
+		"rootDir": "src",
+
+		"verbatimModuleSyntax": true
+	},
+	"include": ["src"],
+	"exclude": ["dist"]
+}

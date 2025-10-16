@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/suspicious/noConsole: <test file> */
+/** biome-ignore-all lint/suspicious/noConsole: test file */
 import { promises as fs } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { basename, dirname, join } from 'node:path';

@@ -37,19 +37,6 @@
 			"args": ["run", "--test-timeout=9999999"],
 			"smartStep": true,
 			"console": "integratedTerminal"
-		},
-		{
-			"name": "debug ava test",
-			"type": "node",
-			"request": "launch",
-			"runtimeArgs": ["--inspect-brk"],
-			"runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
-			"args": ["test/test_ava/common.test.cjs", "--no-worker-threads", "--serial", "--verbose"],
-			"cwd": "${workspaceFolder}",
-			"console": "integratedTerminal",
-			"autoAttachChildProcesses": true,
-			"smartStep": true,
-			"skipFiles": ["<node_internals>/**"]
 		}
 	]
 }

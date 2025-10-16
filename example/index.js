@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/suspicious/noConsole: <example code> */
+
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

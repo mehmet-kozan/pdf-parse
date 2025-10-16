@@ -1,154 +1,131 @@
 # Contributing to pdf-parse
 
-## Reporting Issues
+## Reporting issues
 
 When reporting issues, please:
-- **Attach the PDF file** that causes the problem (if possible)
-- Provide a clear description of the issue
+- Attach the PDF file that causes the problem (if possible)
 - Include steps to reproduce the problem
-- Specify your environment (Node.js version, browser, OS, pnpm, yarn)
 - Include any error messages or stack traces
+
+Useful details to include:
+- Runtime environment: Are you running in a browser or in Node.js?
+- Module format: Are you using ESM or CommonJS?
+- Deployment: Next.js / Vercel, Netlify Functions, AWS Lambda, Cloudflare Workers, Edge Functions, etc.
+- If you're using TypeScript, please attach your `tsconfig.json` (if relevant).
+- Which bundler/build tool are you using (Vite, webpack, Rollup, etc.)?
+
+## Visual Studio Code
+
+Recommended VS Code setup for contributors:
+
+- Extensions (see `.vscode/extensions.json`):
+	- `vitest.explorer` — run and debug Vitest tests inside VS Code.
+	- `biomejs.biome` — Biome formatter and linter (project default formatter).
+	- `redhat.vscode-yaml` — YAML formatting for CI/workflow files.
+	- `ritwickdey.liveserver` — optional, useful for previewing browser examples.
+
+- Key editor settings (from `.vscode/settings.json`):
+	- Auto-format on save enabled (`editor.formatOnSave: true`) with Biome set as the default formatter for JS/TS/JSON.
+	- `editor.codeActionsOnSave` configured to fix imports and run Biome fixes automatically.
+	- YAML files use `redhat.vscode-yaml` as formatter with 2-space indentation.
+	- Prefer relative imports for TypeScript/JavaScript (`importModuleSpecifier: relative`).
+
+- Debug & test launch configurations (`.vscode/launch.json`):
+	- "debug current file": launch Node to debug the active file with `--inspect-brk`.
+	- "debug vitest current file": run Vitest for the current test file (good for stepping through tests).
+	- "debug vitest all file": run all Vitest tests via the workspace Vitest binary.
 
 ## Scripts
 
-The following scripts are available in `package.json` to help with development:
+The following scripts are defined in `package.json` to help with development and releases. Use `npm run <script>` to run them.
 
-### Build Scripts
-- **`npm run build`**: Cleans artifacts, compiles TypeScript (ESM + CJS), and builds Node, browser (normal + minified), and worker bundles
-- **`npm run build:ts`**: Compiles TypeScript outputs (ESM + CJS) and performs CJS filename adjustments
-   - Internally runs: `tsc` (ESM) + `tsc --project tsconfig.node.json` (CJS) + `node scripts/rename-cjs.js`
-- **`npm run build:node`**: Builds the Node bundle via Vite (`vite.config.node.ts`)
-- **`npm run build:browser`**: Builds the browser bundle and its minified variant via Vite (`vite.config.browser.ts` and `vite.config.browser.min.ts`)
-- **`npm run build:worker`**: Builds the web worker bundle via Vite (`vite.config.worker.ts`)
-- **`npm run clean`**: Removes build and test artifacts
-   - Internally runs: `clean:build`, `clean:site`, `clean:test`
-- **`npm run clean:build`**: Removes `dist/` and worker temp sources (`bin/worker/worker_source.js`, `.cjs`)
-- **`npm run clean:site`**: Removes site artifacts (`reports_site/test-report`, `reports_site/coverage`, `reports_site/live_demo/dist-browser`)
-- **`npm run clean:test`**: Removes test outputs (txt files and generated images)
+### Build scripts
+- `npm run build`: Run all build tasks: `clean`, `build:ts`, `build:node`, `build:browser`, and `build:worker`.
+- `npm run build:ts`: Compile TypeScript outputs (ESM + CJS) and adjust CJS filenames.
+- `npm run build:node`: Build the Node bundle via Vite (`vite.config.node.ts`).
+- `npm run build:browser`: Build the browser bundles (`vite.config.browser.ts` and `vite.config.browser.min.ts`).
+- `npm run build:worker`: Build the worker helper, Vite (`vite.config.worker.ts`).
 
-### Testing Scripts
-- **`npm test`**: Runs all tests once (no watch mode) using Vitest
-- **`npm run test:ui`**: Opens the Vitest UI with coverage for interactive test viewing
-- **`npm run test:watch`**: Runs all tests in watch mode
-- **`npm run coverage`**: Runs tests and generates code coverage report
-- **`npm run bench`**: Installs benchmark dependency and runs Vitest benchmarks (calls `bench:install` then `vitest bench --run`)
+### Clean scripts
+- `npm run clean`: Run all clean tasks: `clean:build`, `clean:site`, `clean:test`, and `clean:test:i`.
 
-### Code Quality Scripts
-- **`npm run lint`**: Lints the codebase using Biome
-- **`npm run format`**: Formats the code using Biome
-- **`npm run format:all`**: Formats and fixes all code quality issues
-- **`npm run format:check`**: Checks formatting without making changes
+### Test & bench scripts
+- `npm test`: Run all tests once (no watch) using Vitest (`vitest run --reporter=default`).
+- `npm run test:i`: Run integration tests via `node scripts/integration.test.mjs`.
+- `npm run test:ui`: Start the Vitest UI with coverage enabled.
+- `npm run test:watch`: Run Vitest in watch mode.
+- `npm run coverage`: Run Vitest and collect coverage.
+- `npm run bench`: Install the benchmark helper and run Vitest benchmarks (`bench:install` then `vitest bench --run`).
+- `npm run bench:install`: Install the `pdf2json` package locally without saving it to `package.json` (used for some benchmarks).
 
-### Site & Other Scripts
-- **`npm run site:build`**: Builds the project and generates coverage and benchmarks for the site
-- **`npm run site`**: Builds the site and previews it locally with Vite
-- **`npm run prepare`**: Automatically runs build before publishing (pre-publish hook)
-- **`npm run pack`**: Performs a dry-run of `npm pack` to verify package contents
+### Site & other
+- `npm run site`: Run `site:build` then preview the `reports_site` output with Vite.
+- `npm run site:build`: Build the project and generate coverage and benchmarks for the site.
+- `npm run prepare`: Run before publishing; currently runs the build.
+- `npm run pack`: Perform a dry-run of `npm pack` to verify package contents.
 
-## Development Dependencies
+### Code quality
+- `npm run lint`: Run Biome linter over the repository.
+- `npm run format`: Format files in-place with Biome.
+- `npm run format:all`: Run Biome in write/check mode to fix code-style issues.
+- `npm run format:check`: Check formatting without modifying files.
 
-This project uses several key dependencies for development. Understanding these tools will help you contribute more effectively:
+## Dependencies
 
-### Core Dependencies
-- **`pdfjs-dist`** (^5.4.296): Mozilla's PDF.js library - the core engine for parsing PDF files
+This project uses a small set of runtime and development dependencies. Key items are listed below.
 
-### Build Tools
-- **`typescript`** (^5.9.3): TypeScript compiler for type-safe JavaScript development
-- **`vite`** (^7.1.5): Fast build tool and development server for building browser and Node.js versions
+### Runtime
+- `pdfjs-dist` (^5.4.296) — Mozilla's PDF.js distribution; the core engine for parsing PDF files.
 
-### Testing Framework
-- **`vitest`** (^3.2.4): Fast unit test framework with native ESM support
-- **`@vitest/ui`** (^3.2.4): Interactive UI for viewing and debugging tests
-- **`@vitest/coverage-v8`** (^3.2.4): Code coverage reporting using V8's native coverage
+### Optional runtime
+- `@napi-rs/canvas` (^0.1.80) — optional native canvas implementation used when available; listed under `optionalDependencies`.
 
-### Code Quality
-- **`@biomejs/biome`** (^2.2.6): Fast formatter and linter for JavaScript/TypeScript - replaces ESLint and Prettier with better performance
+### Development
+- `vite` (^7.1.5) — build tool used for bundling Node/browser/worker targets.
+- `vitest` (^3.2.4) — test runner.
+- `typescript` (^5.9.3) — TypeScript compiler.
+- `@biomejs/biome` (^2.2.6) — formatter & linter.
+- `@types/node` (^24.7.2) — Node.js type definitions.
+- `@vitest/coverage-v8` (^3.2.4) — V8-based coverage provider for Vitest.
+- `@vitest/ui` (^3.2.4) — optional Vitest UI for interactive test runs.
+- `rimraf` (^6.0.1) — cross-platform rm -rf replacement used in scripts.
 
-### Utilities
-- **`rimraf`** (^6.0.1): Cross-platform tool for removing files and directories
-- **`@types/node`** (^24.7.2): TypeScript type definitions for Node.js APIs
+### Key configuration files
+- `tsconfig.json` — main TypeScript configuration.
+- `tsconfig.node.json` — secondary TypeScript config used to emit CJS artifacts.
+- `vite.config.*.ts` — Vite build configurations for different targets (Node, browser, worker, minified browser).
+- `vitest.config.ts` — Vitest configuration.
+- `biome.json` — Biome formatter/linter configuration.
 
-### Key Configuration Files
-- **`tsconfig.json`**: TypeScript compiler configuration
-- **`tsconfig.node.json`**: Secondary TypeScript config used to emit CJS artifacts
-- **`vite.config.*.ts`**: Vite build configurations for different targets (ESM, CJS, browser, minified)
-- **`vitest.config.ts`**: Vitest test runner configuration
-- **`biome.json`**: Biome code quality configuration
+## Development guidelines
 
-## Development Guidelines
+- Write clear, readable code with appropriate comments.
+- Add tests for new features or bug fixes.
+- Update documentation when adding features or changing behavior.
+- Follow the existing code style (enforced by Biome).
+- Ensure tests pass locally before opening a PR.
+- Keep pull requests focused on a single logical change.
 
-- Write clear, readable code with appropriate comments
-- Add tests for new features or bug fixes
-- Update documentation when adding new features
-- Follow the existing code style (enforced by Biome)
-- Ensure all tests pass before submitting a pull request
-- Keep pull requests focused on a single feature or fix
+## Testing with PDF files
 
-## Testing with PDF Files
+- Add the binary PDF files under `test/pdf_file/`. File names should match the helper/test metadata entries.
+- For test metadata  add a matching `.ts` file in `test/pdf_data/`. 
+- Each data file typically exports a `PDFFile` subclass instance (see `_helper.ts`).
 
-When working with PDF-related issues:
-- Add test PDFs to the appropriate `test/test-XX/` directory
-- Create corresponding test files (e.g., `pdf-text.test.ts`, `pdf-image.test.ts`)
-- Include expected output data in `data.ts` files
-- Test both text extraction, image extraction, and table detection features
+Running tests:
+- Unit tests: `npm test` (runs Vitest once).
+- Watch mode / interactive UI: `npm run test:watch` or `npm run test:ui`.
+- Integration tests: `npm run test:i` (runs `scripts/integration.test.mjs`).
 
-## How to Contribute
+When adding a test:
+- Add the `.pdf` to `test/pdf_file/` and commit the file (or a small sanitized sample when PDFs are large or private).
+- Add a `.ts` metadata file to `test/pdf_data/` that extends `PDFFile` and exports the `data` instance.
+- Add a test in the appropriate `test/test-XX/` folder that imports the `data` instance and asserts expected results.
 
-Follow these steps to contribute to the project:
+## How to contribute
 
-1. **Fork the Repository**  
-   Fork the `pdf-parse` repository to your own GitHub account by clicking the "Fork" button at the top of the [repository page](https://github.com/mehmet-kozan/pdf-parse).
+Short summary: fork the repo, create a branch, make changes with tests, run `npm run build` and `npm test`, then push and open a PR. 
 
-2. **Clone the Forked Repository**  
-   Clone your forked repository to your local machine:
-   ```bash
-   git clone https://github.com/YOUR-USERNAME/pdf-parse.git
-   cd pdf-parse
-   ```
+## Questions
 
-3. **Install Dependencies**  
-   Install the required dependencies:
-   ```bash
-   npm install
-   ```
-
-4. **Create a Branch**  
-   Create a new branch for your feature or bug fix:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-
-5. **Make Your Changes**  
-   Make your changes to the codebase. Ensure your code follows the project's coding standards.
-
-6. **Test Your Changes**  
-   Run the tests to ensure everything works correctly:
-   ```bash
-   npm test
-   ```
-
-7. **Build the Project**  
-   Build the project to ensure there are no build errors:
-   ```bash
-   npm run build
-   ```
-
-8. **Commit Your Changes**  
-   Commit your changes with a clear and descriptive commit message:
-   ```bash
-   git add .
-   git commit -m "Add feature: your feature description"
-   ```
-
-9. **Push to Your Fork**  
-   Push your changes to your forked repository:
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-
-10. **Open a Pull Request**  
-    Open a pull request from your fork to the main repository. Provide a clear description of your changes and reference any related issues.
-
-## Questions?
-
-If you have questions about contributing, feel free to open an issue or discussion on the [GitHub repository](https://github.com/mehmet-kozan/pdf-parse).
+If you have questions about contributing, open an issue.

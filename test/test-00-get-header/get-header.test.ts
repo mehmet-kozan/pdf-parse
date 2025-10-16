@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+
 import { getHeader, PDFParse } from '../../src/index';
 
 describe('get-header test', () => {

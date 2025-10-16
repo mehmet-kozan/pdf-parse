@@ -11,11 +11,13 @@
 		"build": "",
 		"test": "node ./index.js"
 	},
+	"dependencies": {
+		"pdf-parse": "latest"
+	},
 	"devDependencies": {
 		"async-listen": "latest",
 		"browserless": "latest",
 		"lodash": "^4.17.21",
-		"pdf-parse": "latest",
 		"puppeteer": "24.23.0"
 	}
 }

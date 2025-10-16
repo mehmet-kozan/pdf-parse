@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	build: {
-		outDir: 'dist/node',
+		outDir: 'dist/cjs',
 		emptyOutDir: false,
 		sourcemap: true,
 		minify: false,
@@ -11,6 +11,11 @@ export default defineConfig({
 			name: 'PdfParse',
 			fileName: 'index',
 			formats: ['cjs'],
+		},
+		rollupOptions: {},
+		// https://github.com/rollup/plugins/tree/master/packages/commonjs#options
+		commonjsOptions: {
+			sourceMap: true,
 		},
 	},
 });

@@ -6,7 +6,7 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"ignoreUnknown": true,
+		"ignoreUnknown": false,
 		"includes": [
 			"**",
 			"!dist",
@@ -21,7 +21,7 @@
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab",
-		"lineWidth": 180
+		"lineWidth": 120
 	},
 	"linter": {
 		"enabled": true,
@@ -50,7 +50,19 @@
 		"enabled": true,
 		"actions": {
 			"source": {
-				"organizeImports": "on"
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							["**/pdf_data/**", "pdf-parse/canvas", "pdf-parse/worker"],
+							[":NODE:"],
+							[":PACKAGE:"],
+							":BLANK_LINE:",
+							[":URL:", ":PATH:"],
+							"**"
+						]
+					}
+				}
 			}
 		}
 	}

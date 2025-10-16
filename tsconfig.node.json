@@ -1,9 +1,10 @@
 {
 	"compilerOptions": {
-		"outDir": "dist/cjs",
-		"declaration": false,
-		"declarationMap": false,
-		"sourceMap": true,
+		"outDir": "dist/@types",
+		"declaration": true,
+		"declarationMap": true,
+		"emitDeclarationOnly": true,
+		"sourceMap": false,
 		"esModuleInterop": true,
 		"isolatedModules": true,
 		"target": "ES2022",
