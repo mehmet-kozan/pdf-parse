@@ -14,7 +14,6 @@
 		"pdf-parse": "latest"
 	},
 	"devDependencies": {
-		"@types/node-fetch": "^2.6.13",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.9.3"
 	}

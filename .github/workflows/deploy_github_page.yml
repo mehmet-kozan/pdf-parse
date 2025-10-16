@@ -54,6 +54,16 @@ jobs:
           directory: ./reports_site/coverage
           fail_ci_if_error: false
 
+      - name: Copy test pdf files into site
+        run: |
+          if [ -d test/pdf_file ]; then
+            mkdir -p reports_site/pdf
+            cp -r test/pdf_file/* reports_site/pdf/ || true
+            echo "Copied test/pdf_file -> reports_site/pdf/"
+          else
+            echo "No test/pdf_file directory found; skipping copy"
+          fi
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
