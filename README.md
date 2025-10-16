@@ -268,8 +268,9 @@ export default nextConfig;
 Custom builds, Electron/NW.js, or specific deployment environments—you may need to manually configure the worker source.
 
 ```js
+import {getWorkerPath, getWorkerSource} from "pdf-parse/worker"; // Import this before importing "pdf-parse"
 import {PDFParse} from "pdf-parse";
-import {getWorkerPath, getWorkerSource} from "pdf-parse/worker";
+
 // CommonJS
 // const {getWorkerSource, getWorkerPath} = require('pdf-parse/worker');
 
@@ -351,14 +352,39 @@ See [`example/basic.esm.worker.html`](example/basic.esm.worker.html) for a worki
 
 > **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue, see [`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/bench.html).
 
-## Supported Node.js Versions
+## Supported Node.js Versions(20.x, 22.x, 23.x, 24.x)
 
 - Supported: Node.js 20 (>= 20.16.0), Node.js 22 (>= 22.3.0), Node.js 23 (>= 23.0.0), and Node.js 24 (>= 24.0.0).
 - Not supported: Node.js 21.x, and Node.js 19.x and earlier.
 
 Integration tests run on Node.js 20–24, see [`test_integration.yml`](./.github/workflows/test_integration.yml).
 
-#### Unsupported Node.js Versions (18.x, 21.x)
+### Unsupported Node.js Versions (18.x, 19.x, 21.x)
+
+Requires additional setup — import and configure a compatible CanvasFactory or worker implementation before initializing pdf-parse; see the examples below.
+
+ESM 
+```js
+import { CustomCanvasFactory } from 'pdf-parse/canvas'; // Import this before importing "pdf-parse"
+import { PDFParse } from 'pdf-parse';
+
+const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory });
+// then use parser
+```
+
+CommonJS
+```js
+const { CustomCanvasFactory } = require('pdf-parse/canvas'); // Import this before importing "pdf-parse"
+const { PDFParse } = require('pdf-parse');
+
+const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory });
+// then use parser
+```
+
+Unsupported tests run on Node.js 18, 19, 21, see [`test_unsupported.yml`](./.github/workflows/test_unsupported.yml).  
+Check: [`test_unsupported`](./test_unsupported)
+
+
 
 ## Contributing
 
