@@ -1,6 +1,4 @@
-import 'pdf-parse/worker';
 import { PDFParse } from 'pdf-parse';
-
 import { describe, expect, test } from 'vitest';
 import { data } from '../pdf_data/full-test';
 
