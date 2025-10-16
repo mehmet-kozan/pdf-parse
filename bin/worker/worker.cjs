@@ -1,8 +1,12 @@
 const { join } = require('node:path');
-require('@napi-rs/canvas');
+const { DOMMatrix, ImageData, Path2D } = require('@napi-rs/canvas');
 //require('pdfjs-dist/legacy/build/pdf.worker.mjs');
 
 const { getWorkerSource } = require('./worker_source.cjs');
+
+globalThis.DOMMatrix = DOMMatrix;
+globalThis.Path2D = Path2D;
+globalThis.ImageData = ImageData;
 
 /**
  * Gets the absolute path to the PDF worker file.
