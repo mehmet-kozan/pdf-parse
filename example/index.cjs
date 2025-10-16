@@ -4,15 +4,17 @@ const path = require('node:path');
 
 // Resolve project root by going up two levels
 // package.json "exports" will point to dist/cjs/index.js
-const pdfParse = require('../dist/esm/index.js');
+const { PDFParse } = require('pdf-parse');
 
 (async () => {
 	try {
 		const filePath = path.join(__dirname, '../test/pdf_file/full-test.pdf');
-		const dataBuffer = fs.readFileSync(filePath);
+		const buffer = fs.readFileSync(filePath);
+
+		const parser = new PDFParse({ data: buffer });
 
 		// Assume pdfParse returns a Promise (consistent with tests)
-		const result = await pdfParse.pdf(dataBuffer);
+		const result = await parser.getText();
 
 		console.log('--- PDF text length ---');
 		console.log(result?.text?.length ?? 0);

@@ -1,9 +1,8 @@
 import { data } from '../pdf_data/image-test';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
-
-import { PDFParse } from '../../src/index';
 
 const __pdf_imgs = join(__dirname, data.imageFolder);
 await mkdir(__pdf_imgs, { recursive: true });

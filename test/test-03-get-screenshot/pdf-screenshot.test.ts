@@ -2,9 +2,8 @@ import { data } from '../pdf_data/full-test';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { PDFParse, type ScreenshotResult } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
-
-import { PDFParse, type ScreenshotResult } from '../../src/index';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
