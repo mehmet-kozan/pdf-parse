@@ -328,9 +328,6 @@ try {
 - `https://cdn.jsdelivr.net/npm/pdf-parse@2.2.7/dist/browser/pdf-parse.es.umd.js`
 
 
-
-
-
 ## Similar Packages
 * [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
 * [pdfdataextract](https://www.npmjs.com/package/pdfdataextract) — `pdf-parse` based

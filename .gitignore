@@ -158,3 +158,4 @@ dist/
 temp/
 reports_site/pdf/
 
+test/reports_site/benchmark/bench.json

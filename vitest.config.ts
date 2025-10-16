@@ -5,7 +5,7 @@ export default defineConfig({
 		environment: 'node',
 		slowTestThreshold: 1000,
 		globals: true,
-		root: 'test',
+		include: ['test/**/*.test.ts'],
 		exclude: ['test/**/_*', 'test/_**/*'],
 		reporters: ['default', 'html'],
 		outputFile: {
@@ -15,7 +15,7 @@ export default defineConfig({
 		coverage: {
 			enabled: false,
 			provider: 'v8',
-			include: ['src/**/*.ts'],
+			include: ['src/**/*.ts', 'dist/esm/*.js'],
 			exclude: ['src/**/_*', 'src/_**/*'],
 			reporter: [['html', { subdir: 'html-report' }], 'lcov', 'json', 'text-summary'],
 			reportsDirectory: 'reports_site/coverage',
