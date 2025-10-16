@@ -1,20 +1,26 @@
-import { getWorkerPath } from 'pdf-parse/worker';
 import assert from 'node:assert';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { describe, it } from 'node:test';
+import { fileURLToPath } from 'node:url';
 import { PDFParse } from 'pdf-parse';
+import { CustomCanvasFactory } from 'pdf-parse/canvas';
 
-console.log(getWorkerPath());
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const __pdf = join(__dirname, '../test/pdf_file/image-test.pdf');
 
-function add(a, b) {
-	return a + b;
-}
+describe('es module test', () => {
+	it('results must be valid', async () => {
+		const buffer = readFileSync(__pdf);
+		const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory });
+		const textResult = await parser.getText();
+		const screenshotResult = await parser.getScreenshot();
+		const imageResult = await parser.getImage();
+		await parser.destroy();
 
-describe('Toplama fonksiyonu', () => {
-	it('1 + 2 = 3 olmalı', () => {
-		assert.strictEqual(add(1, 2), 3);
-	});
-
-	it('negatif sayılarla çalışmalı', () => {
-		assert.strictEqual(add(-1, 1), 0);
+		assert.ok(textResult.text.includes('Text-01'), 'text');
+		assert.ok(screenshotResult.pages[0].dataUrl.length > 100, 'screenshot');
+		assert.ok(imageResult.pages[0].images[0].dataUrl.length > 100, 'image');
 	});
 });

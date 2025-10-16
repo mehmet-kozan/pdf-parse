@@ -1,4 +1,4 @@
-name: Integration Tests
+name: Unsupported Tests
 
 on: [push, pull_request]
 
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20, 22, 23, 24]
+        node-version: [20, 21]
 
     steps:
       - name: Checkout
@@ -32,8 +32,5 @@ jobs:
       - name: Install
         run: npm i
 
-      - name: Unit tests
-        run: npm test
-
-      - name: Integration tests
-        run: npm run test:i
+      - name: Unsupported tests
+        run: npm run test:u
