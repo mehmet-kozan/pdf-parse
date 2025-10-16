@@ -162,7 +162,9 @@
 	},
 	"sideEffects": [
 		"./bin/worker/worker.js",
-		"./bin/worker/worker.cjs"
+		"./bin/worker/worker.cjs",
+		"./bin/canvas/canvas.js",
+		"./bin/canvas/canvas.cjs"
 	],
 	"jsdelivr": "./dist/browser/pdf-parse.es.min.js",
 	"unpkg": "./dist/browser/pdf-parse.es.min.js"

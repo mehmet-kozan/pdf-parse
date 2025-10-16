@@ -1,10 +1,8 @@
-import '../pdf_data/_helper';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { type PageLinkResult, PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
-
-import { type PageLinkResult, PDFParse } from '../../src/index';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dir = dirname(__filename);

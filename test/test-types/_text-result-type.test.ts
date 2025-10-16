@@ -1,4 +1,3 @@
-import 'pdf-parse/worker';
 import { type InfoResult, type Metadata, PDFParse, type TextResult } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
 

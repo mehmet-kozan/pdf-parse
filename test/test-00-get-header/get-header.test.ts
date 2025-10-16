@@ -1,4 +1,3 @@
-import '../pdf_data/_helper';
 import { describe, expect, test } from 'vitest';
 
 import { getHeader, PDFParse } from '../../src/index';

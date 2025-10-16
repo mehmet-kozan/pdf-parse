@@ -1,4 +1,3 @@
-import 'pdf-parse/worker';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';

@@ -1,5 +1,4 @@
 /** biome-ignore-all lint/suspicious/noConsole: test file */
-import 'pdf-parse/worker';
 import { promises as fs } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { basename, dirname, join } from 'node:path';
