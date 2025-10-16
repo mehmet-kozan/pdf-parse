@@ -3,7 +3,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, test } from 'vitest';
 
-const { PDFParse } = require('../../dist/cjs/index.cjs');
+require('pdf-parse/worker');
+const { PDFParse } = require('pdf-parse/node');
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
