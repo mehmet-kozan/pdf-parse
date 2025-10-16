@@ -358,6 +358,8 @@ See [`example/basic.esm.worker.html`](example/basic.esm.worker.html) for a worki
 
 Integration tests run on Node.js 20–24, see [`test_integration.yml`](./.github/workflows/test_integration.yml).
 
+#### Unsupported Node.js Versions (18.x, 21.x)
+
 ## Contributing
 
  When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently. For detailed guidelines on how to contribute, report bugs, or submit pull requests, see: [`contributing to pdf-parse`](https://github.com/mehmet-kozan/pdf-parse?tab=contributing-ov-file#contributing-to-pdf-parse)
