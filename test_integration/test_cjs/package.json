@@ -11,6 +11,6 @@
 		"test": "node index.js"
 	},
 	"dependencies": {
-		"pdf-parse-test": "^2.4.0"
+		"pdf-parse": "latest"
 	}
 }

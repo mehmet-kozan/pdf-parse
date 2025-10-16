@@ -22,5 +22,5 @@ globalThis.ImageData = ImageData;
  * @returns {string} The absolute path to the PDF worker module (pdf.worker.mjs)
  */
 export function getWorkerPath() {
-	return join(__dirname, '../../dist/node/pdf.worker.mjs');
+	return join(__dirname, '../../dist/esm/pdf.worker.mjs');
 }

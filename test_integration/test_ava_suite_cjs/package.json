@@ -12,7 +12,7 @@
 		"test": "ava common.test.cjs --verbose --no-cache --serial --no-worker-threads"
 	},
 	"dependencies": {
-		"pdf-parse-test": "latest"
+		"pdf-parse": "latest"
 	},
 	"devDependencies": {
 		"ava": "latest"

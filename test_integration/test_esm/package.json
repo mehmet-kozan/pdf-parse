@@ -12,6 +12,6 @@
 		"test": "node ./index.mjs"
 	},
 	"dependencies": {
-		"pdf-parse-test": "latest"
+		"pdf-parse": "latest"
 	}
 }

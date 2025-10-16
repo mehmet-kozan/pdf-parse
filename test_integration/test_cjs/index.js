@@ -1,4 +1,4 @@
-const { PDFParse } = require('pdf-parse-test');
+const { PDFParse } = require('pdf-parse');
 
 async function test() {
 	const parser = new PDFParse({ url: 'https://bitcoin.org/bitcoin.pdf' });

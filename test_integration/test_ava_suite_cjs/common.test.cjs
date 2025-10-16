@@ -1,5 +1,5 @@
 const test = require('ava');
-const { PDFParse } = require('pdf-parse-test');
+const { PDFParse } = require('pdf-parse');
 const fs = require('node:fs');
 const path = require('node:path');
 

@@ -1,4 +1,4 @@
-import { PDFParse } from 'pdf-parse-test';
+import { PDFParse } from 'pdf-parse';
 
 async function test() {
 	const parser = new PDFParse({ url: 'https://bitcoin.org/bitcoin.pdf' });

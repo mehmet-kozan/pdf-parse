@@ -2,7 +2,7 @@
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { PDFParse } from 'pdf-parse-test';
+import { PDFParse } from 'pdf-parse';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
