@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 import { getHeader, PDFParse } from '../../src/index';
 
 describe('get-header test', () => {
-	test('check bitcoin url', async () => {
+	test('check bitcoin url', { timeout: 30000 }, async () => {
 		const parser = new PDFParse({ url: 'https://bitcoin.org/bitcoin.pdf' });
 
 		const result = await parser.getHeader();
@@ -13,7 +13,7 @@ describe('get-header test', () => {
 		expect(result.isPdf).toBe(undefined);
 	});
 
-	test('check bitcoin url, with true param', async () => {
+	test('check bitcoin url, with true param', { timeout: 30000 }, async () => {
 		const parser = new PDFParse({ url: 'https://bitcoin.org/bitcoin.pdf' });
 
 		const result = await parser.getHeader(true);
@@ -23,7 +23,7 @@ describe('get-header test', () => {
 		expect(result.isPdf).toBe(true);
 	});
 
-	test('check bitcoin url, getHeader helper', async () => {
+	test('check bitcoin url, getHeader helper', { timeout: 30000 }, async () => {
 		const result = await getHeader('https://bitcoin.org/bitcoin.pdf');
 		expect(result.ok).toBeTruthy();
 		expect(result.status).toBe(200);
@@ -31,7 +31,7 @@ describe('get-header test', () => {
 		expect(result.isPdf).toBe(undefined);
 	});
 
-	test('check bitcoin url, with true param, getHeader helper', async () => {
+	test('check bitcoin url, with true param, getHeader helper', { timeout: 30000 }, async () => {
 		const result = await getHeader('https://bitcoin.org/bitcoin.pdf', true);
 		expect(result.ok).toBeTruthy();
 		expect(result.status).toBe(200);
