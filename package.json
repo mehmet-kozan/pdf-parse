@@ -1,21 +1,28 @@
 {
 	"name": "pdf-parse",
-	"version": "2.3.12",
+	"version": "2.4.0",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
-	"types": "dist/esm/index.d.ts",
-
+	"types": "dist/cjs/index.d.cts",
 	"exports": {
 		".": {
-			"types": "./dist/esm/index.d.ts",
-			"browser": "./dist/browser/pdf-parse.es.js",
-			"import": "./dist/esm/index.js",
-			"require": "./dist/cjs/index.cjs"
-		},
-		"./node": {
-			"types": "./dist/esm/index.d.ts",
-			"require": "./dist/node/index.cjs"
+			"browser": {
+				"types": "./dist/esm/index.d.ts",
+				"default": "./dist/browser/pdf-parse.es.js"
+			},
+			"import": {
+				"types": "./dist/esm/index.d.ts",
+				"default": "./dist/esm/index.js"
+			},
+			"require": {
+				"types": "./dist/cjs/index.d.cts",
+				"default": "./dist/cjs/index.cjs"
+			},
+			"default": {
+				"types": "./dist/cjs/index.d.cts",
+				"default": "./dist/cjs/index.cjs"
+			}
 		},
 		"./worker": {
 			"import": {
@@ -34,13 +41,11 @@
 			}
 		}
 	},
-
 	"description": "Pure TypeScript, cross-platform module for extracting text, images, and tabular data from PDFs. Run directly in your browser or in Node!",
 	"homepage": "https://mehmet-kozan.github.io/pdf-parse/",
 	"bugs": {
 		"url": "https://github.com/mehmet-kozan/pdf-parse/issues"
 	},
-
 	"keywords": [
 		"pdf",
 		"pdf-parse",
@@ -68,12 +73,10 @@
 		"pdf-reader",
 		"server-side-pdf-parsing"
 	],
-
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/mehmet-kozan/pdf-parse.git"
 	},
-
 	"license": "Apache-2.0",
 	"author": "Mehmet Kozan",
 	"files": [
@@ -82,64 +85,55 @@
 	],
 	"scripts": {
 		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:node && npm run build:browser",
-		"build:ts": "tsc && tsc --project tsconfig.node.json && node scripts/rename-cjs.mjs",
-		"build:node": "vite build --config vite.config.node.ts",
+		"build:ts": "tsc && tsc --project tsconfig.node.json",
+		"build:node": "vite build --config vite.config.node.ts && npm run bundle:dts",
 		"build:browser": "vite build --config vite.config.browser.ts && vite build --config vite.config.browser.min.ts",
 		"build:worker": "vite build --config vite.config.worker.ts",
-
+		"bundle:dts": "api-extractor run --local --verbose",
 		"clean": "npm run clean:build && npm run clean:site && npm run clean:test && npm run clean:test:i",
 		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
 		"clean:site": "rimraf reports_site/test-report reports_site/coverage reports_site/live_demo/dist-browser",
 		"clean:test": "rimraf --glob test/**/*.txt test/**/imgs test/**/*_images",
 		"clean:test:i": "rimraf --glob test_integration/**/node_modules test_integration/**/package-lock.json test_integration/**/dist",
-
 		"test": "vitest run --reporter=default",
 		"test:i": "node scripts/integration.test.mjs",
 		"test:ui": "vitest --ui --coverage",
 		"test:watch": "vitest",
-
 		"coverage": "vitest run --coverage",
-
 		"bench": "npm run bench:install && vitest bench --run",
 		"bench:install": "npm install --no-save pdf2json",
-
 		"site": "npm run site:build && vite preview --outDir reports_site",
 		"site:build": "npm run build && npm run coverage && npm run bench",
-
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"format:all": "biome check --write .",
 		"format:check": "biome check .",
-
 		"prepare": "npm run build",
 		"pack": "npm pack --dry-run"
 	},
-
 	"dependencies": {
-		"pdfjs-dist": "^5.4.296",
-		"@napi-rs/canvas": "^0.1.80"
+		"@napi-rs/canvas": "^0.1.80",
+		"pdfjs-dist": "^5.4.296"
 	},
-
 	"devDependencies": {
 		"vite": "^7.1.5",
 		"vitest": "^3.2.4",
 		"typescript": "^5.9.3",
 		"@biomejs/biome": "^2.2.6",
+		"@microsoft/api-extractor": "^7.53.1",
 		"@types/node": "^24.7.2",
 		"@vitest/coverage-v8": "^3.2.4",
 		"@vitest/ui": "^3.2.4",
-		"rimraf": "^6.0.1"
+		"rimraf": "^6.0.1",
+		"terser": "^5.44.0"
 	},
-
 	"publishConfig": {
 		"access": "public",
 		"provenance": true
 	},
-
 	"engines": {
 		"node": ">=20.16.0 || >=22.3.0"
 	},
-
 	"browser": {
 		"canvas": false,
 		"fs": false,
@@ -147,12 +141,10 @@
 		"https": false,
 		"url": false
 	},
-
 	"sideEffects": [
 		"./bin/worker/worker.js",
 		"./bin/worker/worker.cjs"
 	],
-
 	"jsdelivr": "./dist/browser/pdf-parse.es.min.js",
 	"unpkg": "./dist/browser/pdf-parse.es.min.js"
 }

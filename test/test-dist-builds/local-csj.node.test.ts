@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, test } from 'vitest';
 
 require('pdf-parse/worker');
-const { PDFParse } = require('pdf-parse/node');
+const { PDFParse } = require('pdf-parse');
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

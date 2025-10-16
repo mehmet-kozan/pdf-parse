@@ -5,7 +5,7 @@ export default defineConfig({
 		environment: 'node',
 		slowTestThreshold: 1000,
 		globals: true,
-		include: ['test/**/*.test.ts'],
+		root:'test',
 		exclude: ['test/**/_*', 'test/_**/*'],
 		reporters: ['default', 'html'],
 		outputFile: {

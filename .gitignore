@@ -155,4 +155,5 @@ test/**/*.txt
 test/**/imgs/
 test/**/*_images/
 dist/
+temp/
 

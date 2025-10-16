@@ -1,4 +1,4 @@
-import { PDFFile } from './_helper';
+import { PDFFile } from './_helper.ts';
 
 class TestData extends PDFFile {
 	total = 14;

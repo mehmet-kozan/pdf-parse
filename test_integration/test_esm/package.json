@@ -11,7 +11,7 @@
 		"build": "",
 		"test": "node ./index.mjs"
 	},
-	"devDependencies": {
-		"pdf-parse": "latest"
+	"dependencies": {
+		"pdf-parse-test": "latest"
 	}
 }

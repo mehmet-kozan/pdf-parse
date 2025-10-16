@@ -11,8 +11,10 @@
 		"build": "",
 		"test": "ava common.test.cjs --verbose --no-cache --serial --no-worker-threads"
 	},
+	"dependencies": {
+		"pdf-parse-test": "latest"
+	},
 	"devDependencies": {
-		"ava": "latest",
-		"pdf-parse": "latest"
+		"ava": "latest"
 	}
 }
