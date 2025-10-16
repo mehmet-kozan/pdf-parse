@@ -1,6 +1,7 @@
 const { join } = require('node:path');
 require('@napi-rs/canvas');
-require('pdfjs-dist/legacy/build/pdf.worker.mjs');
+//require('pdfjs-dist/legacy/build/pdf.worker.mjs');
+
 const { getWorkerSource } = require('./worker_source.cjs');
 
 /**
@@ -11,6 +12,12 @@ const { getWorkerSource } = require('./worker_source.cjs');
 function getWorkerPath() {
 	return join(__dirname, '../../dist/node/pdf.worker.mjs');
 }
+
+// const loader = async () => {
+// 	const worker = await import(this.workerSrc);
+// 	return worker.WorkerMessageHandler;
+// };
+// loader();
 
 exports.getWorkerPath = getWorkerPath;
 exports.getWorkerSource = getWorkerSource;

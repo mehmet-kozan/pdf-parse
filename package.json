@@ -82,7 +82,7 @@
 		"bin/"
 	],
 	"scripts": {
-		"build": "npm run clean && npm run build:ts && npm run build:node && npm run build:browser && npm run build:worker",
+		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:node && npm run build:browser",
 		"build:ts": "tsc && tsc --project tsconfig.node.json && node scripts/rename-cjs.mjs",
 		"build:node": "vite build --config vite.config.node.ts",
 		"build:browser": "vite build --config vite.config.browser.ts && vite build --config vite.config.browser.min.ts",
@@ -141,7 +141,7 @@
 	},
 
 	"engines": {
-		"node": ">=20.16.0 <21 || >=22.3.0"
+		"node": ">=20.16.0 || >=22.3.0"
 	},
 
 	"browser": {
