@@ -1,5 +1,7 @@
+import 'pdf-parse/worker';
+import { PDFParse } from 'pdf-parse';
+
 import { describe, expect, test } from 'vitest';
-import { PDFParse } from '../../src/index';
 import { data } from '../pdf_data/full-test';
 
 describe('test-parse-parameters', async () => {

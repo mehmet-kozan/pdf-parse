@@ -244,8 +244,9 @@ for (const pageData of result.pages) {
 
 This will most likely resolve all worker-related issues.
 ```js
-import {PDFParse} from "pdf-parse";
 import "pdf-parse/worker"; // use this for serverless platforms
+import {PDFParse} from "pdf-parse";
+
 // or commonjs
 // require('pdf-parse/worker');
 
