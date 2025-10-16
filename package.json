@@ -78,7 +78,6 @@
 	"author": "Mehmet Kozan",
 	"files": [
 		"dist/",
-		"src/",
 		"bin/"
 	],
 	"scripts": {
@@ -117,10 +116,7 @@
 	},
 
 	"dependencies": {
-		"pdfjs-dist": "^5.4.296"
-	},
-
-	"optionalDependencies": {
+		"pdfjs-dist": "^5.4.296",
 		"@napi-rs/canvas": "^0.1.80"
 	},
 
