@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"rootDir": "src",
 		"outDir": "dist/esm",
 		"declaration": true,
 		"declarationMap": true,
@@ -14,8 +15,6 @@
 		"noUncheckedIndexedAccess": false,
 		"skipLibCheck": true,
 		"strict": true,
-		"rootDir": "src",
-
 		"verbatimModuleSyntax": true
 	},
 	"include": ["src/**/*"],
