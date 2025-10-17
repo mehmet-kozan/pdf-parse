@@ -13,6 +13,7 @@ export type {
 	TypedArray,
 } from 'pdfjs-dist/types/src/display/api.js';
 
+export * from './Exception.js';
 export { getHeader, type HeaderResult } from './HeaderResult.js';
 export type { EmbeddedImage, ImageKindKey, ImageKindValue, ImageResult, PageImages } from './ImageResult.js';
 export type { DateNode, InfoResult, Metadata, OutlineNode, PageLinkResult } from './InfoResult.js';

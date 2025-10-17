@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"baseUrl": ".",
 		"rootDir": "src",
 		"outDir": "dist/esm",
 		"declaration": true,
@@ -15,7 +16,10 @@
 		"noUncheckedIndexedAccess": false,
 		"skipLibCheck": true,
 		"strict": true,
-		"verbatimModuleSyntax": true
+		"verbatimModuleSyntax": true,
+		"paths": {
+			"pdf-parse": ["src"]
+		}
 	},
 	"include": ["src/**/*"],
 	"exclude": ["src/**/_*", "src/_**/*", "src/index.browser.ts"]

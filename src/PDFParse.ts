@@ -4,6 +4,7 @@ import type { DocumentInitParameters } from 'pdfjs-dist/types/src/display/api.js
 import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_factory.js';
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 
+import { getException } from './Exception.js';
 import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
 import type { TableData } from './geometry/TableData.js';
 import { getHeader, type HeaderResult } from './HeaderResult.js';
@@ -188,17 +189,21 @@ export class PDFParse {
 	}
 
 	private async load(): Promise<PDFDocumentProxy> {
-		if (this.doc === undefined) {
-			const loadingTask = pdfjs.getDocument(this.options);
+		try {
+			if (this.doc === undefined) {
+				const loadingTask = pdfjs.getDocument(this.options);
 
-			loadingTask.onProgress = (progress: { loaded: number; total: number }) => {
-				this.progress = progress;
-			};
+				loadingTask.onProgress = (progress: { loaded: number; total: number }) => {
+					this.progress = progress;
+				};
 
-			this.doc = await loadingTask.promise;
+				this.doc = await loadingTask.promise;
+			}
+
+			return this.doc;
+		} catch (error) {
+			throw getException(error);
 		}
-
-		return this.doc;
 	}
 
 	private shouldParse(currentPage: number, totalPage: number, params: ParseParameters): boolean {

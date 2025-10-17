@@ -42,6 +42,14 @@ export interface EmbeddedImage {
     width: number;
 }
 
+// @public (undocumented)
+export class FormatError extends Error {
+    constructor(message?: string, cause?: unknown);
+}
+
+// @public (undocumented)
+export function getException(error: unknown): Error;
+
 // @public
 export function getHeader(url: string | URL, check?: boolean): Promise<HeaderResult>;
 
@@ -92,6 +100,11 @@ export class InfoResult {
     permission?: number[] | null;
     // (undocumented)
     total: number;
+}
+
+// @public
+export class InvalidPDFException extends Error {
+    constructor(message?: string, cause?: unknown);
 }
 
 export { Metadata }
@@ -176,6 +189,11 @@ export interface ParseParameters {
     parsePageInfo?: boolean;
     partial?: Array<number>;
     scale?: number;
+}
+
+// @public (undocumented)
+export class PasswordException extends Error {
+    constructor(message?: string, cause?: unknown);
 }
 
 export { PDFDataRangeTransport }
