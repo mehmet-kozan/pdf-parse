@@ -3,7 +3,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
 	test: {
-		environment: '',
+		environment: 'node',
 		slowTestThreshold: 1000,
 		globals: true,
 		include: ['tests/unit/**/*.test.ts'],

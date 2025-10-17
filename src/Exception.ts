@@ -1,41 +1,5 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: <underline type> */
 
-// export type {
-
-// 	AbortException,
-// 	FormatError,
-// 	InvalidPDFException,
-// 	PasswordException,
-// 	ResponseException,
-// 	UnknownErrorException,
-// } from 'pdfjs-dist/types/src/shared/util.js';
-
-//import * as util from 'pdfjs-dist/types/src/shared/util.js';
-
-// export class A extends util.InvalidPDFException {
-// 	constructor(aa: string) {
-// 		super('');
-// 	}
-// }
-
-// export class BaseException {
-// 	message: string;
-// 	name: string;
-
-// 	constructor(message: string, name: string) {
-// 		this.message = message;
-// 		this.name = name;
-// 	}
-// }
-
-// export class CustomException extends BaseException {
-// 	public code: number;
-// 	constructor(msg: string, code: number) {
-// 		super(msg, 'CustomException');
-// 		this.code = code;
-// 	}
-// }
-
 export class InvalidPDFException extends Error {
 	constructor(message?: string, cause?: unknown) {
 		if (cause !== undefined) {
@@ -73,6 +37,7 @@ export class PasswordException extends Error {
 	}
 }
 
+// Error caused during parsing PDF data.
 export class FormatError extends Error {
 	constructor(message?: string, cause?: unknown) {
 		if (cause !== undefined) {
@@ -89,12 +54,56 @@ export class FormatError extends Error {
 	}
 }
 
-// PasswordException
-// UnknownErrorException
-// InvalidPDFException
-// ResponseException
-// FormatError // Error caused during parsing PDF data.
-// AbortException
+export class UnknownErrorException extends Error {
+	constructor(message?: string, details?: unknown, cause?: unknown) {
+		if (cause !== undefined) {
+			super(message ?? 'Unknown error', { cause });
+		} else {
+			super(message ?? 'Unknown error');
+		}
+		this.name = 'UnknownErrorException';
+		Object.setPrototypeOf(this, UnknownErrorException.prototype);
+		if (typeof (Error as any).captureStackTrace === 'function') {
+			(Error as any).captureStackTrace(this, UnknownErrorException);
+		}
+		// additional info field from pdf.mjs
+		(this as any).details = details;
+	}
+}
+
+export class ResponseException extends Error {
+	constructor(message?: string, status?: number, missing?: unknown, cause?: unknown) {
+		if (cause !== undefined) {
+			super(message ?? 'Response error', { cause });
+		} else {
+			super(message ?? 'Response error');
+		}
+		this.name = 'ResponseException';
+		Object.setPrototypeOf(this, ResponseException.prototype);
+		if (typeof (Error as any).captureStackTrace === 'function') {
+			(Error as any).captureStackTrace(this, ResponseException);
+		}
+		// fields from pdf.mjs
+		(this as any).status = status;
+		(this as any).missing = missing;
+	}
+}
+
+export class AbortException extends Error {
+	constructor(message?: string, cause?: unknown) {
+		if (cause !== undefined) {
+			super(message ?? 'Operation aborted', { cause });
+		} else {
+			super(message ?? 'Operation aborted');
+		}
+		this.name = 'AbortException';
+		Object.setPrototypeOf(this, AbortException.prototype);
+		if (typeof (Error as any).captureStackTrace === 'function') {
+			(Error as any).captureStackTrace(this, AbortException);
+		}
+	}
+}
+
 export function getException(error: unknown): Error {
 	if (error instanceof Error) {
 		// preserve original error (stack) when not remapping
@@ -105,6 +114,13 @@ export function getException(error: unknown): Error {
 				return new PasswordException(error.message, error);
 			case 'FormatError':
 				return new FormatError(error.message, error);
+			case 'UnknownErrorException':
+				// preserve details if present on original
+				return new UnknownErrorException(error.message, (error as any).details, error);
+			case 'ResponseException':
+				return new ResponseException(error.message, (error as any).status, (error as any).missing, error);
+			case 'AbortException':
+				return new AbortException(error.message, error);
 			// add other mappings as needed
 			default:
 				return error;

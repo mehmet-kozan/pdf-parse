@@ -1,7 +1,6 @@
 import { data as bug } from '../helper/bug';
 import { data as invalid } from '../helper/invalid';
-import { type InvalidPDFException, PDFParse } from 'pdf-parse';
-//import * as util from 'pdfjs-dist/types/src/shared/util.js';
+import { InvalidPDFException, PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
 
 describe('test invalid pdfs', async () => {
@@ -12,7 +11,7 @@ describe('test invalid pdfs', async () => {
 			const parser = new PDFParse({ data: buffer });
 			await parser.getText();
 		} catch (error) {
-			expect((error as Error).name).toEqual('InvalidPDFException');
+			expect(error instanceof InvalidPDFException).toEqual(true);
 			expect((error as InvalidPDFException).message).toEqual('Invalid PDF structure.');
 		}
 	});
@@ -23,7 +22,7 @@ describe('test invalid pdfs', async () => {
 			const parser = new PDFParse({ data: buffer });
 			await parser.getText();
 		} catch (error) {
-			//expect(error instanceof util.InvalidPDFException).toEqual(true);
+			expect(error instanceof InvalidPDFException).toEqual(true);
 			expect((error as InvalidPDFException).message).toEqual('Invalid PDF structure.');
 		}
 	});

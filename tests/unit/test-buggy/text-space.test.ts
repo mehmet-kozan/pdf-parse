@@ -1,4 +1,4 @@
-import { data } from '../helper/not-detecting-spaces';
+import { data } from '../helper/text-space.js';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { PDFParse } from 'pdf-parse';

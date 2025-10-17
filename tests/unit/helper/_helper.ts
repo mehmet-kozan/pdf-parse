@@ -20,6 +20,7 @@ export abstract class PDFFile {
 	password?: string;
 	pages?: Array<{
 		num: number;
+		seperatorCount?: number;
 		texts: Array<string>;
 		imgs?: Array<{ name: string; dataUrl?: string }>;
 		tables?: TableArray[];
