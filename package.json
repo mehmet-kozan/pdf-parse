@@ -109,7 +109,7 @@
 		"build:worker": "vite build --config vite.config.worker.ts",
 		"clean": "npm run clean:build && npm run clean:report && npm run clean:test && npm run clean:test:i",
 		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
-		"clean:report": "rimraf reports/test reports/coverage reports/benchmark reports/demo/dist-browser ",
+		"clean:report": "rimraf reports/test reports/coverage reports/benchmark reports/api reports/demo/dist-browser ",
 		"clean:test": "rimraf --glob tests/**/*.txt tests/**/imgs tests/**/*_images temp",
 		"clean:test:i": "rimraf --glob tests/**/node_modules tests/**/package-lock.json tests/**/dist",
 		"test": "vitest run --reporter=default",
