@@ -5,17 +5,12 @@ export default defineConfig({
 		outDir: 'dist/cjs',
 		emptyOutDir: false,
 		sourcemap: true,
-		minify: false,
+		minify: 'terser',
 		lib: {
 			entry: 'src/index.ts',
 			name: 'PdfParse',
 			fileName: 'index',
 			formats: ['cjs'],
-		},
-		rollupOptions: {},
-		// https://github.com/rollup/plugins/tree/master/packages/commonjs#options
-		commonjsOptions: {
-			sourceMap: true,
 		},
 	},
 });

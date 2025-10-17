@@ -6,7 +6,6 @@ export default defineConfig({
 		emptyOutDir: false,
 		sourcemap: false,
 		minify: false,
-		target: 'es2022',
 		lib: {
 			entry: 'bin/worker/index.ts',
 			name: 'PdfParse',
