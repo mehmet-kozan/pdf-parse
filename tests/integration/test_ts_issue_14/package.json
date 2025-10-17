@@ -1,0 +1,21 @@
+{
+	"name": "test",
+	"version": "1.0.0",
+	"description": "",
+	"license": "ISC",
+	"author": "",
+	"type": "commonjs",
+	"main": "index.js",
+	"scripts": {
+		"test": "node dist/index.js",
+		"build": "tsc"
+	},
+	"dependencies": {
+		"pdf-parse": "file:../../../pdf-parse.tgz"
+	},
+	"devDependencies": {
+		"@types/node-fetch": "^2.6.13",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.9.3"
+	}
+}

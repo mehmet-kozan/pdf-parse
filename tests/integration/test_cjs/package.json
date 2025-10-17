@@ -1,0 +1,16 @@
+{
+	"name": "test_cjs",
+	"version": "1.0.0",
+	"description": "",
+	"license": "ISC",
+	"author": "",
+	"type": "commonjs",
+	"main": "index.js",
+	"scripts": {
+		"build": "",
+		"test": "node index.js"
+	},
+	"dependencies": {
+		"pdf-parse": "file:../../../pdf-parse.tgz"
+	}
+}

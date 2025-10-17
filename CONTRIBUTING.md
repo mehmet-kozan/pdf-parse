@@ -108,8 +108,8 @@ This project uses a small set of runtime and development dependencies. Key items
 
 ## Testing with PDF files
 
-- Add the binary PDF files under `test/pdf_file/`. File names should match the helper/test metadata entries.
-- For test metadata  add a matching `.ts` file in `test/pdf_data/`. 
+- Add the binary PDF files under `reports/pdf`. File names should match the helper/test metadata entries.
+- For test metadata  add a matching `.ts` file in `tests/unit/helper`. 
 - Each data file typically exports a `PDFFile` subclass instance (see `_helper.ts`).
 
 Running tests:
@@ -118,8 +118,8 @@ Running tests:
 - Integration tests: `npm run test:i` (runs `scripts/integration.test.mjs`).
 
 When adding a test:
-- Add the `.pdf` to `test/pdf_file/` and commit the file (or a small sanitized sample when PDFs are large or private).
-- Add a `.ts` metadata file to `test/pdf_data/` that extends `PDFFile` and exports the `data` instance.
+- Add the `.pdf` to `reports/pdf` and commit the file (or a small sanitized sample when PDFs are large or private).
+- Add a `.ts` metadata file to `tests/unit/helper/` that extends `PDFFile` and exports the `data` instance.
 - Add a test in the appropriate `test/test-XX/` folder that imports the `data` instance and asserts expected results.
 
 ## How to contribute

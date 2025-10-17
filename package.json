@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.4.3",
+	"version": "2.4.4",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
@@ -8,7 +8,7 @@
 	"exports": {
 		".": {
 			"browser": {
-				"types": "./dist/esm/index.d.ts",
+				"types": "./dist/browser/pdf-parse.es.d.ts",
 				"default": "./dist/browser/pdf-parse.es.js"
 			},
 			"import": {
@@ -36,26 +36,6 @@
 			"default": {
 				"types": "./bin/worker/worker.d.cts",
 				"default": "./bin/worker/worker.cjs"
-			}
-		},
-		"./canvas": {
-			"import": {
-				"types": "./bin/canvas/canvas.d.ts",
-				"default": "./bin/canvas/canvas.js"
-			},
-			"require": {
-				"types": "./bin/canvas/canvas.d.cts",
-				"default": "./bin/canvas/canvas.cjs"
-			},
-			"default": {
-				"types": "./bin/canvas/canvas.d.cts",
-				"default": "./bin/canvas/canvas.cjs"
-			}
-		},
-		"./webworker": {
-			"import": {
-				"types": "./bin/worker/webworker.d.ts",
-				"default": "./bin/worker/webworker.js"
 			}
 		}
 	},
@@ -102,27 +82,26 @@
 		"bin/"
 	],
 	"scripts": {
-		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:node && npm run build:browser",
-		"build:ts": "tsc && tsc --project tsconfig.node.json",
-		"build:node": "vite build --config vite.config.node.ts && npm run bundle:dts",
-		"build:browser": "vite build --config vite.config.browser.ts && vite build --config vite.config.browser.min.ts",
-		"build:worker": "vite build --config vite.config.worker.ts",
-		"bundle:dts": "api-extractor run --local",
-		"clean": "npm run clean:build && npm run clean:site && npm run clean:test && npm run clean:test:i",
+		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:cjs && npm run build:browser",
+		"build:ts": "tsc && tsc --project configs/tsconfig.types.json && api-extractor run --local",
+		"build:cjs": "vite build --config configs/vite.config.cjs.ts",
+		"build:browser": "vite build",
+		"build:worker": "vite build --config configs/vite.config.worker.ts",
+		"clean": "npm run clean:build && npm run clean:report && npm run clean:test && npm run clean:test:i",
 		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
-		"clean:site": "rimraf reports_site/test-report reports_site/coverage reports_site/live_demo/dist-browser",
-		"clean:test": "rimraf --glob test/**/*.txt test/**/imgs test/**/*_images temp",
-		"clean:test:i": "rimraf --glob test_integration/**/node_modules test_integration/**/package-lock.json test_integration/**/dist",
+		"clean:report": "rimraf reports/test reports/coverage reports/benchmark reports/api reports/demo/dist-browser ",
+		"clean:test": "rimraf --glob tests/**/*.txt tests/**/imgs tests/**/*_images temp",
+		"clean:test:i": "rimraf --glob *.tgz tests/**/node_modules tests/**/package-lock.json tests/**/dist",
 		"test": "vitest run --reporter=default",
 		"test:i": "node scripts/integration.test.mjs",
-		"test:u": "node --test test_unsupported/*.test.cjs && node --test test_unsupported/*.test.mjs",
+		"test:u": "node --test tests/unsupported/*.test.cjs && node --test tests/unsupported/*.test.mjs",
 		"test:ui": "vitest --ui --coverage",
 		"test:watch": "vitest",
 		"coverage": "vitest run --coverage",
 		"bench": "npm run bench:install && vitest bench --run",
-		"bench:install": "npm install --no-save pdf2json",
-		"site": "npm run site:build && vite preview --outDir reports_site",
-		"site:build": "npm run build && npm run coverage && npm run bench",
+		"bench:install": "npm install --no-save pdf2json@latest",
+		"report": "npm run report:build && vite preview --outDir reports",
+		"report:build": "npm run build && npm run coverage && npm run bench",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"format:all": "biome check --write .",
@@ -138,8 +117,8 @@
 		"vite": "^7.1.5",
 		"vitest": "^3.2.4",
 		"typescript": "^5.9.3",
-		"@biomejs/biome": "^2.2.6",
 		"@microsoft/api-extractor": "^7.53.1",
+		"@biomejs/biome": "^2.2.6",
 		"@types/node": "^24.7.2",
 		"@vitest/coverage-v8": "^3.2.4",
 		"@vitest/ui": "^3.2.4",
@@ -153,19 +132,12 @@
 	"engines": {
 		"node": ">=20.16.0 <21 || >=22.3.0"
 	},
-	"browser": {
-		"canvas": false,
-		"fs": false,
-		"http": false,
-		"https": false,
-		"url": false
-	},
 	"sideEffects": [
 		"./bin/worker/worker.js",
 		"./bin/worker/worker.cjs",
 		"./bin/canvas/canvas.js",
 		"./bin/canvas/canvas.cjs"
 	],
-	"jsdelivr": "./dist/browser/pdf-parse.es.min.js",
-	"unpkg": "./dist/browser/pdf-parse.es.min.js"
+	"jsdelivr": "./dist/browser/pdf-parse.es.js",
+	"unpkg": "./dist/browser/pdf-parse.es.js"
 }

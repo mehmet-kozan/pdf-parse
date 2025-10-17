@@ -110,7 +110,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<projectFolder>/tsconfig.json"
 		 */
-		"tsconfigFilePath": "tsconfig.node.json"
+		"tsconfigFilePath": "configs/tsconfig.types.json"
 		/**
 		 * Provides a compiler configuration that will be used instead of reading the tsconfig.json file from disk.
 		 * The object must conform to the TypeScript tsconfig schema:
@@ -184,7 +184,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<projectFolder>/etc/"
 		 */
-		"reportFolder": "./"
+		"reportFolder": "./docs/"
 
 		/**
 		 * Specifies the folder where the temporary report file is written.  The file name portion is determined by
@@ -229,7 +229,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<projectFolder>/temp/<unscopedPackageName>.api.json"
 		 */
-		"apiJsonFilePath": "reports_site/api-report/pdf-parse.api.json",
+		"apiJsonFilePath": "reports/api/pdf-parse.api.json",
 
 		/**
 		 * Whether "forgotten exports" should be included in the doc model file. Forgotten exports are declarations
@@ -355,7 +355,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<lookup>"
 		 */
-		"tsdocMetadataFilePath": "reports_site/api-report/tsdoc-metadata.json"
+		"tsdocMetadataFilePath": "reports/api/tsdoc-metadata.json"
 	},
 
 	/**

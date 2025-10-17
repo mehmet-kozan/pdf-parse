@@ -51,9 +51,9 @@ parser.getText().then((result)=>{
 - Detect and extract tabular data : [`getTable`](#gettable--extract-tabular-data) 
 - Well-covered with [`unit tests`](./test)
 - [`Integration tests`](./test_integration) to validate end-to-end behavior across environments.
-- See [DocumentInitParameters](./README.options.md#documentinitparameters) and [ParseParameters](./README.options.md#parseparameters) for all available options.
-- For usage examples, see [`live_demo`](./reports_site/live_demo/), [`example`](./example/), [`test`](./test/) and [`test/example`](./test/test-example/) folders.
-- Serverless-ready, see [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
+- See [DocumentInitParameters](./docs/README.options.md#documentinitparameters) and [ParseParameters](./docs/README.options.md#parseparameters) for all available options.
+- Examples: [`live demo`](./reports/demo/), [`examples`](./examples/), [`tests`](./tests/unit/) and [`tests example`](./tests/unit/test-example/) folders.
+- Serverless ready: [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
 
 
 ## Installation
@@ -125,7 +125,7 @@ console.log(`Per-page information: ${info.pages}`);
 ```
 
 Usage Examples:
-- Parse hyperlinks from pages: [`test/test-01-get-info`](test/test-01-get-info/get-info.test.ts)
+- Parse hyperlinks from pages: [`tests/unit/test-01-get-info`](tests/unit/test-01-get-info/get-info.test.ts)
 - To extract hyperlinks, pass `{ parsePageInfo: true }`
 
 ### `getText` — Extract Text
@@ -143,18 +143,18 @@ console.log(textResult.text);
 ```
 For a complete list of configuration options, see:
 
-- [DocumentInitParameters](./README.options.md#documentinitparameters) - document initialization options
-- [ParseParameters](./README.options.md#parseparameters) - parse options
+- [DocumentInitParameters](./docs/README.options.md#documentinitparameters) - document initialization options
+- [ParseParameters](./docs/README.options.md#parseparameters) - parse options
 
 
 Usage Examples:
-- Parse password protected PDF:  [`password.test.ts`](test/test-example/password.test.ts)
-- Parse only specific pages: [`specific-pages.test.ts`](test/test-example/specific-pages.test.ts)
-- Parse embedded hyperlinks: [`hyperlink.test.ts`](test/test-example/hyperlink.test.ts)
-- Set verbosity level: [`password.test.ts`](test/test-example/password.test.ts)
-- Load PDF from URL: [`url.test.ts`](test/test-example/url.test.ts)
-- Load PDF from base64 data: [`base64.test.ts`](test/test-example/base64.test.ts)
-- Loading large files (> 5 MB): [`large-file.test.ts`](test/test-example/large-file.test.ts)
+- Parse password protected PDF:  [`password.test.ts`](tests/unit/test-example/password.test.ts)
+- Parse only specific pages: [`specific-pages.test.ts`](tests/unit/test-example/specific-pages.test.ts)
+- Parse embedded hyperlinks: [`hyperlink.test.ts`](tests/unit/test-example/hyperlink.test.ts)
+- Set verbosity level: [`password.test.ts`](tests/unit/test-example/password.test.ts)
+- Load PDF from URL: [`url.test.ts`](tests/unit/test-example/url.test.ts)
+- Load PDF from base64 data: [`base64.test.ts`](tests/unit/test-example/base64.test.ts)
+- Loading large files (> 5 MB): [`large-file.test.ts`](tests/unit/test-example/large-file.test.ts)
 
 ### `getScreenshot` — Render Pages as PNG
 ```js
@@ -175,7 +175,7 @@ for (const pageData of result.pages) {
 ```
 
 Usage Examples:
-- Limit output resolution or specific pages using [ParseParameters](./README.options.md#parseparameters)
+- Limit output resolution or specific pages using [ParseParameters](./docs/README.options.md#parseparameters)
 - `getScreenshot({scale:1.5})` — Increase rendering scale (higher DPI / larger image)
 - `getScreenshot({desiredWidth:1024})` — Request a target width in pixels; height scales to keep aspect ratio
 - `imageDataUrl` (default: `true`) — include base64 data URL string in the result.
@@ -300,7 +300,8 @@ try {
 ## Web / Browser <a href="https://www.jsdelivr.com/package/npm/pdf-parse" target="_blank"><img align="right" src="https://img.shields.io/jsdelivr/npm/hm/pdf-parse"></a>  
 - Can be integrated into `React`, `Vue`, `Angular`, or any other web framework.
 - **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
-- **Demo Source:** [`reports_site/live_demo`](reports_site/live_demo)
+- **Demo Source:** [`reports/demo`](reports/demo)
+- **ES Module**:  `pdf-parse.es.js` **UMD/Global**: `pdf-parse.umd.js`
 
 ### CDN Usage  
 
@@ -314,18 +315,12 @@ try {
 </script>
 ```
 
-
-| Bundle Type | Development | Production (Minified) |
-|------------|-------------|----------------------|
-| **ES Module** | `pdf-parse.es.js` | `pdf-parse.es.min.js` |
-| **UMD/Global** | `pdf-parse.umd.js` | `pdf-parse.umd.min.js` |
-
 **CDN Options: https://www.jsdelivr.com/package/npm/pdf-parse**
 
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.2.7/dist/browser/pdf-parse.es.min.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/browser/pdf-parse.es.js`
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.umd.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.2.7/dist/browser/pdf-parse.es.umd.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/browser/pdf-parse.umd.js`
 
 
 ## Similar Packages
@@ -337,7 +332,7 @@ try {
 * [pdfreader](https://www.npmjs.com/package/pdfreader) — Uses pdf2json
 * [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Non cross-platform, depends on xpdf  
 
-> **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue, see [`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/bench.html).
+> **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue, see [`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/benchmark.html).
 
 ## Supported Node.js Versions(20.x, 22.x, 23.x, 24.x)
 
@@ -353,7 +348,7 @@ Requires additional setup — import and configure a compatible CanvasFactory or
 ESM 
 ```js
 // Import this before importing "pdf-parse"
-import { CustomCanvasFactory } from 'pdf-parse/canvas'; 
+import { CustomCanvasFactory } from 'pdf-parse/worker'; 
 import { PDFParse } from 'pdf-parse';
 
 const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory });
@@ -363,17 +358,12 @@ const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory }
 CommonJS
 ```js
 // Import this before importing "pdf-parse"
-const { CustomCanvasFactory } = require('pdf-parse/canvas'); 
+const { CustomCanvasFactory } = require('pdf-parse/worker'); 
 const { PDFParse } = require('pdf-parse');
 
 const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory });
 // then use parser
 ```
-
-Unsupported tests run on Node.js 18, 19, 21, see [`test_unsupported.yml`](./.github/workflows/test_unsupported.yml).  
-Check: [`test_unsupported`](./test_unsupported)
-
-
 
 ## Contributing
 
