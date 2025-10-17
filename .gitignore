@@ -145,9 +145,9 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 # Test outputs
-test/**/*.txt
-test/**/imgs/
-test/**/*_images/
+tests/**/*.txt
+tests/**/imgs/
+tests/**/*_images/
 dist/
 temp/
 

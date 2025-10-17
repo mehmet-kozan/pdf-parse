@@ -110,7 +110,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<projectFolder>/tsconfig.json"
 		 */
-		"tsconfigFilePath": "tsconfig.node.json"
+		"tsconfigFilePath": "tsconfig.types.json"
 		/**
 		 * Provides a compiler configuration that will be used instead of reading the tsconfig.json file from disk.
 		 * The object must conform to the TypeScript tsconfig schema:
@@ -158,7 +158,7 @@
 		 * SUPPORTED TOKENS: <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<unscopedPackageName>"
 		 */
-		"reportFileName": "docs/README.api.md",
+		"reportFileName": "README.api.md",
 
 		/**
 		 * To support different approval requirements for different API levels, multiple "variants" of the API report can
@@ -184,7 +184,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<projectFolder>/etc/"
 		 */
-		"reportFolder": "./"
+		"reportFolder": "./docs/"
 
 		/**
 		 * Specifies the folder where the temporary report file is written.  The file name portion is determined by

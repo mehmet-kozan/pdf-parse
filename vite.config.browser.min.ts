@@ -35,7 +35,7 @@ export default defineConfig({
 			name: 'copy-dist-to-report_site',
 			closeBundle() {
 				const source = join(process.cwd(), 'dist', 'browser');
-				const dest = join(process.cwd(), 'reports', 'live', 'dist-browser');
+				const dest = join(process.cwd(), 'reports', 'demo', 'dist-browser');
 				cpSync(source, dest, { recursive: true });
 			},
 		},
