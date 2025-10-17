@@ -1,9 +1,8 @@
-import { type PageLinkResult, PDFParse } from 'pdf-parse';
-import { describe, expect, test } from 'vitest';
-
 import { data as data01 } from '../helper/default-test';
 import { data as data02 } from '../helper/hyperlinks-test';
 import { data as data03 } from '../helper/links-in-pdf';
+import { type PageLinkResult, PDFParse } from 'pdf-parse';
+import { describe, expect, test } from 'vitest';
 
 describe('get-info test', () => {
 	test(data01.fileName, async () => {

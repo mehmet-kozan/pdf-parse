@@ -12,6 +12,11 @@ import { PDFWorker } from 'pdfjs-dist/types/src/display/api.js';
 import { TypedArray } from 'pdfjs-dist/types/src/display/api.js';
 import { VerbosityLevel } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
+// @public (undocumented)
+export class AbortException extends Error {
+    constructor(message?: string, cause?: unknown);
+}
+
 // @public
 export type DateNode = {
     CreationDate?: Date | null;
@@ -41,6 +46,14 @@ export interface EmbeddedImage {
     // (undocumented)
     width: number;
 }
+
+// @public (undocumented)
+export class FormatError extends Error {
+    constructor(message?: string, cause?: unknown);
+}
+
+// @public (undocumented)
+export function getException(error: unknown): Error;
 
 // @public
 export function getHeader(url: string | URL, check?: boolean): Promise<HeaderResult>;
@@ -92,6 +105,11 @@ export class InfoResult {
     permission?: number[] | null;
     // (undocumented)
     total: number;
+}
+
+// @public
+export class InvalidPDFException extends Error {
+    constructor(message?: string, cause?: unknown);
 }
 
 export { Metadata }
@@ -178,6 +196,11 @@ export interface ParseParameters {
     scale?: number;
 }
 
+// @public (undocumented)
+export class PasswordException extends Error {
+    constructor(message?: string, cause?: unknown);
+}
+
 export { PDFDataRangeTransport }
 
 // @public
@@ -203,6 +226,11 @@ export class PDFParse {
 }
 
 export { PDFWorker }
+
+// @public (undocumented)
+export class ResponseException extends Error {
+    constructor(message?: string, status?: number, missing?: unknown, cause?: unknown);
+}
 
 // @public (undocumented)
 export interface Screenshot {
@@ -254,6 +282,11 @@ export class TextResult {
 }
 
 export { TypedArray }
+
+// @public (undocumented)
+export class UnknownErrorException extends Error {
+    constructor(message?: string, details?: unknown, cause?: unknown);
+}
 
 export { VerbosityLevel }
 

@@ -9,34 +9,45 @@
 			"type": "node",
 			"request": "launch",
 			"program": "${file}",
+			"args": [],
 			"runtimeArgs": ["--inspect-brk"],
 			"cwd": "${workspaceFolder}",
-			"console": "integratedTerminal",
+			"autoAttachChildProcesses": true,
 			"skipFiles": ["<node_internals>/**", "**/node_modules/**"],
-			"autoAttachChildProcesses": false,
-			"internalConsoleOptions": "neverOpen"
+			"smartStep": true,
+			"console": "internalConsole",
+			"internalConsoleOptions": "openOnSessionStart",
+			"outputCapture": "std"
 		},
 		{
 			"name": "debug vitest current file",
 			"type": "node",
 			"request": "launch",
+			"program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
+			"args": ["run", "${relativeFile}", "--test-timeout=9999999", "--reporter=default"],
+			"runtimeArgs": [],
+			"cwd": "${workspaceFolder}",
 			"autoAttachChildProcesses": true,
 			"skipFiles": ["<node_internals>/**", "**/node_modules/**"],
-			"program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
-			"args": ["run", "${relativeFile}", "--test-timeout=9999999"],
 			"smartStep": true,
-			"console": "integratedTerminal"
+			"console": "internalConsole",
+			"internalConsoleOptions": "openOnSessionStart",
+			"outputCapture": "std"
 		},
 		{
 			"name": "debug vitest all file",
 			"type": "node",
 			"request": "launch",
+			"program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
+			"args": ["run", "--test-timeout=9999999", "--reporter=default"],
+			"runtimeArgs": [],
+			"cwd": "${workspaceFolder}",
 			"autoAttachChildProcesses": true,
 			"skipFiles": ["<node_internals>/**", "**/node_modules/**"],
-			"program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
-			"args": ["run", "--test-timeout=9999999"],
 			"smartStep": true,
-			"console": "integratedTerminal"
+			"console": "internalConsole",
+			"internalConsoleOptions": "openOnSessionStart",
+			"outputCapture": "std"
 		}
 	]
 }

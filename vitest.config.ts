@@ -1,3 +1,4 @@
+import { resolve } from 'node:path';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -15,7 +16,7 @@ export default defineConfig({
 		coverage: {
 			enabled: false,
 			provider: 'v8',
-			include: ['src/**/*.ts'],
+			include: ['src/**/*.ts', 'dist/esm/*.js'],
 			exclude: ['src/**/_*', 'src/_**/*'],
 			reporter: [['html', { subdir: 'html-report' }], 'lcov', 'json', 'text-summary'],
 			reportsDirectory: 'reports/coverage',
@@ -26,6 +27,11 @@ export default defineConfig({
 		benchmark: {
 			reporters: ['default'],
 			outputJson: 'reports/benchmark/bench.json',
+		},
+	},
+	resolve: {
+		alias: {
+			'pdf-parse': resolve(__dirname, './src'),
 		},
 	},
 });

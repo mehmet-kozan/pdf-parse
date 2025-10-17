@@ -1,17 +1,15 @@
-import { data } from '../helper/label-test';
+import { data } from '../helper/text-space.js';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
 
-const __pdf_txt = join(__dirname, data.textFile);
-
-describe(`${data.fileName} all:true`, async () => {
+describe(data.fileName, async () => {
 	const buffer = await data.getBuffer();
 	const parser = new PDFParse({ data: buffer });
 	const result = await parser.getText();
 
-	await writeFile(__pdf_txt, result.text, {
+	await writeFile(join(__dirname, data.textFile), result.text, {
 		encoding: 'utf8',
 		flag: 'w',
 	});
