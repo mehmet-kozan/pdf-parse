@@ -24,11 +24,11 @@ export abstract class PDFFile {
 
 	constructor(callerUrl: string) {
 		const callerPath = fileURLToPath(callerUrl);
-		this.filePath = callerPath.replace('.ts', '.pdf');
-		this.filePath = this.filePath.replace('pdf_data', 'pdf_file');
-		this.fileName = basename(this.filePath);
+		const callerName = basename(callerPath);
+		this.fileName = callerName.replace('.ts', '.pdf');
+		this.filePath = join(__dirname, '../../../reports/pdf', this.fileName);
 		this.imageFolder = `${this.fileName}_images`;
-		this.textFile = `${basename(this.filePath)}.txt`;
+		this.textFile = `${this.fileName}.txt`;
 	}
 
 	public async getBuffer() {

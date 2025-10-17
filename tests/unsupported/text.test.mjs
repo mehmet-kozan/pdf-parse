@@ -8,7 +8,7 @@ import { PDFParse } from 'pdf-parse';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const __pdf = join(__dirname, '../test/pdf_file/image-test.pdf');
+const __pdf = join(__dirname, '../../reports/pdf/image-test.pdf');
 
 describe('es module test', () => {
 	it('results must be valid', async () => {

@@ -4,13 +4,13 @@ import { fileURLToPath } from 'node:url';
 import PDF2JSON from 'pdf2json';
 import { bench, describe } from 'vitest';
 
-import { PDFParse as BrowserPDFParse } from '../../dist/browser/pdf-parse.es.min.js';
-import { PDFParse as PDFParseCJS } from '../../dist/cjs/index.cjs';
-import { PDFParse } from '../../dist/esm/index';
+import { PDFParse as BrowserPDFParse } from '../../../dist/browser/pdf-parse.es.min.js';
+import { PDFParse as PDFParseCJS } from '../../../dist/cjs/index.cjs';
+import { PDFParse } from '../../../dist/esm/index';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const __pdf = join(__dirname, '../pdf_file/solar-energy.pdf');
+const __pdf = join(__dirname, '../../../reports/pdf/solar-energy.pdf');
 
 async function pdf_parse_esm_promise(buffer: Uint8Array) {
 	const parser = new PDFParse({ data: buffer });
@@ -27,7 +27,6 @@ async function pdf_parse_cjs_promise(buffer: Uint8Array) {
 }
 
 async function pdf_parse_browser_promise(buffer: Uint8Array) {
-	//BrowserPDFParse.setWorker('https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs');
 	const parser = new BrowserPDFParse({ data: buffer });
 	await parser.getText();
 	await parser.destroy();

@@ -10,10 +10,11 @@
 		"includes": [
 			"**",
 			"!dist",
-			"!reports_site/live_demo/dist-browser",
-			"!reports_site/test-report",
-			"!reports_site/coverage",
-			"!reports_site/benchmark",
+			"!reports/demo/dist-browser",
+			"!reports/test",
+			"!reports/pdf",
+			"!reports/coverage",
+			"!reports/benchmark",
 			"!bin/worker/worker_source.js",
 			"!bin/worker/worker_source.cjs"
 		]

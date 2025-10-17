@@ -6,9 +6,9 @@ import { type PageTextResult, PDFParse } from 'pdf-parse';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const __pdf_files = join(__dirname, '../../../test/pdf_file/full-test.pdf');
+const __pdf = join(__dirname, '../../../../reports/pdf/');
 
-const dataBuffer = await readFile(__pdf_files);
+const dataBuffer = await readFile(join(__pdf, 'default-test.pdf'));
 
 const parser = new PDFParse({ data: dataBuffer });
 

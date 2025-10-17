@@ -5,7 +5,7 @@ const assert = require('node:assert');
 const { join } = require('node:path');
 const { readFileSync } = require('node:fs');
 
-const __pdf = join(__dirname, '../test/pdf_file/image-test.pdf');
+const __pdf = join(__dirname, '../../reports/pdf/image-test.pdf');
 
 describe('commonjs module test', () => {
 	it('results must be valid', async () => {

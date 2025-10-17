@@ -3,10 +3,10 @@ const { PDFParse } = require('pdf-parse');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const __pdf_files = path.join(__dirname, '../../test/pdf_file');
+const __pdf = path.join(__dirname, '../../../reports/pdf/');
 
 test('ava framework test - dummy-test.pdf', async (t) => {
-	const data = fs.readFileSync(path.join(__pdf_files, 'dummy-test.pdf'));
+	const data = fs.readFileSync(path.join(__pdf, 'dummy.pdf'));
 	const parser = new PDFParse({ data });
 	const result = await parser.getText();
 	await parser.destroy();
@@ -14,7 +14,7 @@ test('ava framework test - dummy-test.pdf', async (t) => {
 });
 
 test('ava framework test - image-test.pdf - ss', async (t) => {
-	const data = fs.readFileSync(path.join(__pdf_files, 'image-test.pdf'));
+	const data = fs.readFileSync(path.join(__pdf, 'image-test.pdf'));
 
 	const parser = new PDFParse({ data });
 	const result = await parser.getScreenshot();
@@ -23,7 +23,7 @@ test('ava framework test - image-test.pdf - ss', async (t) => {
 });
 
 test('ava framework test - image-test.pdf - embed', async (t) => {
-	const data = fs.readFileSync(path.join(__pdf_files, 'image-test.pdf'));
+	const data = fs.readFileSync(path.join(__pdf, 'image-test.pdf'));
 
 	const parser = new PDFParse({ data });
 	const result = await parser.getImage();
@@ -32,7 +32,7 @@ test('ava framework test - image-test.pdf - embed', async (t) => {
 });
 
 test('ava framework test - full-test.pdf', async (t) => {
-	const data = fs.readFileSync(path.join(__pdf_files, 'full-test.pdf'));
+	const data = fs.readFileSync(path.join(__pdf, 'default-test.pdf'));
 
 	const parser = new PDFParse({ data });
 	const result = await parser.getText({ last: 1 });

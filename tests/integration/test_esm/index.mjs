@@ -6,11 +6,11 @@ import { PDFParse } from 'pdf-parse';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const __pdf_files = join(__dirname, '../../test/pdf_file');
+const __pdf = join(__dirname, '../../../reports/pdf/');
 
 async function run() {
 	try {
-		let buffer = await readFile(join(__pdf_files, 'dummy-test.pdf'));
+		let buffer = await readFile(join(__pdf, 'dummy.pdf'));
 		let parser = new PDFParse({ data: buffer });
 		let result = await parser.getText();
 		await parser.destroy();
@@ -19,7 +19,7 @@ async function run() {
 			process.exit(1);
 		}
 
-		buffer = await readFile(join(__pdf_files, 'full-test.pdf'));
+		buffer = await readFile(join(__pdf, 'default-test.pdf'));
 		parser = new PDFParse({ data: buffer });
 		result = await parser.getText({ last: 1 });
 		await parser.destroy();
@@ -28,7 +28,7 @@ async function run() {
 			process.exit(1);
 		}
 
-		buffer = await readFile(join(__pdf_files, 'image-test.pdf'));
+		buffer = await readFile(join(__pdf, 'image-test.pdf'));
 		parser = new PDFParse({ data: buffer });
 		const img_result = await parser.getImage();
 		const ss_result = await parser.getScreenshot();
