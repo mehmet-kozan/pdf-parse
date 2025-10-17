@@ -348,7 +348,7 @@ Requires additional setup — import and configure a compatible CanvasFactory or
 ESM 
 ```js
 // Import this before importing "pdf-parse"
-import { CustomCanvasFactory } from 'pdf-parse/canvas'; 
+import { CustomCanvasFactory } from 'pdf-parse/worker'; 
 import { PDFParse } from 'pdf-parse';
 
 const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory });
@@ -358,7 +358,7 @@ const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory }
 CommonJS
 ```js
 // Import this before importing "pdf-parse"
-const { CustomCanvasFactory } = require('pdf-parse/canvas'); 
+const { CustomCanvasFactory } = require('pdf-parse/worker'); 
 const { PDFParse } = require('pdf-parse');
 
 const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory });

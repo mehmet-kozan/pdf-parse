@@ -1,4 +1,4 @@
-import { CustomCanvasFactory } from 'pdf-parse/canvas';
+import { CustomCanvasFactory } from 'pdf-parse/worker';
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';

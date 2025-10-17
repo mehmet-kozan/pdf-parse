@@ -1,4 +1,4 @@
-const { CustomCanvasFactory } = require('pdf-parse/canvas');
+const { CustomCanvasFactory } = require('pdf-parse/worker');
 const { PDFParse } = require('pdf-parse');
 const { describe, it } = require('node:test');
 const assert = require('node:assert');

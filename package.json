@@ -37,26 +37,6 @@
 				"types": "./bin/worker/worker.d.cts",
 				"default": "./bin/worker/worker.cjs"
 			}
-		},
-		"./canvas": {
-			"import": {
-				"types": "./bin/canvas/canvas.d.ts",
-				"default": "./bin/canvas/canvas.js"
-			},
-			"require": {
-				"types": "./bin/canvas/canvas.d.cts",
-				"default": "./bin/canvas/canvas.cjs"
-			},
-			"default": {
-				"types": "./bin/canvas/canvas.d.cts",
-				"default": "./bin/canvas/canvas.cjs"
-			}
-		},
-		"./webworker": {
-			"import": {
-				"types": "./bin/worker/webworker.d.ts",
-				"default": "./bin/worker/webworker.js"
-			}
 		}
 	},
 	"description": "Pure TypeScript, cross-platform module for extracting text, images, and tabular data from PDFs. Run directly in your browser or in Node!",
