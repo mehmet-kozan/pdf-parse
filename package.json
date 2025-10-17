@@ -119,7 +119,7 @@
 		"test:watch": "vitest",
 		"coverage": "vitest run --coverage",
 		"bench": "npm run bench:install && vitest bench --run",
-		"bench:install": "npm install --no-save pdf2json",
+		"bench:install": "npm install --no-save pdf2json@latest",
 		"report": "npm run report:build && vite preview --outDir reports",
 		"report:build": "npm run build && npm run coverage && npm run bench",
 		"lint": "biome lint .",

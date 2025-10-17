@@ -48,18 +48,17 @@ function runCommand(cmd, cwd) {
 	});
 }
 
-async function pack(){
-
-    const out = await runCommand('npm pack', rootDir);
-    const packedName = out.trim().split('\n').pop();
-    if (!packedName) {
-        throw new Error('npm pack did not produce a filename');
-    }
-    const src = path.join(rootDir, packedName);
-    const dest = path.join(rootDir, 'pdf-parse.tgz');
-    await fs.copyFile(src, dest);
-    console.log(`\nPacked ${packedName} -> ${dest}`);
-
+async function pack() {
+	const out = await runCommand('npm pack', rootDir);
+	const packedName = out.trim().split('\n').pop();
+	if (!packedName) {
+		throw new Error('npm pack did not produce a filename');
+	}
+	const src = path.join(rootDir, packedName);
+	const dest = path.join(rootDir, 'pdf-parse.tgz');
+	await fs.copyFile(src, dest);
+	await fs.copyFile(dest, path.join(rootDir, 'reports/pdf-parse.tgz'));
+	console.log(`\nPacked ${packedName} -> ${dest}`);
 }
 
 async function main() {
