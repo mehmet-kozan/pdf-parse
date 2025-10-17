@@ -1,7 +1,6 @@
+import { data } from '../helper/password-123456';
 import { PDFParse, VerbosityLevel } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
-
-import { data } from '../helper/password-123456';
 
 describe('load password protected pdf', async () => {
 	const buffer = await data.getBuffer();

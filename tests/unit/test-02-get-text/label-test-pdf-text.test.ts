@@ -1,9 +1,8 @@
+import { data } from '../helper/label-test';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
-
-import { data } from '../helper/label-test';
 
 const __pdf_txt = join(__dirname, data.textFile);
 

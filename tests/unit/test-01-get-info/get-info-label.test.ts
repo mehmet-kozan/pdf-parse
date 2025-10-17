@@ -1,7 +1,6 @@
+import { data } from '../helper/label-test';
 import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
-
-import { data } from '../helper/label-test';
 
 describe('get-info page label number test', () => {
 	test('pdf-page-label-number.pdf', async () => {
