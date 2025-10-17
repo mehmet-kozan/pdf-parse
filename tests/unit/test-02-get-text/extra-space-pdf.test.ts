@@ -1,12 +1,13 @@
-import { data } from '../pdf_data/extra-space';
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
 
+import { data } from '../helper/extra-space';
+
 const __pdf_txt = join(__dirname, data.textFile);
 
-describe(`${data.fileName} test all:true`, async () => {
+describe(data.fileName, async () => {
 	const buffer = await data.getBuffer();
 	const parser = new PDFParse({ data: buffer });
 	const result = await parser.getText();

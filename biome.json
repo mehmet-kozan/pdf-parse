@@ -55,7 +55,7 @@
 					"level": "on",
 					"options": {
 						"groups": [
-							["**/pdf_data/**", "pdf-parse/canvas", "pdf-parse/worker"],
+							["**/helper/**", "pdf-parse/canvas", "pdf-parse/worker"],
 							[":NODE:"],
 							[":PACKAGE:"],
 							":BLANK_LINE:",

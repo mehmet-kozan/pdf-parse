@@ -1,13 +1,14 @@
-import { data } from '../pdf_data/image-test';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
 
+import { data } from '../helper/image-test';
+
 const __pdf_imgs = join(__dirname, data.imageFolder);
 await mkdir(__pdf_imgs, { recursive: true });
 
-describe('test-07 pdf-image all:true', async () => {
+describe(data.fileName, async () => {
 	const buffer = await data.getBuffer();
 	const parser = new PDFParse({ data: buffer });
 

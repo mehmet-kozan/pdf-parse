@@ -1,6 +1,7 @@
-import { data } from '../pdf_data/hyperlinks-test';
 import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
+
+import { data } from '../helper/hyperlinks-test';
 
 describe('test-space', async () => {
 	const buffer = await data.getBuffer();

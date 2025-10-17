@@ -1,7 +1,7 @@
 ﻿import type { TextItem } from 'pdfjs-dist/types/src/display/api.js';
 import { describe, expect, test } from 'vitest';
 
-import { Rectangle, Table } from '../../src/TableUtil';
+import { Rectangle, Table } from '../../../src/TableUtil';
 
 describe('Rectangle basic tests', (): void => {
 	test('constructor works', (): void => {

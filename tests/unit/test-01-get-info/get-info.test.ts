@@ -1,18 +1,16 @@
-import { readFile } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { type PageLinkResult, PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dir = dirname(__filename);
+import { data as data01 } from '../helper/default-test';
+import { data as data02 } from '../helper/hyperlinks-test';
+import { data as data03 } from '../helper/links-in-pdf';
 
 describe('get-info test', () => {
-	test('pdf-common.pdf', async () => {
-		const buffer = await readFile(join(__dir, 'pdf-common.pdf'));
+	test(data01.fileName, async () => {
+		const buffer = await data01.getBuffer();
 		const parser = new PDFParse({ data: buffer });
 		const result = await parser.getInfo();
-		expect(result.total).toEqual(14);
+		expect(result.total).toEqual(data01.total);
 		expect(result.pages.length).toEqual(0);
 		expect(result.info?.PDFFormatVersion).toEqual('1.4');
 		expect(result.info?.Producer).toEqual('pdfeTeX-1.21a');
@@ -24,11 +22,11 @@ describe('get-info test', () => {
 		expect(dateNode.CreationDate?.getTime()).toEqual(1238629165000);
 	});
 
-	test('pdf-links-simple.pdf', async () => {
-		const buffer = await readFile(join(__dir, 'pdf-links-simple.pdf'));
+	test(data02.fileName, async () => {
+		const buffer = await data02.getBuffer();
 		const parser = new PDFParse({ data: buffer });
 		const result = await parser.getInfo({ parsePageInfo: true });
-		expect(result.total).toEqual(1);
+		expect(result.total).toEqual(data02.total);
 		// original pdf file name
 		expect(result.info?.Title).toEqual('hyperlinks-test-pdf');
 		expect(result.info?.PDFFormatVersion).toEqual('1.4');
@@ -56,11 +54,11 @@ describe('get-info test', () => {
 		});
 	});
 
-	test('pdf-links-all.pdf', async () => {
-		const buffer = await readFile(join(__dir, 'pdf-links-all.pdf'));
+	test(data03.fileName, async () => {
+		const buffer = await data03.getBuffer();
 		const parser = new PDFParse({ data: buffer });
 		const result = await parser.getInfo({ parsePageInfo: true });
-		expect(result.total).toEqual(2);
+		expect(result.total).toEqual(data03.total);
 		expect(result.info?.PDFFormatVersion).toEqual('1.5');
 		expect(result.info?.Producer).toEqual('Antenna House PDF Output Library 7.4.1889');
 		expect(result.info?.Creator).toEqual('Antenna House Formatter V7.4 R1 Windows : 7.4.1.63121 (2023-12-20T11:05+09)');

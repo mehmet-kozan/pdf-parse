@@ -1,6 +1,7 @@
-import { data } from '../pdf_data/full-test';
 import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
+
+import { data } from '../helper/default-test';
 
 describe('test-parse-parameters', async () => {
 	const buffer = await data.getBuffer();

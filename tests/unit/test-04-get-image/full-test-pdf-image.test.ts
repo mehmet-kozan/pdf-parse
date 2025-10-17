@@ -1,13 +1,14 @@
-import { data } from '../pdf_data/full-test';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
 
+import { data } from '../helper/default-test';
+
 const folder = join(__dirname, data.imageFolder);
 await mkdir(folder, { recursive: true });
 
-describe(`${data.fileName} pdf-image all:true`, async () => {
+describe(data.fileName, async () => {
 	const buffer = await data.getBuffer();
 	const parser = new PDFParse({ data: buffer });
 	const result = await parser.getImage({ imageThreshold: 80 });

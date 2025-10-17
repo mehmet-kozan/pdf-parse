@@ -1,7 +1,7 @@
 ﻿import { describe, expect, test } from 'vitest';
 
-import { Point } from '../../src/geometry/Point';
-import { Rectangle } from '../../src/geometry/Rectangle';
+import { Point } from '../../../src/geometry/Point';
+import { Rectangle } from '../../../src/geometry/Rectangle';
 
 describe('Rectangle basic tests', (): void => {
 	test('rectangle constructor creates correct instance', (): void => {

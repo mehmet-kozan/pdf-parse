@@ -1,9 +1,10 @@
-import { data } from '../pdf_data/full-test';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PDFParse, type ScreenshotResult } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
+
+import { data } from '../helper/default-test';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -11,7 +12,7 @@ const __dirname = dirname(__filename);
 const folder = join(__dirname, data.imageFolder);
 await mkdir(folder, { recursive: true });
 
-describe(`${data.fileName} screenshot test`, async () => {
+describe(data.fileName, async () => {
 	const buffer = await data.getBuffer();
 	const parser = new PDFParse({ data: buffer });
 	const result: ScreenshotResult = await parser.getScreenshot({ scale: 2 });

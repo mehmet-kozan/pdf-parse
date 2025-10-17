@@ -1,11 +1,11 @@
-import { data } from '../pdf_data/full-test';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
 
-import { PDFParse } from '../../src/index';
+import { data } from '../helper/default-test';
 
-describe('full-test.pdf pdf-text all:true', async () => {
+describe(data.fileName, async () => {
 	const buffer = await data.getBuffer();
 	const parser = new PDFParse({ data: buffer });
 	const result = await parser.getText();

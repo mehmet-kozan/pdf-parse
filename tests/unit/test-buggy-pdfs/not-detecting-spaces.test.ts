@@ -1,9 +1,8 @@
-import { data } from '../pdf_data/not-detecting-spaces';
+import { data } from '../helper/not-detecting-spaces';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
-
-import { PDFParse } from '../../src/index';
 
 describe('test-space', async () => {
 	const buffer = await data.getBuffer();

@@ -1,6 +1,5 @@
+import { getHeader, PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
-
-import { getHeader, PDFParse } from '../../src/index';
 
 describe('get-header test', () => {
 	test('check bitcoin url', { timeout: 30000 }, async () => {
