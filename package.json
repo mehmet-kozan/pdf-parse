@@ -8,7 +8,7 @@
 	"exports": {
 		".": {
 			"browser": {
-				"types": "./dist/esm/index.d.ts",
+				"types": "./dist/browser/pdf-parse.es.d.ts",
 				"default": "./dist/browser/pdf-parse.es.js"
 			},
 			"import": {
@@ -102,10 +102,10 @@
 		"bin/"
 	],
 	"scripts": {
-		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:node && npm run build:browser",
+		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:cjs && npm run build:browser",
 		"build:ts": "tsc && tsc --project tsconfig.types.json && api-extractor run --local",
-		"build:node": "vite build --config vite.config.node.ts",
-		"build:browser": "vite build --config vite.config.browser.ts && vite build --config vite.config.browser.min.ts",
+		"build:cjs": "vite build --config vite.config.cjs.ts",
+		"build:browser": "vite build --config vite.config.browser.ts",
 		"build:worker": "vite build --config vite.config.worker.ts",
 		"clean": "npm run clean:build && npm run clean:report && npm run clean:test && npm run clean:test:i",
 		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
@@ -137,8 +137,8 @@
 		"vite": "^7.1.5",
 		"vitest": "^3.2.4",
 		"typescript": "^5.9.3",
-		"@biomejs/biome": "^2.2.6",
 		"@microsoft/api-extractor": "^7.53.1",
+		"@biomejs/biome": "^2.2.6",
 		"@types/node": "^24.7.2",
 		"@vitest/coverage-v8": "^3.2.4",
 		"@vitest/ui": "^3.2.4",
@@ -152,19 +152,12 @@
 	"engines": {
 		"node": ">=20.16.0 <21 || >=22.3.0"
 	},
-	"browser": {
-		"canvas": false,
-		"fs": false,
-		"http": false,
-		"https": false,
-		"url": false
-	},
 	"sideEffects": [
 		"./bin/worker/worker.js",
 		"./bin/worker/worker.cjs",
 		"./bin/canvas/canvas.js",
 		"./bin/canvas/canvas.cjs"
 	],
-	"jsdelivr": "./dist/browser/pdf-parse.es.min.js",
-	"unpkg": "./dist/browser/pdf-parse.es.min.js"
+	"jsdelivr": "./dist/browser/pdf-parse.es.js",
+	"unpkg": "./dist/browser/pdf-parse.es.js"
 }

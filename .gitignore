@@ -22,9 +22,6 @@ lib-cov
 coverage
 *.lcov
 
-# Temp Example Files
-example/browser/dist-browser
-
 # nyc test coverage
 .nyc_output
 
@@ -83,10 +80,7 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 build
-bin/worker/worker_source.js
-bin/worker/worker_source.cjs
 
 # Gatsby files
 .cache/
@@ -144,15 +138,21 @@ bin/worker/worker_source.cjs
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
+
+# build / generate output
+dist/
+bin/worker/worker_source.js
+bin/worker/worker_source.cjs
+
 # Test outputs
 tests/**/*.txt
 tests/**/imgs/
 tests/**/*_images/
-dist/
 temp/
 
 # Reports
 reports/test
 reports/coverage
 reports/benchmark
+reports/api
 reports/demo/dist-browser

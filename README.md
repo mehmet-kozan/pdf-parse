@@ -301,6 +301,7 @@ try {
 - Can be integrated into `React`, `Vue`, `Angular`, or any other web framework.
 - **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
 - **Demo Source:** [`reports/demo`](reports/demo)
+- **ES Module**:  `pdf-parse.es.js` **UMD/Global**: `pdf-parse.umd.js`
 
 ### CDN Usage  
 
@@ -314,18 +315,12 @@ try {
 </script>
 ```
 
-
-| Bundle Type | Development | Production (Minified) |
-|------------|-------------|----------------------|
-| **ES Module** | `pdf-parse.es.js` | `pdf-parse.es.min.js` |
-| **UMD/Global** | `pdf-parse.umd.js` | `pdf-parse.umd.min.js` |
-
 **CDN Options: https://www.jsdelivr.com/package/npm/pdf-parse**
 
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.2.7/dist/browser/pdf-parse.es.min.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/browser/pdf-parse.es.js`
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.umd.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.2.7/dist/browser/pdf-parse.es.umd.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/browser/pdf-parse.umd.js`
 
 
 ## Similar Packages
