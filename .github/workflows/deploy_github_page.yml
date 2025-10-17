@@ -44,13 +44,13 @@ jobs:
         run: npm i
 
       - name: Site Build
-        run: npm run site:build
+        run: npm run report:build
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./reports_site/coverage
+          directory: ./reports/coverage
           fail_ci_if_error: false
 
       - name: Setup Pages

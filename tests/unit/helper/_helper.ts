@@ -9,6 +9,8 @@ const __dirname = dirname(__filename);
 
 const CACHE: Map<string, Buffer> = new Map();
 
+export type TableArray = Array<string[]>;
+
 export abstract class PDFFile {
 	filePath: string;
 	fileName: string;
@@ -20,6 +22,7 @@ export abstract class PDFFile {
 		num: number;
 		texts: Array<string>;
 		imgs?: Array<{ name: string; dataUrl?: string }>;
+		tables?: TableArray[];
 	}>;
 
 	constructor(callerUrl: string) {
