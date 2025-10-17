@@ -22,12 +22,6 @@ lib-cov
 coverage
 *.lcov
 
-# Github Pages
-reports_site/test-report
-reports_site/coverage
-reports_site/benchmark
-reports_site/live_demo/dist-browser
-
 # Temp Example Files
 example/browser/dist-browser
 
@@ -156,6 +150,9 @@ test/**/imgs/
 test/**/*_images/
 dist/
 temp/
-reports_site/pdf/
 
-test/reports_site/benchmark/bench.json
+# Reports
+reports/test
+reports/coverage
+reports/benchmark
+reports/demo/dist-browser

@@ -49,7 +49,7 @@
                 // @ts-ignore - runtime assignment
                 window.PDFParse = mod.PDFParse ?? (mod.default && (mod.default.PDFParse ?? mod.default)) ?? null;
 
-                const parser = new PDFParse({ url: './dummy-test.pdf' });
+                const parser = new PDFParse({ url: './pdf/dummy.pdf' });
 
                 const result = await parser.getText();
                 await parser.destroy();
@@ -225,7 +225,7 @@
                 <p class="subtitle">Pure JavaScript PDF Parser - Extract Text, Images & Tables from PDF Files</p>
             </header>
             <nav class="links" aria-label="Demo and report links">
-                <a href="./test-report/index.html" aria-label="View test results">
+                <a href="./test/index.html" aria-label="View test results">
                     <span class="icon" aria-hidden="true">🧪</span>
                     <span>Test Results</span>
                 </a>
@@ -233,27 +233,27 @@
                     <span class="icon" aria-hidden="true">📈</span>
                     <span>Coverage Report</span>
                 </a>
-                <a href="./bench.html" aria-label="View benchmark performance results">
+                <a href="./benchmark.html" aria-label="View benchmark performance results">
                     <span class="icon" aria-hidden="true">⚡</span>
                     <span>Benchmark Results</span>
                 </a>
-                <a href="./live_demo/get-header.demo.html" aria-label="Try getHeader demo">
+                <!-- <a href="./live_demo/get-header.demo.html" aria-label="Try getHeader demo">
                     <span class="icon" aria-hidden="true">🔗</span>
                     <span>GetHeader Demo</span>
-                </a>
-                <a href="./live_demo/pdf-parse.esm.html" aria-label="Try ESM module demo">
+                </a> -->
+                <a href="./demo/pdf-parse.esm.html" aria-label="Try ESM module demo">
                     <span class="icon" aria-hidden="true">🔗</span>
                     <span>ESM Demo</span>
                 </a>
-                <a href="./live_demo/pdf-parse.umd.html" aria-label="Try UMD module demo">
+                <a href="./demo/pdf-parse.umd.html" aria-label="Try UMD module demo">
                     <span class="icon" aria-hidden="true">🔗</span>
                     <span>UMD Demo</span>
                 </a>
-                <a href="./live_demo/get-screenshot-demo.html" aria-label="Try PageToImage demo">
+                <a href="./demo/get-screenshot-demo.html" aria-label="Try PageToImage demo">
                     <span class="icon" aria-hidden="true">🔗</span>
                     <span>Screenshot Demo</span>
                 </a>
-                <a href="./live_demo/get-image.demo.html" aria-label="Try GetImage extraction demo">
+                <a href="./demo/get-image.demo.html" aria-label="Try GetImage extraction demo">
                     <span class="icon" aria-hidden="true">🔗</span>
                     <span>GetImage Demo</span>
                 </a>

@@ -51,9 +51,9 @@ parser.getText().then((result)=>{
 - Detect and extract tabular data : [`getTable`](#gettable--extract-tabular-data) 
 - Well-covered with [`unit tests`](./test)
 - [`Integration tests`](./test_integration) to validate end-to-end behavior across environments.
-- See [DocumentInitParameters](./README.options.md#documentinitparameters) and [ParseParameters](./README.options.md#parseparameters) for all available options.
-- For usage examples, see [`live_demo`](./reports_site/live_demo/), [`example`](./example/), [`test`](./test/) and [`test/example`](./test/test-example/) folders.
-- Serverless-ready, see [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
+- See [DocumentInitParameters](./docs/README.options.md#documentinitparameters) and [ParseParameters](./docs/README.options.md#parseparameters) for all available options.
+- Examples: [`live_demo`](./reports_site/live_demo/), [`example`](./example/), [`test`](./test/) and [`test/example`](./test/test-example/) folders.
+- Serverless ready: [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
 
 
 ## Installation

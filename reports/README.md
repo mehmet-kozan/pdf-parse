@@ -7,7 +7,7 @@
 ## 📁 Directory Structure
 
 ```
-reports_site/
+reports/
 ├── index.html          # Landing page for viewing reports
 ├── test-report/        # Test reports (auto-generated)
 │   └── index.html
@@ -17,35 +17,16 @@ reports_site/
 
 ## 🧪 Generating Reports Locally
 
-### Run Tests Only
 ```bash
-npm test
-# or
-npm run test:run
-```
+# Test reports will be generated in: reports/
+npm run report:build
 
-### Generate Test HTML Report
-```bash
-npm run test:run
-# Test report will be generated in: reports/test/
-```
 
-### Generate Coverage Report
-```bash
-npm run coverage
-# Coverage report will be generated in: reports/coverage/
-```
-
-### View Test UI (Interactive)
-```bash
-npm run test:ui
-# Opens interactive test UI in browser
-```
-
-### View Reports
-```bash
+# Generate reports ans run site
 npm run report
-# Opens report UI in browser
+
+# Clean all generated files including reports
+npm run clean
 ```
 
 ## 🌐 GitHub Pages
@@ -53,7 +34,7 @@ npm run report
 Reports are automatically deployed to GitHub Pages on every push to the `main` branch:
 
 - **Landing Page**: https://mehmet-kozan.github.io/pdf-parse/
-- **Test Report**: https://mehmet-kozan.github.io/pdf-parse/test-report/
+- **Test Report**: https://mehmet-kozan.github.io/pdf-parse/test/
 - **Coverage Report**: https://mehmet-kozan.github.io/pdf-parse/coverage/
 
 ## 🧹 Cleaning Reports
@@ -70,11 +51,9 @@ npm run clean
 - GitHub Actions automatically deploys reports to GitHub Pages
 
 ## 🚀 CI/CD
-
-The GitHub Actions workflow (`.github/workflows/test.yml`) automatically:
-1. Runs tests on every push to any branch
-2. Generates test and coverage reports on `main` branch
-3. Deploys reports to GitHub Pages
+The GitHub Actions workflow [`deploy_github_page`](`.github/workflows/deploy_github_page.yml`)
+1. Runs tests on every push to `main` branch
+2. Deploys reports to GitHub Pages
 
 ## 📚 Learn More
 

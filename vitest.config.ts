@@ -5,27 +5,27 @@ export default defineConfig({
 		environment: 'node',
 		slowTestThreshold: 1000,
 		globals: true,
-		include: ['test/**/*.test.ts'],
-		exclude: ['test/**/_*', 'test/_**/*'],
+		include: ['tests/unit/**/*.test.ts'],
+		exclude: ['tests/unit/**/_*', 'tests/unit/_**/*'],
 		reporters: ['default', 'html'],
 		outputFile: {
-			html: 'reports_site/test-report/index.html',
+			html: 'reports/test/index.html',
 		},
 
 		coverage: {
 			enabled: false,
 			provider: 'v8',
-			include: ['src/**/*.ts', 'dist/esm/*.js'],
+			include: ['src/**/*.ts'],
 			exclude: ['src/**/_*', 'src/_**/*'],
 			reporter: [['html', { subdir: 'html-report' }], 'lcov', 'json', 'text-summary'],
-			reportsDirectory: 'reports_site/coverage',
+			reportsDirectory: 'reports/coverage',
 			all: true,
 			clean: true,
 		},
 
 		benchmark: {
 			reporters: ['default'],
-			outputJson: 'reports_site/benchmark/bench.json',
+			outputJson: 'reports/benchmark/bench.json',
 		},
 	},
 });

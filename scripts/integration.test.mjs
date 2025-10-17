@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const rootDir = path.resolve(__dirname, '../test_integration');
+const rootDir = path.resolve(__dirname, '../tests/integration');
 
 async function packageExists(dir) {
 	try {

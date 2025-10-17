@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"outDir": "dist/@types",
+		"declaration": true,
+		"declarationMap": true,
+		"emitDeclarationOnly": true,
+		"sourceMap": false,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"target": "ES2022",
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"jsx": "react",
+		"noEmit": false,
+		"noUncheckedIndexedAccess": false,
+		"skipLibCheck": true,
+		"strict": true,
+		"rootDir": "src",
+		"verbatimModuleSyntax": false
+	},
+	"include": ["src/**/*"],
+	"exclude": ["src/**/_*", "src/_**/*", "src/index.browser.ts"]
+}
