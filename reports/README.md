@@ -22,7 +22,7 @@ reports/
 npm run report:build
 
 
-# Generate reports ans run site
+# Generate reports
 npm run report
 
 # Clean all generated files including reports

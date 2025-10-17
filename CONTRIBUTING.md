@@ -59,8 +59,8 @@ The following scripts are defined in `package.json` to help with development and
 - `npm run bench:install`: Install the `pdf2json` package locally without saving it to `package.json` (used for some benchmarks).
 
 ### Site & other
-- `npm run site`: Run `site:build` then preview the `reports_site` output with Vite.
-- `npm run site:build`: Build the project and generate coverage and benchmarks for the site.
+- `npm run report`: Run `report:build` then preview the `reports` site output with Vite.
+- `npm run report:build`: Build the project and generate coverage and benchmarks for the site.
 - `npm run prepare`: Run before publishing; currently runs the build.
 - `npm run pack`: Perform a dry-run of `npm pack` to verify package contents.
 
