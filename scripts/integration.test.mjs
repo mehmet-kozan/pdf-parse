@@ -9,7 +9,8 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const rootDir = path.resolve(__dirname, '../tests/integration');
+const rootDir = path.resolve(__dirname, '..');
+const testDir = path.resolve(__dirname, '../tests/integration');
 
 async function packageExists(dir) {
 	try {
@@ -47,8 +48,23 @@ function runCommand(cmd, cwd) {
 	});
 }
 
+async function pack(){
+
+    const out = await runCommand('npm pack', rootDir);
+    const packedName = out.trim().split('\n').pop();
+    if (!packedName) {
+        throw new Error('npm pack did not produce a filename');
+    }
+    const src = path.join(rootDir, packedName);
+    const dest = path.join(rootDir, 'pdf-parse.tgz');
+    await fs.copyFile(src, dest);
+    console.log(`\nPacked ${packedName} -> ${dest}`);
+
+}
+
 async function main() {
-	const packageDirs = await findPackageDirs(rootDir);
+	await pack();
+	const packageDirs = await findPackageDirs(testDir);
 	for (const dir of packageDirs) {
 		console.log(`\nProcessing: ${dir}`);
 		try {

@@ -12,7 +12,7 @@
 		"test": "node ./index.js"
 	},
 	"dependencies": {
-		"pdf-parse": "latest"
+		"pdf-parse": "file:../../../pdf-parse.tgz"
 	},
 	"devDependencies": {
 		"async-listen": "latest",

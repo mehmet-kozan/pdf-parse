@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.4.3",
+	"version": "2.4.4",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
@@ -111,7 +111,7 @@
 		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
 		"clean:report": "rimraf reports/test reports/coverage reports/benchmark reports/api reports/demo/dist-browser ",
 		"clean:test": "rimraf --glob tests/**/*.txt tests/**/imgs tests/**/*_images temp",
-		"clean:test:i": "rimraf --glob tests/**/node_modules tests/**/package-lock.json tests/**/dist",
+		"clean:test:i": "rimraf --glob *.tgz tests/**/node_modules tests/**/package-lock.json tests/**/dist",
 		"test": "vitest run --reporter=default",
 		"test:i": "node scripts/integration.test.mjs",
 		"test:u": "node --test tests/unsupported/*.test.cjs && node --test tests/unsupported/*.test.mjs",

@@ -6,6 +6,8 @@ on:
   push:
     tags:
       - "v*.*.*" # Trigger only on version tags
+  release:
+    types: [published] # Trigger when a release is published
 
 permissions:
   id-token: write # Grants write access to id-token for provenance
@@ -57,7 +59,12 @@ jobs:
       - name: Extract tag version
         id: tag_version
         run: |
-          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          if [ "${GITHUB_EVENT_NAME}" = "release" ]; then
+            TAG_VERSION=$(node -p "require(process.env.GITHUB_EVENT_PATH).release.tag_name")
+          else
+            TAG_VERSION=${GITHUB_REF#refs/tags/}
+          fi
+          TAG_VERSION=${TAG_VERSION#v}
           echo "version=$TAG_VERSION" >> $GITHUB_OUTPUT
           echo "Tag version: $TAG_VERSION"
 
