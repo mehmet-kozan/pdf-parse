@@ -1,10 +1,12 @@
+export type TableArray = Array<Array<string>>;
+
 /**
  * @public
  * PageTableResult
  */
 export interface PageTableResult {
 	num: number;
-	tables: Array<Array<string>>;
+	tables: TableArray[];
 }
 
 /**
@@ -13,7 +15,7 @@ export interface PageTableResult {
  */
 export class TableResult {
 	pages: Array<PageTableResult> = [];
-	mergedTables: Array<Array<string>> = [];
+	mergedTables: TableArray[] = [];
 	total: number = 0;
 
 	constructor(total: number) {

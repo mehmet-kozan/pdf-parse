@@ -13,7 +13,7 @@ export type { EmbeddedImage, ImageKindKey, ImageKindValue, ImageResult, PageImag
 export type { DateNode, InfoResult, Metadata, OutlineNode, PageLinkResult } from './InfoResult.js';
 export type { ParseParameters } from './ParseParameters.js';
 export type { Screenshot, ScreenshotResult } from './ScreenshotResult.js';
-export type { PageTableResult, TableResult } from './TableResult.js';
+export type { PageTableResult, TableArray, TableResult } from './TableResult.js';
 export type { PageTextResult, TextResult } from './TextResult.js';
 
 /**

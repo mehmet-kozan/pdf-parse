@@ -43,6 +43,9 @@ jobs:
       - name: Install
         run: npm i
 
+      - name: Install
+        run: npm run test:i
+
       - name: Site Build
         run: npm run report:build
 

@@ -25,6 +25,7 @@ async function findPackageDirs(dir) {
 	const result = [];
 	const entries = await fs.readdir(dir, { withFileTypes: true });
 	for (const entry of entries) {
+		if (entry.name.startsWith('_')) continue;
 		const fullPath = path.join(dir, entry.name);
 		const isPackage = await packageExists(fullPath);
 		if (entry.isDirectory() && isPackage) {

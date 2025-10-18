@@ -1,7 +1,7 @@
 import { PDFFile } from './_helper';
 
 class TestData extends PDFFile {
-	total = 1;
+	total = 3;
 	pages = [
 		{
 			num: 1,
