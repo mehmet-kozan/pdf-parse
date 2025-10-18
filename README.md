@@ -23,20 +23,24 @@
 <br />
 
 ## Getting Started with v2 (Coming from v1)
+
 ```js
 // v1
-const pdf = require('pdf-parse');
-pdf(buffer).then(result => console.log(result.text));
+// const pdf = require('pdf-parse');
+// pdf(buffer).then(result => console.log(result.text));
 
 // v2
 const { PDFParse } = require('pdf-parse');
-const parser = new PDFParse({ data: buffer });
+// import { PDFParse } from 'pdf-parse';
 
-parser.getText().then((result)=>{
-    console.log(result.text)
-}).finally(async ()=>{
-    await parser.destroy();
-});
+async function run() {
+	const parser = new PDFParse({ url: 'https://bitcoin.org/bitcoin.pdf' });
+
+	const result = await parser.getText();
+	console.log(result.text);
+}
+
+run();
 ```  
 
 ## Features <a href="https://mehmet-kozan.github.io/pdf-parse/" target="_blank"><img align="right" src="https://img.shields.io/badge/live-demo-brightgreen.svg" alt="demo"></a>  
@@ -53,10 +57,11 @@ parser.getText().then((result)=>{
 - [`Integration tests`](./test_integration) to validate end-to-end behavior across environments.
 - See [DocumentInitParameters](./docs/README.options.md#documentinitparameters) and [ParseParameters](./docs/README.options.md#parseparameters) for all available options.
 - Examples: [`live demo`](./reports/demo/), [`examples`](./examples/), [`tests`](./tests/unit/) and [`tests example`](./tests/unit/test-example/) folders.
-- Serverless ready: [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
+- Supports: [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
 
 
 ## Installation
+
 ```sh
 npm install pdf-parse
 # or
@@ -69,9 +74,10 @@ bun add pdf-parse
 
 ## Usage
 
-### `getHeader` — Node Utils `pdf-parse/utils`
+### `getHeader` — Node Utility: PDF Header Retrieval and Validation
+
 ```js
-// Node / ESM
+// Important: getHeader is available from the 'pdf-parse/utils' submodule
 import { getHeader } from 'pdf-parse/utils';
 
 // HEAD request to retrieve HTTP headers and file size without downloading the full file.
@@ -79,58 +85,54 @@ import { getHeader } from 'pdf-parse/utils';
 // Optionally validates PDFs by fetching the first 4 bytes (magic bytes).
 // Useful for checking file existence, size, and type before full parsing.
 // Node only, will not work in browser environments.
-const headerResult = await getHeader('https://bitcoin.org/bitcoin.pdf',true);
+const result = await getHeader('https://bitcoin.org/bitcoin.pdf', true);
 
-console.log(`Status: ${headerResult.status}`);
-console.log(`Content-Length: ${headerResult.size}`);
-console.log(`Is PDF: ${headerResult.isPdf}`);
-console.log(`Headers:`, headerResult.headers);
+console.log(`Status: ${result.status}`);
+console.log(`Content-Length: ${result.size}`);
+console.log(`Is PDF: ${result.isPdf}`);
+console.log(`Headers:`, result.headers);
 ```
 
 ### `getInfo` — Extract Metadata and Document Information
+
 ```js
-// Node / ESM
-import { PDFParse } from 'pdf-parse';
 import { readFile } from 'node:fs/promises';
+import { PDFParse } from 'pdf-parse';
 
-const buffer = await readFile('test/test-01/test.pdf');
+const link = 'https://mehmet-kozan.github.io/pdf-parse/pdf/climate.pdf';
+// const buffer = await readFile('reports/pdf/climate.pdf');
+// const parser = new PDFParse({ data: buffer });
 
-const parser = new PDFParse({ data: buffer });
-const info = await parser.getInfo();
+const parser = new PDFParse({ url: link });
+const result = await parser.getInfo({ parsePageInfo: true });
 await parser.destroy();
 
-console.log(`Total pages: ${info.total}`);
-console.log(`Title: ${info.info?.Title}`);
-console.log(`Author: ${info.info?.Author}`);
-console.log(`Creator: ${info.info?.Creator}`);
-console.log(`Producer: ${info.info?.Producer}`);
+console.log(`Total pages: ${result.total}`);
+console.log(`Title: ${result.info?.Title}`);
+console.log(`Author: ${result.info?.Author}`);
+console.log(`Creator: ${result.info?.Creator}`);
+console.log(`Producer: ${result.info?.Producer}`);
 
 // Access parsed date information
-const dates = info.getDateNode();
+const dates = result.getDateNode();
 console.log(`Creation Date: ${dates.CreationDate}`);
 console.log(`Modification Date: ${dates.ModDate}`);
 
 // Links, pageLabel, width, height (when `parsePageInfo` is true)
-console.log(`Per-page information: ${info.pages}`);
-
+console.log('Per-page information:');
+console.log(JSON.stringify(result.pages, null, 2));
 ```
-
-Usage Examples:
-- Parse hyperlinks from pages: [`tests/unit/test-01-get-info`](tests/unit/test-01-get-info/get-info.test.ts)
-- To extract hyperlinks, pass `{ parsePageInfo: true }`
 
 ### `getText` — Extract Text
 ```js
-// Node / ESM
 import { PDFParse } from 'pdf-parse';
-import { readFile } from 'node:fs/promises';
 
-const buffer = await readFile('test/test-01/test.pdf');
-
-const parser = new PDFParse({ data: buffer });
-const textResult = await parser.getText();
+const parser = new PDFParse({ url: 'https://bitcoin.org/bitcoin.pdf' });
+const result = await parser.getText();
+// to extract text from page 3 only:
+// const result = await parser.getText({ partial: [3] });
 await parser.destroy();
-console.log(textResult.text);
+console.log(result.text);
 ```
 For a complete list of configuration options, see:
 
@@ -147,22 +149,24 @@ Usage Examples:
 - Load PDF from base64 data: [`base64.test.ts`](tests/unit/test-example/base64.test.ts)
 - Loading large files (> 5 MB): [`large-file.test.ts`](tests/unit/test-example/large-file.test.ts)
 
-### `getScreenshot` — Render Pages as PNG
+### `getScreenshot` — Render Pages as PNG  
+
 ```js
-// Node / ESM
-import { PDFParse } from 'pdf-parse';
 import { readFile, writeFile } from 'node:fs/promises';
+import { PDFParse } from 'pdf-parse';
 
-const buffer = await readFile('test/test-01/test.pdf');
+const link = 'https://bitcoin.org/bitcoin.pdf';
+// const buffer = await readFile('reports/pdf/bitcoin.pdf');
+// const parser = new PDFParse({ data: buffer });
 
-const parser = new PDFParse({ data: buffer });
-const result = await parser.getScreenshot();
+const parser = new PDFParse({ url: link });
+
+// scale:1 for original page size.
+// scale:1.5 %50 bigger.
+const result = await parser.getScreenshot({ scale: 1.5 });
+
 await parser.destroy();
-
-for (const pageData of result.pages) {
-    const imgFileName = `page_${pageData.pageNumber}.png`;
-    await writeFile(imgFileName, pageData.data, { flag: 'w' });
-}
+await writeFile('bitcoin.png', result.pages[0].data);
 ```
 
 Usage Examples:
@@ -177,24 +181,21 @@ Usage Examples:
 - Use `last` to render the last N pages (e.g. `getScreenshot({ last: 2 })`).
 - When both `first` and `last` are provided they form an inclusive range (`first..last`).
 
-### `getImage` — Extract Embedded Images
+### `getImage` — Extract Embedded Images  
+
 ```js
-// Node / ESM
-import { PDFParse } from 'pdf-parse';
 import { readFile, writeFile } from 'node:fs/promises';
+import { PDFParse } from 'pdf-parse';
 
-const buffer = await readFile('test/test-01/test.pdf');
+const link = new URL('https://mehmet-kozan.github.io/pdf-parse/pdf/image-test.pdf');
+// const buffer = await readFile('reports/pdf/image-test.pdf');
+// const parser = new PDFParse({ data: buffer });
 
-const parser = new PDFParse({ data: buffer });
+const parser = new PDFParse({ url: link });
 const result = await parser.getImage();
 await parser.destroy();
 
-for (const pageData of result.pages) {
-    for (const pageImage of pageData.images) {
-        const imgFileName = `page_${pageData.pageNumber}-${pageImage.name}.png`;
-        await writeFile(imgFileName, pageImage.data, { flag: 'w' });
-    }
-}
+await writeFile('adobe.png', result.pages[0].images[0].data);
 ```
 
 Usage Examples:
@@ -210,22 +211,92 @@ Usage Examples:
 
 ### `getTable` — Extract Tabular Data
 ```js
-// Node / ESM
-import { PDFParse } from 'pdf-parse';
 import { readFile } from 'node:fs/promises';
+import { PDFParse } from 'pdf-parse';
 
-const buffer = await readFile('test/test-01/test.pdf');
+const link = new URL('https://mehmet-kozan.github.io/pdf-parse/pdf/simple-table.pdf');
+// const buffer = await readFile('reports/pdf/simple-table.pdf');
+// const parser = new PDFParse({ data: buffer });
 
-const parser = new PDFParse({ data: buffer });
+const parser = new PDFParse({ url: link });
 const result = await parser.getTable();
 await parser.destroy();
 
-for (const pageData of result.pages) {
-    for (const table of pageData.tables) {
-        console.log(table);
-    }
+// Pretty-print each row of the first table
+for (const row of result.pages[0].tables[0]) {
+	console.log(JSON.stringify(row));
 }
-```  
+```
+
+## Exception Handling & Type Usage  
+
+```ts
+import type { DocumentInitParameters, ParseParameters, TextResult } from 'pdf-parse';
+import { PasswordException, PDFParse, VerbosityLevel } from 'pdf-parse';
+
+const initParams: DocumentInitParameters = {
+	url: 'https://mehmet-kozan.github.io/pdf-parse/pdf/password-123456.pdf',
+	verbosity: VerbosityLevel.WARNINGS,
+	password: 'abcdef',
+};
+
+const parseParams: ParseParameters = {
+	first: 1,
+};
+
+// Initialize the parser class without executing any code yet
+const parser = new PDFParse(initParams);
+
+function handleResult(result: TextResult) {
+	console.log(result.text);
+}
+
+try {
+	const result = await parser.getText(parseParams);
+	handleResult(result);
+} catch (error) {
+	// InvalidPDFException
+	// PasswordException
+	// FormatError
+	// ResponseException
+	// AbortException
+	// UnknownErrorException
+	if (error instanceof PasswordException) {
+		console.error('Password must be 123456\n', error);
+	}
+} finally {
+	// Always call destroy() to free memory
+	await parser.destroy();
+}
+
+``` 
+
+## Web / Browser <a href="https://www.jsdelivr.com/package/npm/pdf-parse" target="_blank"><img align="right" src="https://img.shields.io/jsdelivr/npm/hm/pdf-parse"></a>  
+
+- Can be integrated into `React`, `Vue`, `Angular`, or any other web framework.
+- **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
+- **Demo Source:** [`reports/demo`](reports/demo)
+- **ES Module**:  `pdf-parse.es.js` **UMD/Global**: `pdf-parse.umd.js`
+
+### CDN Usage  
+
+```html
+<!-- ES Module -->
+<script type="module">
+  import {PDFParse} from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/+esm';
+  const parser = new PDFParse({url:'https://mehmet-kozan.github.io/pdf-parse/pdf/bitcoin.pdf'});
+  const result = await parser.getText()
+  console.log(result.text)
+</script>
+```
+
+**CDN Options: https://www.jsdelivr.com/package/npm/pdf-parse**
+
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/browser/pdf-parse.es.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.umd.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/browser/pdf-parse.umd.js`
+
 
 ## Worker Configuration (Node / Serverless Platforms)
 
@@ -272,48 +343,6 @@ PDFParse.setWorker(getWorkerPath());
 ```
 
 
-## Error Handling
-```js
-import { PDFParse, VerbosityLevel } from 'pdf-parse';
-
-const parser = new PDFParse({ data: buffer, verbosity: VerbosityLevel.WARNINGS });
-
-try {
-    const result = await parser.getText();
-} catch (error) {
-    console.error('PDF parsing failed:', error);
-} finally {
-    // Always call destroy() to free memory
-    await parser.destroy();
-}
-```  
-
-## Web / Browser <a href="https://www.jsdelivr.com/package/npm/pdf-parse" target="_blank"><img align="right" src="https://img.shields.io/jsdelivr/npm/hm/pdf-parse"></a>  
-- Can be integrated into `React`, `Vue`, `Angular`, or any other web framework.
-- **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
-- **Demo Source:** [`reports/demo`](reports/demo)
-- **ES Module**:  `pdf-parse.es.js` **UMD/Global**: `pdf-parse.umd.js`
-
-### CDN Usage  
-
-```html
-<!-- ES Module -->
-<script type="module">
-  import {PDFParse} from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/+esm';
-  const parser = new PDFParse({url:'https://mehmet-kozan.github.io/pdf-parse/pdf/bitcoin.pdf'});
-  const result = await parser.getText()
-  console.log(result.text)
-</script>
-```
-
-**CDN Options: https://www.jsdelivr.com/package/npm/pdf-parse**
-
-- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/browser/pdf-parse.es.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.umd.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/browser/pdf-parse.umd.js`
-
-
 ## Similar Packages
 * [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
 * [pdfdataextract](https://www.npmjs.com/package/pdfdataextract) — `pdf-parse` based
@@ -346,7 +375,7 @@ const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory }
 // then use parser
 ```
 
-CommonJS
+CJS
 ```js
 // Import this before importing "pdf-parse"
 const { CustomCanvasFactory } = require('pdf-parse/worker'); 

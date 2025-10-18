@@ -144,7 +144,7 @@ export interface PageTableResult {
     // (undocumented)
     num: number;
     // (undocumented)
-    tables: Array<Array<string>>;
+    tables: TableArray[];
 }
 
 // @public
@@ -237,11 +237,14 @@ export class ScreenshotResult {
     total: number;
 }
 
+// @public (undocumented)
+export type TableArray = Array<Array<string>>;
+
 // @public
 export class TableResult {
     constructor(total: number);
     // (undocumented)
-    mergedTables: Array<Array<string>>;
+    mergedTables: TableArray[];
     // (undocumented)
     pages: Array<PageTableResult>;
     // (undocumented)

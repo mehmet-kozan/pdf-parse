@@ -149,6 +149,8 @@ tests/**/*.txt
 tests/**/imgs/
 tests/**/*_images/
 temp/
+adobe.png
+bitcoin.png
 
 # Reports
 reports/test

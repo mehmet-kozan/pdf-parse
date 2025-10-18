@@ -735,12 +735,15 @@ export class PDFParse {
 				const tableDataArr = store.getTableData();
 				await this.fillPageTables(page, tableDataArr);
 
+				const pageTableResult: PageTableResult = { num: i, tables: [] };
 				for (const table of tableDataArr) {
 					//if (table.cellCount < 3) continue
-					const pageTableResult: PageTableResult = { num: i, tables: table.toArray() };
-					result.pages.push(pageTableResult);
+					pageTableResult.tables.push(table.toArray());
+					//const pageTableResult: PageTableResult = { num: i, tables: table.toArray() };
+
 					//pageTableResult.tables.push(table.toData())
 				}
+				result.pages.push(pageTableResult);
 
 				page.cleanup();
 			}

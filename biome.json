@@ -16,7 +16,8 @@
 			"!reports/coverage",
 			"!reports/benchmark",
 			"!bin/worker/worker_source.js",
-			"!bin/worker/worker_source.cjs"
+			"!bin/worker/worker_source.cjs",
+			"!tests/integration/*/node_modules"
 		]
 	},
 	"formatter": {
@@ -66,5 +67,16 @@
 				}
 			}
 		}
-	}
+	},
+	"overrides": [
+		{
+			"includes": ["examples/**"],
+			"linter": {
+				"enabled": false
+			},
+			"formatter": {
+				"enabled": true
+			}
+		}
+	]
 }
