@@ -1,4 +1,5 @@
 import { resolve } from 'node:path';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -29,9 +30,17 @@ export default defineConfig({
 			outputJson: 'reports/benchmark/bench.json',
 		},
 	},
-	resolve: {
-		alias: {
-			'pdf-parse': resolve(__dirname, './src'),
-		},
-	},
+	plugins: [
+		tsconfigPaths({
+			root: __dirname,
+			projects: ['tsconfig.json', 'configs/tsconfig.utils.json'],
+		}),
+	],
+
+	// resolve: {
+	// 	alias: {
+	// 		'pdf-parse': resolve(__dirname, './src'),
+	// 		'pdf-parse/utils': resolve(__dirname, './utils'),
+	// 	},
+	// },
 });

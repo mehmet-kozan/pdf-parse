@@ -7,7 +7,6 @@ import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 import { getException } from './Exception.js';
 import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
 import type { TableData } from './geometry/TableData.js';
-import { getHeader, type HeaderResult } from './HeaderResult.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
 import { InfoResult, type PageLinkResult } from './InfoResult.js';
 import { type ParseParameters, setDefaultParseParameters } from './ParseParameters.js';
@@ -84,20 +83,6 @@ export class PDFParse {
 		return pdfjs.GlobalWorkerOptions.workerSrc;
 	}
 	// biome-ignore-end lint/suspicious/noExplicitAny: unsupported underline type
-
-	/**
-	 * Perform an HTTP HEAD request to retrieve the file size and verify existence;
-	 * when `check` is true, fetch a small range and inspect the magic number to confirm the URL points to a valid PDF.
-	 * @param check When `true`, download a small byte range to validate the file signature.
-	 * Default: `false`.
-	 */
-	public async getHeader(check: boolean = false): Promise<HeaderResult> {
-		if (!this.options.url) {
-			throw new Error('getHeader: options.url is not set');
-		}
-
-		return await getHeader(this.options.url, check);
-	}
 
 	/**
 	 * Load document-level metadata (info, outline, permissions, page labels) and optionally gather per-page link details.
