@@ -56,25 +56,6 @@ export class FormatError extends Error {
 export function getException(error: unknown): Error;
 
 // @public
-export function getHeader(url: string | URL, check?: boolean): Promise<HeaderResult>;
-
-// @public (undocumented)
-export interface HeaderResult {
-    // (undocumented)
-    error?: Error;
-    // (undocumented)
-    headers?: Record<string, string>;
-    // (undocumented)
-    isPdf?: boolean;
-    // (undocumented)
-    ok: boolean;
-    // (undocumented)
-    size?: number;
-    // (undocumented)
-    status?: number;
-}
-
-// @public
 export type ImageKindKey = keyof typeof ImageKind;
 
 // @public
@@ -208,7 +189,6 @@ export class PDFParse {
     constructor(options: DocumentInitParameters);
     // (undocumented)
     destroy(): Promise<void>;
-    getHeader(check?: boolean): Promise<HeaderResult>;
     getImage(params?: ParseParameters): Promise<ImageResult>;
     getInfo(params?: ParseParameters): Promise<InfoResult>;
     getScreenshot(parseParams?: ParseParameters): Promise<ScreenshotResult>;

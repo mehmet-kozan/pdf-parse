@@ -37,6 +37,20 @@
 				"types": "./bin/worker/worker.d.cts",
 				"default": "./bin/worker/worker.cjs"
 			}
+		},
+		"./utils": {
+			"import": {
+				"types": "./dist/utils/esm/index.d.ts",
+				"default": "./dist/utils/esm/index.js"
+			},
+			"require": {
+				"types": "./dist/utils/cjs/index.d.cts",
+				"default": "./dist/utils/cjs/index.cjs"
+			},
+			"default": {
+				"types": "./dist/utils/cjs/index.d.cts",
+				"default": "./dist/utils/cjs/index.cjs"
+			}
 		}
 	},
 	"description": "Pure TypeScript, cross-platform module for extracting text, images, and tabular data from PDFs. Run directly in your browser or in Node!",
@@ -65,11 +79,11 @@
 		"pdf2json",
 		"pdf-to-image",
 		"pdf2image",
+		"pdf2pic",
 		"pdf-to-csv",
 		"pdf2csv",
 		"pdf-document-parser",
-		"pdf-reader",
-		"server-side-pdf-parsing"
+		"pdf-reader"
 	],
 	"repository": {
 		"type": "git",
@@ -82,11 +96,15 @@
 		"bin/"
 	],
 	"scripts": {
-		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:cjs && npm run build:browser",
-		"build:ts": "tsc && tsc --project configs/tsconfig.types.json && api-extractor run --local",
+		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:cjs && npm run build:browser && npm run build:utils",
+		"build:ts": "tsc && api-extractor run --local",
 		"build:cjs": "vite build --config configs/vite.config.cjs.ts",
 		"build:browser": "vite build",
 		"build:worker": "vite build --config configs/vite.config.worker.ts",
+
+		"build:utils": "npm run build:utils:ts && npm run build:utils:bundle",
+		"build:utils:ts": "tsc --project configs/tsconfig.utils.json && api-extractor run --local -c configs/api-extractor.utils.jsonc",
+		"build:utils:bundle": "esbuild utils/index.ts --bundle --platform=node --format=cjs --target=node16 --outfile=dist/utils/cjs/index.cjs --sourcemap",
 		"clean": "npm run clean:build && npm run clean:report && npm run clean:test && npm run clean:test:i",
 		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
 		"clean:report": "rimraf reports/test reports/coverage reports/benchmark reports/api reports/demo/dist-browser ",
@@ -114,16 +132,18 @@
 		"pdfjs-dist": "^5.4.296"
 	},
 	"devDependencies": {
-		"vite": "^7.1.5",
-		"vitest": "^3.2.4",
-		"typescript": "^5.9.3",
-		"@microsoft/api-extractor": "^7.53.1",
 		"@biomejs/biome": "^2.2.6",
+		"@microsoft/api-extractor": "^7.53.1",
 		"@types/node": "^24.7.2",
 		"@vitest/coverage-v8": "^3.2.4",
 		"@vitest/ui": "^3.2.4",
+		"esbuild": "^0.25.11",
 		"rimraf": "^6.0.1",
-		"terser": "^5.44.0"
+		"terser": "^5.44.0",
+		"typescript": "^5.9.3",
+		"vite": "^7.1.5",
+		"vite-tsconfig-paths": "^5.1.4",
+		"vitest": "^3.2.4"
 	},
 	"publishConfig": {
 		"access": "public",

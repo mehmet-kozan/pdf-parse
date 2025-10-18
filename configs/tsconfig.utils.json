@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		"baseUrl": ".",
-		"rootDir": "src",
-		"outDir": "dist/esm",
+		"rootDir": "../utils",
+		"outDir": "../dist/utils/esm",
 		"declaration": true,
 		"declarationMap": true,
 		"sourceMap": true,
@@ -18,9 +18,8 @@
 		"strict": true,
 		"verbatimModuleSyntax": true,
 		"paths": {
-			"pdf-parse": ["src"],
+			"pdf-parse/utils": ["../utils"]
 		}
 	},
-	"include": ["src/**/*"],
-	"exclude": ["src/**/_*", "src/_**/*", "src/index.browser.ts"]
+	"include": ["../utils/**/*"]
 }

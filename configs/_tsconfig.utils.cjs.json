@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"rootDir": "../utils",
+		"outDir": "../dist/utils/cjs",
+		"declaration": true,
+		"declarationMap": false,
+		"emitDeclarationOnly": true,
+		"sourceMap": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"target": "ES2022",
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"jsx": "react",
+		"noEmit": false,
+		"noUncheckedIndexedAccess": false,
+		"skipLibCheck": true,
+		"strict": true,
+		"verbatimModuleSyntax": false
+	},
+	"include": ["../utils/**/*"],
+	"exclude": ["**/index.cts/**"]
+}

@@ -69,32 +69,23 @@ bun add pdf-parse
 
 ## Usage
 
-### `getHeader`
+### `getHeader` — Node Utils `pdf-parse/utils`
 ```js
 // Node / ESM
-import { PDFParse } from 'pdf-parse';
+import { getHeader } from 'pdf-parse/utils';
 
-const parser = new PDFParse({ url: 'https://bitcoin.org/bitcoin.pdf' });
 // HEAD request to retrieve HTTP headers and file size without downloading the full file.
 // Pass `true` to check PDF magic bytes via range request
-const headerResult = await parser.getHeader(true);
+// Optionally validates PDFs by fetching the first 4 bytes (magic bytes).
+// Useful for checking file existence, size, and type before full parsing.
+// Node only, will not work in browser environments.
+const headerResult = await getHeader('https://bitcoin.org/bitcoin.pdf',true);
 
 console.log(`Status: ${headerResult.status}`);
 console.log(`Content-Length: ${headerResult.size}`);
 console.log(`Is PDF: ${headerResult.isPdf}`);
 console.log(`Headers:`, headerResult.headers);
 ```
-```js
-// The getHeader function can also be used directly 
-// without creating a PDFParse instance by importing it from pdf-parse.
-import { getHeader } from 'pdf-parse';
-const headerResult = await getHeader('https://bitcoin.org/bitcoin.pdf', true); 
-```
-Usage Examples:
-- Optionally validates PDFs by fetching the first 4 bytes (magic bytes).
-- Useful for checking file existence, size, and type before full parsing.
-- For URL-based PDFs, ensure CORS is configured if used in browsers.
-
 
 ### `getInfo` — Extract Metadata and Document Information
 ```js
