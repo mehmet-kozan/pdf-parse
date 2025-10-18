@@ -15,7 +15,7 @@ describe('test-load url string', () => {
 
 describe('test-load url object', () => {
 	test('results be correct', { timeout: 15000 }, async () => {
-		const parser = new PDFParse({ url: new URL('https://bitcoin.org/bitcoin.pdf') });
+		const parser = new PDFParse({ url: new URL('https://mehmet-kozan.github.io/pdf-parse/pdf/bitcoin.pdf') });
 		const infoResult = await parser.getInfo();
 		const textResult = await parser.getText();
 		expect(infoResult.total).toEqual(9);

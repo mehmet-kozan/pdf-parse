@@ -1,5 +1,8 @@
-/** biome-ignore-all lint/suspicious/noExplicitAny: <underline type> */
+/* biome-ignore-all lint/suspicious/noExplicitAny: underline-type */
 
+/**
+ * @public
+ */
 export class InvalidPDFException extends Error {
 	constructor(message?: string, cause?: unknown) {
 		if (cause !== undefined) {
@@ -21,6 +24,9 @@ export class InvalidPDFException extends Error {
 	}
 }
 
+/**
+ * @public
+ */
 export class PasswordException extends Error {
 	constructor(message?: string, cause?: unknown) {
 		if (cause !== undefined) {
@@ -37,6 +43,9 @@ export class PasswordException extends Error {
 	}
 }
 
+/**
+ * @public
+ */
 // Error caused during parsing PDF data.
 export class FormatError extends Error {
 	constructor(message?: string, cause?: unknown) {
@@ -54,6 +63,9 @@ export class FormatError extends Error {
 	}
 }
 
+/**
+ * @public
+ */
 export class UnknownErrorException extends Error {
 	constructor(message?: string, details?: unknown, cause?: unknown) {
 		if (cause !== undefined) {
@@ -71,6 +83,9 @@ export class UnknownErrorException extends Error {
 	}
 }
 
+/**
+ * @public
+ */
 export class ResponseException extends Error {
 	constructor(message?: string, status?: number, missing?: unknown, cause?: unknown) {
 		if (cause !== undefined) {
@@ -89,6 +104,9 @@ export class ResponseException extends Error {
 	}
 }
 
+/**
+ * @public
+ */
 export class AbortException extends Error {
 	constructor(message?: string, cause?: unknown) {
 		if (cause !== undefined) {
@@ -104,6 +122,9 @@ export class AbortException extends Error {
 	}
 }
 
+/**
+ * @public
+ */
 export function getException(error: unknown): Error {
 	if (error instanceof Error) {
 		// preserve original error (stack) when not remapping

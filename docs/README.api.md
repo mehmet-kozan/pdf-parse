@@ -88,7 +88,7 @@ export class InfoResult {
     total: number;
 }
 
-// @public
+// @public (undocumented)
 export class InvalidPDFException extends Error {
     constructor(message?: string, cause?: unknown);
 }

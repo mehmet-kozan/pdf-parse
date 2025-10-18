@@ -1,15 +1,15 @@
 import { PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
 
-// https://www.ipcc.ch/report/ar6/syr/?spm=a2ty_o01.29997173.0.0.bd03c921juVCxB
-// https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Full_Report.pdf?spm=a2ty_o01.29997173.0.0.bd03c921juVCxB&file=IPCC_AR6_WGI_Full_Report.pdf
 // https://ntrs.nasa.gov/search
 // https://op.europa.eu/en/web/general-publications/publications
+// https://www.ipcc.ch/report/ar6/syr/?spm=a2ty_o01.29997173.0.0.bd03c921juVCxB
 
 describe('Large PDF File Tests', () => {
-	test('should parse IPCC Climate Report (very large)', { timeout: 30000 }, async () => {
-		// IPCC Climate Report - 20+ MB
-		const url = 'https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_SPM.pdf';
+	test('should parse climate report', { timeout: 30000 }, async () => {
+		// 242 MB
+		// https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Full_Report.pdf?spm=a2ty_o01.29997173.0.0.bd03c921juVCxB&file=IPCC_AR6_WGI_Full_Report.pdf
+		const url = 'https://mehmet-kozan.github.io/pdf-parse/pdf/large-file.pdf';
 
 		const parser = new PDFParse({
 			url,
@@ -41,28 +41,29 @@ describe('Large PDF File Tests', () => {
 		expect(parser.progress.total).toBeGreaterThan(parser.progress.loaded);
 	});
 
-	// test('should handle arxiv.org research paper', { timeout: 30000 }, async () => {
-	// 	const parser = new PDFParse({
-	// 		url: 'https://arxiv.org/pdf/1706.03762.pdf',
-	// 		disableAutoFetch: true,
-	// 		disableStream: true,
-	// 		rangeChunkSize: 65536,
-	// 	});
+	test('should handle arxiv.org research paper', { timeout: 30000 }, async () => {
+		const parser = new PDFParse({
+			url: 'https://mehmet-kozan.github.io/pdf-parse/pdf/large-file.pdf',
+			disableAutoFetch: true,
+			disableStream: true,
+			rangeChunkSize: 65536,
+		});
 
-	// 	const result = await parser.getText({
-	// 		last: 1,
-	// 	});
+		const result = await parser.getText({
+			last: 1,
+		});
 
-	// 	await parser.destroy();
+		await parser.destroy();
 
-	// 	expect(result.text).toContain('We give two such examples above');
-	// 	expect(result.pages.length).toBeLessThanOrEqual(1);
-	// 	expect(parser.progress.total).toBeGreaterThan(parser.progress.loaded);
-	// });
+		expect(result.text).toContain('EDUCATION ON THE MOVE');
+		expect(result.pages.length).toBeLessThanOrEqual(1);
+		expect(parser.progress.total).toBeGreaterThan(parser.progress.loaded);
+	});
 
 	test('should parse Bitcoin Whitepaper (small but reliable)', { timeout: 30000 }, async () => {
 		// Bitcoin Whitepaper - ~180 KB (small but good for testing)
-		const url = 'https://bitcoin.org/bitcoin.pdf';
+		// https://bitcoin.org/bitcoin.pdf
+		const url = 'https://mehmet-kozan.github.io/pdf-parse/pdf/bitcoin.pdf';
 
 		const parser = new PDFParse({ url });
 

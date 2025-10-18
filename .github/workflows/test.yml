@@ -4,7 +4,7 @@ on: [push, workflow_dispatch]
 
 permissions:
   contents: read
-  pull-requests: read
+  # pull-requests: read
 
 jobs:
   test:
@@ -20,14 +20,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "22.20.0"
+          node-version: "lts/*"
           package-manager-cache: true
+          cache: "npm"
+          cache-dependency-path: package.json
 
       # - name: Clean NPM Cache
       #   run: npm cache clean --force
 
       - name: Install
-        run: npm i
+        run: npm i --prefer-offline --no-audit --no-fund --silent
 
       - name: Unit tests
         run: npm test
