@@ -55,6 +55,7 @@
 	"javascript.preferences.importModuleSpecifier": "relative",
 
 	"files.associations": {
-		"api-extractor.json": "jsonc"
+		"api-extractor.json": "jsonc",
+		"tsdoc-metadata.json": "jsonc"
 	}
 }
