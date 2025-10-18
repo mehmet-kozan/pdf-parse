@@ -1,6 +1,6 @@
 name: Unit Tests
 
-on: [push, pull_request]
+on: [push, workflow_dispatch]
 
 permissions:
   contents: read
@@ -21,10 +21,10 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: "22.20.0"
-          package-manager-cache: false
+          package-manager-cache: true
 
-      - name: Clean NPM Cache
-        run: npm cache clean --force
+      # - name: Clean NPM Cache
+      #   run: npm cache clean --force
 
       - name: Install
         run: npm i
