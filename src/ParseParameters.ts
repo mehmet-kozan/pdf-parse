@@ -1,3 +1,8 @@
+/**
+ * @public
+ * ParseParameters
+ * Options to control parsing behavior and output formatting.
+ */
 export interface ParseParameters {
 	/**
 	 * Array of page numbers to parse.
@@ -131,6 +136,10 @@ export interface ParseParameters {
 	disableNormalization?: boolean;
 }
 
+/**
+ * @public
+ * SafeParseParameters
+ */
 export type SafeParseParameters = Required<Pick<ParseParameters, 'lineThreshold' | 'cellThreshold' | 'scale'>> &
 	ParseParameters;
 

@@ -1,8 +1,16 @@
+/**
+ * @public
+ * PageTableResult
+ */
 export interface PageTableResult {
 	num: number;
 	tables: Array<Array<string>>;
 }
 
+/**
+ * @public
+ * TableResult
+ */
 export class TableResult {
 	pages: Array<PageTableResult> = [];
 	mergedTables: Array<Array<string>> = [];

@@ -1,3 +1,7 @@
+/**
+ * @public
+ * HyperlinkPosition
+ */
 export type HyperlinkPosition = {
 	rect: { left: number; top: number; right: number; bottom: number };
 	url: string;
@@ -5,11 +9,19 @@ export type HyperlinkPosition = {
 	used: boolean;
 };
 
+/**
+ * @public
+ * PageTextResult
+ */
 export interface PageTextResult {
 	num: number;
 	text: string;
 }
 
+/**
+ * @public
+ * TextResult
+ */
 export class TextResult {
 	pages: Array<PageTextResult> = [];
 	text: string = '';

@@ -13,6 +13,7 @@ const XMP_DATE_PROPERTIES = [
 export type { Metadata } from 'pdfjs-dist/types/src/display/metadata.js';
 
 /**
+ * @public
  * Node representing a single item in the PDF outline (bookmarks).
  * This mirrors the structure returned by PDF.js' getOutline() API.
  */
@@ -53,6 +54,7 @@ export interface OutlineNode {
 }
 
 /**
+ * @public
  * Consolidated date information gathered from different PDF sources.
  * The PDF 'Info' dictionary contains CreationDate / ModDate and
  * the XMP/XAP metadata can contain several timestamps as well. This
@@ -71,12 +73,13 @@ export type DateNode = {
 };
 
 /**
+ * @public
  * Per-page link extraction result.
  * - pageNumber: the physical page index (1-based) within the PDF document.
  * - pageLabel: optional printed page label shown by PDF viewers (e.g. "iii", "1", "A-1");
  *              this can differ from the physical page number and may be undefined
  *              when the document does not provide labels.
- * - links: array of text->URL mappings that were found/overlaid on the page.
+ * - links: array of text-&gt;URL mappings that were found/overlaid on the page.
  * - width/height: page dimensions in PDF units for the viewport used.
  */
 export type PageLinkResult = {
@@ -97,6 +100,7 @@ export type PageLinkResult = {
 };
 
 /**
+ * @public
  * Aggregated information about a PDF document returned by getInfo().
  * The object contains high-level metadata, outline/bookmark structure,
  * per-page extracted hyperlinks and utility helpers for parsing dates.

@@ -12,7 +12,7 @@ import { PDFWorker } from 'pdfjs-dist/types/src/display/api.js';
 import { TypedArray } from 'pdfjs-dist/types/src/display/api.js';
 import { VerbosityLevel } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
-// @public (undocumented)
+// @public
 export class AbortException extends Error {
     constructor(message?: string, cause?: unknown);
 }
@@ -47,12 +47,12 @@ export interface EmbeddedImage {
     width: number;
 }
 
-// @public (undocumented)
+// @public
 export class FormatError extends Error {
     constructor(message?: string, cause?: unknown);
 }
 
-// @public (undocumented)
+// @public
 export function getException(error: unknown): Error;
 
 // @public
@@ -61,7 +61,7 @@ export type ImageKindKey = keyof typeof ImageKind;
 // @public
 export type ImageKindValue = (typeof ImageKind)[ImageKindKey];
 
-// @public (undocumented)
+// @public
 export class ImageResult {
     constructor(total: number);
     // (undocumented)
@@ -88,7 +88,7 @@ export class InfoResult {
     total: number;
 }
 
-// @public (undocumented)
+// @public
 export class InvalidPDFException extends Error {
     constructor(message?: string, cause?: unknown);
 }
@@ -139,7 +139,7 @@ export type PageLinkResult = {
     height: number;
 };
 
-// @public (undocumented)
+// @public
 export interface PageTableResult {
     // (undocumented)
     num: number;
@@ -147,7 +147,7 @@ export interface PageTableResult {
     tables: Array<Array<string>>;
 }
 
-// @public (undocumented)
+// @public
 export interface PageTextResult {
     // (undocumented)
     num: number;
@@ -155,7 +155,7 @@ export interface PageTextResult {
     text: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ParseParameters {
     cellSeparator?: string;
     cellThreshold?: number;
@@ -177,7 +177,7 @@ export interface ParseParameters {
     scale?: number;
 }
 
-// @public (undocumented)
+// @public
 export class PasswordException extends Error {
     constructor(message?: string, cause?: unknown);
 }
@@ -207,12 +207,12 @@ export class PDFParse {
 
 export { PDFWorker }
 
-// @public (undocumented)
+// @public
 export class ResponseException extends Error {
     constructor(message?: string, status?: number, missing?: unknown, cause?: unknown);
 }
 
-// @public (undocumented)
+// @public
 export interface Screenshot {
     // (undocumented)
     data: Uint8Array;
@@ -228,7 +228,7 @@ export interface Screenshot {
     width: number;
 }
 
-// @public (undocumented)
+// @public
 export class ScreenshotResult {
     constructor(total: number);
     // (undocumented)
@@ -237,7 +237,7 @@ export class ScreenshotResult {
     total: number;
 }
 
-// @public (undocumented)
+// @public
 export class TableResult {
     constructor(total: number);
     // (undocumented)
@@ -248,7 +248,7 @@ export class TableResult {
     total: number;
 }
 
-// @public (undocumented)
+// @public
 export class TextResult {
     constructor(total: number);
     // (undocumented)
@@ -263,7 +263,7 @@ export class TextResult {
 
 export { TypedArray }
 
-// @public (undocumented)
+// @public
 export class UnknownErrorException extends Error {
     constructor(message?: string, details?: unknown, cause?: unknown);
 }
