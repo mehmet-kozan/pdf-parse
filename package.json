@@ -60,30 +60,23 @@
 	},
 	"keywords": [
 		"pdf",
-		"pdf-parse",
 		"pdf-parser",
-		"pdf-tools",
-		"pdf-utils",
+		"pdf-parse",
 		"pdf.js",
+		"pdfjs",
 		"pdfjs-dist",
-		"pdf-text-extraction",
-		"pdf-image-extraction",
-		"pdf-table-extractor",
-		"pdf-table-extraction",
-		"pdf-screenshot",
-		"pdf-thumbnail",
-		"pdf-table-parser",
-		"pdf-to-text",
 		"pdf2text",
-		"pdf-to-json",
 		"pdf2json",
-		"pdf-to-image",
 		"pdf2image",
 		"pdf2pic",
-		"pdf-to-csv",
-		"pdf2csv",
-		"pdf-document-parser",
-		"pdf-reader"
+		"pdf-to-text",
+		"pdf-to-image",
+		"pdf-viewer",
+		"pdf-table",
+		"pdf-tools",
+		"pdf-utils",
+		"pdf-screenshot",
+		"pdf-thumbnail"
 	],
 	"repository": {
 		"type": "git",
@@ -128,8 +121,8 @@
 		"pack": "npm pack --dry-run"
 	},
 	"dependencies": {
-		"@napi-rs/canvas": "^0.1.80",
-		"pdfjs-dist": "^5.4.296"
+		"@napi-rs/canvas": "0.1.80",
+		"pdfjs-dist": "5.4.296"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.2.6",
