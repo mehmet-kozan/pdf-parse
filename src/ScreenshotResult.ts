@@ -1,3 +1,7 @@
+/**
+ * @public
+ * Screenshot
+ */
 export interface Screenshot {
 	// Raw binary image data (PNG/JPEG) normalized to Uint8Array.
 	data: Uint8Array;
@@ -12,6 +16,10 @@ export interface Screenshot {
 	scale: number;
 }
 
+/**
+ * @public
+ * ScreenshotResult
+ */
 export class ScreenshotResult {
 	pages: Array<Screenshot> = [];
 	total: number = 0;

@@ -1,17 +1,24 @@
 import type { ImageKind } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
 /**
+ * @public
  * ImageKindKey
  * - Represents the keys of the ImageKind enum (e.g. "GRAYSCALE_1BPP", "RGB_24BPP", "RGBA_32BPP").
  */
 export type ImageKindKey = keyof typeof ImageKind;
 
 /**
+ * @public
  * ImageKindValue
  * - Represents the numeric values of the ImageKind enum (e.g. 1, 2, 3).
  */
 export type ImageKindValue = (typeof ImageKind)[ImageKindKey];
 
+/**
+ * @public
+ * ImageResult
+ * Helper container for extracted images grouped per page.
+ */
 export class ImageResult {
 	pages: Array<PageImages> = [];
 	total: number = 0;
@@ -35,6 +42,7 @@ export class ImageResult {
 }
 
 /**
+ * @public
  * PageImages
  * - Represents all embedded images found on a single PDF page.
  * - pageNumber: 1-based page index.
@@ -46,6 +54,7 @@ export interface PageImages {
 }
 
 /**
+ * @public
  * EmbeddedImage
  * - Normalized representation of an embedded image extracted from the PDF.
  * - `data`: Raw image bytes (e.g. PNG/JPEG) as Uint8Array. Use this for file writing or binary processing.

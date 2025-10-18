@@ -16,6 +16,7 @@ import { type PageTableResult, TableResult } from './TableResult.js';
 import { type HyperlinkPosition, TextResult } from './TextResult.js';
 
 /**
+ * @public
  * Loads PDF documents and exposes helpers for text, image, table, metadata, and screenshot extraction.
  */
 export class PDFParse {
@@ -26,7 +27,7 @@ export class PDFParse {
 	/**
 	 * Create a new parser with `DocumentInitParameters`.
 	 * Converts Node.js `Buffer` data to `Uint8Array` automatically and ensures a default verbosity level.
-	 * @param options Initialization parameters.
+	 * @param options - Initialization parameters.
 	 */
 	constructor(options: DocumentInitParameters) {
 		if (options.verbosity === undefined) {
@@ -86,7 +87,7 @@ export class PDFParse {
 
 	/**
 	 * Load document-level metadata (info, outline, permissions, page labels) and optionally gather per-page link details.
-	 * @param params Parse options; set `parsePageInfo` to collect per-page metadata described in `ParseParameters`.
+	 * @param params - Parse options; set `parsePageInfo` to collect per-page metadata described in `ParseParameters`.
 	 * @returns Aggregated document metadata in an `InfoResult`.
 	 */
 	public async getInfo(params: ParseParameters = {}): Promise<InfoResult> {
@@ -147,7 +148,7 @@ export class PDFParse {
 
 	/**
 	 * Extract plain text for each requested page, optionally enriching hyperlinks and enforcing line or cell separators.
-	 * @param params Parse options controlling pagination, link handling, and line/cell thresholds.
+	 * @param params - Parse options controlling pagination, link handling, and line/cell thresholds.
 	 * @returns A `TextResult` containing page-wise text and a concatenated document string.
 	 */
 	public async getText(params: ParseParameters = {}): Promise<TextResult> {
@@ -353,7 +354,7 @@ export class PDFParse {
 	 *     - width, height, kind, name
 	 * - Works in both Node.js (canvas.toBuffer) and browser (canvas.toDataURL) environments.
 	 *
-	 * @param params ParseParameters controlling page selection, thresholds and output format.
+	 * @param params - ParseParameters controlling page selection, thresholds and output format.
 	 * @returns Promise<ImageResult> with extracted images grouped by page.
 	 */
 	public async getImage(params: ParseParameters = {}): Promise<ImageResult> {
@@ -598,7 +599,7 @@ export class PDFParse {
 	 *     - pageNumber, width, height, scale
 	 * - Works in both Node.js (canvas.toBuffer) and browser (canvas.toDataURL) environments.
 	 *
-	 * @param parseParams ParseParameters controlling page selection and render options.
+	 * @param parseParams - ParseParameters controlling page selection and render options.
 	 * @returns Promise<ScreenshotResult> with rendered page images.
 	 */
 	public async getScreenshot(parseParams: ParseParameters = {}): Promise<ScreenshotResult> {
@@ -709,7 +710,7 @@ export class PDFParse {
 	 * - Normalizes detected geometry and matches positioned text to table cells.
 	 * - Honors ParseParameters for page selection.
 	 *
-	 * @param params ParseParameters controlling which pages to analyse (partial/first/last).
+	 * @param params - ParseParameters controlling which pages to analyse (partial/first/last).
 	 * @returns Promise<TableResult> containing discovered tables per page.
 	 */
 	public async getTable(params: ParseParameters = {}): Promise<TableResult> {
