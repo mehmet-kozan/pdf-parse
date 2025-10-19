@@ -68,7 +68,7 @@ In browser environments, `pdf-parse` requires a separate worker file to process 
 
 **Available Worker Files:**
 
-- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.mjs`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.mjs`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.min.mjs`
 
 See [`example/basic.esm.worker.html`](example/basic.esm.worker.html) for a working example of browser usage with worker configuration.

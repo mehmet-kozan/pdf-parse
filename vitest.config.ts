@@ -16,8 +16,8 @@ export default defineConfig({
 		coverage: {
 			enabled: false,
 			provider: 'v8',
-			include: ['src/pdf-parse/**/*.ts', 'src/node/**/*.ts'],
-			exclude: ['src/**/_*', 'src/_**/*'],
+			include: ['src/pdf-parse/**/*.ts', 'src/node/**/*.ts', 'src/worker/**/*.ts'],
+			exclude: ['src/**/_*', 'src/_**/*', 'src/worker/types/**'],
 			reporter: [['html', { subdir: 'html-report' }], 'lcov', 'json', 'text-summary'],
 			reportsDirectory: 'reports/coverage',
 			all: true,
@@ -25,6 +25,7 @@ export default defineConfig({
 		},
 
 		benchmark: {
+			include: ['tests/benchmark/*.bench.ts'],
 			reporters: ['default'],
 			outputJson: 'reports/benchmark/bench.json',
 		},

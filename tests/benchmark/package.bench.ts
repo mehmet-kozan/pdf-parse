@@ -4,13 +4,13 @@ import { fileURLToPath } from 'node:url';
 import PDF2JSON from 'pdf2json';
 import { bench, describe } from 'vitest';
 
-import { PDFParse as BrowserPDFParse } from '../../../dist/browser/pdf-parse.es.js';
-import { PDFParse as PDFParseCJS } from '../../../dist/cjs/index.cjs';
-import { PDFParse } from '../../../dist/esm/index';
+import { PDFParse as PDFParseCJS } from '../../dist/pdf-parse/cjs/index.cjs';
+import { PDFParse } from '../../dist/pdf-parse/esm/index';
+import { PDFParse as BrowserPDFParse } from '../../dist/pdf-parse/web/pdf-parse.es.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const __pdf = join(__dirname, '../../../reports/pdf/solar-energy.pdf');
+const __pdf = join(__dirname, '../../reports/pdf/solar-energy.pdf');
 
 async function pdf_parse_esm_promise(buffer: Uint8Array) {
 	const parser = new PDFParse({ data: buffer });

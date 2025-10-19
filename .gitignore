@@ -157,4 +157,4 @@ reports/test
 reports/coverage
 reports/benchmark
 reports/api
-reports/demo/dist-browser
+reports/demo/dist-web

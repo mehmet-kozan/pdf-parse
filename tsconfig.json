@@ -22,5 +22,5 @@
 		}
 	},
 	"include": ["src/pdf-parse/**/*"],
-	"exclude": ["src/pdf-parse/**/_*", "src/pdf-parse/_**/*", "src/pdf-parse/index.browser.ts"]
+	"exclude": ["src/pdf-parse/**/_*", "src/pdf-parse/_**/*", "src/pdf-parse/index.web.ts"]
 }

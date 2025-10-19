@@ -292,10 +292,10 @@ try {
 
 **CDN Options: https://www.jsdelivr.com/package/npm/pdf-parse**
 
-- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/browser/pdf-parse.es.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/pdf-parse/browser/pdf-parse.es.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/browser/pdf-parse.umd.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/pdf-parse/browser/pdf-parse.umd.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.es.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/pdf-parse/web/pdf-parse.es.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.umd.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/pdf-parse/web/pdf-parse.umd.js`
 
 
 ## Worker Configuration (Node / Serverless Platforms)
