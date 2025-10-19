@@ -19,7 +19,7 @@ const args = minimist(process.argv.slice(2), {
 		w: 'width',
 	},
 	string: ['output', 'pages', 'format', 'min', 'scale', 'width'],
-	boolean: ['help', 'version'],
+	boolean: ['help', 'version', 'magic'],
 });
 
 if (args.version) {
@@ -75,6 +75,7 @@ Options:
   -m, --min <px>               Minimum image size threshold in pixels (default: 80)
   -s, --scale <factor>         Scale factor for screenshots (default: 1.0)
   -w, --width <px>             Desired width for screenshots in pixels
+  --magic                      Validate PDF magic bytes (default: true)
   -h, --help                   Show this help message
   -v, --version                Show version number
 
@@ -329,7 +330,8 @@ async function handleGetHeader(filePath, options) {
 	}
 
 	// Second parameter is for PDF magic bytes validation
-	const result = await getHeader(filePath, true);
+	const validateMagic = options.magic !== false;
+	const result = await getHeader(filePath, validateMagic);
 	const output = options.format === 'json' ? JSON.stringify(result, null, 2) : formatHeader(result);
 
 	if (options.output) {
