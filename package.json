@@ -93,13 +93,12 @@
 		"build:ts": "tsc && api-extractor run --local",
 		"build:cjs": "vite build --config vite.config.cjs.ts",
 		"build:browser": "vite build",
-		"build:worker.back": "vite build --config vite.config.worker.ts",
-
 		"build:worker": "tsc --project tsconfig.worker.json && api-extractor run --local -c api-extractor.worker.json && node scripts/build-worker.mjs",
 
 		"build:node": "npm run build:node:ts && npm run build:node:bundle",
 		"build:node:ts": "tsc --project tsconfig.node.json && api-extractor run --local -c api-extractor.node.json",
 		"build:node:bundle": "esbuild src/node/index.ts --bundle --platform=node --format=cjs --target=node16 --outfile=dist/node/cjs/index.cjs --sourcemap",
+
 		"clean": "npm run clean:build && npm run clean:report && npm run clean:test && npm run clean:test:i",
 		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
 		"clean:report": "rimraf reports/test reports/coverage reports/benchmark reports/api reports/demo/dist-browser ",
@@ -112,11 +111,14 @@
 		"test:u": "node --test tests/unsupported/*.test.cjs && node --test tests/unsupported/*.test.mjs",
 		"test:ui": "vitest --ui --coverage",
 		"test:watch": "vitest",
+
 		"coverage": "vitest run --coverage",
 		"bench": "npm run bench:install && vitest bench --run",
 		"bench:install": "npm install --no-save pdf2json@latest",
+
 		"report": "npm run report:build && vite preview --outDir reports",
 		"report:build": "npm run build && npm run coverage && npm run bench",
+
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"format:all": "biome check --write .",
