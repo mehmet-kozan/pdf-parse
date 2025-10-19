@@ -30,17 +30,12 @@ export default defineConfig({
 			outputJson: 'reports/benchmark/bench.json',
 		},
 	},
-	plugins: [
-		tsconfigPaths({
-			root: __dirname,
-			projects: ['tsconfig.json', 'configs/tsconfig.utils.json'],
-		}),
-	],
+	plugins: [tsconfigPaths()],
 
-	// resolve: {
-	// 	alias: {
-	// 		'pdf-parse': resolve(__dirname, './src'),
-	// 		'pdf-parse/utils': resolve(__dirname, './utils'),
-	// 	},
-	// },
+	resolve: {
+		alias: {
+			'pdf-parse': resolve(__dirname, 'src'),
+			'pdf-parse/utils': resolve(__dirname, 'utils'),
+		},
+	},
 });

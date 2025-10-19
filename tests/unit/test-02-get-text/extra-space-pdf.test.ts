@@ -16,7 +16,7 @@ describe(data.fileName, async () => {
 		flag: 'w',
 	});
 
-	test('total page count must be correct', () => {
+	test('total page count', () => {
 		expect(result.total).toEqual(data.total);
 	});
 

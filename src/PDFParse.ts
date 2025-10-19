@@ -168,7 +168,13 @@ export class PDFParse {
 		}
 
 		for (const page of result.pages) {
-			result.text += `${page.text}\n\n`;
+			if (params.pageJoiner) {
+				let pageNumber = params.pageJoiner.replace('page_number', `${page.num}`);
+				pageNumber = pageNumber.replace('total_number', `${result.total}`);
+				result.text += `${page.text}\n${pageNumber}\n\n`;
+			} else {
+				result.text += `${page.text}\n\n`;
+			}
 		}
 
 		return result;
@@ -252,6 +258,7 @@ export class PDFParse {
 
 		let lastX: number | undefined;
 		let lastY: number | undefined;
+		let lineHeight: number = 0;
 
 		for (const item of textContent.items) {
 			if (!('str' in item)) continue;
@@ -273,7 +280,12 @@ export class PDFParse {
 					const isCurrentItemHasNewLine = item.str.startsWith('\n') || (item.str.trim() === '' && item.hasEOL);
 
 					if (lastItem?.endsWith('\n') === false && !isCurrentItemHasNewLine) {
-						strBuf.push('\n');
+						const ydiff = Math.abs(lastY - y);
+
+						if (ydiff - 1 > lineHeight) {
+							strBuf.push('\n');
+							lineHeight = 0;
+						}
 					}
 				}
 			}
@@ -289,16 +301,15 @@ export class PDFParse {
 			strBuf.push(item.str);
 			lastX = x + item.width;
 			lastY = y;
+			lineHeight = Math.max(lineHeight, item.height);
 
 			if (item.hasEOL) {
 				strBuf.push('\n');
 			}
-		}
 
-		if (params.pageJoiner) {
-			let pageNumber = params.pageJoiner.replace('page_number', `${page.pageNumber}`);
-			pageNumber = pageNumber.replace('total_number', `${total}`);
-			strBuf.push(pageNumber);
+			if (item.hasEOL || item.str.endsWith('\n')) {
+				lineHeight = 0;
+			}
 		}
 
 		if (params.itemJoiner) {

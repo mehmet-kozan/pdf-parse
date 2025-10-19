@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		"baseUrl": ".",
-		"rootDir": "../utils",
-		"outDir": "../dist/utils/esm",
+		"rootDir": "utils",
+		"outDir": "dist/utils/esm",
 		"declaration": true,
 		"declarationMap": true,
 		"sourceMap": true,
@@ -18,8 +18,8 @@
 		"strict": true,
 		"verbatimModuleSyntax": true,
 		"paths": {
-			"pdf-parse/utils": ["../utils"]
+			"pdf-parse/utils": ["utils"]
 		}
 	},
-	"include": ["../utils/**/*"]
+	"include": ["utils/**/*"]
 }

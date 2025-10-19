@@ -91,12 +91,12 @@
 	"scripts": {
 		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:cjs && npm run build:browser && npm run build:utils",
 		"build:ts": "tsc && api-extractor run --local",
-		"build:cjs": "vite build --config configs/vite.config.cjs.ts",
+		"build:cjs": "vite build --config vite.config.cjs.ts",
 		"build:browser": "vite build",
-		"build:worker": "vite build --config configs/vite.config.worker.ts",
+		"build:worker": "vite build --config vite.config.worker.ts",
 
 		"build:utils": "npm run build:utils:ts && npm run build:utils:bundle",
-		"build:utils:ts": "tsc --project configs/tsconfig.utils.json && api-extractor run --local -c configs/api-extractor.utils.jsonc",
+		"build:utils:ts": "tsc --project tsconfig.utils.json && api-extractor run --local -c api-extractor.utils.json",
 		"build:utils:bundle": "esbuild utils/index.ts --bundle --platform=node --format=cjs --target=node16 --outfile=dist/utils/cjs/index.cjs --sourcemap",
 		"clean": "npm run clean:build && npm run clean:report && npm run clean:test && npm run clean:test:i",
 		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
