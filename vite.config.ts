@@ -33,7 +33,7 @@ export default defineConfig({
 
 				cpSync(source_min, join(dest_esm, 'pdf.worker.mjs'));
 				cpSync(source_min, join(dest_cjs, 'pdf.worker.mjs'));
-				cpSync(source_min, join(dest_worker, 'pdf.worker.js'));
+				cpSync(source_min, join(dest_worker, 'pdf.worker.mjs'));
 				cpSync(join(dest_cjs, 'index.d.cts'), join(dest_browser, 'pdf-parse.es.d.ts'));
 			},
 		},
