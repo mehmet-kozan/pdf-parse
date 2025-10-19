@@ -43,13 +43,13 @@ async function run() {
 run();
 ```  
 
-## Features <a href="https://mehmet-kozan.github.io/pdf-parse/" target="_blank"><img align="right" src="https://img.shields.io/badge/live-demo-brightgreen.svg" alt="demo"></a>  
+## Features <a href="https://mehmet-kozan.github.io/pdf-parse/" target="_blank"><img align="right" src="https://img.shields.io/badge/live-demo-brightgreen.svg" alt="demo"></a>
 
 - CJS, ESM, Node.js, and browser support.
 - Can be integrated with `React`, `Vue`, `Angular`, or any other web framework.
 - **Command-line interface** for quick PDF processing: [`CLI Documentation`](./docs/README.cli.md)
 - [`Security Policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
-- Retrieve headers and validate PDF : [`getHeader`](#getheader)
+- Retrieve headers and validate PDF : [`getHeader`](#getheader--node-utility-pdf-header-retrieval-and-validation)
 - Extract document info : [`getInfo`](#getinfo--extract-metadata-and-document-information)
 - Extract page text : [`getText`](#gettext--extract-text) 
 - Render pages as PNG : [`getScreenshot`](#getscreenshot--render-pages-as-png)
@@ -142,6 +142,7 @@ console.log(JSON.stringify(result.pages, null, 2));
 ```
 
 ### `getText` — Extract Text
+
 ```js
 import { PDFParse } from 'pdf-parse';
 
@@ -167,7 +168,7 @@ Usage Examples:
 - Load PDF from base64 data: [`base64.test.ts`](tests/unit/test-example/base64.test.ts)
 - Loading large files (> 5 MB): [`large-file.test.ts`](tests/unit/test-example/large-file.test.ts)
 
-### `getScreenshot` — Render Pages as PNG  
+### `getScreenshot` — Render Pages as PNG
 
 ```js
 import { readFile, writeFile } from 'node:fs/promises';
@@ -199,7 +200,7 @@ Usage Examples:
 - Use `last` to render the last N pages (e.g. `getScreenshot({ last: 2 })`).
 - When both `first` and `last` are provided they form an inclusive range (`first..last`).
 
-### `getImage` — Extract Embedded Images  
+### `getImage` — Extract Embedded Images
 
 ```js
 import { readFile, writeFile } from 'node:fs/promises';
@@ -228,6 +229,7 @@ Usage Examples:
 
 
 ### `getTable` — Extract Tabular Data
+
 ```js
 import { readFile } from 'node:fs/promises';
 import { PDFParse } from 'pdf-parse';
@@ -246,7 +248,7 @@ for (const row of result.pages[0].tables[0]) {
 }
 ```
 
-## Exception Handling & Type Usage  
+## Exception Handling & Type Usage
 
 ```ts
 import type { DocumentInitParameters, ParseParameters, TextResult } from 'pdf-parse';
@@ -289,14 +291,14 @@ try {
 
 ``` 
 
-## Web / Browser <a href="https://www.jsdelivr.com/package/npm/pdf-parse" target="_blank"><img align="right" src="https://img.shields.io/jsdelivr/npm/hm/pdf-parse"></a>  
+## Web / Browser <a href="https://www.jsdelivr.com/package/npm/pdf-parse" target="_blank"><img align="right" src="https://img.shields.io/jsdelivr/npm/hm/pdf-parse"></a>
 
 - Can be integrated into `React`, `Vue`, `Angular`, or any other web framework.
 - **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
 - **Demo Source:** [`reports/demo`](reports/demo)
 - **ES Module**:  `pdf-parse.es.js` **UMD/Global**: `pdf-parse.umd.js`
 
-### CDN Usage  
+### CDN Usage
 
 ```html
 <!-- ES Module -->
@@ -362,6 +364,7 @@ PDFParse.setWorker(getPath());
 
 
 ## Similar Packages
+
 * [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
 * [pdfdataextract](https://www.npmjs.com/package/pdfdataextract) — `pdf-parse` based
 * [unpdf](https://www.npmjs.com/package/unpdf) — `pdf-parse` based

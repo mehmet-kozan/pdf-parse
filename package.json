@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.4.4-beta.1",
+	"version": "2.4.4",
 	"type": "module",
 	"main": "dist/pdf-parse/cjs/index.cjs",
 	"module": "dist/pdf-parse/esm/index.js",
@@ -155,12 +155,6 @@
 	"engines": {
 		"node": ">=20.16.0 <21 || >=22.3.0"
 	},
-	"sideEffects": [
-		"./bin/worker/worker.js",
-		"./bin/worker/worker.cjs",
-		"./bin/canvas/canvas.js",
-		"./bin/canvas/canvas.cjs"
-	],
 	"jsdelivr": "./dist/pdf-parse/web/pdf-parse.es.js",
 	"unpkg": "./dist/pdf-parse/web/pdf-parse.es.js"
 }
