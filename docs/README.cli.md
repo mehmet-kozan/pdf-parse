@@ -87,6 +87,7 @@ pdf-parse table document.pdf --format json
 - `-m, --min <px>`: Minimum image size threshold in pixels (default: 80)
 - `-s, --scale <factor>`: Scale factor for screenshots (default: 1.0)
 - `-w, --width <px>`: Desired width for screenshots in pixels
+- `-l, --large`: Enable optimizations for large PDF files
 - `--magic`: Validate PDF magic bytes (default: true)
 - `-h, --help`: Show help message
 - `-v, --version`: Show version number
@@ -153,15 +154,21 @@ Check without magic byte validation:
 pdf-parse check https://example.com/document.pdf --no-magic
 ```
 
-### Output Formats
+### Large File Processing
 
-Save results to file:
+For large PDF files (> 5MB), use the `--large` flag to enable performance optimizations:
+
 ```bash
-pdf-parse info mydocument.pdf --output info.txt
-pdf-parse text mydocument.pdf --format json --output content.json
+pdf-parse text https://example.com/large-document.pdf --large --pages 1-10
+pdf-parse info https://example.com/huge-report.pdf --large
 ```
 
-## Output Formats
+The `--large` flag enables:
+- Disabled auto-fetching of additional pages
+- Chunk-based loading instead of streaming
+- Optimized range request chunk size
+
+### Output Formats
 
 ### Text Format (default)
 Human-readable text output for most commands.

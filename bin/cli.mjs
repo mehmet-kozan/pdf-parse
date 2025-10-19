@@ -17,9 +17,10 @@ const args = minimist(process.argv.slice(2), {
 		m: 'min',
 		s: 'scale',
 		w: 'width',
+		l: 'large',
 	},
 	string: ['output', 'pages', 'format', 'min', 'scale', 'width'],
-	boolean: ['help', 'version', 'magic'],
+	boolean: ['help', 'version', 'magic', 'large'],
 });
 
 if (args.version) {
@@ -75,8 +76,8 @@ Options:
   -m, --min <px>               Minimum image size threshold in pixels (default: 80)
   -s, --scale <factor>         Scale factor for screenshots (default: 1.0)
   -w, --width <px>             Desired width for screenshots in pixels
-  -l, --large                  Desired width for screenshots in pixels
-  --magic                      Validate PDF magic bytes
+  -l, --large                  Enable optimizations for large PDF files
+  --magic                      Validate PDF magic bytes (default: true)
   -h, --help                   Show this help message
   -v, --version                Show version number
 
@@ -88,6 +89,7 @@ Examples:
   pdf-parse image document.pdf --output ./images/
   pdf-parse screenshot document.pdf --output ./screenshots/ --scale 2.0
   pdf-parse check https://bitcoin.org/bitcoin.pdf --magic
+  pdf-parse text https://example.com/large.pdf --large --pages 1-5
 `;
 	stdout.write(help);
 }
@@ -100,6 +102,13 @@ async function runCommand(command, filePath, options) {
 	} else {
 		const data = await readFile(filePath);
 		initParams = { data };
+	}
+
+	// Apply large file optimizations if --large flag is used
+	if (options.large) {
+		initParams.disableAutoFetch = true;
+		initParams.disableStream = true;
+		initParams.rangeChunkSize = 65536;
 	}
 
 	const parser = new PDFParse(initParams);
