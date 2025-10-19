@@ -1,5 +1,16 @@
 /** biome-ignore-all lint/suspicious/noConsole: error dedection */
-import { resolve } from 'node:path';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+let runtimeDirname: string;
+
+if (typeof __dirname !== 'undefined') {
+	runtimeDirname = __dirname;
+} else {
+	// ESM ortamı
+	const __filename = fileURLToPath(import.meta.url);
+	runtimeDirname = path.dirname(__filename);
+}
 
 (async () => {
 	try {
@@ -14,12 +25,12 @@ import { resolve } from 'node:path';
 // @ts-expect-error: importing worker as data URL via esbuild query parameter
 import DataUrl from 'pdfjs-dist/legacy/build/pdf.worker.min.mjs?dataurl';
 
-export function getDataUrl(): string {
+export function getData(): string {
 	return DataUrl;
 }
 
 export { CanvasFactory } from './canvas.js';
 
 export function getPath(): string {
-	return resolve(__dirname, '../pdf.worker.mjs');
+	return path.resolve(runtimeDirname, '../pdf.worker.mjs');
 }

@@ -20,7 +20,7 @@ export class CanvasFactory {
 }
 
 // @public (undocumented)
-export function getDataUrl(): string;
+export function getData(): string;
 
 // @public (undocumented)
 export function getPath(): string;

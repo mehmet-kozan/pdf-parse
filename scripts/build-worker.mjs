@@ -27,6 +27,22 @@ const dataUrlPlugin = {
 	},
 };
 
+// Replace import.meta.url occurrences in the worker source at build time so
+// producing a CJS bundle does not trigger esbuild's import.meta warning.
+const importMetaUrlPlugin = {
+	name: 'replace-import-meta-url',
+	setup(build) {
+		const filter = /src[\\/]+worker[\\/]+index\.ts$/;
+		build.onLoad({ filter }, async (args) => {
+			const text = await fs.readFile(args.path, 'utf8');
+			// create a file:// URL for the source file path (normalize Windows backslashes)
+			const fileUrl = 'file://D:\\temp';
+			const replaced = text.replace(/import\.meta\.url/g, JSON.stringify(fileUrl));
+			return { contents: replaced, loader: 'ts' };
+		});
+	},
+};
+
 async function postBuild() {
 	const types_dir = path.join(__dirname, '../dist/worker/@types');
 	const source = path.join(types_dir, 'index.d.cts');
@@ -36,7 +52,7 @@ async function postBuild() {
 	await fs.cp(source, dest_cjs);
 	await fs.cp(source, dest_esm);
 
-	await fs.rmdir(types_dir, { recursive: true });
+	await fs.rm(types_dir, { recursive: true });
 }
 
 // Run esbuild with sensible defaults for the project
@@ -50,10 +66,10 @@ async function postBuild() {
 			target: ['node16'],
 			outfile: path.resolve(process.cwd(), 'dist/worker/cjs/index.cjs'),
 			sourcemap: false,
-			external: ['@napi-rs/*'],
+			external: ['@napi-rs/*', 'pdfjs-dist/legacy/build/pdf.worker.mjs'],
 			loader: { '.node': 'file' },
-			plugins: [dataUrlPlugin],
-			minify: true,
+			plugins: [dataUrlPlugin, importMetaUrlPlugin],
+			minify: false,
 			legalComments: 'none',
 		});
 
@@ -65,10 +81,10 @@ async function postBuild() {
 			target: ['node16'],
 			outfile: path.resolve(process.cwd(), 'dist/worker/esm/index.js'),
 			sourcemap: false,
-			external: ['@napi-rs/*'],
+			external: ['@napi-rs/*', 'pdfjs-dist/legacy/build/pdf.worker.mjs'],
 			loader: { '.node': 'file' },
 			plugins: [dataUrlPlugin],
-			minify: true,
+			minify: false,
 			legalComments: 'none',
 		});
 
