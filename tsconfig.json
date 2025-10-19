@@ -18,7 +18,7 @@
 		"strict": true,
 		"verbatimModuleSyntax": true,
 		"paths": {
-			"pdf-parse": ["src"],
+			"pdf-parse": ["src"]
 		}
 	},
 	"include": ["src/**/*"],
