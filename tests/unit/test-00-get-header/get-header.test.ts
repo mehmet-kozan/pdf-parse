@@ -7,7 +7,7 @@ describe('get-header test', () => {
 		expect(result.ok).toBeTruthy();
 		expect(result.status).toBe(200);
 		expect(result.size).toBe(184292);
-		expect(result.isPdf).toBe(undefined);
+		expect(result.magic).toBe(null);
 	});
 
 	test('check bitcoin url, with true param, getHeader helper', { timeout: 30000 }, async () => {
@@ -15,6 +15,6 @@ describe('get-header test', () => {
 		expect(result.ok).toBeTruthy();
 		expect(result.status).toBe(200);
 		expect(result.size).toBe(184292);
-		expect(result.isPdf).toBe(true);
+		expect(result.magic).toBe(true);
 	});
 });

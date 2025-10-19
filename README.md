@@ -44,8 +44,10 @@ run();
 ```  
 
 ## Features <a href="https://mehmet-kozan.github.io/pdf-parse/" target="_blank"><img align="right" src="https://img.shields.io/badge/live-demo-brightgreen.svg" alt="demo"></a>  
-- CommonJS, ESM, Node.js, and browser support.
-- Can be integrated with React, Vue, Angular, or any other web framework.
+
+- CJS, ESM, Node.js, and browser support.
+- Can be integrated with `React`, `Vue`, `Angular`, or any other web framework.
+- **Command-line interface** for quick PDF processing: [`CLI Documentation`](./docs/README.cli.md)
 - [`Security Policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
 - Retrieve headers and validate PDF : [`getHeader`](#getheader)
 - Extract document info : [`getInfo`](#getinfo--extract-metadata-and-document-information)
@@ -71,6 +73,22 @@ yarn add pdf-parse
 # or
 bun add pdf-parse
 ```
+
+### CLI Installation
+
+For command-line usage, install the package globally:
+
+```sh
+npm install -g pdf-parse
+```
+
+Or use it directly with npx:
+
+```sh
+npx pdf-parse --help
+```
+
+For detailed CLI documentation and usage examples, see: [CLI Documentation](./docs/README.cli.md)
 
 ## Usage
 

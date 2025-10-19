@@ -53,6 +53,11 @@
 			}
 		}
 	},
+
+	"bin": {
+		"pdf-parse": "bin/cli.mjs"
+	},
+
 	"description": "Pure TypeScript, cross-platform module for extracting text, images, and tabular data from PDFs. Run directly in your browser or in Node!",
 	"homepage": "https://mehmet-kozan.github.io/pdf-parse/",
 	"bugs": {
