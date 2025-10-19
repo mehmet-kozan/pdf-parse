@@ -26,12 +26,14 @@ export default defineConfig({
 				const dest_browser = join(cwd, 'dist/pdf-parse/browser/');
 				const dest_esm = join(cwd, 'dist/pdf-parse/esm/');
 				const dest_cjs = join(cwd, 'dist/pdf-parse/cjs/');
+				const dest_worker = join(cwd, 'dist/worker/');
 
 				cpSync(source, join(dest_browser, basename(source)));
 				cpSync(source_map, join(dest_browser, basename(source_map)));
 
 				cpSync(source_min, join(dest_esm, 'pdf.worker.mjs'));
 				cpSync(source_min, join(dest_cjs, 'pdf.worker.mjs'));
+				cpSync(source_min, join(dest_worker, 'pdf.worker.js'));
 				cpSync(join(dest_cjs, 'index.d.cts'), join(dest_browser, 'pdf-parse.es.d.ts'));
 			},
 		},

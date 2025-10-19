@@ -95,6 +95,8 @@
 		"build:browser": "vite build",
 		"build:worker": "vite build --config vite.config.worker.ts",
 
+		"build:w": "node --input-type=module scripts/build-worker.mjs",
+
 		"build:node": "npm run build:node:ts && npm run build:node:bundle",
 		"build:node:ts": "tsc --project tsconfig.node.json && api-extractor run --local -c api-extractor.node.json",
 		"build:node:bundle": "esbuild src/node/index.ts --bundle --platform=node --format=cjs --target=node16 --outfile=dist/node/cjs/index.cjs --sourcemap",
