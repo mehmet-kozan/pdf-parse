@@ -5,7 +5,7 @@ import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_fact
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 
 import { getException } from './Exception.js';
-import { Line, LineStore, Point, Rectangle } from './geometry/Geometry.js';
+import { Line, LineStore, Point, Rectangle } from './geometry/index.js';
 import type { TableData } from './geometry/TableData.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
 import { InfoResult, type PageLinkResult } from './InfoResult.js';

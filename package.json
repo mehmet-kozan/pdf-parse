@@ -2,26 +2,26 @@
 	"name": "pdf-parse",
 	"version": "2.4.4-beta.1",
 	"type": "module",
-	"main": "dist/cjs/index.cjs",
-	"module": "dist/esm/index.js",
-	"types": "dist/cjs/index.d.cts",
+	"main": "dist/pdf-parse/cjs/index.cjs",
+	"module": "dist/pdf-parse/esm/index.js",
+	"types": "dist/pdf-parse/cjs/index.d.cts",
 	"exports": {
 		".": {
 			"browser": {
-				"types": "./dist/browser/pdf-parse.es.d.ts",
-				"default": "./dist/browser/pdf-parse.es.js"
+				"types": "./dist/pdf-parse/browser/pdf-parse.es.d.ts",
+				"default": "./dist/pdf-parse/browser/pdf-parse.es.js"
 			},
 			"import": {
-				"types": "./dist/esm/index.d.ts",
-				"default": "./dist/esm/index.js"
+				"types": "./dist/pdf-parse/esm/index.d.ts",
+				"default": "./dist/pdf-parse/esm/index.js"
 			},
 			"require": {
-				"types": "./dist/cjs/index.d.cts",
-				"default": "./dist/cjs/index.cjs"
+				"types": "./dist/pdf-parse/cjs/index.d.cts",
+				"default": "./dist/pdf-parse/cjs/index.cjs"
 			},
 			"default": {
-				"types": "./dist/cjs/index.d.cts",
-				"default": "./dist/cjs/index.cjs"
+				"types": "./dist/pdf-parse/cjs/index.d.cts",
+				"default": "./dist/pdf-parse/cjs/index.cjs"
 			}
 		},
 		"./worker": {
@@ -38,18 +38,18 @@
 				"default": "./bin/worker/worker.cjs"
 			}
 		},
-		"./utils": {
+		"./node": {
 			"import": {
-				"types": "./dist/utils/esm/index.d.ts",
-				"default": "./dist/utils/esm/index.js"
+				"types": "./dist/node/esm/index.d.ts",
+				"default": "./dist/node/esm/index.js"
 			},
 			"require": {
-				"types": "./dist/utils/cjs/index.d.cts",
-				"default": "./dist/utils/cjs/index.cjs"
+				"types": "./dist/node/cjs/index.d.cts",
+				"default": "./dist/node/cjs/index.cjs"
 			},
 			"default": {
-				"types": "./dist/utils/cjs/index.d.cts",
-				"default": "./dist/utils/cjs/index.cjs"
+				"types": "./dist/node/cjs/index.d.cts",
+				"default": "./dist/node/cjs/index.cjs"
 			}
 		}
 	},
@@ -89,15 +89,15 @@
 		"bin/"
 	],
 	"scripts": {
-		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:cjs && npm run build:browser && npm run build:utils",
+		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:cjs && npm run build:browser && npm run build:node",
 		"build:ts": "tsc && api-extractor run --local",
 		"build:cjs": "vite build --config vite.config.cjs.ts",
 		"build:browser": "vite build",
 		"build:worker": "vite build --config vite.config.worker.ts",
 
-		"build:utils": "npm run build:utils:ts && npm run build:utils:bundle",
-		"build:utils:ts": "tsc --project tsconfig.utils.json && api-extractor run --local -c api-extractor.utils.json",
-		"build:utils:bundle": "esbuild utils/index.ts --bundle --platform=node --format=cjs --target=node16 --outfile=dist/utils/cjs/index.cjs --sourcemap",
+		"build:node": "npm run build:node:ts && npm run build:node:bundle",
+		"build:node:ts": "tsc --project tsconfig.node.json && api-extractor run --local -c api-extractor.node.json",
+		"build:node:bundle": "esbuild src/node/index.ts --bundle --platform=node --format=cjs --target=node16 --outfile=dist/node/cjs/index.cjs --sourcemap",
 		"clean": "npm run clean:build && npm run clean:report && npm run clean:test && npm run clean:test:i",
 		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
 		"clean:report": "rimraf reports/test reports/coverage reports/benchmark reports/api reports/demo/dist-browser ",
@@ -152,6 +152,6 @@
 		"./bin/canvas/canvas.js",
 		"./bin/canvas/canvas.cjs"
 	],
-	"jsdelivr": "./dist/browser/pdf-parse.es.js",
-	"unpkg": "./dist/browser/pdf-parse.es.js"
+	"jsdelivr": "./dist/pdf-parse/browser/pdf-parse.es.js",
+	"unpkg": "./dist/pdf-parse/browser/pdf-parse.es.js"
 }

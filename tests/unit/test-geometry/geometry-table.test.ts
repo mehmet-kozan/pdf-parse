@@ -1,8 +1,5 @@
+import { Line, LineStore, Point } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
-
-import { Line } from '../../../src/geometry/Line';
-import { LineStore } from '../../../src/geometry/LineStore';
-import { Point } from '../../../src/geometry/Point';
 
 describe('basic table test', (): void => {
 	const hLines: Array<Line> = [

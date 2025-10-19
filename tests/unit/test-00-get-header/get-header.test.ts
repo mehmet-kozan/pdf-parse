@@ -1,4 +1,4 @@
-import { getHeader } from 'pdf-parse/utils';
+import { getHeader } from 'pdf-parse/node';
 import { describe, expect, test } from 'vitest';
 
 describe('get-header test', () => {

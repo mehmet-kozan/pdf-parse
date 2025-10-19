@@ -16,7 +16,7 @@ export default defineConfig({
 		coverage: {
 			enabled: false,
 			provider: 'v8',
-			include: ['src/**/*.ts', 'dist/esm/*.js'],
+			include: ['src/pdf-parse/**/*.ts', 'src/node/**/*.ts'],
 			exclude: ['src/**/_*', 'src/_**/*'],
 			reporter: [['html', { subdir: 'html-report' }], 'lcov', 'json', 'text-summary'],
 			reportsDirectory: 'reports/coverage',
@@ -31,8 +31,8 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			'pdf-parse/utils': resolve(__dirname, 'utils'),
-			'pdf-parse': resolve(__dirname, 'src'),
+			'pdf-parse/node': resolve(__dirname, 'src/node'),
+			'pdf-parse': resolve(__dirname, 'src/pdf-parse'),
 		},
 	},
 });

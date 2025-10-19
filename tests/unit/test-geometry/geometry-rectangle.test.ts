@@ -1,7 +1,5 @@
-﻿import { describe, expect, test } from 'vitest';
-
-import { Point } from '../../../src/geometry/Point';
-import { Rectangle } from '../../../src/geometry/Rectangle';
+﻿import { Point, Rectangle } from 'pdf-parse';
+import { describe, expect, test } from 'vitest';
 
 describe('Rectangle basic tests', (): void => {
 	test('rectangle constructor creates correct instance', (): void => {

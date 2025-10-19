@@ -93,6 +93,71 @@ export class InvalidPDFException extends Error {
     constructor(message?: string, cause?: unknown);
 }
 
+// @public (undocumented)
+export class Line extends Shape {
+    constructor(from: Point, to: Point);
+    // (undocumented)
+    addGap(line: Line): void;
+    // (undocumented)
+    addIntersectionPoint(point: Point): void;
+    // (undocumented)
+    containsPoint(p: Point): boolean;
+    // (undocumented)
+    direction: LineDirection;
+    // (undocumented)
+    from: Point;
+    // (undocumented)
+    gaps: Array<Line>;
+    // (undocumented)
+    intersection(line: Line): Point | undefined;
+    // (undocumented)
+    intersections: Array<Point>;
+    // (undocumented)
+    length: number;
+    // (undocumented)
+    get normalized(): Line;
+    // (undocumented)
+    to: Point;
+    // (undocumented)
+    transform(matrix: Array<number>): this;
+    // (undocumented)
+    get valid(): boolean;
+}
+
+// @public (undocumented)
+export enum LineDirection {
+    // (undocumented)
+    Horizontal = 1,
+    // (undocumented)
+    None = 0,
+    // (undocumented)
+    Vertical = 2
+}
+
+// @public (undocumented)
+export class LineStore {
+    // (undocumented)
+    add(line: Line): void;
+    // (undocumented)
+    addRectangle(rect: Rectangle): void;
+    // Warning: (ae-forgotten-export) The symbol "TableData" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getTableData(): Array<TableData>;
+    // (undocumented)
+    getTables(): Array<Table>;
+    // (undocumented)
+    hLines: Array<Line>;
+    // (undocumented)
+    normalize(): void;
+    // (undocumented)
+    normalizeHorizontal(): void;
+    // (undocumented)
+    normalizeVertical(): void;
+    // (undocumented)
+    vLines: Array<Line>;
+}
+
 export { Metadata }
 
 // @public
@@ -207,6 +272,36 @@ export class PDFParse {
 
 export { PDFWorker }
 
+// @public (undocumented)
+export class Point extends Shape {
+    constructor(x: number, y: number);
+    // (undocumented)
+    equal(point: Point): boolean;
+    // (undocumented)
+    transform(matrix: Array<number>): this;
+    // (undocumented)
+    x: number;
+    // (undocumented)
+    y: number;
+}
+
+// @public (undocumented)
+export class Rectangle extends Shape {
+    constructor(from: Point, width: number, height: number);
+    // (undocumented)
+    from: Point;
+    // (undocumented)
+    getLines(): Line[];
+    // (undocumented)
+    height: number;
+    // (undocumented)
+    get to(): Point;
+    // (undocumented)
+    transform(matrix: Array<number>): this;
+    // (undocumented)
+    width: number;
+}
+
 // @public
 export class ResponseException extends Error {
     constructor(message?: string, status?: number, missing?: unknown, cause?: unknown);
@@ -238,7 +333,78 @@ export class ScreenshotResult {
 }
 
 // @public (undocumented)
+export abstract class Shape {
+    // (undocumented)
+    static applyTransform(p: Array<number>, m: Array<number>): Array<number>;
+    // (undocumented)
+    static tolerance: number;
+    // (undocumented)
+    abstract transform(matrix: Array<number>): this;
+}
+
+// @public (undocumented)
+export class Table {
+    constructor(line: Line);
+    // (undocumented)
+    add(line: Line): boolean;
+    // (undocumented)
+    get colPivots(): Array<number>;
+    // (undocumented)
+    hLines: Array<Line>;
+    // (undocumented)
+    horizontalExists(line: Line, x1: number, x2: number): boolean;
+    // (undocumented)
+    get isValid(): boolean;
+    // (undocumented)
+    normalize(): void;
+    // (undocumented)
+    get rowPivots(): Array<number>;
+    // (undocumented)
+    toData(): TableData;
+    // (undocumented)
+    verticalExists(line: Line, y1: number, y2: number): boolean;
+    // (undocumented)
+    vLines: Array<Line>;
+}
+
+// @public (undocumented)
 export type TableArray = Array<Array<string>>;
+
+// @public (undocumented)
+type TableCell = {
+    minXY: Point;
+    maxXY: Point;
+    width: number;
+    height: number;
+    colspan?: number;
+    rowspan?: number;
+    text: Array<string>;
+};
+
+// @public (undocumented)
+class TableData {
+    constructor(minXY: Point, maxXY: Point, rowPivots: Array<number>, colPivots: Array<number>);
+    // (undocumented)
+    get cellCount(): number;
+    // (undocumented)
+    check(): boolean;
+    // Warning: (ae-forgotten-export) The symbol "TableCell" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    findCell(x: number, y: number): TableCell | undefined;
+    // (undocumented)
+    maxXY: Point;
+    // (undocumented)
+    minXY: Point;
+    // (undocumented)
+    get rowCount(): number;
+    // Warning: (ae-forgotten-export) The symbol "TableRow" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    rows: Array<TableRow>;
+    // (undocumented)
+    toArray(): string[][];
+}
 
 // @public
 export class TableResult {
@@ -250,6 +416,9 @@ export class TableResult {
     // (undocumented)
     total: number;
 }
+
+// @public (undocumented)
+type TableRow = Array<TableCell>;
 
 // @public
 export class TextResult {

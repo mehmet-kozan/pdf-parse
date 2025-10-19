@@ -57,6 +57,6 @@
 	"files.associations": {
 		"api-extractor.json": "jsonc",
 		"tsdoc-metadata.json": "jsonc",
-		"api-extractor.utils.json": "jsonc"
+		"api-extractor.node.json": "jsonc"
 	}
 }

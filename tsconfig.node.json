@@ -1,23 +1,25 @@
 {
 	"compilerOptions": {
-		"rootDir": "../utils",
-		"outDir": "../dist/utils/cjs",
+		"baseUrl": ".",
+		"rootDir": "src/node",
+		"outDir": "dist/node/esm",
 		"declaration": true,
-		"declarationMap": false,
-		"emitDeclarationOnly": true,
+		"declarationMap": true,
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"isolatedModules": true,
 		"target": "ES2022",
-		"module": "CommonJS",
-		"moduleResolution": "node",
+		"module": "node16",
+		"moduleResolution": "node16",
 		"jsx": "react",
 		"noEmit": false,
 		"noUncheckedIndexedAccess": false,
 		"skipLibCheck": true,
 		"strict": true,
-		"verbatimModuleSyntax": false
+		"verbatimModuleSyntax": true,
+		"paths": {
+			"pdf-parse/utils": ["src/node"]
+		}
 	},
-	"include": ["../utils/**/*"],
-	"exclude": ["**/index.cts/**"]
+	"include": ["src/node/**/*"]
 }
