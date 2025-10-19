@@ -3,6 +3,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { stderr, stdout } from 'node:process';
 import { PDFParse } from 'pdf-parse';
+import { getHeader } from 'pdf-parse/node';
 
 import minimist from './minimist.mjs';
 
@@ -13,11 +14,11 @@ const args = minimist(process.argv.slice(2), {
 		o: 'output',
 		p: 'pages',
 		f: 'format',
-		t: 'imageThreshold',
+		m: 'min',
 		s: 'scale',
 		w: 'width',
 	},
-	string: ['output', 'pages', 'format', 'imageThreshold', 'scale', 'width'],
+	string: ['output', 'pages', 'format', 'min', 'scale', 'width'],
 	boolean: ['help', 'version'],
 });
 
@@ -41,7 +42,7 @@ if (!filePath) {
 	process.exit(1);
 }
 
-const commands = ['info', 'text', 'image', 'screenshot', 'table'];
+const commands = ['info', 'text', 'image', 'screenshot', 'ss', 'table'];
 
 if (!commands.includes(command)) {
 	stderr.write(`Error: Unknown command '${command}'\n`);
@@ -63,14 +64,14 @@ Commands:
   info        Extract PDF metadata and information
   text        Extract text content from PDF
   image       Extract embedded images from PDF
-  screenshot  Generate screenshots of PDF pages
+  screenshot  Generate screenshots of PDF pages (alias: ss)
   table       Extract tabular data from PDF
 
 Options:
   -o, --output <file>          Output file path (for single file) or directory (for multiple files)
   -p, --pages <range>          Page range (e.g., 1,3-5,7)
   -f, --format <format>        Output format (json, text, dataurl)
-  -t, --imageThreshold <px>    Minimum image size threshold in pixels (default: 80)
+  -m, --min <px>               Minimum image size threshold in pixels (default: 80)
   -s, --scale <factor>         Scale factor for screenshots (default: 1.0)
   -w, --width <px>             Desired width for screenshots in pixels
   -h, --help                   Show this help message
@@ -111,6 +112,7 @@ async function runCommand(command, filePath, options) {
 				await handleGetImage(parser, options);
 				break;
 			case 'screenshot':
+			case 'ss':
 				await handleGetScreenshot(parser, options);
 				break;
 			case 'table':
@@ -150,8 +152,8 @@ async function handleGetImage(parser, options) {
 	params.imageBuffer = true;
 	params.imageDataUrl = options.format === 'dataurl';
 
-	if (options.imageThreshold) {
-		params.imageThreshold = parseInt(options.imageThreshold, 10);
+	if (options.min) {
+		params.imageThreshold = parseInt(options.min, 10);
 	}
 
 	const result = await parser.getImage(params);
