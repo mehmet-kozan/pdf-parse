@@ -42,7 +42,7 @@ if (!filePath) {
 	process.exit(1);
 }
 
-const commands = ['info', 'text', 'image', 'screenshot', 'ss', 'table'];
+const commands = ['info', 'text', 'image', 'screenshot', 'ss', 'table', 'check'];
 
 if (!commands.includes(command)) {
 	stderr.write(`Error: Unknown command '${command}'\n`);
@@ -61,6 +61,7 @@ function showHelp() {
 	const help = `Usage: pdf-parse <command> <file> [options]
 
 Commands:
+  check       Check PDF file headers and validate format (URL only)
   info        Extract PDF metadata and information
   text        Extract text content from PDF
   image       Extract embedded images from PDF
@@ -84,6 +85,7 @@ Examples:
   pdf-parse table document.pdf --format json
   pdf-parse image document.pdf --output ./images/
   pdf-parse screenshot document.pdf --output ./screenshots/ --scale 2.0
+  pdf-parse check https://example.com/document.pdf
 `;
 	stdout.write(help);
 }
@@ -117,6 +119,9 @@ async function runCommand(command, filePath, options) {
 				break;
 			case 'table':
 				await handleGetTable(parser, options);
+				break;
+			case 'check':
+				await handleGetHeader(filePath, options);
 				break;
 		}
 	} finally {
@@ -315,6 +320,25 @@ async function handleGetTable(parser, options) {
 	}
 }
 
+async function handleGetHeader(filePath, options) {
+	// Check if it's a URL
+	if (!filePath.startsWith('http://') && !filePath.startsWith('https://')) {
+		stderr.write('Error: check command only works with URLs, not local files\n');
+		stderr.write('Use: pdf-parse check https://bitcoin.org/bitcoin.pdf\n');
+		process.exit(1);
+	}
+
+	// Second parameter is for PDF magic bytes validation
+	const result = await getHeader(filePath, true);
+	const output = options.format === 'json' ? JSON.stringify(result, null, 2) : formatHeader(result);
+
+	if (options.output) {
+		await writeFile(options.output, output);
+	} else {
+		stdout.write(output);
+	}
+}
+
 function parsePageParams(options) {
 	const params = {};
 
@@ -353,6 +377,21 @@ function formatInfo(result) {
 	if (result.metadata) {
 		output += `\nMetadata:\n`;
 		for (const [key, value] of Object.entries(result.metadata)) {
+			output += `  ${key}: ${value}\n`;
+		}
+	}
+
+	return output;
+}
+
+function formatHeader(result) {
+	let output = `Status: ${result.status}\n`;
+	output += `Size: ${result.size} bytes\n`;
+	output += `Is PDF: ${result.isPdf ? 'Yes' : 'No'}\n`;
+
+	if (result.headers) {
+		output += `\nHeaders:\n`;
+		for (const [key, value] of Object.entries(result.headers)) {
 			output += `  ${key}: ${value}\n`;
 		}
 	}
