@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"rootDir": "src/worker",
+		"outDir": "dist/worker/@types",
+		"declaration": true,
+		"declarationMap": false,
+		"sourceMap": false,
+		"emitDeclarationOnly": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"target": "es2022",
+		"module": "node16",
+		"moduleResolution": "node16",
+		"jsx": "react",
+		"noEmit": false,
+		"noUncheckedIndexedAccess": false,
+		"skipLibCheck": true,
+		"strict": true,
+		"verbatimModuleSyntax": true,
+		"paths": {
+			"pdf-parse/worker": ["src/worker"]
+		}
+	},
+	"include": ["src/worker/**/*"]
+}
