@@ -75,7 +75,8 @@ Options:
   -m, --min <px>               Minimum image size threshold in pixels (default: 80)
   -s, --scale <factor>         Scale factor for screenshots (default: 1.0)
   -w, --width <px>             Desired width for screenshots in pixels
-  --magic                      Validate PDF magic bytes (default: true)
+  -l, --large                  Desired width for screenshots in pixels
+  --magic                      Validate PDF magic bytes
   -h, --help                   Show this help message
   -v, --version                Show version number
 
@@ -86,7 +87,7 @@ Examples:
   pdf-parse table document.pdf --format json
   pdf-parse image document.pdf --output ./images/
   pdf-parse screenshot document.pdf --output ./screenshots/ --scale 2.0
-  pdf-parse check https://example.com/document.pdf
+  pdf-parse check https://bitcoin.org/bitcoin.pdf --magic
 `;
 	stdout.write(help);
 }
@@ -105,6 +106,9 @@ async function runCommand(command, filePath, options) {
 
 	try {
 		switch (command) {
+			case 'check':
+				await handleGetHeader(filePath, options);
+				break;
 			case 'info':
 				await handleGetInfo(parser, options);
 				break;
@@ -121,12 +125,28 @@ async function runCommand(command, filePath, options) {
 			case 'table':
 				await handleGetTable(parser, options);
 				break;
-			case 'check':
-				await handleGetHeader(filePath, options);
-				break;
 		}
 	} finally {
 		await parser.destroy();
+	}
+}
+
+async function handleGetHeader(filePath, options) {
+	// Check if it's a URL
+	if (!filePath.startsWith('http://') && !filePath.startsWith('https://')) {
+		stderr.write('Error: check command only works with URLs, not local files\n');
+		stderr.write('Use: pdf-parse check https://bitcoin.org/bitcoin.pdf\n');
+		process.exit(1);
+	}
+
+	// Second parameter is for PDF magic bytes validation
+	const result = await getHeader(filePath, !!options.magic);
+	const output = options.format === 'json' ? JSON.stringify(result, null, 2) : formatHeader(result);
+
+	if (options.output) {
+		await writeFile(options.output, output);
+	} else {
+		stdout.write(output);
 	}
 }
 
@@ -321,26 +341,6 @@ async function handleGetTable(parser, options) {
 	}
 }
 
-async function handleGetHeader(filePath, options) {
-	// Check if it's a URL
-	if (!filePath.startsWith('http://') && !filePath.startsWith('https://')) {
-		stderr.write('Error: check command only works with URLs, not local files\n');
-		stderr.write('Use: pdf-parse check https://bitcoin.org/bitcoin.pdf\n');
-		process.exit(1);
-	}
-
-	// Second parameter is for PDF magic bytes validation
-	const validateMagic = options.magic !== false;
-	const result = await getHeader(filePath, validateMagic);
-	const output = options.format === 'json' ? JSON.stringify(result, null, 2) : formatHeader(result);
-
-	if (options.output) {
-		await writeFile(options.output, output);
-	} else {
-		stdout.write(output);
-	}
-}
-
 function parsePageParams(options) {
 	const params = {};
 
@@ -387,9 +387,10 @@ function formatInfo(result) {
 }
 
 function formatHeader(result) {
+	const magic = result.magic === null ? '-' : !!result.magic;
 	let output = `Status: ${result.status}\n`;
 	output += `Size: ${result.size} bytes\n`;
-	output += `Is PDF: ${result.isPdf ? 'Yes' : 'No'}\n`;
+	output += `Magic: ${magic}\n`;
 
 	if (result.headers) {
 		output += `\nHeaders:\n`;

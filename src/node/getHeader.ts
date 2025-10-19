@@ -9,7 +9,7 @@ export interface HeaderResult {
 	ok: boolean;
 	status?: number;
 	size?: number;
-	isPdf?: boolean;
+	magic: boolean | null;
 	headers?: Record<string, string>;
 	error?: Error;
 }
@@ -58,14 +58,14 @@ export async function getHeader(url: string | URL, check: boolean = false): Prom
 		const headResp = await nodeRequest(u, 'HEAD');
 		const size = headResp.headers['content-length'] ? parseInt(headResp.headers['content-length'], 10) : undefined;
 
-		let isPdf: boolean | undefined;
+		let magic: boolean | null = null;
 		if (check) {
 			const rangeResp = await nodeRequest(u, 'GET', { Range: 'bytes=0-4' });
 			if (rangeResp.status >= 200 && rangeResp.status < 300 && rangeResp.buffer) {
 				const headerStr = rangeResp.buffer.slice(0, 4).toString('utf8');
-				isPdf = headerStr.startsWith('%PDF');
+				magic = headerStr.startsWith('%PDF');
 			} else {
-				isPdf = false;
+				magic = false;
 			}
 		}
 
@@ -73,7 +73,7 @@ export async function getHeader(url: string | URL, check: boolean = false): Prom
 			ok: headResp.status >= 200 && headResp.status < 300,
 			status: headResp.status,
 			size,
-			isPdf,
+			magic,
 			headers: headResp.headers,
 		};
 	} catch (error) {
@@ -81,7 +81,7 @@ export async function getHeader(url: string | URL, check: boolean = false): Prom
 			ok: false,
 			status: undefined,
 			size: undefined,
-			isPdf: false,
+			magic: false,
 			headers: {},
 			error: new Error(String(error)),
 		};
