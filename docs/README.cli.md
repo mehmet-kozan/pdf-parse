@@ -88,7 +88,7 @@ pdf-parse table document.pdf --format json
 - `-s, --scale <factor>`: Scale factor for screenshots (default: 1.0)
 - `-w, --width <px>`: Desired width for screenshots in pixels
 - `-l, --large`: Enable optimizations for large PDF files
-- `--magic`: Validate PDF magic bytes (default: true)
+- `--magic`: Validate PDF magic bytes
 - `-h, --help`: Show help message
 - `-v, --version`: Show version number
 
