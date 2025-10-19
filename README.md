@@ -72,6 +72,22 @@ yarn add pdf-parse
 bun add pdf-parse
 ```
 
+### CLI Installation
+
+For command-line usage, install the package globally:
+
+```sh
+npm install -g pdf-parse
+```
+
+Or use it directly with npx:
+
+```sh
+npx pdf-parse --help
+```
+
+For detailed CLI documentation and usage examples, see: [CLI Documentation](./docs/README.cli.md)
+
 ## Usage
 
 ### `getHeader` — Node Utility: PDF Header Retrieval and Validation
