@@ -1,5 +1,5 @@
-// Important: getHeader is available from the 'pdf-parse/utils' submodule
-import { getHeader } from 'pdf-parse/utils';
+// Important: getHeader is available from the 'pdf-parse/node' submodule
+import { getHeader } from 'pdf-parse/node';
 
 // HEAD request to retrieve HTTP headers and file size without downloading the full file.
 // Pass `true` to check PDF magic bytes via range request

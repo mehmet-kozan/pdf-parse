@@ -77,8 +77,8 @@ bun add pdf-parse
 ### `getHeader` — Node Utility: PDF Header Retrieval and Validation
 
 ```js
-// Important: getHeader is available from the 'pdf-parse/utils' submodule
-import { getHeader } from 'pdf-parse/utils';
+// Important: getHeader is available from the 'pdf-parse/node' submodule
+import { getHeader } from 'pdf-parse/node';
 
 // HEAD request to retrieve HTTP headers and file size without downloading the full file.
 // Pass `true` to check PDF magic bytes via range request
@@ -292,10 +292,10 @@ try {
 
 **CDN Options: https://www.jsdelivr.com/package/npm/pdf-parse**
 
-- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/browser/pdf-parse.es.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.umd.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/browser/pdf-parse.umd.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.es.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/pdf-parse/web/pdf-parse.es.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.umd.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/pdf-parse/web/pdf-parse.umd.js`
 
 
 ## Worker Configuration (Node / Serverless Platforms)
@@ -331,14 +331,14 @@ Custom builds, Electron/NW.js, or specific deployment environments—you may nee
 
 ```js
 // Import this before importing "pdf-parse"
-import {getWorkerPath, getWorkerSource} from "pdf-parse/worker"; 
+import {getPath, getData} from "pdf-parse/worker"; 
 import {PDFParse} from "pdf-parse";
 
 // CommonJS
 // const {getWorkerSource, getWorkerPath} = require('pdf-parse/worker');
 
-PDFParse.setWorker(getWorkerPath());
-// or PDFParse.setWorker(getWorkerSource());
+PDFParse.setWorker(getPath());
+// or PDFParse.setWorker(getData());
 
 ```
 
@@ -368,20 +368,20 @@ Requires additional setup — import and configure a compatible CanvasFactory or
 ESM 
 ```js
 // Import this before importing "pdf-parse"
-import { CustomCanvasFactory } from 'pdf-parse/worker'; 
+import { CanvasFactory } from 'pdf-parse/worker'; 
 import { PDFParse } from 'pdf-parse';
 
-const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory });
+const parser = new PDFParse({ data: buffer, CanvasFactory });
 // then use parser
 ```
 
 CJS
 ```js
 // Import this before importing "pdf-parse"
-const { CustomCanvasFactory } = require('pdf-parse/worker'); 
+const { CanvasFactory } = require('pdf-parse/worker'); 
 const { PDFParse } = require('pdf-parse');
 
-const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory });
+const parser = new PDFParse({ data: buffer, CanvasFactory });
 // then use parser
 ```
 

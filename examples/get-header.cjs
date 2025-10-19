@@ -1,4 +1,4 @@
-const { getHeader } = require('pdf-parse/utils');
+const { getHeader } = require('pdf-parse/node');
 
 async function run() {
 	// HEAD request to retrieve HTTP headers and file size without downloading the full file.

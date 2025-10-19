@@ -9,6 +9,7 @@ export type {
 } from 'pdfjs-dist/types/src/display/api.js';
 
 export * from './Exception.js';
+export * from './geometry/index.js';
 export type { EmbeddedImage, ImageKindKey, ImageKindValue, ImageResult, PageImages } from './ImageResult.js';
 export type { DateNode, InfoResult, Metadata, OutlineNode, PageLinkResult } from './InfoResult.js';
 export type { ParseParameters } from './ParseParameters.js';

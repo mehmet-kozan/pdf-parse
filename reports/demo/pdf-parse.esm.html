@@ -5,170 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>pdf-parse browser example</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 3rem;
-            position: relative;
-            max-width: 900px;
-            width: 100%;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 0.5rem;
-            font-size: 2.5em;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        p {
-            color: #666;
-            margin-bottom: 2rem;
-            font-size: 0.95em;
-        }
-
-        code {
-            background: #f0f0f0;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            color: #d63384;
-        }
-
-        .controls {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            align-items: center;
-        }
-
-        input[type="file"] {
-            flex: 1;
-            padding: 0.75rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1em;
-            transition: border-color 0.3s;
-            cursor: pointer;
-        }
-
-        input[type="file"]:hover {
-            border-color: #667eea;
-        }
-
-        input[type="file"]:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        button {
-            padding: 0.75rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        /* Back link styled as a small button in the top-right of the demo card */
-        a.home {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            display: inline-block;
-            padding: 0.4rem 0.8rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.25);
-        }
-
-        a.home:hover {
-            transform: translateY(-2px);
-        }
-
-        h2 {
-            color: #333;
-            margin-bottom: 1rem;
-            font-size: 1.5em;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        pre {
-            white-space: pre-wrap;
-            background: #f8f9fa;
-            border: 1px solid #e0e0e0;
-            padding: 1.5rem;
-            max-height: 60vh;
-            overflow: auto;
-            border-radius: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-            line-height: 1.5;
-            color: #333;
-        }
-
-        pre::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        pre::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        pre::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-
-        pre::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
     <div class="container">
-        <h1>📄 ESM Demo - pdf-parse</h1>
+        <h1>📄 ESM Demo</h1>
         <p>Build the project first: <code>npm run build</code> then generate site: <code>npm run report:build</code></p>
         <p><a class="home" href="../index.html">← Back to project</a></p>
         <div class="controls">
@@ -183,9 +25,9 @@
 
         // Import the browser bundle produced by the build step
         // local import 
-        import { PDFParse } from './dist-browser/pdf-parse.es.js';
+        import { PDFParse } from './dist-web/pdf-parse.es.js';
         // cdn import
-        //import { PDFParse } from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.js';
+        //import { PDFParse } from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.es.js';
 
         const fileInput = document.getElementById('file');
         const btn = document.getElementById('parse');

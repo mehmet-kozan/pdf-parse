@@ -1,4 +1,4 @@
-import { CustomCanvasFactory } from 'pdf-parse/worker';
+import { CanvasFactory } from 'pdf-parse/worker';
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -13,7 +13,7 @@ const __pdf = join(__dirname, '../../reports/pdf/image-test.pdf');
 describe('es module test', () => {
 	it('results must be valid', async () => {
 		const buffer = readFileSync(__pdf);
-		const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory });
+		const parser = new PDFParse({ data: buffer, CanvasFactory });
 		const textResult = await parser.getText();
 		const screenshotResult = await parser.getScreenshot();
 		const imageResult = await parser.getImage();

@@ -1,14 +1,15 @@
 {
 	"compilerOptions": {
 		"baseUrl": ".",
-		"rootDir": "../utils",
-		"outDir": "../dist/utils/esm",
+		"rootDir": "src/worker",
+		"outDir": "dist/worker/@types",
 		"declaration": true,
-		"declarationMap": true,
-		"sourceMap": true,
+		"declarationMap": false,
+		"sourceMap": false,
+		"emitDeclarationOnly": true,
 		"esModuleInterop": true,
 		"isolatedModules": true,
-		"target": "ES2022",
+		"target": "es2022",
 		"module": "node16",
 		"moduleResolution": "node16",
 		"jsx": "react",
@@ -18,8 +19,8 @@
 		"strict": true,
 		"verbatimModuleSyntax": true,
 		"paths": {
-			"pdf-parse/utils": ["../utils"]
+			"pdf-parse/worker": ["src/worker"]
 		}
 	},
-	"include": ["../utils/**/*"]
+	"include": ["src/worker/**/*"]
 }

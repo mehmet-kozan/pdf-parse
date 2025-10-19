@@ -1,55 +1,55 @@
 {
 	"name": "pdf-parse",
-	"version": "2.4.4",
+	"version": "2.4.4-beta.1",
 	"type": "module",
-	"main": "dist/cjs/index.cjs",
-	"module": "dist/esm/index.js",
-	"types": "dist/cjs/index.d.cts",
+	"main": "dist/pdf-parse/cjs/index.cjs",
+	"module": "dist/pdf-parse/esm/index.js",
+	"types": "dist/pdf-parse/cjs/index.d.cts",
 	"exports": {
 		".": {
 			"browser": {
-				"types": "./dist/browser/pdf-parse.es.d.ts",
-				"default": "./dist/browser/pdf-parse.es.js"
+				"types": "./dist/pdf-parse/web/pdf-parse.es.d.ts",
+				"default": "./dist/pdf-parse/web/pdf-parse.es.js"
 			},
 			"import": {
-				"types": "./dist/esm/index.d.ts",
-				"default": "./dist/esm/index.js"
+				"types": "./dist/pdf-parse/esm/index.d.ts",
+				"default": "./dist/pdf-parse/esm/index.js"
 			},
 			"require": {
-				"types": "./dist/cjs/index.d.cts",
-				"default": "./dist/cjs/index.cjs"
+				"types": "./dist/pdf-parse/cjs/index.d.cts",
+				"default": "./dist/pdf-parse/cjs/index.cjs"
 			},
 			"default": {
-				"types": "./dist/cjs/index.d.cts",
-				"default": "./dist/cjs/index.cjs"
+				"types": "./dist/pdf-parse/cjs/index.d.cts",
+				"default": "./dist/pdf-parse/cjs/index.cjs"
 			}
 		},
 		"./worker": {
 			"import": {
-				"types": "./bin/worker/worker.d.ts",
-				"default": "./bin/worker/worker.js"
+				"types": "./dist/worker/esm/index.d.ts",
+				"default": "./dist/worker/esm/index.js"
 			},
 			"require": {
-				"types": "./bin/worker/worker.d.cts",
-				"default": "./bin/worker/worker.cjs"
+				"types": "./dist/worker/cjs/index.d.cts",
+				"default": "./dist/worker/cjs/index.cjs"
 			},
 			"default": {
-				"types": "./bin/worker/worker.d.cts",
-				"default": "./bin/worker/worker.cjs"
+				"types": "./dist/worker/cjs/index.d.cts",
+				"default": "./dist/worker/cjs/index.cjs"
 			}
 		},
-		"./utils": {
+		"./node": {
 			"import": {
-				"types": "./dist/utils/esm/index.d.ts",
-				"default": "./dist/utils/esm/index.js"
+				"types": "./dist/node/esm/index.d.ts",
+				"default": "./dist/node/esm/index.js"
 			},
 			"require": {
-				"types": "./dist/utils/cjs/index.d.cts",
-				"default": "./dist/utils/cjs/index.cjs"
+				"types": "./dist/node/cjs/index.d.cts",
+				"default": "./dist/node/cjs/index.cjs"
 			},
 			"default": {
-				"types": "./dist/utils/cjs/index.d.cts",
-				"default": "./dist/utils/cjs/index.cjs"
+				"types": "./dist/node/cjs/index.d.cts",
+				"default": "./dist/node/cjs/index.cjs"
 			}
 		}
 	},
@@ -60,30 +60,23 @@
 	},
 	"keywords": [
 		"pdf",
-		"pdf-parse",
 		"pdf-parser",
-		"pdf-tools",
-		"pdf-utils",
+		"pdf-parse",
 		"pdf.js",
+		"pdfjs",
 		"pdfjs-dist",
-		"pdf-text-extraction",
-		"pdf-image-extraction",
-		"pdf-table-extractor",
-		"pdf-table-extraction",
-		"pdf-screenshot",
-		"pdf-thumbnail",
-		"pdf-table-parser",
-		"pdf-to-text",
 		"pdf2text",
-		"pdf-to-json",
 		"pdf2json",
-		"pdf-to-image",
 		"pdf2image",
 		"pdf2pic",
-		"pdf-to-csv",
-		"pdf2csv",
-		"pdf-document-parser",
-		"pdf-reader"
+		"pdf-to-text",
+		"pdf-to-image",
+		"pdf-viewer",
+		"pdf-table",
+		"pdf-tools",
+		"pdf-utils",
+		"pdf-screenshot",
+		"pdf-thumbnail"
 	],
 	"repository": {
 		"type": "git",
@@ -96,30 +89,36 @@
 		"bin/"
 	],
 	"scripts": {
-		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:cjs && npm run build:browser && npm run build:utils",
+		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:cjs && npm run build:web && npm run build:node",
 		"build:ts": "tsc && api-extractor run --local",
-		"build:cjs": "vite build --config configs/vite.config.cjs.ts",
-		"build:browser": "vite build",
-		"build:worker": "vite build --config configs/vite.config.worker.ts",
+		"build:cjs": "vite build --config vite.config.cjs.ts",
+		"build:web": "vite build",
+		"build:worker": "tsc --project tsconfig.worker.json && api-extractor run --local -c api-extractor.worker.json && node scripts/build-worker.mjs",
 
-		"build:utils": "npm run build:utils:ts && npm run build:utils:bundle",
-		"build:utils:ts": "tsc --project configs/tsconfig.utils.json && api-extractor run --local -c configs/api-extractor.utils.jsonc",
-		"build:utils:bundle": "esbuild utils/index.ts --bundle --platform=node --format=cjs --target=node16 --outfile=dist/utils/cjs/index.cjs --sourcemap",
+		"build:node": "npm run build:node:ts && npm run build:node:bundle",
+		"build:node:ts": "tsc --project tsconfig.node.json && api-extractor run --local -c api-extractor.node.json",
+		"build:node:bundle": "esbuild src/node/index.ts --bundle --platform=node --format=cjs --target=node16 --outfile=dist/node/cjs/index.cjs --sourcemap",
+
 		"clean": "npm run clean:build && npm run clean:report && npm run clean:test && npm run clean:test:i",
 		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
-		"clean:report": "rimraf reports/test reports/coverage reports/benchmark reports/api reports/demo/dist-browser ",
+		"clean:report": "rimraf reports/test reports/coverage reports/benchmark reports/api reports/demo/dist-web ",
 		"clean:test": "rimraf --glob tests/**/*.txt tests/**/imgs tests/**/*_images temp",
 		"clean:test:i": "rimraf --glob *.tgz tests/**/node_modules tests/**/package-lock.json tests/**/dist",
+
 		"test": "vitest run --reporter=default",
+		"test:p": "vitest run --config vitest.config.package.ts",
 		"test:i": "node scripts/integration.test.mjs",
 		"test:u": "node --test tests/unsupported/*.test.cjs && node --test tests/unsupported/*.test.mjs",
 		"test:ui": "vitest --ui --coverage",
 		"test:watch": "vitest",
+
 		"coverage": "vitest run --coverage",
 		"bench": "npm run bench:install && vitest bench --run",
 		"bench:install": "npm install --no-save pdf2json@latest",
+
 		"report": "npm run report:build && vite preview --outDir reports",
 		"report:build": "npm run build && npm run coverage && npm run bench",
+
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"format:all": "biome check --write .",
@@ -128,22 +127,21 @@
 		"pack": "npm pack --dry-run"
 	},
 	"dependencies": {
-		"@napi-rs/canvas": "^0.1.80",
-		"pdfjs-dist": "^5.4.296"
+		"@napi-rs/canvas": "0.1.80",
+		"pdfjs-dist": "5.4.296"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.2.6",
+		"vite": "^7.1.5",
+		"vitest": "^3.2.4",
+		"typescript": "^5.9.3",
 		"@microsoft/api-extractor": "^7.53.1",
+		"@biomejs/biome": "^2.2.6",
 		"@types/node": "^24.7.2",
 		"@vitest/coverage-v8": "^3.2.4",
 		"@vitest/ui": "^3.2.4",
 		"esbuild": "^0.25.11",
 		"rimraf": "^6.0.1",
-		"terser": "^5.44.0",
-		"typescript": "^5.9.3",
-		"vite": "^7.1.5",
-		"vite-tsconfig-paths": "^5.1.4",
-		"vitest": "^3.2.4"
+		"terser": "^5.44.0"
 	},
 	"publishConfig": {
 		"access": "public",
@@ -158,6 +156,6 @@
 		"./bin/canvas/canvas.js",
 		"./bin/canvas/canvas.cjs"
 	],
-	"jsdelivr": "./dist/browser/pdf-parse.es.js",
-	"unpkg": "./dist/browser/pdf-parse.es.js"
+	"jsdelivr": "./dist/pdf-parse/web/pdf-parse.es.js",
+	"unpkg": "./dist/pdf-parse/web/pdf-parse.es.js"
 }

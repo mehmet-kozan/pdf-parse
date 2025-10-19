@@ -45,7 +45,7 @@
 	 *
 	 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 	 */
-	"mainEntryPointFilePath": "../dist/utils/esm/index.d.ts",
+	"mainEntryPointFilePath": "dist/worker/@types/index.d.ts",
 
 	/**
 	 * A list of NPM package names whose exports should be treated as part of this package.
@@ -110,7 +110,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<projectFolder>/tsconfig.json"
 		 */
-		"tsconfigFilePath": "tsconfig.utils.json"
+		"tsconfigFilePath": "tsconfig.worker.json"
 		/**
 		 * Provides a compiler configuration that will be used instead of reading the tsconfig.json file from disk.
 		 * The object must conform to the TypeScript tsconfig schema:
@@ -142,7 +142,7 @@
 		/**
 		 * (REQUIRED) Whether to generate an API report.
 		 */
-		"enabled": false,
+		"enabled": true,
 
 		/**
 		 * The base filename for the API report files, to be combined with "reportFolder" or "reportTempFolder"
@@ -158,7 +158,7 @@
 		 * SUPPORTED TOKENS: <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<unscopedPackageName>"
 		 */
-		"reportFileName": "README.api.md",
+		"reportFileName": "README.worker.md",
 
 		/**
 		 * To support different approval requirements for different API levels, multiple "variants" of the API report can
@@ -218,7 +218,7 @@
 		/**
 		 * (REQUIRED) Whether to generate a doc model file.
 		 */
-		"enabled": false,
+		"enabled": true,
 
 		/**
 		 * The output path for the doc model file.  The file extension should be ".api.json".
@@ -229,7 +229,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<projectFolder>/temp/<unscopedPackageName>.api.json"
 		 */
-		"apiJsonFilePath": "reports/api/pdf-parse.api.json",
+		"apiJsonFilePath": "reports/api/worker.api.json",
 
 		/**
 		 * Whether "forgotten exports" should be included in the doc model file. Forgotten exports are declarations
@@ -278,7 +278,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<projectFolder>/dist/<unscopedPackageName>.d.ts"
 		 */
-		"untrimmedFilePath": "../dist/utils/cjs/index.d.cts"
+		"untrimmedFilePath": "dist/worker/@types/index.d.cts"
 
 		/**
 		 * Specifies the output path for a .d.ts rollup file to be generated with trimming for an "alpha" release.
@@ -341,7 +341,7 @@
 		 *
 		 * DEFAULT VALUE: true
 		 */
-		"enabled": false,
+		"enabled": true,
 		/**
 		 * Specifies where the TSDoc metadata file should be written.
 		 *
@@ -355,7 +355,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<lookup>"
 		 */
-		"tsdocMetadataFilePath": "reports/api/tsdoc-metadata.json"
+		"tsdocMetadataFilePath": "reports/api/worker-tsdoc-metadata.json"
 	},
 
 	/**

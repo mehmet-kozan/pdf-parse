@@ -57,9 +57,6 @@ PDFParse.setWorker(workerUrl);
 - Self-hosting worker files for offline or security requirements
 
 
-
-
-
 ### Browser Worker Configuration
 
 In browser environments, `pdf-parse` requires a separate worker file to process PDFs in a background thread. By default, `pdf-parse` automatically loads the worker from the jsDelivr CDN. However, you can configure a custom worker source if needed.
@@ -71,7 +68,7 @@ In browser environments, `pdf-parse` requires a separate worker file to process 
 
 **Available Worker Files:**
 
-- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.mjs`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf.worker.min.mjs`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.mjs`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.min.mjs`
 
 See [`example/basic.esm.worker.html`](example/basic.esm.worker.html) for a working example of browser usage with worker configuration.

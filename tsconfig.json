@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		"baseUrl": ".",
-		"rootDir": "src",
-		"outDir": "dist/esm",
+		"rootDir": "src/pdf-parse",
+		"outDir": "dist/pdf-parse/esm",
 		"declaration": true,
 		"declarationMap": true,
 		"sourceMap": true,
@@ -18,9 +18,9 @@
 		"strict": true,
 		"verbatimModuleSyntax": true,
 		"paths": {
-			"pdf-parse": ["src"],
+			"pdf-parse": ["src/pdf-parse"]
 		}
 	},
-	"include": ["src/**/*"],
-	"exclude": ["src/**/_*", "src/_**/*", "src/index.browser.ts"]
+	"include": ["src/pdf-parse/**/*"],
+	"exclude": ["src/pdf-parse/**/_*", "src/pdf-parse/_**/*", "src/pdf-parse/index.web.ts"]
 }

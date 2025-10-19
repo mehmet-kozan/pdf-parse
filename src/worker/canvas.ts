@@ -1,18 +1,19 @@
-const { createCanvas, DOMMatrix, ImageData, Path2D } = require('@napi-rs/canvas');
+/** biome-ignore-all lint/suspicious/noExplicitAny: global declaration */
+import { Canvas, createCanvas, DOMMatrix, ImageData, Path2D, type SKRSContext2D } from '@napi-rs/canvas';
 
-//getBuiltinModule
-globalThis.DOMMatrix = DOMMatrix;
-globalThis.Path2D = Path2D;
-globalThis.ImageData = ImageData;
+(global as any).DOMMatrix = DOMMatrix;
+(global as any).Path2D = Path2D;
+(global as any).ImageData = ImageData;
 
-class CustomCanvasFactory {
-	// biome-ignore lint/correctness/noUnusedPrivateClassMembers: <constructor>
-	#enableHWA = false;
-	constructor({ enableHWA = false }) {
-		this.#enableHWA = enableHWA;
-	}
+export { Canvas, type SKRSContext2D };
 
-	create(width, height) {
+export interface CanvasAndContext {
+	canvas: Canvas | null;
+	context: SKRSContext2D | null;
+}
+
+export class CanvasFactory {
+	create(width: number, height: number): CanvasAndContext {
 		if (width <= 0 || height <= 0) {
 			throw new Error('Invalid canvas size');
 		}
@@ -21,7 +22,7 @@ class CustomCanvasFactory {
 		return { canvas, context };
 	}
 
-	reset(canvasAndContext, width, height) {
+	reset(canvasAndContext: CanvasAndContext, width: number, height: number): void {
 		if (!canvasAndContext.canvas) {
 			throw new Error('Canvas is not specified');
 		}
@@ -32,7 +33,7 @@ class CustomCanvasFactory {
 		canvasAndContext.canvas.height = height;
 	}
 
-	destroy(canvasAndContext) {
+	destroy(canvasAndContext: CanvasAndContext): void {
 		if (!canvasAndContext.canvas) {
 			throw new Error('Canvas is not specified');
 		}
@@ -42,5 +43,3 @@ class CustomCanvasFactory {
 		canvasAndContext.context = null;
 	}
 }
-
-exports.CustomCanvasFactory = CustomCanvasFactory;

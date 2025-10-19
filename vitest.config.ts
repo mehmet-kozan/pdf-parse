@@ -1,5 +1,4 @@
 import { resolve } from 'node:path';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -17,8 +16,8 @@ export default defineConfig({
 		coverage: {
 			enabled: false,
 			provider: 'v8',
-			include: ['src/**/*.ts', 'dist/esm/*.js'],
-			exclude: ['src/**/_*', 'src/_**/*'],
+			include: ['src/pdf-parse/**/*.ts', 'src/node/**/*.ts', 'src/worker/**/*.ts'],
+			exclude: ['src/**/_*', 'src/_**/*', 'src/worker/types/**'],
 			reporter: [['html', { subdir: 'html-report' }], 'lcov', 'json', 'text-summary'],
 			reportsDirectory: 'reports/coverage',
 			all: true,
@@ -26,21 +25,16 @@ export default defineConfig({
 		},
 
 		benchmark: {
+			include: ['tests/benchmark/*.bench.ts'],
 			reporters: ['default'],
 			outputJson: 'reports/benchmark/bench.json',
 		},
 	},
-	plugins: [
-		tsconfigPaths({
-			root: __dirname,
-			projects: ['tsconfig.json', 'configs/tsconfig.utils.json'],
-		}),
-	],
-
-	// resolve: {
-	// 	alias: {
-	// 		'pdf-parse': resolve(__dirname, './src'),
-	// 		'pdf-parse/utils': resolve(__dirname, './utils'),
-	// 	},
-	// },
+	resolve: {
+		alias: {
+			'pdf-parse/node': resolve(__dirname, 'src/node'),
+			'pdf-parse/worker': resolve(__dirname, 'src/worker'),
+			'pdf-parse': resolve(__dirname, 'src/pdf-parse'),
+		},
+	},
 });

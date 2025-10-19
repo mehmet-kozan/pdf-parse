@@ -1,4 +1,4 @@
-const { CustomCanvasFactory } = require('pdf-parse/worker');
+const { CanvasFactory } = require('pdf-parse/worker');
 const { PDFParse } = require('pdf-parse');
 const { describe, it } = require('node:test');
 const assert = require('node:assert');
@@ -10,7 +10,7 @@ const __pdf = join(__dirname, '../../reports/pdf/image-test.pdf');
 describe('commonjs module test', () => {
 	it('results must be valid', async () => {
 		const buffer = readFileSync(__pdf);
-		const parser = new PDFParse({ data: buffer, CanvasFactory: CustomCanvasFactory });
+		const parser = new PDFParse({ data: buffer, CanvasFactory });
 		const textResult = await parser.getText();
 		const screenshotResult = await parser.getScreenshot();
 		const imageResult = await parser.getImage();

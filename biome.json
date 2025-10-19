@@ -10,7 +10,7 @@
 		"includes": [
 			"**",
 			"!dist",
-			"!reports/demo/dist-browser",
+			"!reports/demo/dist-web",
 			"!reports/test",
 			"!reports/pdf",
 			"!reports/coverage",
