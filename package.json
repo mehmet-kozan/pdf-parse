@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.4.4",
+	"version": "2.4.4-beta.1",
 	"type": "module",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.js",
@@ -103,7 +103,9 @@
 		"clean:report": "rimraf reports/test reports/coverage reports/benchmark reports/api reports/demo/dist-browser ",
 		"clean:test": "rimraf --glob tests/**/*.txt tests/**/imgs tests/**/*_images temp",
 		"clean:test:i": "rimraf --glob *.tgz tests/**/node_modules tests/**/package-lock.json tests/**/dist",
+
 		"test": "vitest run --reporter=default",
+		"test:p": "vitest run --config vitest.config.package.ts",
 		"test:i": "node scripts/integration.test.mjs",
 		"test:u": "node --test tests/unsupported/*.test.cjs && node --test tests/unsupported/*.test.mjs",
 		"test:ui": "vitest --ui --coverage",
@@ -125,18 +127,17 @@
 		"pdfjs-dist": "5.4.296"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.2.6",
+		"vite": "^7.1.5",
+		"vitest": "^3.2.4",
+		"typescript": "^5.9.3",
 		"@microsoft/api-extractor": "^7.53.1",
+		"@biomejs/biome": "^2.2.6",
 		"@types/node": "^24.7.2",
 		"@vitest/coverage-v8": "^3.2.4",
 		"@vitest/ui": "^3.2.4",
 		"esbuild": "^0.25.11",
 		"rimraf": "^6.0.1",
-		"terser": "^5.44.0",
-		"typescript": "^5.9.3",
-		"vite": "^7.1.5",
-		"vite-tsconfig-paths": "^5.1.4",
-		"vitest": "^3.2.4"
+		"terser": "^5.44.0"
 	},
 	"publishConfig": {
 		"access": "public",
