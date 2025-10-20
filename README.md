@@ -282,6 +282,8 @@ try {
 	// UnknownErrorException
 	if (error instanceof PasswordException) {
 		console.error('Password must be 123456\n', error);
+	} else {
+		throw error;
 	}
 } finally {
 	// Always call destroy() to free memory
@@ -295,6 +297,7 @@ try {
 - **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
 - **Demo Source:** [`reports/demo`](reports/demo)
 - **ES Module**:  `pdf-parse.es.js` **UMD/Global**: `pdf-parse.umd.js`
+- For browser build, set the [`background web worker`](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) explicitly.
 
 ### CDN Usage
 
@@ -306,6 +309,7 @@ try {
   //// Available Worker Files
   // pdf.worker.mjs
   // pdf.worker.min.mjs
+  // If you use a custom build or host pdf.worker.mjs yourself, configure worker accordingly.
   PDFParse.setWorker('https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.mjs');
 
   const parser = new PDFParse({url:'https://mehmet-kozan.github.io/pdf-parse/pdf/bitcoin.pdf'});
@@ -322,51 +326,22 @@ try {
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.umd.js`
 - `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.5/dist/pdf-parse/web/pdf-parse.umd.js`
 
+**Worker Options:**
 
-## Worker Configuration (Node / Serverless Platforms)
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.mjs`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.min.mjs`
 
- Next.js & Vercel, Edge Functions, Serverless Functions, AWS Lambda, Netlify Functions, or Cloudflare Workers may require additional worker configuration.
 
-This will most likely resolve all worker-related issues.
-```js
-import 'pdf-parse/worker'; // Import this before importing "pdf-parse"
-import {PDFParse} from 'pdf-parse';
+## Worker Configuration & Troubleshooting
 
-// or CommonJS
-require ('pdf-parse/worker'); // Import this before importing "pdf-parse"
-const {PDFParse} = require('pdf-parse');
-```
+See [docs/troubleshooting.md](./docs/troubleshooting.md) for detailed troubleshooting steps and worker configuration for Node.js and serverless environments.
 
-To ensure `pdf-parse` works correctly with Next.js (especially on serverless platforms like Vercel), add the following configuration to your `next.config.ts` file. This allows Next.js to include `pdf-parse` as an external package for server-side usage:
+- Worker setup for Node.js, Next.js, Vercel, AWS Lambda, Netlify, Cloudflare Workers
+- Common error messages and solutions
+- Manual worker configuration for custom builds and Electron/NW.js
+- Node.js version compatibility
 
-```js
-// next.config.ts
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  serverExternalPackages: ["pdf-parse"],
-};
-
-export default nextConfig;
-```
-
-> **Note:** Similar configuration may be required for other serverless platforms (such as AWS Lambda, Netlify, or Cloudflare Workers) to ensure that `pdf-parse` and its worker files are properly included and executed in your deployment environment.
-
-Custom builds, Electron/NW.js, or specific deployment environments—you may need to manually configure the worker source.
-
-```js
-// Import this before importing "pdf-parse"
-import {getPath, getData} from "pdf-parse/worker"; 
-import {PDFParse} from "pdf-parse";
-
-// CommonJS
-// const {getWorkerSource, getWorkerPath} = require('pdf-parse/worker');
-
-PDFParse.setWorker(getPath());
-// or PDFParse.setWorker(getData());
-
-```
-
+If you encounter issues, please refer to the [Troubleshooting Guide](./docs/troubleshooting.md).
 
 ## Similar Packages
 
@@ -389,27 +364,7 @@ Integration tests run on Node.js 20–24, see [`test_integration.yml`](./.github
 
 ### Unsupported Node.js Versions (18.x, 19.x, 21.x)
 
-Requires additional setup — import and configure a compatible CanvasFactory or worker implementation before initializing pdf-parse; see the examples below.
-
-ESM 
-```js
-// Import this before importing "pdf-parse"
-import { CanvasFactory } from 'pdf-parse/worker'; 
-import { PDFParse } from 'pdf-parse';
-
-const parser = new PDFParse({ data: buffer, CanvasFactory });
-// then use parser
-```
-
-CJS
-```js
-// Import this before importing "pdf-parse"
-const { CanvasFactory } = require('pdf-parse/worker'); 
-const { PDFParse } = require('pdf-parse');
-
-const parser = new PDFParse({ data: buffer, CanvasFactory });
-// then use parser
-```
+Requires additional setup see [docs/troubleshooting.md](./docs/troubleshooting.md).
 
 ## Contributing
 
