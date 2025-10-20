@@ -32,7 +32,7 @@
 	 * SUPPORTED TOKENS: <lookup>
 	 * DEFAULT VALUE: "<lookup>"
 	 */
-	//"projectFolder": "..",
+	"projectFolder": "..",
 
 	/**
 	 * (REQUIRED) Specifies the .d.ts file to be used as the starting point for analysis.  API Extractor
@@ -45,7 +45,7 @@
 	 *
 	 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 	 */
-	"mainEntryPointFilePath": "dist/worker/@types/index.d.ts",
+	"mainEntryPointFilePath": "<projectFolder>/dist/node/esm/index.d.ts",
 
 	/**
 	 * A list of NPM package names whose exports should be treated as part of this package.
@@ -110,7 +110,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<projectFolder>/tsconfig.json"
 		 */
-		"tsconfigFilePath": "tsconfig.worker.json"
+		"tsconfigFilePath": "<projectFolder>/tsconfig.node.json"
 		/**
 		 * Provides a compiler configuration that will be used instead of reading the tsconfig.json file from disk.
 		 * The object must conform to the TypeScript tsconfig schema:
@@ -158,7 +158,7 @@
 		 * SUPPORTED TOKENS: <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<unscopedPackageName>"
 		 */
-		"reportFileName": "worker.undocumented",
+		"reportFileName": "node",
 
 		/**
 		 * To support different approval requirements for different API levels, multiple "variants" of the API report can
@@ -184,7 +184,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<projectFolder>/etc/"
 		 */
-		"reportFolder": "docs/"
+		"reportFolder": "<projectFolder>/docs/"
 
 		/**
 		 * Specifies the folder where the temporary report file is written.  The file name portion is determined by
@@ -229,7 +229,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<projectFolder>/temp/<unscopedPackageName>.api.json"
 		 */
-		"apiJsonFilePath": "reports/api/worker.api.json",
+		"apiJsonFilePath": "reports/api/node.api.json",
 
 		/**
 		 * Whether "forgotten exports" should be included in the doc model file. Forgotten exports are declarations
@@ -278,7 +278,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<projectFolder>/dist/<unscopedPackageName>.d.ts"
 		 */
-		"untrimmedFilePath": "dist/worker/@types/index.d.cts"
+		"untrimmedFilePath": "<projectFolder>/dist/node/cjs/index.d.cts"
 
 		/**
 		 * Specifies the output path for a .d.ts rollup file to be generated with trimming for an "alpha" release.
@@ -355,7 +355,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<lookup>"
 		 */
-		"tsdocMetadataFilePath": "reports/api/worker-tsdoc-metadata.json"
+		"tsdocMetadataFilePath": "reports/api/node-tsdoc-metadata.json"
 	},
 
 	/**

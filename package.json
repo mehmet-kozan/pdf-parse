@@ -95,13 +95,13 @@
 	],
 	"scripts": {
 		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:cjs && npm run build:web && npm run build:node",
-		"build:ts": "tsc && api-extractor run --local",
+		"build:ts": "tsc && api-extractor run --local -c configs/pdf-parse.api.jsonc",
 		"build:cjs": "vite build --config vite.config.cjs.ts",
 		"build:web": "vite build",
-		"build:worker": "tsc --project tsconfig.worker.json && api-extractor run --local -c api-extractor.worker.json && node scripts/build-worker.mjs",
+		"build:worker": "tsc --project tsconfig.worker.json && api-extractor run --local -c configs/worker.api.jsonc && node scripts/build-worker.mjs",
 
 		"build:node": "npm run build:node:ts && npm run build:node:bundle",
-		"build:node:ts": "tsc --project tsconfig.node.json && api-extractor run --local -c api-extractor.node.json",
+		"build:node:ts": "tsc --project tsconfig.node.json && api-extractor run --local -c configs/node.api.jsonc",
 		"build:node:bundle": "esbuild src/node/index.ts --bundle --platform=node --format=cjs --target=node16 --outfile=dist/node/cjs/index.cjs --sourcemap",
 
 		"clean": "npm run clean:build && npm run clean:report && npm run clean:test && npm run clean:test:i",
