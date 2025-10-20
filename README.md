@@ -301,9 +301,16 @@ try {
 ```html
 <!-- ES Module -->
 <script type="module">
-  import {PDFParse} from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/+esm';
+
+  import {PDFParse} from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.es.js';
+  //// Available Worker Files
+  // pdf.worker.mjs
+  // pdf.worker.min.mjs
+  PDFParse.setWorker('https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.mjs');
+
   const parser = new PDFParse({url:'https://mehmet-kozan.github.io/pdf-parse/pdf/bitcoin.pdf'});
-  const result = await parser.getText()
+  const result = await parser.getText();
+
   console.log(result.text)
 </script>
 ```
@@ -311,9 +318,9 @@ try {
 **CDN Options: https://www.jsdelivr.com/package/npm/pdf-parse**
 
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.es.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/pdf-parse/web/pdf-parse.es.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.5/dist/pdf-parse/web/pdf-parse.es.js`
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.umd.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/pdf-parse/web/pdf-parse.umd.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.5/dist/pdf-parse/web/pdf-parse.umd.js`
 
 
 ## Worker Configuration (Node / Serverless Platforms)

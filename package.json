@@ -132,7 +132,7 @@
 		"format:all": "biome check --write .",
 		"format:check": "biome check .",
 		"prepare": "npm run build",
-		"pack": "npm pack --dry-run"
+		"pack": "npm outdated && npm pack --dry-run"
 	},
 	"dependencies": {
 		"@napi-rs/canvas": "0.1.80",
@@ -161,5 +161,10 @@
 		"node": ">=20.16.0 <21 || >=22.3.0"
 	},
 	"jsdelivr": "./dist/pdf-parse/web/pdf-parse.es.js",
-	"unpkg": "./dist/pdf-parse/web/pdf-parse.es.js"
+	"unpkg": "./dist/pdf-parse/web/pdf-parse.umd.js",
+
+	"funding": {
+		"type": "github",
+		"url": "https://github.com/sponsors/mehmet-kozan"
+	}
 }
