@@ -297,7 +297,7 @@ try {
 - **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
 - **Demo Source:** [`reports/demo`](reports/demo)
 - **ES Module**:  `pdf-parse.es.js` **UMD/Global**: `pdf-parse.umd.js`
-- For browser build, set the [`background web worker`](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) explicitly.
+- For browser build, set the `web worker` explicitly.
 
 ### CDN Usage
 
@@ -332,17 +332,6 @@ try {
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.min.mjs`
 
 
-## Worker Configuration & Troubleshooting
-
-See [docs/troubleshooting.md](./docs/troubleshooting.md) for detailed troubleshooting steps and worker configuration for Node.js and serverless environments.
-
-- Worker setup for Node.js, Next.js, Vercel, AWS Lambda, Netlify, Cloudflare Workers
-- Common error messages and solutions
-- Manual worker configuration for custom builds and Electron/NW.js
-- Node.js version compatibility
-
-If you encounter issues, please refer to the [Troubleshooting Guide](./docs/troubleshooting.md).
-
 ## Similar Packages
 
 * [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
@@ -365,6 +354,17 @@ Integration tests run on Node.js 20–24, see [`test_integration.yml`](./.github
 ### Unsupported Node.js Versions (18.x, 19.x, 21.x)
 
 Requires additional setup see [docs/troubleshooting.md](./docs/troubleshooting.md).
+
+## Worker Configuration & Troubleshooting
+
+See [docs/troubleshooting.md](./docs/troubleshooting.md) for detailed troubleshooting steps and worker configuration for Node.js and serverless environments.
+
+- Worker setup for Node.js, Next.js, Vercel, AWS Lambda, Netlify, Cloudflare Workers.
+- Common error messages and solutions.
+- Manual worker configuration for custom builds and Electron/NW.js.
+- Node.js version compatibility.
+
+If you encounter issues, please refer to the [Troubleshooting Guide](./docs/troubleshooting.md).
 
 ## Contributing
 
