@@ -91,7 +91,7 @@ For detailed CLI documentation and usage examples, see: [CLI Documentation](./do
 
 ## Usage
 
-### `getHeader` — Node Utility: PDF Header Retrieval and Validation
+### `getHeader` — Node Utility: PDF Header Retrieval and Validation  
 
 ```js
 // Important: getHeader is available from the 'pdf-parse/node' submodule
@@ -110,7 +110,7 @@ console.log(`Is PDF: ${result.isPdf}`);
 console.log(`Headers:`, result.headers);
 ```
 
-### `getInfo` — Extract Metadata and Document Information
+### `getInfo` — Extract Metadata and Document Information  
 
 ```js
 import { readFile } from 'node:fs/promises';
@@ -140,7 +140,7 @@ console.log('Per-page information:');
 console.log(JSON.stringify(result.pages, null, 2));
 ```
 
-### `getText` — Extract Text
+### `getText` — Extract Text  
 
 ```js
 import { PDFParse } from 'pdf-parse';
@@ -167,7 +167,7 @@ Usage Examples:
 - Load PDF from base64 data: [`base64.test.ts`](tests/unit/test-example/base64.test.ts)
 - Loading large files (> 5 MB): [`large-file.test.ts`](tests/unit/test-example/large-file.test.ts)
 
-### `getScreenshot` — Render Pages as PNG
+### `getScreenshot` — Render Pages as PNG  
 
 ```js
 import { readFile, writeFile } from 'node:fs/promises';
@@ -199,7 +199,7 @@ Usage Examples:
 - Use `last` to render the last N pages (e.g. `getScreenshot({ last: 2 })`).
 - When both `first` and `last` are provided they form an inclusive range (`first..last`).
 
-### `getImage` — Extract Embedded Images
+### `getImage` — Extract Embedded Images  
 
 ```js
 import { readFile, writeFile } from 'node:fs/promises';
@@ -227,7 +227,7 @@ Usage Examples:
 
 
 
-### `getTable` — Extract Tabular Data
+### `getTable` — Extract Tabular Data  
 
 ```js
 import { readFile } from 'node:fs/promises';
