@@ -16,7 +16,6 @@
 [![biome](https://img.shields.io/badge/code_style-biome-60a5fa?logo=biome)](https://biomejs.dev) 
 [![vitest](https://img.shields.io/badge/tested_with-vitest-6E9F18?logo=vitest)](https://vitest.dev) 
 [![codecov](https://codecov.io/github/mehmet-kozan/pdf-parse/graph/badge.svg?token=FZL3G8KNZ8)](https://codecov.io/github/mehmet-kozan/pdf-parse) 
-[![socket badge](https://socket.dev/api/badge/npm/package/pdf-parse)](https://socket.dev/npm/package/pdf-parse) 
 [![test & coverage reports](https://img.shields.io/badge/reports-view-brightgreen.svg)](https://mehmet-kozan.github.io/pdf-parse/)  
 
 </div>
@@ -57,7 +56,7 @@ run();
 - Detect and extract tabular data : [`getTable`](#gettable--extract-tabular-data) 
 - Well-covered with [`unit tests`](./tests)
 - [`Integration tests`](./tests/integration) to validate end-to-end behavior across environments.
-- See [DocumentInitParameters](./docs/README.options.md#documentinitparameters) and [ParseParameters](./docs/README.options.md#parseparameters) for all available options.
+- See [DocumentInitParameters](./docs/options.md#documentinitparameters) and [ParseParameters](./docs/options.md#parseparameters) for all available options.
 - Examples: [`live demo`](./reports/demo/), [`examples`](./examples/), [`tests`](./tests/unit/) and [`tests example`](./tests/unit/test-example/) folders.
 - Supports: [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
 
@@ -88,7 +87,7 @@ Or use it directly with npx:
 npx pdf-parse --help
 ```
 
-For detailed CLI documentation and usage examples, see: [CLI Documentation](./docs/README.cli.md)
+For detailed CLI documentation and usage examples, see: [CLI Documentation](./docs/command-line.md)
 
 ## Usage
 
@@ -155,8 +154,8 @@ console.log(result.text);
 ```
 For a complete list of configuration options, see:
 
-- [DocumentInitParameters](./docs/README.options.md#documentinitparameters) - document initialization options
-- [ParseParameters](./docs/README.options.md#parseparameters) - parse options
+- [DocumentInitParameters](./docs/options.md#documentinitparameters) - document initialization options
+- [ParseParameters](./docs/options.md#parseparameters) - parse options
 
 
 Usage Examples:
@@ -189,7 +188,7 @@ await writeFile('bitcoin.png', result.pages[0].data);
 ```
 
 Usage Examples:
-- Limit output resolution or specific pages using [ParseParameters](./docs/README.options.md#parseparameters)
+- Limit output resolution or specific pages using [ParseParameters](./docs/options.md#parseparameters)
 - `getScreenshot({scale:1.5})` — Increase rendering scale (higher DPI / larger image)
 - `getScreenshot({desiredWidth:1024})` — Request a target width in pixels; height scales to keep aspect ratio
 - `imageDataUrl` (default: `true`) — include base64 data URL string in the result.

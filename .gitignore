@@ -157,4 +157,5 @@ reports/test
 reports/coverage
 reports/benchmark
 reports/api
+reports/typedoc
 reports/demo/dist-web

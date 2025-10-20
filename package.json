@@ -123,6 +123,7 @@
 
 		"report": "npm run report:build && vite preview --outDir reports",
 		"report:build": "npm run build && npm run coverage && npm run bench",
+		"typedoc:build": "typedoc --options configs/typedoc.mjs --out reports/typedoc",
 
 		"lint": "biome lint .",
 		"format": "biome format --write .",
@@ -144,6 +145,7 @@
 		"@types/node": "^24.7.2",
 		"@vitest/coverage-v8": "^3.2.4",
 		"@vitest/ui": "^3.2.4",
+		"typedoc": "^0.28.14",
 		"esbuild": "^0.25.11",
 		"rimraf": "^6.0.1",
 		"terser": "^5.44.0"

@@ -9,7 +9,7 @@ export default defineConfig({
 		sourcemap: true,
 		minify: 'terser',
 		lib: {
-			entry: 'src/pdf-parse/index.web.ts',
+			entry: 'src/pdf-parse/index.ts',
 			name: 'PdfParse',
 			fileName: (format) => `pdf-parse.${format}.js`,
 			formats: ['es', 'umd'],
