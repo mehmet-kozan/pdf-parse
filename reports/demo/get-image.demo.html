@@ -23,11 +23,12 @@
 
     <script type="module">
 
-        // Import the browser bundle produced by the build step
-        // local import 
+        //// local import 
         import { PDFParse } from './dist-web/pdf-parse.es.js';
-        // cdn import
-        //import { PDFParse } from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.js';
+        PDFParse.setWorker('./dist-web/pdf.worker.mjs');
+        //// cdn import
+        // import { PDFParse } from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.es.js';
+        // PDFParse.setWorker('https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.mjs');
 
         const fileInput = document.getElementById('file');
         const btn = document.getElementById('parse');

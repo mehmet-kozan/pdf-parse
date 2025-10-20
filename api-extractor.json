@@ -158,7 +158,7 @@
 		 * SUPPORTED TOKENS: <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<unscopedPackageName>"
 		 */
-		"reportFileName": "pdf-parse",
+		"reportFileName": "pdf-parse.undocumented",
 
 		/**
 		 * To support different approval requirements for different API levels, multiple "variants" of the API report can
@@ -218,7 +218,7 @@
 		/**
 		 * (REQUIRED) Whether to generate a doc model file.
 		 */
-		"enabled": true,
+		"enabled": false,
 
 		/**
 		 * The output path for the doc model file.  The file extension should be ".api.json".
@@ -341,7 +341,7 @@
 		 *
 		 * DEFAULT VALUE: true
 		 */
-		"enabled": true,
+		"enabled": false,
 		/**
 		 * Specifies where the TSDoc metadata file should be written.
 		 *
