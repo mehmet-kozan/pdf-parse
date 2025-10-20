@@ -142,7 +142,7 @@
 		/**
 		 * (REQUIRED) Whether to generate an API report.
 		 */
-		"enabled": false,
+		"enabled": true,
 
 		/**
 		 * The base filename for the API report files, to be combined with "reportFolder" or "reportTempFolder"
@@ -158,7 +158,7 @@
 		 * SUPPORTED TOKENS: <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<unscopedPackageName>"
 		 */
-		"reportFileName": "README.api.md",
+		"reportFileName": "node",
 
 		/**
 		 * To support different approval requirements for different API levels, multiple "variants" of the API report can
@@ -184,7 +184,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<projectFolder>/etc/"
 		 */
-		"reportFolder": "./docs/"
+		"reportFolder": "docs/"
 
 		/**
 		 * Specifies the folder where the temporary report file is written.  The file name portion is determined by
