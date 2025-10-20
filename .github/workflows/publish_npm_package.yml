@@ -59,8 +59,8 @@ jobs:
       - name: Install
         run: npm i
 
-      - name: Unit Tests
-        run: npm test
+      - name: Run All Tests
+        run: npm run test:all
 
       - name: Set publish tag
         id: publish_tag

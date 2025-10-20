@@ -37,11 +37,5 @@ jobs:
       - name: Install
         run: npm i
 
-      - name: Unit tests
-        run: npm test
-
-      - name: Unsupported tests
-        run: npm run test:u
-
-      - name: Integration tests
-        run: npm run test:i
+      - name: Run All Tests
+        run: npm run test:all

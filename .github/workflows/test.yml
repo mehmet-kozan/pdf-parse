@@ -25,11 +25,8 @@ jobs:
           cache: "npm"
           cache-dependency-path: package.json
 
-      # - name: Clean NPM Cache
-      #   run: npm cache clean --force
-
       - name: Install
         run: npm i --prefer-offline --no-audit --no-fund --silent
 
-      - name: Unit tests
+      - name: Run All Tests
         run: npm run test:all

@@ -43,7 +43,7 @@ jobs:
       - name: Install
         run: npm i
 
-      - name: Install
+      - name: Run All Tests
         run: npm run test:all
 
       - name: Site Build
