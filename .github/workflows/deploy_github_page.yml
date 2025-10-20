@@ -44,7 +44,7 @@ jobs:
         run: npm i
 
       - name: Install
-        run: npm run test:i
+        run: npm run test:all
 
       - name: Site Build
         run: npm run report:build
