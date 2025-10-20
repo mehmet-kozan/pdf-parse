@@ -1,6 +1,5 @@
 import type { PageViewport, PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
-import type { DocumentInitParameters } from 'pdfjs-dist/types/src/display/api.js';
 import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_factory.js';
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 
@@ -9,6 +8,7 @@ import { Line, LineStore, Point, Rectangle } from './geometry/index.js';
 import type { TableData } from './geometry/TableData.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
 import { InfoResult, type PageLinkResult } from './InfoResult.js';
+import type { LoadParameters } from './LoadParameters.js';
 import { type ParseParameters, setDefaultParseParameters } from './ParseParameters.js';
 import { type MinMax, PathGeometry } from './PathGeometry.js';
 import { ScreenshotResult } from './ScreenshotResult.js';
@@ -20,16 +20,16 @@ import { type HyperlinkPosition, TextResult } from './TextResult.js';
  * Loads PDF documents and exposes helpers for text, image, table, metadata, and screenshot extraction.
  */
 export class PDFParse {
-	private readonly options: DocumentInitParameters;
+	private readonly options: LoadParameters;
 	private doc: PDFDocumentProxy | undefined;
 	public progress: { loaded: number; total: number } = { loaded: -1, total: 0 };
 
 	/**
-	 * Create a new parser with `DocumentInitParameters`.
+	 * Create a new parser with `LoadParameters`.
 	 * Converts Node.js `Buffer` data to `Uint8Array` automatically and ensures a default verbosity level.
 	 * @param options - Initialization parameters.
 	 */
-	constructor(options: DocumentInitParameters) {
+	constructor(options: LoadParameters) {
 		if (options.verbosity === undefined) {
 			options.verbosity = pdfjs.VerbosityLevel.ERRORS;
 		}

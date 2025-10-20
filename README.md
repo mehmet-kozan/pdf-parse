@@ -46,7 +46,7 @@ run();
 
 - CJS, ESM, Node.js, and browser support.
 - Can be integrated with `React`, `Vue`, `Angular`, or any other web framework.
-- **Command-line interface** for quick PDF processing: [`CLI Documentation`](./docs/README.cli.md)
+- **Command-line interface** for quick PDF processing: [`CLI Documentation`](./docs/command-line.md)
 - [`Security Policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
 - Retrieve headers and validate PDF : [`getHeader`](#getheader--node-utility-pdf-header-retrieval-and-validation)
 - Extract document info : [`getInfo`](#getinfo--extract-metadata-and-document-information)
@@ -56,7 +56,7 @@ run();
 - Detect and extract tabular data : [`getTable`](#gettable--extract-tabular-data) 
 - Well-covered with [`unit tests`](./tests)
 - [`Integration tests`](./tests/integration) to validate end-to-end behavior across environments.
-- See [DocumentInitParameters](./docs/options.md#documentinitparameters) and [ParseParameters](./docs/options.md#parseparameters) for all available options.
+- See [LoadParameters](./docs/options.md#load-parameters) and [ParseParameters](./docs/options.md#parse-parameters) for all available options.
 - Examples: [`live demo`](./reports/demo/), [`examples`](./examples/), [`tests`](./tests/unit/) and [`tests example`](./tests/unit/test-example/) folders.
 - Supports: [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
 
@@ -154,8 +154,8 @@ console.log(result.text);
 ```
 For a complete list of configuration options, see:
 
-- [DocumentInitParameters](./docs/options.md#documentinitparameters) - document initialization options
-- [ParseParameters](./docs/options.md#parseparameters) - parse options
+- [LoadParameters](./docs/options.md#load-parameters)
+- [ParseParameters](./docs/options.md#parse-parameters)
 
 
 Usage Examples:
@@ -188,7 +188,7 @@ await writeFile('bitcoin.png', result.pages[0].data);
 ```
 
 Usage Examples:
-- Limit output resolution or specific pages using [ParseParameters](./docs/options.md#parseparameters)
+- Limit output resolution or specific pages using [ParseParameters](./docs/options.md#parse-parameters)
 - `getScreenshot({scale:1.5})` — Increase rendering scale (higher DPI / larger image)
 - `getScreenshot({desiredWidth:1024})` — Request a target width in pixels; height scales to keep aspect ratio
 - `imageDataUrl` (default: `true`) — include base64 data URL string in the result.
@@ -250,10 +250,10 @@ for (const row of result.pages[0].tables[0]) {
 ## Exception Handling & Type Usage
 
 ```ts
-import type { DocumentInitParameters, ParseParameters, TextResult } from 'pdf-parse';
+import type { LoadParameters, ParseParameters, TextResult } from 'pdf-parse';
 import { PasswordException, PDFParse, VerbosityLevel } from 'pdf-parse';
 
-const initParams: DocumentInitParameters = {
+const loadParams: LoadParameters = {
 	url: 'https://mehmet-kozan.github.io/pdf-parse/pdf/password-123456.pdf',
 	verbosity: VerbosityLevel.WARNINGS,
 	password: 'abcdef',
@@ -264,7 +264,7 @@ const parseParams: ParseParameters = {
 };
 
 // Initialize the parser class without executing any code yet
-const parser = new PDFParse(initParams);
+const parser = new PDFParse(loadParams);
 
 function handleResult(result: TextResult) {
 	console.log(result.text);
@@ -287,7 +287,6 @@ try {
 	// Always call destroy() to free memory
 	await parser.destroy();
 }
-
 ``` 
 
 ## Web / Browser <a href="https://www.jsdelivr.com/package/npm/pdf-parse" target="_blank"><img align="right" src="https://img.shields.io/jsdelivr/npm/hm/pdf-parse"></a>

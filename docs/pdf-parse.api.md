@@ -4,12 +4,11 @@
 
 ```ts
 
-import { DocumentInitParameters } from 'pdfjs-dist/types/src/display/api.js';
+import type { DocumentInitParameters } from 'pdfjs-dist/types/src/display/api.js';
 import type { ImageKind } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { Metadata } from 'pdfjs-dist/types/src/display/metadata.js';
-import { PDFDataRangeTransport } from 'pdfjs-dist/types/src/display/api.js';
-import { PDFWorker } from 'pdfjs-dist/types/src/display/api.js';
-import { TypedArray } from 'pdfjs-dist/types/src/display/api.js';
+import type { PDFDataRangeTransport } from 'pdfjs-dist/types/src/display/api.js';
+import type { PDFWorker } from 'pdfjs-dist/types/src/display/api.js';
 import { VerbosityLevel } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
 // @public
@@ -28,8 +27,6 @@ export type DateNode = {
     XapModifyDate?: Date | null;
     XapMetadataDate?: Date | null;
 };
-
-export { DocumentInitParameters }
 
 // @public
 export interface EmbeddedImage {
@@ -158,6 +155,49 @@ export class LineStore {
     vLines: Array<Line>;
 }
 
+// @public
+export interface LoadParameters extends DocumentInitParameters {
+    CanvasFactory?: Object | undefined;
+    canvasMaxAreaInBytes?: number | undefined;
+    cMapPacked?: boolean | undefined;
+    CMapReaderFactory?: Object | undefined;
+    cMapUrl?: string | undefined;
+    data?: string | number[] | ArrayBuffer | TypedArray | undefined;
+    disableAutoFetch?: boolean | undefined;
+    disableFontFace?: boolean | undefined;
+    disableRange?: boolean | undefined;
+    disableStream?: boolean | undefined;
+    docBaseUrl?: string | undefined;
+    enableHWA?: boolean | undefined;
+    enableXfa?: boolean | undefined;
+    FilterFactory?: Object | undefined;
+    fontExtraProperties?: boolean | undefined;
+    httpHeaders?: Object | undefined;
+    iccUrl?: string | undefined;
+    isEvalSupported?: boolean | undefined;
+    isImageDecoderSupported?: boolean | undefined;
+    isOffscreenCanvasSupported?: boolean | undefined;
+    length?: number | undefined;
+    maxImageSize?: number | undefined;
+    ownerDocument?: HTMLDocument | undefined;
+    password?: string | undefined;
+    pdfBug?: boolean | undefined;
+    range?: PDFDataRangeTransport | undefined;
+    rangeChunkSize?: number | undefined;
+    StandardFontDataFactory?: Object | undefined;
+    standardFontDataUrl?: string | undefined;
+    stopAtErrors?: boolean | undefined;
+    url?: string | URL | undefined;
+    useSystemFonts?: boolean | undefined;
+    useWasm?: boolean | undefined;
+    useWorkerFetch?: boolean | undefined;
+    verbosity?: number | undefined;
+    WasmFactory?: Object | undefined;
+    wasmUrl?: string | undefined;
+    withCredentials?: boolean | undefined;
+    worker?: PDFWorker | undefined;
+}
+
 export { Metadata }
 
 // @public
@@ -251,7 +291,7 @@ export { PDFDataRangeTransport }
 
 // @public
 export class PDFParse {
-    constructor(options: DocumentInitParameters);
+    constructor(options: LoadParameters);
     // (undocumented)
     destroy(): Promise<void>;
     getImage(params?: ParseParameters): Promise<ImageResult>;
@@ -308,6 +348,9 @@ export class ResponseException extends Error {
 }
 
 // @public
+export type SafeParseParameters = Required<Pick<ParseParameters, 'lineThreshold' | 'cellThreshold' | 'scale'>> & ParseParameters;
+
+// @public
 export interface Screenshot {
     // (undocumented)
     data: Uint8Array;
@@ -331,6 +374,9 @@ export class ScreenshotResult {
     // (undocumented)
     total: number;
 }
+
+// @public (undocumented)
+export function setDefaultParseParameters(params: ParseParameters): SafeParseParameters;
 
 // @public (undocumented)
 export abstract class Shape {
@@ -433,7 +479,8 @@ export class TextResult {
     total: number;
 }
 
-export { TypedArray }
+// @public (undocumented)
+export type TypedArray = Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array;
 
 // @public
 export class UnknownErrorException extends Error {

@@ -1,7 +1,7 @@
-import type { DocumentInitParameters, ParseParameters, TextResult } from 'pdf-parse';
+import type { LoadParameters, ParseParameters, TextResult } from 'pdf-parse';
 import { PasswordException, PDFParse, VerbosityLevel } from 'pdf-parse';
 
-const initParams: DocumentInitParameters = {
+const loadParams: LoadParameters = {
 	url: 'https://mehmet-kozan.github.io/pdf-parse/pdf/password-123456.pdf',
 	verbosity: VerbosityLevel.WARNINGS,
 	password: 'abcdef',
@@ -12,7 +12,7 @@ const parseParams: ParseParameters = {
 };
 
 // Initialize the parser class without executing any code yet
-const parser = new PDFParse(initParams);
+const parser = new PDFParse(loadParams);
 
 function handleResult(result: TextResult) {
 	console.log(result.text);
