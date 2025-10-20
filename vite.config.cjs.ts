@@ -5,7 +5,7 @@ export default defineConfig({
 		outDir: 'dist/pdf-parse/cjs',
 		emptyOutDir: false,
 		sourcemap: true,
-		minify: 'terser',
+		minify: false,
 		lib: {
 			entry: 'src/pdf-parse/index.ts',
 			name: 'PdfParse',
