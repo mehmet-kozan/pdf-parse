@@ -6,10 +6,20 @@ This guide provides solutions to common issues encountered when using `pdf-parse
 ## 1. DOMMatrix is not defined
 This error occurs when DOMMatrix is not available in the Node.js environment. To fix:
 
+ESM
 ```js
 // Import this before importing "pdf-parse"
 import { CanvasFactory } from 'pdf-parse/worker';
 import { PDFParse } from 'pdf-parse';
+
+const parser = new PDFParse({ data: buffer, CanvasFactory });
+```
+
+CJS
+```js
+// Import this before importing "pdf-parse"
+const { CanvasFactory } = require ('pdf-parse/worker');
+const { PDFParse } = require ('pdf-parse');
 
 const parser = new PDFParse({ data: buffer, CanvasFactory });
 ```
@@ -130,7 +140,7 @@ const parser = new PDFParse({ data: buffer, CanvasFactory });
 // then use parser
 ```
 
-Unsupported tests run on Node.js 18, 19, 21, see [`test_integration.yml`](../.github/workflows/test_unsupported.yml).
+Unsupported tests run on Node.js 18, 19, 21, see [`test_unsupported.yml`](../.github/workflows/test_unsupported.yml).
 
 ## General Advice
 - Ensure your deployment platform supports the required Node.js version and dependencies.
