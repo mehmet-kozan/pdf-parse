@@ -14,6 +14,7 @@
 
         // UMD bundle exposes PdfParse global object with PDFParse and pdf exports
         const { PDFParse } = window.PdfParse;
+        PDFParse.setWorker('https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.mjs');
 
         async function parsePDF(file) {
             const arrayBuffer = await file.arrayBuffer();

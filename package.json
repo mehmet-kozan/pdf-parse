@@ -114,6 +114,8 @@
 		"test:p": "vitest run --config vitest.config.package.ts",
 		"test:i": "node scripts/integration.test.mjs",
 		"test:u": "node --test tests/unsupported/*.test.cjs && node --test tests/unsupported/*.test.mjs",
+		"test:e": "node scripts/example.test.mjs",
+		"test:all": "npm run test && npm run test:p && npm run test:i && npm run test:u && npm run test:e",
 		"test:ui": "vitest --ui --coverage",
 		"test:watch": "vitest",
 
@@ -140,6 +142,7 @@
 		"vite": "^7.1.5",
 		"vitest": "^3.2.4",
 		"typescript": "^5.9.3",
+		"tsx": "^4.20.6",
 		"@microsoft/api-extractor": "^7.53.1",
 		"@biomejs/biome": "^2.2.6",
 		"@types/node": "^24.7.2",

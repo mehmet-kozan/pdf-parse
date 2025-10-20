@@ -30,6 +30,8 @@ try {
 	// UnknownErrorException
 	if (error instanceof PasswordException) {
 		console.error('Password must be 123456\n', error);
+	} else {
+		throw error;
 	}
 } finally {
 	// Always call destroy() to free memory
