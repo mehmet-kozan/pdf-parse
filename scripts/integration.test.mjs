@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 /** biome-ignore-all lint/suspicious/noConsole: <test script> */
 // This script recursively finds all subdirectories under test_integration/ containing a package.json file
 // and runs npm install, npm run build, and npm test in each, using for-of instead of forEach.
@@ -67,7 +68,7 @@ async function main() {
 	await pack();
 	const packageDirs = await findPackageDirs(testDir);
 	for (const dir of packageDirs) {
-		console.log(`\nProcessing: ${dir}`);
+		console.log(`Processing: ${dir}`);
 		try {
 			await runCommand('npm install', dir);
 			await runCommand('npm run build', dir);

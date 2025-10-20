@@ -43,14 +43,10 @@
             // Cache-busting dynamic import: append a timestamp query so the
             // browser requests a fresh copy instead of using a cached module.
             try {
-                const mod = await import(`https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/browser/pdf-parse.es.js?_=${Date.now()}`);
-                // Expose PDFParse to window for the demos that expect it.
-                // Support both named and default-export shapes.
-                // @ts-ignore - runtime assignment
-                window.PDFParse = mod.PDFParse ?? (mod.default && (mod.default.PDFParse ?? mod.default)) ?? null;
+                const { PDFParse } = await import(`https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.es.js?_=${Date.now()}`);
+                PDFParse.setWorker(`https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.mjs?_=${Date.now()}`);
 
                 const parser = new PDFParse({ url: './pdf/dummy.pdf' });
-
                 const result = await parser.getText();
                 await parser.destroy();
 
@@ -236,6 +232,10 @@
                 <a href="./benchmark.html" aria-label="View benchmark performance results">
                     <span class="icon" aria-hidden="true">⚡</span>
                     <span>Benchmark Results</span>
+                </a>
+                <a href="./typedoc/index.html" aria-label="View Type Doc">
+                    <span class="icon" aria-hidden="true">📚</span>
+                    <span>Type Documentation</span>
                 </a>
                 <a href="./demo/pdf-parse.esm.html" aria-label="Try ESM module demo">
                     <span class="icon" aria-hidden="true">🔗</span>

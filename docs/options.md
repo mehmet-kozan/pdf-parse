@@ -1,4 +1,4 @@
-## ParseParameters
+## Parse Parameters
 
 | Name | Type | Attributes | Description |
 |------|------|------------|-------------|
@@ -23,7 +23,7 @@
 
 
 
-## DocumentInitParameters
+## Load Parameters
 
 | Name | Type | Attributes | Description |
 |------|------|------------|-------------|

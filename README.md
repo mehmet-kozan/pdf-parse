@@ -16,7 +16,6 @@
 [![biome](https://img.shields.io/badge/code_style-biome-60a5fa?logo=biome)](https://biomejs.dev) 
 [![vitest](https://img.shields.io/badge/tested_with-vitest-6E9F18?logo=vitest)](https://vitest.dev) 
 [![codecov](https://codecov.io/github/mehmet-kozan/pdf-parse/graph/badge.svg?token=FZL3G8KNZ8)](https://codecov.io/github/mehmet-kozan/pdf-parse) 
-[![socket badge](https://socket.dev/api/badge/npm/package/pdf-parse)](https://socket.dev/npm/package/pdf-parse) 
 [![test & coverage reports](https://img.shields.io/badge/reports-view-brightgreen.svg)](https://mehmet-kozan.github.io/pdf-parse/)  
 
 </div>
@@ -47,7 +46,7 @@ run();
 
 - CJS, ESM, Node.js, and browser support.
 - Can be integrated with `React`, `Vue`, `Angular`, or any other web framework.
-- **Command-line interface** for quick PDF processing: [`CLI Documentation`](./docs/README.cli.md)
+- **Command-line interface** for quick PDF processing: [`CLI Documentation`](./docs/command-line.md)
 - [`Security Policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
 - Retrieve headers and validate PDF : [`getHeader`](#getheader--node-utility-pdf-header-retrieval-and-validation)
 - Extract document info : [`getInfo`](#getinfo--extract-metadata-and-document-information)
@@ -57,7 +56,7 @@ run();
 - Detect and extract tabular data : [`getTable`](#gettable--extract-tabular-data) 
 - Well-covered with [`unit tests`](./tests)
 - [`Integration tests`](./tests/integration) to validate end-to-end behavior across environments.
-- See [DocumentInitParameters](./docs/README.options.md#documentinitparameters) and [ParseParameters](./docs/README.options.md#parseparameters) for all available options.
+- See [LoadParameters](./docs/options.md#load-parameters) and [ParseParameters](./docs/options.md#parse-parameters) for all available options.
 - Examples: [`live demo`](./reports/demo/), [`examples`](./examples/), [`tests`](./tests/unit/) and [`tests example`](./tests/unit/test-example/) folders.
 - Supports: [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
 
@@ -88,7 +87,7 @@ Or use it directly with npx:
 npx pdf-parse --help
 ```
 
-For detailed CLI documentation and usage examples, see: [CLI Documentation](./docs/README.cli.md)
+For detailed CLI documentation and usage examples, see: [CLI Documentation](./docs/command-line.md)
 
 ## Usage
 
@@ -155,8 +154,8 @@ console.log(result.text);
 ```
 For a complete list of configuration options, see:
 
-- [DocumentInitParameters](./docs/README.options.md#documentinitparameters) - document initialization options
-- [ParseParameters](./docs/README.options.md#parseparameters) - parse options
+- [LoadParameters](./docs/options.md#load-parameters)
+- [ParseParameters](./docs/options.md#parse-parameters)
 
 
 Usage Examples:
@@ -189,7 +188,7 @@ await writeFile('bitcoin.png', result.pages[0].data);
 ```
 
 Usage Examples:
-- Limit output resolution or specific pages using [ParseParameters](./docs/README.options.md#parseparameters)
+- Limit output resolution or specific pages using [ParseParameters](./docs/options.md#parse-parameters)
 - `getScreenshot({scale:1.5})` — Increase rendering scale (higher DPI / larger image)
 - `getScreenshot({desiredWidth:1024})` — Request a target width in pixels; height scales to keep aspect ratio
 - `imageDataUrl` (default: `true`) — include base64 data URL string in the result.
@@ -251,10 +250,10 @@ for (const row of result.pages[0].tables[0]) {
 ## Exception Handling & Type Usage
 
 ```ts
-import type { DocumentInitParameters, ParseParameters, TextResult } from 'pdf-parse';
+import type { LoadParameters, ParseParameters, TextResult } from 'pdf-parse';
 import { PasswordException, PDFParse, VerbosityLevel } from 'pdf-parse';
 
-const initParams: DocumentInitParameters = {
+const loadParams: LoadParameters = {
 	url: 'https://mehmet-kozan.github.io/pdf-parse/pdf/password-123456.pdf',
 	verbosity: VerbosityLevel.WARNINGS,
 	password: 'abcdef',
@@ -265,7 +264,7 @@ const parseParams: ParseParameters = {
 };
 
 // Initialize the parser class without executing any code yet
-const parser = new PDFParse(initParams);
+const parser = new PDFParse(loadParams);
 
 function handleResult(result: TextResult) {
 	console.log(result.text);
@@ -283,12 +282,13 @@ try {
 	// UnknownErrorException
 	if (error instanceof PasswordException) {
 		console.error('Password must be 123456\n', error);
+	} else {
+		throw error;
 	}
 } finally {
 	// Always call destroy() to free memory
 	await parser.destroy();
 }
-
 ``` 
 
 ## Web / Browser <a href="https://www.jsdelivr.com/package/npm/pdf-parse" target="_blank"><img align="right" src="https://img.shields.io/jsdelivr/npm/hm/pdf-parse"></a>
@@ -297,15 +297,24 @@ try {
 - **Live Demo:** [`https://mehmet-kozan.github.io/pdf-parse/`](https://mehmet-kozan.github.io/pdf-parse/)
 - **Demo Source:** [`reports/demo`](reports/demo)
 - **ES Module**:  `pdf-parse.es.js` **UMD/Global**: `pdf-parse.umd.js`
+- For browser build, set the [`background web worker`](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) explicitly.
 
 ### CDN Usage
 
 ```html
 <!-- ES Module -->
 <script type="module">
-  import {PDFParse} from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/+esm';
+
+  import {PDFParse} from 'https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.es.js';
+  //// Available Worker Files
+  // pdf.worker.mjs
+  // pdf.worker.min.mjs
+  // If you use a custom build or host pdf.worker.mjs yourself, configure worker accordingly.
+  PDFParse.setWorker('https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.mjs');
+
   const parser = new PDFParse({url:'https://mehmet-kozan.github.io/pdf-parse/pdf/bitcoin.pdf'});
-  const result = await parser.getText()
+  const result = await parser.getText();
+
   console.log(result.text)
 </script>
 ```
@@ -313,55 +322,26 @@ try {
 **CDN Options: https://www.jsdelivr.com/package/npm/pdf-parse**
 
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.es.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/pdf-parse/web/pdf-parse.es.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.5/dist/pdf-parse/web/pdf-parse.es.js`
 - `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf-parse.umd.js`
-- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.4/dist/pdf-parse/web/pdf-parse.umd.js`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@2.4.5/dist/pdf-parse/web/pdf-parse.umd.js`
+
+**Worker Options:**
+
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.mjs`
+- `https://cdn.jsdelivr.net/npm/pdf-parse@latest/dist/pdf-parse/web/pdf.worker.min.mjs`
 
 
-## Worker Configuration (Node / Serverless Platforms)
+## Worker Configuration & Troubleshooting
 
- Next.js & Vercel, Edge Functions, Serverless Functions, AWS Lambda, Netlify Functions, or Cloudflare Workers may require additional worker configuration.
+See [docs/troubleshooting.md](./docs/troubleshooting.md) for detailed troubleshooting steps and worker configuration for Node.js and serverless environments.
 
-This will most likely resolve all worker-related issues.
-```js
-import 'pdf-parse/worker'; // Import this before importing "pdf-parse"
-import {PDFParse} from 'pdf-parse';
+- Worker setup for Node.js, Next.js, Vercel, AWS Lambda, Netlify, Cloudflare Workers
+- Common error messages and solutions
+- Manual worker configuration for custom builds and Electron/NW.js
+- Node.js version compatibility
 
-// or CommonJS
-require ('pdf-parse/worker'); // Import this before importing "pdf-parse"
-const {PDFParse} = require('pdf-parse');
-```
-
-To ensure `pdf-parse` works correctly with Next.js (especially on serverless platforms like Vercel), add the following configuration to your `next.config.ts` file. This allows Next.js to include `pdf-parse` as an external package for server-side usage:
-
-```js
-// next.config.ts
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  serverExternalPackages: ["pdf-parse"],
-};
-
-export default nextConfig;
-```
-
-> **Note:** Similar configuration may be required for other serverless platforms (such as AWS Lambda, Netlify, or Cloudflare Workers) to ensure that `pdf-parse` and its worker files are properly included and executed in your deployment environment.
-
-Custom builds, Electron/NW.js, or specific deployment environments—you may need to manually configure the worker source.
-
-```js
-// Import this before importing "pdf-parse"
-import {getPath, getData} from "pdf-parse/worker"; 
-import {PDFParse} from "pdf-parse";
-
-// CommonJS
-// const {getWorkerSource, getWorkerPath} = require('pdf-parse/worker');
-
-PDFParse.setWorker(getPath());
-// or PDFParse.setWorker(getData());
-
-```
-
+If you encounter issues, please refer to the [Troubleshooting Guide](./docs/troubleshooting.md).
 
 ## Similar Packages
 
@@ -384,27 +364,7 @@ Integration tests run on Node.js 20–24, see [`test_integration.yml`](./.github
 
 ### Unsupported Node.js Versions (18.x, 19.x, 21.x)
 
-Requires additional setup — import and configure a compatible CanvasFactory or worker implementation before initializing pdf-parse; see the examples below.
-
-ESM 
-```js
-// Import this before importing "pdf-parse"
-import { CanvasFactory } from 'pdf-parse/worker'; 
-import { PDFParse } from 'pdf-parse';
-
-const parser = new PDFParse({ data: buffer, CanvasFactory });
-// then use parser
-```
-
-CJS
-```js
-// Import this before importing "pdf-parse"
-const { CanvasFactory } = require('pdf-parse/worker'); 
-const { PDFParse } = require('pdf-parse');
-
-const parser = new PDFParse({ data: buffer, CanvasFactory });
-// then use parser
-```
+Requires additional setup see [docs/troubleshooting.md](./docs/troubleshooting.md).
 
 ## Contributing
 

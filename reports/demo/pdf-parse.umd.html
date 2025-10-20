@@ -30,6 +30,7 @@
     <script>
         // UMD bundle exposes PdfParse global object with PDFParse and pdf exports
         const { PDFParse } = window.PdfParse;
+        PDFParse.setWorker('./dist-web/pdf.worker.mjs');
 
         const fileInput = document.getElementById('file');
         const btn = document.getElementById('parse');

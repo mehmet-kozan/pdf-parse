@@ -15,9 +15,9 @@ if (typeof __dirname !== 'undefined') {
 (async () => {
 	try {
 		await import('pdfjs-dist/legacy/build/pdf.worker.mjs');
-		console.log('pdf.worker loaded.\n');
+		//console.log('pdf.worker loaded.\n');
 	} catch (err) {
-		console.error('pdf.worker load error:\n', err);
+		console.error('pdf.worker load error!..\n', err);
 		// fallback veya graceful degradation
 	}
 })();
