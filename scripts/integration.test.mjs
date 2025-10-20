@@ -68,7 +68,7 @@ async function main() {
 	await pack();
 	const packageDirs = await findPackageDirs(testDir);
 	for (const dir of packageDirs) {
-		console.log(`\nProcessing: ${dir}`);
+		console.log(`Processing: ${dir}`);
 		try {
 			await runCommand('npm install', dir);
 			await runCommand('npm run build', dir);

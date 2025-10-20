@@ -113,7 +113,7 @@
 		"test": "vitest run --reporter=default",
 		"test:p": "vitest run --config vitest.config.package.ts",
 		"test:i": "node scripts/integration.test.mjs",
-		"test:u": "node --test tests/unsupported/*.test.cjs && node --test tests/unsupported/*.test.mjs",
+		"test:u": "node --test-reporter=dot --test tests/unsupported/*.test.cjs && node --test-reporter=dot --test tests/unsupported/*.test.mjs",
 		"test:e": "node scripts/example.test.mjs",
 		"test:all": "npm run test && npm run test:p && npm run test:i && npm run test:u && npm run test:e",
 		"test:ui": "vitest --ui --coverage",

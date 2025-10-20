@@ -43,7 +43,6 @@ function runCommand(cmd) {
 
 async function main() {
 	const scriptArr = await findExampleScripts(testDir);
-	console.log('\n');
 	for (const script of scriptArr) {
 		console.log(`Processing: ${script}`);
 		try {
