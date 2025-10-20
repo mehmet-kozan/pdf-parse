@@ -124,7 +124,7 @@
 		"bench:install": "npm install --no-save pdf2json@latest",
 
 		"report": "npm run report:build && vite preview --outDir reports",
-		"report:build": "npm run build && npm run coverage && npm run bench && npn run typedoc:build",
+		"report:build": "npm run build && npm run coverage && npm run bench && npm run typedoc:build",
 		"typedoc:build": "typedoc --options configs/typedoc.mjs --out reports/typedoc",
 
 		"lint": "biome lint .",
