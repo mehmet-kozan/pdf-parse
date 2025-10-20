@@ -55,8 +55,8 @@ run();
 - Render pages as PNG : [`getScreenshot`](#getscreenshot--render-pages-as-png)
 - Extract embedded images : [`getImage`](#getimage--extract-embedded-images)
 - Detect and extract tabular data : [`getTable`](#gettable--extract-tabular-data) 
-- Well-covered with [`unit tests`](./test)
-- [`Integration tests`](./test_integration) to validate end-to-end behavior across environments.
+- Well-covered with [`unit tests`](./tests)
+- [`Integration tests`](./tests/integration) to validate end-to-end behavior across environments.
 - See [DocumentInitParameters](./docs/README.options.md#documentinitparameters) and [ParseParameters](./docs/README.options.md#parseparameters) for all available options.
 - Examples: [`live demo`](./reports/demo/), [`examples`](./examples/), [`tests`](./tests/unit/) and [`tests example`](./tests/unit/test-example/) folders.
 - Supports: [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
@@ -98,8 +98,8 @@ For detailed CLI documentation and usage examples, see: [CLI Documentation](./do
 // Important: getHeader is available from the 'pdf-parse/node' submodule
 import { getHeader } from 'pdf-parse/node';
 
-// HEAD request to retrieve HTTP headers and file size without downloading the full file.
-// Pass `true` to check PDF magic bytes via range request
+// Retrieve HTTP headers and file size without downloading the full file.
+// Pass `true` to check PDF magic bytes via range request.
 // Optionally validates PDFs by fetching the first 4 bytes (magic bytes).
 // Useful for checking file existence, size, and type before full parsing.
 // Node only, will not work in browser environments.
@@ -181,7 +181,7 @@ const link = 'https://bitcoin.org/bitcoin.pdf';
 const parser = new PDFParse({ url: link });
 
 // scale:1 for original page size.
-// scale:1.5 %50 bigger.
+// scale:1.5 50% bigger.
 const result = await parser.getScreenshot({ scale: 1.5 });
 
 await parser.destroy();
@@ -218,7 +218,7 @@ await writeFile('adobe.png', result.pages[0].images[0].data);
 ```
 
 Usage Examples:
-- Exclude images width or height <= 50 px: `getImage({ imageThreshold: 50 })`
+- Exclude images with width or height <= 50 px: `getImage({ imageThreshold: 50 })`
 - Default `imageThreshold` is `80` (pixels)
 - Useful for excluding tiny decorative or tracking images.
 - To disable size-based filtering and include all images, set `imageThreshold: 0`.
@@ -366,12 +366,12 @@ PDFParse.setWorker(getPath());
 ## Similar Packages
 
 * [pdf2json](https://www.npmjs.com/package/pdf2json) — Buggy, memory leaks, uncatchable errors in some PDF files.
-* [pdfdataextract](https://www.npmjs.com/package/pdfdataextract) — `pdf-parse` based
-* [unpdf](https://www.npmjs.com/package/unpdf) — `pdf-parse` based
-* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Non cross-platform, depends on xpdf
+* [pdfdataextract](https://www.npmjs.com/package/pdfdataextract) — `pdf-parse`-based
+* [unpdf](https://www.npmjs.com/package/unpdf) — `pdf-parse`-based
+* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Non-cross-platform, depends on xpdf
 * [j-pdfjson](https://www.npmjs.com/package/j-pdfjson) — Fork of pdf2json
 * [pdfreader](https://www.npmjs.com/package/pdfreader) — Uses pdf2json
-* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Non cross-platform, depends on xpdf  
+* [pdf-extract](https://www.npmjs.com/package/pdf-extract) — Non-cross-platform, depends on xpdf  
 
 > **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue, see [`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/benchmark.html).
 
