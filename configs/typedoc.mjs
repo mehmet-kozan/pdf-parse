@@ -1,7 +1,7 @@
 /** @type {Partial<import("typedoc").TypeDocOptions>} */
 const config = {
 	entryPoints: ['../src/pdf-parse/index.ts'],
-	projectDocuments: ['../docs/options.md', '../docs/command-line.md'],
+	projectDocuments: ['../docs/options.md', '../docs/command-line.md', '../docs/troubleshooting.md'],
 	outputs: [
 		{
 			name: 'html',
