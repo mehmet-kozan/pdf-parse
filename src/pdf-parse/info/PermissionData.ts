@@ -13,46 +13,48 @@ export class PermissionData {
 	/**
 	 * Indicates whether assembling the document is allowed.
 	 */
-	public assemble: boolean = false;
+	public assemble: boolean = true;
 	/**
 	 * Indicates whether copying the content is allowed.
 	 */
-	public copy: boolean = false;
+	public copy: boolean = true;
 	/**
 	 * Indicates whether filling interactive forms is allowed.
 	 */
-	public fillInteractiveForms: boolean = false;
+	public fillInteractiveForms: boolean = true;
 	/**
 	 * Indicates whether modifying annotations is allowed.
 	 */
-	public modifyAnnotations: boolean = false;
+	public modifyAnnotations: boolean = true;
 	/**
 	 * Indicates whether modifying contents is allowed.
 	 */
-	public modifyContents: boolean = false;
+	public modifyContents: boolean = true;
 	/**
 	 * Indicates whether printing is allowed.
 	 */
-	public print: boolean = false;
+	public print: boolean = true;
 	/**
 	 * Indicates whether high-quality printing is allowed.
 	 */
-	public printHQ: boolean = false;
+	public printHQ: boolean = true;
 	/**
 	 * Indicates whether copying the content for accessibility is allowed.
 	 */
-	public copyForAccessibility: boolean = false;
+	public copyForAccessibility: boolean = true;
 
 	constructor(flags?: number[] | null) {
 		this.raw = flags;
 
-		this.assemble = !!this.raw?.includes(PermissionFlag.ASSEMBLE);
-		this.copy = !!this.raw?.includes(PermissionFlag.COPY);
-		this.copyForAccessibility = !!this.raw?.includes(PermissionFlag.COPY_FOR_ACCESSIBILITY);
-		this.fillInteractiveForms = !!this.raw?.includes(PermissionFlag.FILL_INTERACTIVE_FORMS);
-		this.modifyAnnotations = !!this.raw?.includes(PermissionFlag.MODIFY_ANNOTATIONS);
-		this.modifyContents = !!this.raw?.includes(PermissionFlag.MODIFY_CONTENTS);
-		this.print = !!this.raw?.includes(PermissionFlag.PRINT);
-		this.printHQ = !!this.raw?.includes(PermissionFlag.PRINT_HIGH_QUALITY);
+		if (this.raw) {
+			this.assemble = this.raw.includes(PermissionFlag.ASSEMBLE);
+			this.copy = this.raw.includes(PermissionFlag.COPY);
+			this.copyForAccessibility = this.raw.includes(PermissionFlag.COPY_FOR_ACCESSIBILITY);
+			this.fillInteractiveForms = this.raw.includes(PermissionFlag.FILL_INTERACTIVE_FORMS);
+			this.modifyAnnotations = this.raw.includes(PermissionFlag.MODIFY_ANNOTATIONS);
+			this.modifyContents = this.raw.includes(PermissionFlag.MODIFY_CONTENTS);
+			this.print = this.raw.includes(PermissionFlag.PRINT);
+			this.printHQ = this.raw.includes(PermissionFlag.PRINT_HIGH_QUALITY);
+		}
 	}
 }

@@ -112,6 +112,8 @@ export class InfoResult {
     // (undocumented)
     permissionData: PermissionData | null;
     // (undocumented)
+    toJSON(): any;
+    // (undocumented)
     total: number;
 }
 
@@ -369,7 +371,7 @@ export class PDFParse {
     static setWorker(workerSrc?: string): string;
     // (undocumented)
     get verbosity(): VerbosityLevel;
-    set verbosity(value: VerbosityLevel);
+    set verbosity(value: VerbosityLevel | undefined);
 }
 
 export { PDFWorker }
@@ -569,7 +571,7 @@ export class UnknownErrorException extends Error {
 export enum VerbosityLevel {
     ERRORS = 0,
     INFOS = 5,
-    WARNINGS = 5
+    WARNINGS = 1
 }
 
 // (No @packageDocumentation comment for this package)

@@ -14,6 +14,7 @@ import { type MinMax, PathGeometry } from './PathGeometry.js';
 import { ScreenshotResult } from './ScreenshotResult.js';
 import { type PageTableResult, TableResult } from './TableResult.js';
 import { type HyperlinkPosition, TextResult } from './TextResult.js';
+import { setVerbosityLevel } from './Utils.js';
 
 /**
  * @public
@@ -29,8 +30,9 @@ export class PDFParse {
 		return this.options.verbosity;
 	}
 
-	set verbosity(value: VerbosityLevel) {
-		this.options.verbosity = value;
+	set verbosity(value: VerbosityLevel | undefined) {
+		this.options.verbosity = value ?? VerbosityLevel.ERRORS;
+		setVerbosityLevel(value);
 	}
 
 	/**
@@ -39,13 +41,12 @@ export class PDFParse {
 	 * @param options - Initialization parameters.
 	 */
 	constructor(options: LoadParameters) {
-		options.verbosity = options.verbosity ?? VerbosityLevel.ERRORS;
+		this.options = options;
+		this.verbosity = options.verbosity;
 
 		if (typeof Buffer !== 'undefined' && options.data instanceof Buffer) {
-			options.data = new Uint8Array(options.data);
+			this.options.data = new Uint8Array(options.data);
 		}
-
-		this.options = options;
 	}
 
 	public async destroy() {

@@ -7,9 +7,11 @@ export function getVerbosityLevel() {
 	return verbosity;
 }
 
-export function setVerbosityLevel(level: VerbosityLevel) {
+export function setVerbosityLevel(level: VerbosityLevel | undefined) {
 	if (Number.isInteger(level)) {
-		verbosity = level;
+		verbosity = level ?? VerbosityLevel.ERRORS;
+	} else {
+		verbosity = VerbosityLevel.ERRORS;
 	}
 }
 

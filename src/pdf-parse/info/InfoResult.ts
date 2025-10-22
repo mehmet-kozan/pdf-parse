@@ -63,6 +63,35 @@ export class InfoResult {
 		this.outlineData = await doc.getOutline();
 	}
 
+	// biome-ignore lint/suspicious/noExplicitAny: toJson
+	toJSON(): any {
+		const plain = {
+			total: this.total,
+			infoData: this.infoData,
+			metaData: this.metaData,
+			fingerprints: this.fingerprints,
+			permissionData: this.permissionData,
+			outlineData: this.outlineData,
+			pages: this.pages,
+		};
+
+		const seen = new WeakSet();
+		const str = JSON.stringify(
+			plain,
+			(key, val) => {
+				if (key === 'raw') return undefined; // omit raw fields
+				if (val && typeof val === 'object') {
+					if (seen.has(val)) return undefined; // avoid cycles
+					seen.add(val);
+				}
+				return val;
+			},
+			2,
+		);
+
+		return JSON.parse(str);
+	}
+
 	constructor(numPages: number) {
 		this.total = numPages;
 		this.permissionData = null;
