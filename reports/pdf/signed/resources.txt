@@ -1,0 +1,4 @@
+http://www.tecxoft.com/samples.php
+https://kbdeveloper.qoppa.com/wp-content/uploads/blank_signed.pdf
+https://uwaterloo.ca/onbase/sites/ca.onbase/files/uploads/files/samplecertifiedpdf.pdf
+https://github.com/vbuch/node-signpdf/issues/28#issuecomment-510099922

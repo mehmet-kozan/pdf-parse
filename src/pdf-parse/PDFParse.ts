@@ -16,6 +16,12 @@ import { type PageTableResult, TableResult } from './TableResult.js';
 import { type HyperlinkPosition, TextResult } from './TextResult.js';
 import { setVerbosityLevel } from './Utils.js';
 
+// biome-ignore lint/suspicious/noExplicitAny: pdfjs
+if (typeof (globalThis as any).pdfjs === 'undefined') {
+	// biome-ignore lint/suspicious/noExplicitAny: pdfjs
+	(globalThis as any).pdfjs = pdfjs;
+}
+
 /**
  * @public
  * Loads PDF documents and exposes helpers for text, image, table, metadata, and screenshot extraction.
@@ -72,10 +78,6 @@ export class PDFParse {
 	}
 
 	public static setWorker(workerSrc?: string): string {
-		if (typeof (globalThis as any).pdfjs === 'undefined') {
-			(globalThis as any).pdfjs = pdfjs;
-		}
-
 		if (pdfjs?.GlobalWorkerOptions === null) return '';
 
 		if (workerSrc !== undefined) {
@@ -131,6 +133,9 @@ export class PDFParse {
 			height: viewport.height,
 		};
 
+		// 'display' (viewable annotations),
+		// 'print' (printable annotations),
+		// 'any' (all annotations). The default value is 'display'.
 		// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
 		const annotations: Array<any> = (await page.getAnnotations({ intent: 'display' })) || [];
 

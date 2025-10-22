@@ -61,6 +61,11 @@ export class InfoResult {
 		}
 
 		this.outlineData = await doc.getOutline();
+
+		// TODO getAttachments()
+		//await doc.getAttachments()
+
+		//await doc.getAnnotationsByType;
 	}
 
 	// biome-ignore lint/suspicious/noExplicitAny: toJson
