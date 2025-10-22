@@ -6,27 +6,15 @@
 
 import type { DocumentInitParameters } from 'pdfjs-dist/types/src/display/api.js';
 import type { ImageKind } from 'pdfjs-dist/legacy/build/pdf.mjs';
-import { Metadata } from 'pdfjs-dist/types/src/display/metadata.js';
 import type { PDFDataRangeTransport } from 'pdfjs-dist/types/src/display/api.js';
+import type { PDFDocumentProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import type { PDFWorker } from 'pdfjs-dist/types/src/display/api.js';
-import { VerbosityLevel } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { Metadata as RawMetadata } from 'pdfjs-dist/types/src/display/metadata.js';
 
 // @public
 export class AbortException extends Error {
     constructor(message?: string, cause?: unknown);
 }
-
-// @public
-export type DateNode = {
-    CreationDate?: Date | null;
-    ModDate?: Date | null;
-    XmpCreateDate?: Date | null;
-    XmpModifyDate?: Date | null;
-    XmpMetadataDate?: Date | null;
-    XapCreateDate?: Date | null;
-    XapModifyDate?: Date | null;
-    XapMetadataDate?: Date | null;
-};
 
 // @public
 export interface EmbeddedImage {
@@ -53,6 +41,19 @@ export class FormatError extends Error {
 export function getException(error: unknown): Error;
 
 // @public
+export type HyperlinkPosition = {
+    rect: {
+        left: number;
+        top: number;
+        right: number;
+        bottom: number;
+    };
+    url: string;
+    text: string;
+    used: boolean;
+};
+
+// @public
 export type ImageKindKey = keyof typeof ImageKind;
 
 // @public
@@ -69,18 +70,47 @@ export class ImageResult {
     total: number;
 }
 
+// @public (undocumented)
+export class InfoData {
+    constructor(info?: Object);
+    // (undocumented)
+    readonly [key: string]: string | number | Date | boolean | {
+        name: string;
+    } | Object | undefined | null;
+    readonly Author?: string;
+    readonly CreationDate?: Date | null;
+    readonly Creator?: string;
+    readonly IsAcroFormPresent?: boolean;
+    readonly IsCollectionPresent?: boolean;
+    readonly IsLinearized?: boolean;
+    readonly IsSignaturesPresent?: boolean;
+    readonly IsXFAPresent?: boolean;
+    readonly Keywords?: string;
+    readonly ModDate?: Date | null;
+    readonly PDFFormatVersion?: string;
+    readonly Producer?: string;
+    readonly raw?: Object;
+    readonly Subject?: string;
+    readonly Title?: string;
+    readonly Trapped?: {
+        name: string;
+    };
+}
+
 // @public
 export class InfoResult {
-    constructor(total: number);
+    constructor(numPages: number);
     fingerprints?: Array<string | null>;
-    getDateNode(): DateNode;
-    info?: any;
+    infoData: InfoData | null;
     // (undocumented)
-    metadata?: Metadata;
-    outline?: Array<OutlineNode> | null;
+    load(doc: PDFDocumentProxy): Promise<void>;
     // (undocumented)
-    pages: Array<PageLinkResult>;
-    permission?: number[] | null;
+    metaData: MetaData | null;
+    outlineData?: Array<OutlineData> | null;
+    // (undocumented)
+    pages: Array<PageData>;
+    // (undocumented)
+    permissionData: PermissionData | null;
     // (undocumented)
     total: number;
 }
@@ -191,17 +221,46 @@ export interface LoadParameters extends DocumentInitParameters {
     useSystemFonts?: boolean | undefined;
     useWasm?: boolean | undefined;
     useWorkerFetch?: boolean | undefined;
-    verbosity?: number | undefined;
+    verbosity?: VerbosityLevel | undefined;
     WasmFactory?: Object | undefined;
     wasmUrl?: string | undefined;
     withCredentials?: boolean | undefined;
     worker?: PDFWorker | undefined;
 }
 
-export { Metadata }
+// @public (undocumented)
+export class MetaData {
+    constructor(raw: RawMetadata);
+    // (undocumented)
+    dc_creator?: string | string[];
+    // (undocumented)
+    dc_format?: string;
+    // (undocumented)
+    dc_subject?: string | string[];
+    // (undocumented)
+    dc_title?: string;
+    // (undocumented)
+    pdf_producer?: string;
+    // (undocumented)
+    raw?: RawMetadata;
+    // (undocumented)
+    xap_createdate?: Date | null;
+    // (undocumented)
+    xap_metadatadate?: Date | null;
+    // (undocumented)
+    xap_modifydate?: Date | null;
+    // (undocumented)
+    xmp_createdate?: Date | null;
+    // (undocumented)
+    xmp_creatortool?: string;
+    // (undocumented)
+    xmp_metadatadate?: Date | null;
+    // (undocumented)
+    xmp_modifydate?: Date | null;
+}
 
 // @public
-export interface OutlineNode {
+export interface OutlineData {
     // (undocumented)
     bold: boolean;
     // (undocumented)
@@ -225,15 +284,7 @@ export interface OutlineNode {
 }
 
 // @public
-export interface PageImages {
-    // (undocumented)
-    images: EmbeddedImage[];
-    // (undocumented)
-    pageNumber: number;
-}
-
-// @public
-export type PageLinkResult = {
+export type PageData = {
     pageNumber: number;
     pageLabel?: string | null;
     links: Array<{
@@ -243,6 +294,14 @@ export type PageLinkResult = {
     width: number;
     height: number;
 };
+
+// @public
+export interface PageImages {
+    // (undocumented)
+    images: EmbeddedImage[];
+    // (undocumented)
+    pageNumber: number;
+}
 
 // @public
 export interface PageTableResult {
@@ -308,9 +367,26 @@ export class PDFParse {
     };
     // (undocumented)
     static setWorker(workerSrc?: string): string;
+    // (undocumented)
+    get verbosity(): VerbosityLevel;
+    set verbosity(value: VerbosityLevel);
 }
 
 export { PDFWorker }
+
+// @public
+export class PermissionData {
+    constructor(flags?: number[] | null);
+    assemble: boolean;
+    copy: boolean;
+    copyForAccessibility: boolean;
+    fillInteractiveForms: boolean;
+    modifyAnnotations: boolean;
+    modifyContents: boolean;
+    print: boolean;
+    printHQ: boolean;
+    raw?: number[] | null;
+}
 
 // @public (undocumented)
 export class Point extends Shape {
@@ -324,6 +400,8 @@ export class Point extends Shape {
     // (undocumented)
     y: number;
 }
+
+export { RawMetadata }
 
 // @public (undocumented)
 export class Rectangle extends Shape {
@@ -487,7 +565,12 @@ export class UnknownErrorException extends Error {
     constructor(message?: string, details?: unknown, cause?: unknown);
 }
 
-export { VerbosityLevel }
+// @public (undocumented)
+export enum VerbosityLevel {
+    ERRORS = 0,
+    INFOS = 5,
+    WARNINGS = 5
+}
 
 // (No @packageDocumentation comment for this package)
 

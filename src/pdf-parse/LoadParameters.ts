@@ -4,6 +4,22 @@ import type { DocumentInitParameters, PDFDataRangeTransport, PDFWorker } from 'p
 
 export type { PDFDataRangeTransport, PDFWorker };
 
+//  ERRORS: 0, WARNINGS: 1, INFOS: 5
+export enum VerbosityLevel {
+	/**
+	 * logs all errors
+	 */
+	ERRORS = 0,
+	/**
+	 * logs all infos
+	 */
+	INFOS = 5,
+	/**
+	 * logs all warnings
+	 */
+	WARNINGS = 1,
+}
+
 /**
  * @public
  * LoadParameters
@@ -61,7 +77,7 @@ export interface LoadParameters extends DocumentInitParameters {
 	 * Controls logging level; use constants from `VerbosityLevel`.
 	 * Default: `undefined`.
 	 */
-	verbosity?: number | undefined;
+	verbosity?: VerbosityLevel | undefined;
 	/**
 	 * Base URL of the document, used to resolve relative URLs in annotations and outline items.
 	 * Default: `undefined`.

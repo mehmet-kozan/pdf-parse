@@ -7,7 +7,7 @@ describe('test-load url string', () => {
 		const infoResult = await parser.getInfo();
 		const textResult = await parser.getText();
 		expect(infoResult.total).toEqual(9);
-		expect(infoResult.info.PDFFormatVersion).toEqual('1.4');
+		expect(infoResult.infoData?.PDFFormatVersion).toEqual('1.4');
 		expect(textResult.total).toEqual(9);
 		expect(textResult.text).toContain('Bitcoin');
 	});
@@ -19,7 +19,7 @@ describe('test-load url object', () => {
 		const infoResult = await parser.getInfo();
 		const textResult = await parser.getText();
 		expect(infoResult.total).toEqual(9);
-		expect(infoResult.info.PDFFormatVersion).toEqual('1.4');
+		expect(infoResult.infoData?.PDFFormatVersion).toEqual('1.4');
 		expect(textResult.total).toEqual(9);
 		expect(textResult.text).toContain('Bitcoin');
 	});

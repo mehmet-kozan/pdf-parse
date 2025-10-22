@@ -20,6 +20,6 @@ describe(data.fileName, async () => {
 
 	test('total title info', async () => {
 		const result = await parser.getInfo();
-		expect(result.info.Title).toEqual('Sodalitas delectus ipsum aperio facere. - test-automation - Confluence');
+		expect(result.infoData?.Title).toEqual('Sodalitas delectus ipsum aperio facere. - test-automation - Confluence');
 	});
 });

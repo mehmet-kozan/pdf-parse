@@ -10,7 +10,7 @@ describe('load password protected pdf', async () => {
 
 	test('results be correct', () => {
 		expect(infoResult.total).toEqual(2);
-		expect(infoResult.info.PDFFormatVersion).toEqual('1.7');
+		expect(infoResult.infoData?.PDFFormatVersion).toEqual('1.7');
 		expect(textResult.total).toEqual(2);
 		expect(textResult.text).toContain('Welcome to Adobe Acrobat');
 	});

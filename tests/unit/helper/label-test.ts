@@ -12,7 +12,7 @@ class TestData extends PDFFile {
 			texts: ['accounts for the biological activity of endothelium-derived'],
 		},
 	];
-	infos = [
+	pageInfoData = [
 		{
 			pageNumber: 1,
 			links: [],

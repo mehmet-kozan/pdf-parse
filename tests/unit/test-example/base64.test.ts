@@ -23,7 +23,7 @@ describe('test-load base64', async () => {
 	const textResult = await parser.getText();
 	test('results be correct', () => {
 		expect(infoResult.total).toEqual(1);
-		expect(infoResult.info.PDFFormatVersion).toEqual('1.7');
+		expect(infoResult.infoData?.PDFFormatVersion).toEqual('1.7');
 		expect(textResult.total).toEqual(1);
 		expect(textResult.text).toContain('Hello, world!');
 	});

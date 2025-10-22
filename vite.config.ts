@@ -30,6 +30,7 @@ export default defineConfig({
 
 				cpSync(source, join(dest_web, basename(source)));
 				cpSync(source_map, join(dest_web, basename(source_map)));
+				cpSync(source_min, join(dest_web, basename(source_min)));
 
 				cpSync(source_min, join(dest_esm, 'pdf.worker.mjs'));
 				cpSync(source_min, join(dest_cjs, 'pdf.worker.mjs'));

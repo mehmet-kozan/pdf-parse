@@ -1,7 +1,7 @@
 import { data as data01 } from '../helper/default-test';
 import { data as data02 } from '../helper/hyperlinks-test';
 import { data as data03 } from '../helper/links-in-pdf';
-import { type PageLinkResult, PDFParse } from 'pdf-parse';
+import { type PageData, PDFParse } from 'pdf-parse';
 import { describe, expect, test } from 'vitest';
 
 describe('get-info test', () => {
@@ -11,14 +11,11 @@ describe('get-info test', () => {
 		const result = await parser.getInfo();
 		expect(result.total).toEqual(data01.total);
 		expect(result.pages.length).toEqual(0);
-		expect(result.info?.PDFFormatVersion).toEqual('1.4');
-		expect(result.info?.Producer).toEqual('pdfeTeX-1.21a');
-		expect(result.info?.Creator).toEqual('TeX');
-		expect(result.info?.CreationDate).toEqual("D:20090401163925-07'00'");
-
-		const dateNode = result.getDateNode();
-		expect(dateNode.CreationDate).toBeInstanceOf(Date);
-		expect(dateNode.CreationDate?.getTime()).toEqual(1238629165000);
+		expect(result.infoData?.PDFFormatVersion).toEqual('1.4');
+		expect(result.infoData?.Producer).toEqual('pdfeTeX-1.21a');
+		expect(result.infoData?.Creator).toEqual('TeX');
+		expect(result.infoData?.CreationDate).toBeInstanceOf(Date);
+		expect(result.infoData?.CreationDate?.getTime()).toEqual(1238629165000);
 	});
 
 	test(data02.fileName, async () => {
@@ -27,16 +24,16 @@ describe('get-info test', () => {
 		const result = await parser.getInfo({ parsePageInfo: true });
 		expect(result.total).toEqual(data02.total);
 		// original pdf file name
-		expect(result.info?.Title).toEqual('hyperlinks-test-pdf');
-		expect(result.info?.PDFFormatVersion).toEqual('1.4');
-		expect(result.info?.Producer).toEqual('Skia/PDF m142 Google Docs Renderer');
+		expect(result.infoData?.Title).toEqual('hyperlinks-test-pdf');
+		expect(result.infoData?.PDFFormatVersion).toEqual('1.4');
+		expect(result.infoData?.Producer).toEqual('Skia/PDF m142 Google Docs Renderer');
 
 		// check hyperlinks results
 		expect(result.pages.length).toEqual(1);
 
-		const pageResult: PageLinkResult = result.pages[0];
+		const pageData: PageData = result.pages[0];
 
-		expect(pageResult).toMatchObject({
+		expect(pageData).toMatchObject({
 			pageNumber: 1,
 			links: [
 				{
@@ -58,29 +55,29 @@ describe('get-info test', () => {
 		const parser = new PDFParse({ data: buffer });
 		const result = await parser.getInfo({ parsePageInfo: true });
 		expect(result.total).toEqual(data03.total);
-		expect(result.info?.PDFFormatVersion).toEqual('1.5');
-		expect(result.info?.Producer).toEqual('Antenna House PDF Output Library 7.4.1889');
-		expect(result.info?.Creator).toEqual('Antenna House Formatter V7.4 R1 Windows : 7.4.1.63121 (2023-12-20T11:05+09)');
-		expect(result.info?.CreationDate).toEqual("D:20240123093922+09'00'");
+		expect(result.infoData?.PDFFormatVersion).toEqual('1.5');
+		expect(result.infoData?.Producer).toEqual('Antenna House PDF Output Library 7.4.1889');
+		expect(result.infoData?.Creator).toEqual(
+			'Antenna House Formatter V7.4 R1 Windows : 7.4.1.63121 (2023-12-20T11:05+09)',
+		);
 
-		const dateNode = result.getDateNode();
-		expect(dateNode.CreationDate).toBeInstanceOf(Date);
-		expect(dateNode.CreationDate?.getTime()).toEqual(1705970362000);
+		expect(result.infoData?.CreationDate).toBeInstanceOf(Date);
+		expect(result.infoData?.CreationDate?.getTime()).toEqual(1705970362000);
 
-		expect(dateNode.CreationDate).toBeInstanceOf(Date);
-		expect(dateNode.ModDate).toBeInstanceOf(Date);
-		expect(dateNode.CreationDate?.getFullYear()).toBe(2024);
-		expect(dateNode.ModDate?.getFullYear()).toBe(2024);
+		expect(result.infoData?.CreationDate).toBeInstanceOf(Date);
+		expect(result.infoData?.ModDate).toBeInstanceOf(Date);
+		expect(result.infoData?.CreationDate?.getFullYear()).toBe(2024);
+		expect(result.infoData?.ModDate?.getFullYear()).toBe(2024);
 
 		// Verify XMP dates are parsed
-		expect(dateNode.XmpCreateDate).toBeInstanceOf(Date);
-		expect(dateNode.XmpModifyDate).toBeInstanceOf(Date);
-		expect(dateNode.XmpMetadataDate).toBeInstanceOf(Date);
-		expect(dateNode.XmpCreateDate?.getFullYear()).toBe(2024);
+		expect(result.metaData?.xmp_createdate).toBeInstanceOf(Date);
+		expect(result.metaData?.xmp_modifydate).toBeInstanceOf(Date);
+		expect(result.metaData?.xmp_metadatadate).toBeInstanceOf(Date);
+		expect(result.metaData?.xmp_createdate?.getFullYear()).toBe(2024);
 
-		expect(dateNode.XapCreateDate).toBeUndefined();
-		expect(dateNode.XapModifyDate).toBeUndefined();
-		expect(dateNode.XapMetadataDate).toBeUndefined();
+		expect(result.metaData?.xap_createdate).toBeUndefined();
+		expect(result.metaData?.xap_modifydate).toBeUndefined();
+		expect(result.metaData?.xap_metadatadate).toBeUndefined();
 
 		expect(result.pages).toMatchObject([
 			{

@@ -7,8 +7,8 @@ import { getException } from './Exception.js';
 import { Line, LineStore, Point, Rectangle } from './geometry/index.js';
 import type { TableData } from './geometry/TableData.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
-import { InfoResult, type PageLinkResult } from './InfoResult.js';
-import type { LoadParameters } from './LoadParameters.js';
+import { InfoResult, type PageData } from './info/index.js';
+import { type LoadParameters, VerbosityLevel } from './LoadParameters.js';
 import { type ParseParameters, setDefaultParseParameters } from './ParseParameters.js';
 import { type MinMax, PathGeometry } from './PathGeometry.js';
 import { ScreenshotResult } from './ScreenshotResult.js';
@@ -24,15 +24,22 @@ export class PDFParse {
 	private doc: PDFDocumentProxy | undefined;
 	public progress: { loaded: number; total: number } = { loaded: -1, total: 0 };
 
+	get verbosity(): VerbosityLevel {
+		this.options.verbosity = this.options.verbosity ?? VerbosityLevel.ERRORS;
+		return this.options.verbosity;
+	}
+
+	set verbosity(value: VerbosityLevel) {
+		this.options.verbosity = value;
+	}
+
 	/**
 	 * Create a new parser with `LoadParameters`.
 	 * Converts Node.js `Buffer` data to `Uint8Array` automatically and ensures a default verbosity level.
 	 * @param options - Initialization parameters.
 	 */
 	constructor(options: LoadParameters) {
-		if (options.verbosity === undefined) {
-			options.verbosity = pdfjs.VerbosityLevel.ERRORS;
-		}
+		options.verbosity = options.verbosity ?? VerbosityLevel.ERRORS;
 
 		if (typeof Buffer !== 'undefined' && options.data instanceof Buffer) {
 			options.data = new Uint8Array(options.data);
@@ -92,18 +99,12 @@ export class PDFParse {
 	 */
 	public async getInfo(params: ParseParameters = {}): Promise<InfoResult> {
 		const doc = await this.load();
+
 		const result = new InfoResult(doc.numPages);
-
-		const { info, metadata } = await doc.getMetadata();
-		result.info = info;
-		result.metadata = metadata;
-
-		result.fingerprints = doc.fingerprints;
-		result.outline = await doc.getOutline();
-		result.permission = await doc.getPermissions();
-		const pageLabels = await doc.getPageLabels();
+		await result.load(doc);
 
 		if (params.parsePageInfo) {
+			const pageLabels = await doc.getPageLabels();
 			for (let i: number = 1; i <= result.total; i++) {
 				if (this.shouldParse(i, result.total, params)) {
 					const page = await doc.getPage(i);
@@ -119,10 +120,10 @@ export class PDFParse {
 		return result;
 	}
 
-	private async getPageLinks(page: PDFPageProxy): Promise<PageLinkResult> {
+	private async getPageLinks(page: PDFPageProxy): Promise<PageData> {
 		const viewport = page.getViewport({ scale: 1 });
 
-		const result: PageLinkResult = {
+		const result: PageData = {
 			pageNumber: page.pageNumber,
 			links: [],
 			width: viewport.width,
@@ -158,7 +159,7 @@ export class PDFParse {
 		for (let i: number = 1; i <= result.total; i++) {
 			if (this.shouldParse(i, result.total, params)) {
 				const page = await doc.getPage(i);
-				const text = await this.getPageText(page, params, result.total);
+				const text = await this.getPageText(page, params);
 				result.pages.push({
 					text: text,
 					num: i,
@@ -238,7 +239,7 @@ export class PDFParse {
 		return true;
 	}
 
-	private async getPageText(page: PDFPageProxy, parseParams: ParseParameters, total: number): Promise<string> {
+	private async getPageText(page: PDFPageProxy, parseParams: ParseParameters): Promise<string> {
 		const viewport = page.getViewport({ scale: 1 });
 
 		const params = setDefaultParseParameters(parseParams);
@@ -982,5 +983,3 @@ export class PDFParse {
 		}
 	}
 }
-
-//PDFParse.setWorker();
