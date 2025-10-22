@@ -125,19 +125,19 @@ const result = await parser.getInfo({ parsePageInfo: true });
 await parser.destroy();
 
 console.log(`Total pages: ${result.total}`);
-console.log(`Title: ${result.info?.Title}`);
-console.log(`Author: ${result.info?.Author}`);
-console.log(`Creator: ${result.info?.Creator}`);
-console.log(`Producer: ${result.info?.Producer}`);
-
-// Access parsed date information
-const dates = result.getDateNode();
-console.log(`Creation Date: ${dates.CreationDate}`);
-console.log(`Modification Date: ${dates.ModDate}`);
+console.log(`Title: ${result.infoData?.Title}`);
+console.log(`Author: ${result.infoData?.Author}`);
+console.log(`Creator: ${result.infoData?.Creator}`);
+console.log(`Producer: ${result.infoData?.Producer}`);
+console.log(`Creation Date: ${result.infoData?.CreationDate}`);
+console.log(`Modification Date: ${result.infoData?.ModDate}`);
 
 // Links, pageLabel, width, height (when `parsePageInfo` is true)
-console.log('Per-page information:');
+console.log('Per-Page information:');
 console.log(JSON.stringify(result.pages, null, 2));
+
+console.log('full information:');
+console.log(JSON.stringify(result.toJSON(), null, 2));
 ```
 
 ### `getText` — Extract Text  

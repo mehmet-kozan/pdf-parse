@@ -8,6 +8,6 @@ describe('get-info page label number test', () => {
 		const parser = new PDFParse({ data: buffer });
 		const result = await parser.getInfo({ parsePageInfo: true });
 		expect(result.total).toEqual(data.total);
-		expect(result.pages).toMatchObject(data.infos);
+		expect(result.pages).toMatchObject(data.pageInfoData);
 	});
 });

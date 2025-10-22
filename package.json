@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "2.4.5",
+	"version": "3.0.0",
 	"type": "module",
 	"main": "dist/pdf-parse/cjs/index.cjs",
 	"module": "dist/pdf-parse/esm/index.js",
@@ -115,7 +115,8 @@
 		"test:i": "node scripts/integration.test.mjs",
 		"test:u": "node --test-reporter=dot --test tests/unsupported/*.test.cjs && node --test-reporter=dot --test tests/unsupported/*.test.mjs",
 		"test:e": "node scripts/example.test.mjs",
-		"test:all": "npm run test && npm run test:p && npm run test:i && npm run test:u && npm run test:e",
+		"test:cli": "node --test-reporter=dot --test bin/*.test.mjs",
+		"test:all": "npm run test && npm run test:p && npm run test:i && npm run test:u && npm run test:e && npm run test:cli",
 		"test:ui": "vitest --ui --coverage",
 		"test:watch": "vitest",
 

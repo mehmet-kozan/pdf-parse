@@ -1,13 +1,16 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: Question
+about: Ask a question or request clarification
 title: ''
-labels: bug
+labels: question
 assignees: ''
 
 ---
 
-To help us reproduce and resolve your issue more efficiently: 
+
+Please provide enough context for your question, such as:  
+- What you're trying to achieve
+- What you've tried so far
 - Any relevant code snippets, logs, or environment details
 - The version of `pdf-parse` you're using (e.g., from `package.json` or `npm list pdf-parse`)
 - Your Node.js version (run `node -v`)

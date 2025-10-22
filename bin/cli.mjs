@@ -161,7 +161,7 @@ async function handleGetHeader(filePath, options) {
 
 async function handleGetInfo(parser, options) {
 	const result = await parser.getInfo();
-	const output = options.format === 'json' ? JSON.stringify(result, null, 2) : formatInfo(result);
+	const output = options.format === 'json' ? JSON.stringify(result.toJSON(), null, 2) : formatInfo(result);
 
 	if (options.output) {
 		await writeFile(options.output, output);
