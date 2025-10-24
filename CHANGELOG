@@ -1,3 +1,7 @@
+# 1.1.2
+* removed deprecated module.parent
+
+
 # 1.1.1
 * pdf.js new versions added.
 * default stable version changed v1.9.426 to v1.10.100

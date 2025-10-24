@@ -3,6 +3,7 @@
     "version": "1.1.2",
     "description": "Pure javascript cross-platform module to extract text from PDFs.",
     "main": "index.js",
+    "type": "commonjs",
     "keywords": [
         "pdf-parse",
         "pdf-crawler",
