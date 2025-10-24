@@ -4,8 +4,8 @@
 
 [![version](https://img.shields.io/npm/v/pdf-parse.svg)](https://www.npmjs.org/package/pdf-parse)
 [![downloads](https://img.shields.io/npm/dt/pdf-parse.svg)](https://www.npmjs.org/package/pdf-parse)
-[![node](https://img.shields.io/node/v/pdf-parse.svg)](https://nodejs.org/)
-[![status](https://gitlab.com/autokent/pdf-parse/badges/master/pipeline.svg)](https://gitlab.com/autokent/pdf-parse/pipelines)
+![Node.js](https://img.shields.io/badge/node-%3E%3D18.17.0-brightgreen)
+[![test & coverage reports](https://img.shields.io/badge/reports-view-brightgreen.svg)](https://mehmet-kozan.github.io/pdf-parse/)
 
 ## Similar Packages
 * [pdf2json](https://www.npmjs.com/package/pdf2json) buggy, no support anymore, memory leak, throws non-catchable fatal errors
@@ -141,20 +141,6 @@ check [pdf.js](https://mozilla.github.io/pdf.js/getting_started/)
 * `mocha` or `npm test`
 * Check [test folder](https://gitlab.com/autokent/pdf-parse/tree/master/test) and [quickstart.js](https://gitlab.com/autokent/pdf-parse/blob/master/quickstart.js) for extra usages.
 
-## Support
-I use this package actively myself, so it has my top priority. You can chat on WhatsApp about any infos, ideas and suggestions.
-
-[![WhatsApp](https://img.shields.io/badge/style-chat-green.svg?style=flat&label=whatsapp)](https://api.whatsapp.com/send?phone=905063042480&text=Hi%2C%0ALet%27s%20talk%20about%20pdf-parse)
-
-### Submitting an Issue
-If you find a bug or a mistake, you can help by submitting an issue to [GitLab Repository](https://gitlab.com/autokent/pdf-parse/issues)
-
-### Creating a Merge Request
-GitLab calls it merge request instead of pull request.  
-
-* [A Guide for First-Timers](https://about.gitlab.com/2016/06/16/fearless-contribution-a-guide-for-first-timers/)
-* [How to create a merge request](https://docs.gitlab.com/ee/gitlab-basics/add-merge-request.html)
-* Check [Contributing Guide](https://gitlab.com/autokent/pdf-parse/blob/master/CONTRIBUTING.md) 
 
 ## License
 [MIT licensed](https://gitlab.com/autokent/pdf-parse/blob/master/LICENSE) and all it's dependencies are MIT or BSD licensed.
