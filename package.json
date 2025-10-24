@@ -1,6 +1,6 @@
 {
     "name": "pdf-parse",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "description": "Pure javascript cross-platform module to extract text from PDFs.",
     "main": "index.js",
     "type": "commonjs",
@@ -43,7 +43,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/mehmet-kozan/pdf-parse"
+        "url": "git+https://github.com/mehmet-kozan/pdf-parse.git"
     },
     "author": "Mehmet Kozan <mehmet.kozan@live.com>",
     "license": "MIT",
