@@ -22,6 +22,10 @@
         "server side PDF parsing",
         "pdf metadata"
     ],
+    "files": [
+		"lib/",
+		"index.js"
+	],
     "dependencies": {
         "node-ensure": "^0.0.0"
     },

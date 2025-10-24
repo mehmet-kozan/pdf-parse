@@ -2,7 +2,6 @@
 
 **Pure javascript cross-platform module to extract texts from PDFs.**
 
-[![version](https://img.shields.io/npm/v/pdf-parse.svg)](https://www.npmjs.org/package/pdf-parse)
 [![downloads](https://img.shields.io/npm/dt/pdf-parse.svg)](https://www.npmjs.org/package/pdf-parse)
 ![Node.js](https://img.shields.io/badge/node-%3E%3D18.17.0-brightgreen)
 [![test & coverage reports](https://img.shields.io/badge/reports-view-brightgreen.svg)](https://mehmet-kozan.github.io/pdf-parse/)
