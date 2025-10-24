@@ -34,7 +34,7 @@
     },
     "scripts": {
         "test": "node node_modules/mocha/bin/_mocha --recursive --slow 10000",
-        "start": "node index.js"
+        "pub": "npm publish --tag minor"
     },
     "homepage": "https://github.com/mehmet-kozan/pdf-parse",
     "bugs": {
