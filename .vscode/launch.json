@@ -7,13 +7,32 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "debug test",
-			"autoAttachChildProcesses": true,
-			"skipFiles": ["<node_internals>/**", "**/node_modules/**"],
-			"program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
-			"args": ["run", "${relativeFile}"],
-			"smartStep": true,
-			"console": "integratedTerminal"
+			"name": "Launch Program",
+			"program": "${workspaceFolder}/index.js",
+			"env": {
+				"DEBUG": "autokent:*,-not_this"
+			}
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Launch QuickStart",
+			"program": "${workspaceFolder}/quickstart.js"
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Launch Test",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+			"args": [
+				"--recursive",
+				"--slow",
+				"20000"
+			],
+			"cwd": "${workspaceRoot}",
+			"env": {
+				"DEBUG": "autokent:*,-not_this"
+			}
 		}
 	]
 }

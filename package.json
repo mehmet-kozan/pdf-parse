@@ -1,47 +1,49 @@
 {
-	"name": "pdf-parse",
-	"version": "1.0.0",
-	"type": "module",
-	"main": "index.js",
-	"description": "Pure JavaScript cross-platform module to extract texts from PDFs.",
-	"homepage": "https://github.com/mehmet-kozan/pdf-parse#readme",
-	"bugs": {
-		"url": "https://github.com/mehmet-kozan/pdf-parse/issues"
-	},
-	"keywords": [
-		"pdf parse",
-		"pdf.js",
-		"pdf-parse"
-	],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/mehmet-kozan/pdf-parse.git"
-	},
-	"license": "ISC",
-	"author": "",
-	"scripts": {
-		"build": "npm-run-all clean build-esm build-cjs",
-		"build-esm": "tsc --project tsconfig.build.json --outDir dist/esm",
-		"build-cjs": "tsc --project tsconfig.build.json --outDir dist/cjs --module commonjs --moduleResolution node --verbatimModuleSyntax false",
-		"clean": "rimraf --glob dist test/**/*.txt",
-		"test": "vitest",
-		"test:ui": "vitest --ui",
-		"test:run": "vitest run",
-		"coverage": "vitest run --coverage",
-		"lint": "biome lint .",
-		"format": "biome format --write .",
-		"format:all": "biome check --write .",
-		"format:check": "biome check ."
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^2.2.3",
-		"npm-run-all": "^4.1.5",
-		"pdfjs-dist": "^5.4.149",
-		"rimraf": "^6.0.1",
-		"typescript": "^5.9.2",
-		"vitest": "^3.2.4"
-	},
-	"engines": {
-		"node": ">=18"
-	}
+    "name": "pdf-parse",
+    "version": "1.1.1",
+    "description": "Pure javascript cross-platform module to extract text from PDFs.",
+    "main": "index.js",
+    "keywords": [
+        "pdf-parse",
+        "pdf-crawler",
+        "xpdf",
+        "pdf.js",
+        "pdfreader",
+        "pdf-extractor",
+        "pdf2json",
+        "j-pdfjson",
+        "pdf-parser",
+        "pdf-extract",
+        "pdf-extractor",
+        "pdf-to-text",
+        "pdf-text-extract",
+        "pdfjs",
+        "server side PDF parsing",
+        "pdf metadata"
+    ],
+    "dependencies": {
+        "debug": "^3.1.0",
+        "node-ensure": "^0.0.0"
+    },
+    "devDependencies": {
+        "mocha": "^4.0.1"
+    },
+    "scripts": {
+        "test": "node node_modules/mocha/bin/_mocha --recursive --slow 10000",
+        "start": "node index.js"
+    },
+    "homepage": "https://gitlab.com/autokent/pdf-parse",
+    "bugs": {
+        "url": "https://gitlab.com/autokent/pdf-parse/issues",
+        "email": "mehmet.kozan@live.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://gitlab.com/autokent/pdf-parse.git"
+    },
+    "author": "Mehmet Kozan <mehmet.kozan@live.com>",
+    "license": "MIT",
+    "engines": {
+        "node": ">=6.8.1"
+    }
 }
