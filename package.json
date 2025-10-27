@@ -141,7 +141,7 @@
 	},
 	"devDependencies": {
 		"vite": "^7.1.5",
-		"vitest": "^3.2.4",
+		"vitest": "^4.0.3",
 		"typescript": "^5.9.3",
 		"tsx": "^4.20.6",
 		"@microsoft/api-extractor": "^7.53.1",
