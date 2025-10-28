@@ -9,6 +9,7 @@ import type { TableData } from './geometry/TableData.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
 import { InfoResult, type PageData } from './info/index.js';
 import { type LoadParameters, VerbosityLevel } from './LoadParameters.js';
+import { HeightMap, type ParagraphLine } from './ParagraphResult.js';
 import { type ParseParameters, setDefaultParseParameters } from './ParseParameters.js';
 import { type MinMax, PathGeometry } from './PathGeometry.js';
 import { ScreenshotResult } from './ScreenshotResult.js';
@@ -154,6 +155,30 @@ export class PDFParse {
 	}
 
 	/**
+	 * getRaw — Extract raw text for v1 compatibility.
+	 *
+	 * This method extracts plain (raw) text for each requested page and applies
+	 * v1-compatible defaults: `lineEnforce: false`, `pageJoiner: ''`, and `cellSeparator: ''`.
+	 * It uses the same underlying implementation as `getText`
+	 * but forces those defaults to reproduce the historical v1 behavior
+	 * (no enforced line joining, no page joiner text, and no cellseparators).
+	 *
+	 * @param params - `ParseParameters` controlling page selection, hyperlink
+	 *   handling, and line/cell thresholds.
+	 * @returns A `TextResult` containing per-page text entries and a combined
+	 *   document text string.
+	 */
+	public async getRaw(params: ParseParameters = {}): Promise<TextResult> {
+		const paramsV1: ParseParameters = {
+			lineEnforce: false,
+			pageJoiner: '',
+			cellSeparator: '',
+		};
+
+		return await this.getText({ ...params, ...paramsV1 });
+	}
+
+	/**
 	 * Extract plain text for each requested page, optionally enriching hyperlinks and enforcing line or cell separators.
 	 * @param params - Parse options controlling pagination, link handling, and line/cell thresholds.
 	 * @returns A `TextResult` containing page-wise text and a concatenated document string.
@@ -185,6 +210,76 @@ export class PDFParse {
 		}
 
 		return result;
+	}
+
+	public async getParagraph(params: ParseParameters = {}): Promise<string> {
+		const doc = await this.load();
+
+		const lines: ParagraphLine[] = [];
+		for (let i: number = 1; i <= doc.numPages; i++) {
+			if (this.shouldParse(i, doc.numPages, params)) {
+				const page = await doc.getPage(i);
+
+				await this.getPageParagraph(page, params, lines);
+				page.cleanup();
+			}
+		}
+		return this.combineParagraphLines(lines);
+	}
+
+	private combineParagraphLines(lines: ParagraphLine[]): string {
+		const result: ParagraphLine[] = [];
+		const map = new HeightMap(lines);
+
+		// if (lines.length > 0) {
+		// 	result.push(lines[0]);
+		// }
+
+		for (let index = 0; index < lines.length; index++) {
+			const last = result[result.length - 1];
+			const current = lines[index];
+			if (last === undefined) {
+				if (current.maxHeight >= map.mainHeight) {
+					result.push(current);
+				}
+				continue;
+			}
+
+			last.str = last.str.trim();
+
+			if (current.maxHeight < map.mainHeight) {
+				continue;
+			}
+
+			let isSameLine = Math.abs(last.maxHeight - current.maxHeight) < 0.1 && current.firstFont === last.lastFont;
+
+			if (Math.abs(map.mainHeight - current.maxHeight) < 0.1) {
+				const isBreak = current.minX - last.minX > 1 && current.minX - last.minX < last.charWidth * 5;
+				const isNewLine = Math.abs(last.lastY - current.lastY) > current.maxHeight * 1.8;
+				isSameLine = isSameLine && !isBreak;
+				if (current.minX - last.minX < last.charWidth * 5 && isNewLine) {
+					isSameLine = false;
+				}
+			}
+
+			if (isSameLine) {
+				last.str = `${last.str} ${current.str.trim()}`;
+				last.lastFont = current.lastFont;
+				last.minX = current.minX;
+				last.maxHeight = Math.min(current.maxHeight, last.maxHeight);
+				last.lastY = current.lastY;
+			} else {
+				result.push(current);
+			}
+		}
+
+		for (const line of result) {
+			line.str = line.str.replace(/ {2,}/g, ' ').trim();
+			line.str = line.str.replace(/(\b\p{L}\b)\s+(?=\b\p{L}\b)/gu, '$1');
+			line.str = line.str.replaceAll('- ', '');
+		}
+
+		return result.map((l) => l.str).join('\n');
 	}
 
 	private async load(): Promise<PDFDocumentProxy> {
@@ -324,6 +419,76 @@ export class PDFParse {
 		}
 
 		return strBuf.join('');
+	}
+
+	private async getPageParagraph(page: PDFPageProxy, parseParams: ParseParameters, lines: ParagraphLine[]) {
+		const viewport = page.getViewport({ scale: 1 });
+		const params = setDefaultParseParameters(parseParams);
+
+		const textContent = await page.getTextContent({
+			includeMarkedContent: !!params.includeMarkedContent,
+			disableNormalization: !!params.disableNormalization,
+		});
+
+		for (const current of textContent.items) {
+			if (!('str' in current)) continue;
+
+			const tm = current.transform ?? current.transform;
+			const [x, y] = viewport.convertToViewportPoint(tm[4], tm[5]);
+
+			const cleanItem = current.str.trim();
+
+			if (current.hasEOL) {
+				current.str = `${current.str} `;
+			}
+
+			const last = lines[lines.length - 1];
+
+			if (cleanItem === '') {
+				if (last) {
+					last.str = `${last.str} `;
+					last.width += last.charWidth;
+				}
+			} else {
+				if (last) {
+					const maxHeight = Math.max(last.maxHeight, current.height);
+					const isSameLine = Math.abs(last.lastY - y) < maxHeight;
+
+					if (isSameLine) {
+						last.str = `${last.str}${current.str}`;
+						last.width += current.width;
+						last.maxHeight = maxHeight;
+						last.minX = Math.min(last.minX, x);
+						last.lastFont = current.fontName;
+						last.charWidth = last.width / last.str.length;
+					} else {
+						lines.push({
+							str: current.str,
+							lastY: y,
+							width: current.width,
+							charWidth: current.width / current.str.length,
+							firstFont: current.fontName,
+							lastFont: current.fontName,
+							minX: x,
+							maxX: x + current.width,
+							maxHeight: current.height,
+						});
+					}
+				} else {
+					lines.push({
+						str: current.str,
+						lastY: y,
+						width: current.width,
+						charWidth: current.width / current.str.length,
+						firstFont: current.fontName,
+						lastFont: current.fontName,
+						minX: x,
+						maxX: x + current.width,
+						maxHeight: current.height,
+					});
+				}
+			}
+		}
 	}
 
 	private async getHyperlinks(page: PDFPageProxy, viewport: PageViewport): Promise<Map<string, HyperlinkPosition[]>> {

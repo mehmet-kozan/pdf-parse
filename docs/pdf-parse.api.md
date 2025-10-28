@@ -357,6 +357,9 @@ export class PDFParse {
     destroy(): Promise<void>;
     getImage(params?: ParseParameters): Promise<ImageResult>;
     getInfo(params?: ParseParameters): Promise<InfoResult>;
+    // (undocumented)
+    getParagraph(params?: ParseParameters): Promise<string>;
+    getRaw(params?: ParseParameters): Promise<TextResult>;
     getScreenshot(parseParams?: ParseParameters): Promise<ScreenshotResult>;
     getTable(params?: ParseParameters): Promise<TableResult>;
     getText(params?: ParseParameters): Promise<TextResult>;

@@ -65,7 +65,8 @@ export class InfoResult {
 		// TODO getAttachments()
 		//await doc.getAttachments()
 
-		//await doc.getAnnotationsByType;
+		// TODO get text annotations like highlighted text
+		//await doc.getAnnotationsByType();
 	}
 
 	// biome-ignore lint/suspicious/noExplicitAny: toJson
