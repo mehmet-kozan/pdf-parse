@@ -9,7 +9,7 @@ import type { TableData } from './geometry/TableData.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
 import { InfoResult, type PageData } from './info/index.js';
 import { type LoadParameters, VerbosityLevel } from './LoadParameters.js';
-import { HeightMap, type ParagraphLine } from './ParagraphResult.js';
+import { TextContentLine } from './ParagraphResult.js';
 import { type ParseParameters, setDefaultParseParameters } from './ParseParameters.js';
 import { type MinMax, PathGeometry } from './PathGeometry.js';
 import { ScreenshotResult } from './ScreenshotResult.js';
@@ -215,71 +215,193 @@ export class PDFParse {
 	public async getParagraph(params: ParseParameters = {}): Promise<string> {
 		const doc = await this.load();
 
-		const lines: ParagraphLine[] = [];
+		const lines: TextContentLine[] = [];
 		for (let i: number = 1; i <= doc.numPages; i++) {
 			if (this.shouldParse(i, doc.numPages, params)) {
 				const page = await doc.getPage(i);
 
-				await this.getPageParagraph(page, params, lines);
+				await this.getLines(page, lines);
 				page.cleanup();
 			}
 		}
-		return this.combineParagraphLines(lines);
+
+		const combinedLines = this.combineLines(lines);
+
+		return combinedLines.map((l) => l.toString()).join('\n');
 	}
 
-	private combineParagraphLines(lines: ParagraphLine[]): string {
-		const result: ParagraphLine[] = [];
-		const map = new HeightMap(lines);
+	private topNFromMap(map: Map<number, number>, n = 6): Array<[number, number]> {
+		return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, n);
+	}
 
-		// if (lines.length > 0) {
-		// 	result.push(lines[0]);
-		// }
+	private getMainHeaderHeight(map: Map<number, number>): number {
+		const sortedMap = [...map.entries()].sort((a, b) => b[0] * b[1] - a[0] * a[1]);
 
-		for (let index = 0; index < lines.length; index++) {
-			const last = result[result.length - 1];
-			const current = lines[index];
-			if (last === undefined) {
-				if (current.maxHeight >= map.mainHeight) {
-					result.push(current);
+		if (sortedMap.length === 0) return 0;
+
+		return sortedMap[0][0];
+	}
+
+	private combineLines(lines: TextContentLine[]): TextContentLine[] {
+		const [peakHeight, mainHeight] = TextContentLine.computeHeightMetrics();
+
+		const headingRegex = /Abstract|Introduction|Work|Method|Reference|Results|Discussion|Conclusion|Acknowledg/i;
+
+		const headerTextMap: Map<number, number> = new Map();
+		const mainTextMap: Map<number, number> = new Map();
+		for (const current of lines) {
+			if (current.maxHeight === peakHeight) continue;
+			if (current.maxHeight < mainHeight) continue;
+
+			if (current.maxHeight > mainHeight) {
+				const key = current.maxHeight;
+				const str = current.toString();
+				let val = 1;
+
+				if (/^\p{N}/u.test(str) || /^\p{Lu}/u.test(str)) {
+					val = val + 2;
 				}
-				continue;
-			}
 
-			last.str = last.str.trim();
-
-			if (current.maxHeight < map.mainHeight) {
-				continue;
-			}
-
-			let isSameLine = Math.abs(last.maxHeight - current.maxHeight) < 0.1 && current.firstFont === last.lastFont;
-
-			if (Math.abs(map.mainHeight - current.maxHeight) < 0.1) {
-				const isBreak = current.minX - last.minX > 1 && current.minX - last.minX < last.charWidth * 5;
-				const isNewLine = Math.abs(last.lastY - current.lastY) > current.maxHeight * 1.8;
-				isSameLine = isSameLine && !isBreak;
-				if (current.minX - last.minX < last.charWidth * 5 && isNewLine) {
-					isSameLine = false;
+				if (str.length < 35 && str.length > 7) {
+					val = val + 4;
 				}
-			}
 
-			if (isSameLine) {
-				last.str = `${last.str} ${current.str.trim()}`;
-				last.lastFont = current.lastFont;
-				last.minX = current.minX;
-				last.maxHeight = Math.min(current.maxHeight, last.maxHeight);
-				last.lastY = current.lastY;
+				if (headingRegex.test(str)) {
+					val = val + 10;
+				}
+
+				const hval = headerTextMap.get(key);
+				if (hval) {
+					headerTextMap.set(key, hval + val);
+				} else {
+					headerTextMap.set(key, val);
+				}
 			} else {
-				result.push(current);
+				const key = current.netX;
+				const val = current.toString().length;
+				const mval = mainTextMap.get(key);
+				if (mval) {
+					mainTextMap.set(key, mval + val);
+				} else {
+					mainTextMap.set(key, val);
+				}
 			}
 		}
 
-		for (const line of result) {
-			line.str = line.str.replace(/ {2,}/g, ' ').trim();
-			line.str = line.str.replace(/(\b\p{L}\b)\s+(?=\b\p{L}\b)/gu, '$1');
-			line.str = line.str.replaceAll('- ', '');
+		let mMatrix = this.topNFromMap(mainTextMap);
+
+		let colCount = 0;
+		if (Math.abs(mMatrix[0][0] - mMatrix[1][0]) > 100) colCount++;
+		if (Math.abs(mMatrix[1][0] - mMatrix[2][0]) > 100) colCount++;
+		if (Math.abs(mMatrix[0][0] - mMatrix[2][0]) > 100) colCount++;
+
+		mMatrix = this.topNFromMap(mainTextMap, colCount * 2);
+
+		const clearMatrix = new Map(mMatrix);
+
+		const mainHeaderHeight = this.getMainHeaderHeight(headerTextMap);
+
+		const combinedLines: TextContentLine[] = [];
+		let controlHeight = mainHeight;
+		for (const current of lines) {
+			const last = combinedLines[combinedLines.length - 1];
+			if (!last) {
+				combinedLines.push(current);
+				continue;
+			}
+
+			const isBigger = current.maxHeight - mainHeight > 0;
+			const isSameHeight = Math.abs(last.maxHeight - current.maxHeight) < 0.1;
+			const isSameFont = current.first.item.fontName === last.last.item.fontName;
+			const isSameLine = Math.abs(last.last.y - current.first.y) < Math.max(last.maxHeight, current.maxHeight) * 1.2;
+			const isSamePage = last.last.pageNumber === current.first.pageNumber;
+
+			if (isBigger) {
+				controlHeight = mainHeight;
+				if (current.maxHeight < mainHeaderHeight) continue;
+
+				current.isBigger = true;
+				if (isSameHeight && isSameFont && isSameLine && isSamePage) {
+					last.addNext(current);
+				} else {
+					combinedLines.push(current);
+				}
+			} else {
+				let isBreak = false;
+				if (last.isBigger) {
+					controlHeight = current.maxHeight;
+				} else {
+					//const charWidth = last.last.item.width / last.last.item.str.length;
+
+					for (let index = colCount; index < mMatrix.length; index++) {
+						const element = mMatrix[index];
+						if (element[0] === current.netX) isBreak = true;
+					}
+
+					//isBreak = current.first.netX !== last.last.netX && current.first.netX - last.last.netX < charWidth * 5;
+				}
+
+				if (current.maxHeight === mainHeight && !clearMatrix.has(current.netX)) continue;
+
+				if (current.maxHeight !== controlHeight && current.maxHeight !== mainHeight) continue;
+
+				if (isSameHeight && !isBreak) {
+					last.addNext(current);
+				} else {
+					combinedLines.push(current);
+				}
+			}
 		}
 
-		return result.map((l) => l.str).join('\n');
+		return combinedLines;
+	}
+
+	private async getLines(page: PDFPageProxy, lines: TextContentLine[]) {
+		const viewport = page.getViewport({ scale: 1 });
+
+		const textContent = await page.getTextContent({
+			includeMarkedContent: false,
+			disableNormalization: false,
+		});
+
+		for (const item of textContent.items) {
+			if ('type' in item) continue;
+
+			const style = textContent.styles[item.fontName];
+			if (style.vertical) continue;
+
+			const tm = item.transform;
+			// angle of x-axis of the text matrix in radians
+			const angleRad = Math.atan2(tm[1], tm[0]);
+			const angleDeg = (angleRad * 180) / Math.PI;
+			const EPS = 1e-3;
+			if (Math.abs(angleDeg) > EPS) {
+				// rotated if |angleDeg| not approx 0 (or 180)
+				continue;
+			}
+
+			const last = lines[lines.length - 1];
+			const current = new TextContentLine(item, style, viewport, page.pageNumber);
+
+			if (!last) {
+				if (current.item.str.trim()) lines.push(current);
+				continue;
+			}
+
+			const maxHeight = Math.max(last.item.height, current.item.height);
+			const sameLine = Math.abs(last.y - current.y) < maxHeight;
+
+			if (!current.item.str.trim()) {
+				last.item.str = `${last.item.str} `;
+				continue;
+			}
+
+			if (sameLine) {
+				last.addNext(current);
+			} else {
+				lines.push(current);
+			}
+		}
 	}
 
 	private async load(): Promise<PDFDocumentProxy> {
@@ -419,76 +541,6 @@ export class PDFParse {
 		}
 
 		return strBuf.join('');
-	}
-
-	private async getPageParagraph(page: PDFPageProxy, parseParams: ParseParameters, lines: ParagraphLine[]) {
-		const viewport = page.getViewport({ scale: 1 });
-		const params = setDefaultParseParameters(parseParams);
-
-		const textContent = await page.getTextContent({
-			includeMarkedContent: !!params.includeMarkedContent,
-			disableNormalization: !!params.disableNormalization,
-		});
-
-		for (const current of textContent.items) {
-			if (!('str' in current)) continue;
-
-			const tm = current.transform ?? current.transform;
-			const [x, y] = viewport.convertToViewportPoint(tm[4], tm[5]);
-
-			const cleanItem = current.str.trim();
-
-			if (current.hasEOL) {
-				current.str = `${current.str} `;
-			}
-
-			const last = lines[lines.length - 1];
-
-			if (cleanItem === '') {
-				if (last) {
-					last.str = `${last.str} `;
-					last.width += last.charWidth;
-				}
-			} else {
-				if (last) {
-					const maxHeight = Math.max(last.maxHeight, current.height);
-					const isSameLine = Math.abs(last.lastY - y) < maxHeight;
-
-					if (isSameLine) {
-						last.str = `${last.str}${current.str}`;
-						last.width += current.width;
-						last.maxHeight = maxHeight;
-						last.minX = Math.min(last.minX, x);
-						last.lastFont = current.fontName;
-						last.charWidth = last.width / last.str.length;
-					} else {
-						lines.push({
-							str: current.str,
-							lastY: y,
-							width: current.width,
-							charWidth: current.width / current.str.length,
-							firstFont: current.fontName,
-							lastFont: current.fontName,
-							minX: x,
-							maxX: x + current.width,
-							maxHeight: current.height,
-						});
-					}
-				} else {
-					lines.push({
-						str: current.str,
-						lastY: y,
-						width: current.width,
-						charWidth: current.width / current.str.length,
-						firstFont: current.fontName,
-						lastFont: current.fontName,
-						minX: x,
-						maxX: x + current.width,
-						maxHeight: current.height,
-					});
-				}
-			}
-		}
 	}
 
 	private async getHyperlinks(page: PDFPageProxy, viewport: PageViewport): Promise<Map<string, HyperlinkPosition[]>> {
