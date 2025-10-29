@@ -1,31 +1,33 @@
 {
     "name": "pdf-parse",
-    "version": "1.1.3",
+    "version": "1.1.4",
     "description": "Pure javascript cross-platform module to extract text from PDFs.",
     "main": "index.js",
     "type": "commonjs",
     "keywords": [
-        "pdf-parse",
-        "pdf-crawler",
-        "xpdf",
-        "pdf.js",
-        "pdfreader",
-        "pdf-extractor",
-        "pdf2json",
-        "j-pdfjson",
+        "pdf",
         "pdf-parser",
-        "pdf-extract",
-        "pdf-extractor",
-        "pdf-to-text",
-        "pdf-text-extract",
+        "pdf-parse",
+        "pdf.js",
         "pdfjs",
-        "server side PDF parsing",
-        "pdf metadata"
+        "pdfjs-dist",
+        "pdf2text",
+        "pdf2json",
+        "pdf2image",
+        "pdf2pic",
+        "pdf-to-text",
+        "pdf-to-image",
+        "pdf-viewer",
+        "pdf-table",
+        "pdf-tools",
+        "pdf-utils",
+        "pdf-screenshot",
+        "pdf-thumbnail"
     ],
     "files": [
-		"lib/",
-		"index.js"
-	],
+        "lib/",
+        "index.js"
+    ],
     "dependencies": {
         "node-ensure": "^0.0.0"
     },
@@ -49,5 +51,9 @@
     "license": "MIT",
     "engines": {
         "node": ">=6.8.1"
+    },
+    "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/mehmet-kozan"
     }
 }
