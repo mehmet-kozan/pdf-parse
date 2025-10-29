@@ -1,6 +1,6 @@
 {
 	"name": "pdf-parse",
-	"version": "3.0.0",
+	"version": "3.0.0-beta.0",
 	"type": "module",
 	"main": "dist/pdf-parse/cjs/index.cjs",
 	"module": "dist/pdf-parse/esm/index.js",
@@ -53,11 +53,9 @@
 			}
 		}
 	},
-
 	"bin": {
 		"pdf-parse": "bin/cli.mjs"
 	},
-
 	"description": "Pure TypeScript, cross-platform module for extracting text, images, and tabular data from PDFs. Run directly in your browser or in Node!",
 	"homepage": "https://mehmet-kozan.github.io/pdf-parse/",
 	"bugs": {
@@ -99,60 +97,54 @@
 		"build:cjs": "vite build --config vite.config.cjs.ts",
 		"build:web": "vite build",
 		"build:worker": "tsc --project tsconfig.worker.json && api-extractor run --local -c configs/worker.api.jsonc && node scripts/build-worker.mjs",
-
 		"build:node": "npm run build:node:ts && npm run build:node:bundle",
 		"build:node:ts": "tsc --project tsconfig.node.json && api-extractor run --local -c configs/node.api.jsonc",
 		"build:node:bundle": "esbuild src/node/index.ts --bundle --platform=node --format=cjs --target=node16 --outfile=dist/node/cjs/index.cjs --sourcemap",
-
 		"clean": "npm run clean:build && npm run clean:report && npm run clean:test && npm run clean:test:i",
 		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
 		"clean:report": "rimraf reports/test reports/coverage reports/benchmark reports/api reports/demo/dist-web ",
 		"clean:test": "rimraf --glob tests/**/*.txt tests/**/imgs tests/**/*_images temp",
 		"clean:test:i": "rimraf --glob *.tgz tests/**/node_modules tests/**/package-lock.json tests/**/dist",
-
 		"test": "vitest run --reporter=default",
 		"test:p": "vitest run --config vitest.config.package.ts",
 		"test:i": "node scripts/integration.test.mjs",
 		"test:u": "node --test-reporter=dot --test tests/unsupported/*.test.cjs && node --test-reporter=dot --test tests/unsupported/*.test.mjs",
 		"test:e": "node scripts/example.test.mjs",
 		"test:cli": "node --test-reporter=dot --test bin/*.test.mjs",
-		"test:all": "npm run test && npm run test:p && npm run test:i && npm run test:u && npm run test:e && npm run test:cli",
+		"test:all": "npm run build && npm run test && npm run test:p && npm run test:i && npm run test:u && npm run test:e && npm run test:cli",
 		"test:ui": "vitest --ui --coverage",
 		"test:watch": "vitest",
-
 		"coverage": "vitest run --coverage",
 		"bench": "npm run bench:install && vitest bench --run",
 		"bench:install": "npm install --no-save pdf2json@latest",
-
 		"report": "npm run report:build && vite preview --outDir reports",
 		"report:build": "npm run build && npm run coverage && npm run bench && npm run typedoc:build",
 		"typedoc:build": "typedoc --options configs/typedoc.mjs --out reports/typedoc",
-
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"format:all": "biome check --write .",
 		"format:check": "biome check .",
 		"prepare": "npm run build",
-		"pack": "npm outdated && npm pack --dry-run"
+		"pack": "npm update --save && npm outdated && npm pack --dry-run"
 	},
 	"dependencies": {
 		"@napi-rs/canvas": "0.1.80",
 		"pdfjs-dist": "5.4.296"
 	},
 	"devDependencies": {
-		"vite": "^7.1.5",
-		"vitest": "^3.2.4",
-		"typescript": "^5.9.3",
-		"tsx": "^4.20.6",
-		"@microsoft/api-extractor": "^7.53.1",
-		"@biomejs/biome": "^2.2.6",
-		"@types/node": "^24.7.2",
-		"@vitest/coverage-v8": "^3.2.4",
-		"@vitest/ui": "^3.2.4",
-		"typedoc": "^0.28.14",
+		"@biomejs/biome": "^2.3.1",
+		"@microsoft/api-extractor": "^7.53.3",
+		"@types/node": "^24.9.1",
+		"@vitest/coverage-v8": "^4.0.4",
+		"@vitest/ui": "^4.0.4",
 		"esbuild": "^0.25.11",
 		"rimraf": "^6.0.1",
-		"terser": "^5.44.0"
+		"terser": "^5.44.0",
+		"tsx": "^4.20.6",
+		"typedoc": "^0.28.14",
+		"typescript": "^5.9.3",
+		"vite": "^7.1.12",
+		"vitest": "^4.0.4"
 	},
 	"publishConfig": {
 		"access": "public",
@@ -163,7 +155,6 @@
 	},
 	"jsdelivr": "./dist/pdf-parse/web/pdf-parse.es.js",
 	"unpkg": "./dist/pdf-parse/web/pdf-parse.umd.js",
-
 	"funding": {
 		"type": "github",
 		"url": "https://github.com/sponsors/mehmet-kozan"

@@ -9,12 +9,19 @@ import type { TableData } from './geometry/TableData.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
 import { InfoResult, type PageData } from './info/index.js';
 import { type LoadParameters, VerbosityLevel } from './LoadParameters.js';
+import { TextContentLine } from './ParagraphResult.js';
 import { type ParseParameters, setDefaultParseParameters } from './ParseParameters.js';
 import { type MinMax, PathGeometry } from './PathGeometry.js';
 import { ScreenshotResult } from './ScreenshotResult.js';
 import { type PageTableResult, TableResult } from './TableResult.js';
 import { type HyperlinkPosition, TextResult } from './TextResult.js';
 import { setVerbosityLevel } from './Utils.js';
+
+// biome-ignore lint/suspicious/noExplicitAny: pdfjs
+if (typeof (globalThis as any).pdfjs === 'undefined') {
+	// biome-ignore lint/suspicious/noExplicitAny: pdfjs
+	(globalThis as any).pdfjs = pdfjs;
+}
 
 /**
  * @public
@@ -72,10 +79,6 @@ export class PDFParse {
 	}
 
 	public static setWorker(workerSrc?: string): string {
-		if (typeof (globalThis as any).pdfjs === 'undefined') {
-			(globalThis as any).pdfjs = pdfjs;
-		}
-
 		if (pdfjs?.GlobalWorkerOptions === null) return '';
 
 		if (workerSrc !== undefined) {
@@ -131,6 +134,9 @@ export class PDFParse {
 			height: viewport.height,
 		};
 
+		// 'display' (viewable annotations),
+		// 'print' (printable annotations),
+		// 'any' (all annotations). The default value is 'display'.
 		// biome-ignore lint/suspicious/noExplicitAny: <unsupported underline type>
 		const annotations: Array<any> = (await page.getAnnotations({ intent: 'display' })) || [];
 
@@ -146,6 +152,30 @@ export class PDFParse {
 		}
 
 		return result;
+	}
+
+	/**
+	 * getRaw — Extract raw text for v1 compatibility.
+	 *
+	 * This method extracts plain (raw) text for each requested page and applies
+	 * v1-compatible defaults: `lineEnforce: false`, `pageJoiner: ''`, and `cellSeparator: ''`.
+	 * It uses the same underlying implementation as `getText`
+	 * but forces those defaults to reproduce the historical v1 behavior
+	 * (no enforced line joining, no page joiner text, and no cellseparators).
+	 *
+	 * @param params - `ParseParameters` controlling page selection, hyperlink
+	 *   handling, and line/cell thresholds.
+	 * @returns A `TextResult` containing per-page text entries and a combined
+	 *   document text string.
+	 */
+	public async getRaw(params: ParseParameters = {}): Promise<TextResult> {
+		const paramsV1: ParseParameters = {
+			lineEnforce: false,
+			pageJoiner: '',
+			cellSeparator: '',
+		};
+
+		return await this.getText({ ...params, ...paramsV1 });
 	}
 
 	/**
@@ -180,6 +210,198 @@ export class PDFParse {
 		}
 
 		return result;
+	}
+
+	public async getParagraph(params: ParseParameters = {}): Promise<string> {
+		const doc = await this.load();
+
+		const lines: TextContentLine[] = [];
+		for (let i: number = 1; i <= doc.numPages; i++) {
+			if (this.shouldParse(i, doc.numPages, params)) {
+				const page = await doc.getPage(i);
+
+				await this.getLines(page, lines);
+				page.cleanup();
+			}
+		}
+
+		const combinedLines = this.combineLines(lines);
+
+		return combinedLines.map((l) => l.toString()).join('\n');
+	}
+
+	private topNFromMap(map: Map<number, number>, n = 6): Array<[number, number]> {
+		return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, n);
+	}
+
+	private getMainHeaderHeight(map: Map<number, number>): number {
+		const sortedMap = [...map.entries()].sort((a, b) => b[0] * b[1] - a[0] * a[1]);
+
+		if (sortedMap.length === 0) return 0;
+
+		return sortedMap[0][0];
+	}
+
+	private combineLines(lines: TextContentLine[]): TextContentLine[] {
+		const [peakHeight, mainHeight] = TextContentLine.computeHeightMetrics();
+
+		const headingRegex = /Abstract|Introduction|Work|Method|Reference|Results|Discussion|Conclusion|Acknowledg/i;
+
+		const headerTextMap: Map<number, number> = new Map();
+		const mainTextMap: Map<number, number> = new Map();
+		for (const current of lines) {
+			if (current.maxHeight === peakHeight) continue;
+			if (current.maxHeight < mainHeight) continue;
+
+			if (current.maxHeight > mainHeight) {
+				const key = current.maxHeight;
+				const str = current.toString();
+				let val = 1;
+
+				if (/^\p{N}/u.test(str) || /^\p{Lu}/u.test(str)) {
+					val = val + 2;
+				}
+
+				if (str.length < 35 && str.length > 7) {
+					val = val + 4;
+				}
+
+				if (headingRegex.test(str)) {
+					val = val + 10;
+				}
+
+				const hval = headerTextMap.get(key);
+				if (hval) {
+					headerTextMap.set(key, hval + val);
+				} else {
+					headerTextMap.set(key, val);
+				}
+			} else {
+				const key = current.netX;
+				const val = current.toString().length;
+				const mval = mainTextMap.get(key);
+				if (mval) {
+					mainTextMap.set(key, mval + val);
+				} else {
+					mainTextMap.set(key, val);
+				}
+			}
+		}
+
+		let mMatrix = this.topNFromMap(mainTextMap);
+
+		let colCount = 0;
+		if (Math.abs(mMatrix[0][0] - mMatrix[1][0]) > 100) colCount++;
+		if (Math.abs(mMatrix[1][0] - mMatrix[2][0]) > 100) colCount++;
+		if (Math.abs(mMatrix[0][0] - mMatrix[2][0]) > 100) colCount++;
+
+		mMatrix = this.topNFromMap(mainTextMap, colCount * 2);
+
+		const clearMatrix = new Map(mMatrix);
+
+		const mainHeaderHeight = this.getMainHeaderHeight(headerTextMap);
+
+		const combinedLines: TextContentLine[] = [];
+		let controlHeight = mainHeight;
+		for (const current of lines) {
+			const last = combinedLines[combinedLines.length - 1];
+			if (!last) {
+				combinedLines.push(current);
+				continue;
+			}
+
+			const isBigger = current.maxHeight - mainHeight > 0;
+			const isSameHeight = Math.abs(last.maxHeight - current.maxHeight) < 0.1;
+			const isSameFont = current.first.item.fontName === last.last.item.fontName;
+			const isSameLine = Math.abs(last.last.y - current.first.y) < Math.max(last.maxHeight, current.maxHeight) * 1.2;
+			const isSamePage = last.last.pageNumber === current.first.pageNumber;
+
+			if (isBigger) {
+				controlHeight = mainHeight;
+				if (current.maxHeight < mainHeaderHeight) continue;
+
+				current.isBigger = true;
+				if (isSameHeight && isSameFont && isSameLine && isSamePage) {
+					last.addNext(current);
+				} else {
+					combinedLines.push(current);
+				}
+			} else {
+				let isBreak = false;
+				if (last.isBigger) {
+					controlHeight = current.maxHeight;
+				} else {
+					//const charWidth = last.last.item.width / last.last.item.str.length;
+
+					for (let index = colCount; index < mMatrix.length; index++) {
+						const element = mMatrix[index];
+						if (element[0] === current.netX) isBreak = true;
+					}
+
+					//isBreak = current.first.netX !== last.last.netX && current.first.netX - last.last.netX < charWidth * 5;
+				}
+
+				if (current.maxHeight === mainHeight && !clearMatrix.has(current.netX)) continue;
+
+				if (current.maxHeight !== controlHeight && current.maxHeight !== mainHeight) continue;
+
+				if (isSameHeight && !isBreak) {
+					last.addNext(current);
+				} else {
+					combinedLines.push(current);
+				}
+			}
+		}
+
+		return combinedLines;
+	}
+
+	private async getLines(page: PDFPageProxy, lines: TextContentLine[]) {
+		const viewport = page.getViewport({ scale: 1 });
+
+		const textContent = await page.getTextContent({
+			includeMarkedContent: false,
+			disableNormalization: false,
+		});
+
+		for (const item of textContent.items) {
+			if ('type' in item) continue;
+
+			const style = textContent.styles[item.fontName];
+			if (style.vertical) continue;
+
+			const tm = item.transform;
+			// angle of x-axis of the text matrix in radians
+			const angleRad = Math.atan2(tm[1], tm[0]);
+			const angleDeg = (angleRad * 180) / Math.PI;
+			const EPS = 1e-3;
+			if (Math.abs(angleDeg) > EPS) {
+				// rotated if |angleDeg| not approx 0 (or 180)
+				continue;
+			}
+
+			const last = lines[lines.length - 1];
+			const current = new TextContentLine(item, style, viewport, page.pageNumber);
+
+			if (!last) {
+				if (current.item.str.trim()) lines.push(current);
+				continue;
+			}
+
+			const maxHeight = Math.max(last.item.height, current.item.height);
+			const sameLine = Math.abs(last.y - current.y) < maxHeight;
+
+			if (!current.item.str.trim()) {
+				last.item.str = `${last.item.str} `;
+				continue;
+			}
+
+			if (sameLine) {
+				last.addNext(current);
+			} else {
+				lines.push(current);
+			}
+		}
 	}
 
 	private async load(): Promise<PDFDocumentProxy> {

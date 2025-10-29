@@ -36,6 +36,7 @@ async function run() {
 	const parser = new PDFParse({ url: 'https://bitcoin.org/bitcoin.pdf' });
 
 	const result = await parser.getText();
+	// or use getRaw() for v1 compatibility
 	console.log(result.text);
 }
 
@@ -48,14 +49,12 @@ run();
 - Can be integrated with `React`, `Vue`, `Angular`, or any other web framework.
 - **Command-line interface** for quick PDF processing: [`CLI Documentation`](./docs/command-line.md)
 - [`Security Policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
-- Retrieve headers and validate PDF : [`getHeader`](#getheader--node-utility-pdf-header-retrieval-and-validation)
-- Extract document info : [`getInfo`](#getinfo--extract-metadata-and-document-information)
-- Extract page text : [`getText`](#gettext--extract-text) 
-- Render pages as PNG : [`getScreenshot`](#getscreenshot--render-pages-as-png)
-- Extract embedded images : [`getImage`](#getimage--extract-embedded-images)
-- Detect and extract tabular data : [`getTable`](#gettable--extract-tabular-data) 
-- Well-covered with [`unit tests`](./tests)
-- [`Integration tests`](./tests/integration) to validate end-to-end behavior across environments.
+- Retrieve headers and validate PDF : [`getHeader()`](#getheader--node-utility-pdf-header-retrieval-and-validation)
+- Extract document info : [`getInfo()`](#getinfo--extract-metadata-and-document-information)
+- Extract page text : [`getRaw() getText() getParagraph()`](#gettext--extract-text) 
+- Render pages as PNG : [`getScreenshot()`](#getscreenshot--render-pages-as-png)
+- Extract embedded images : [`getImage()`](#getimage--extract-embedded-images)
+- Detect and extract tabular data : [`getTable()`](#gettable--extract-tabular-data) 
 - See [LoadParameters](./docs/options.md#load-parameters) and [ParseParameters](./docs/options.md#parse-parameters) for all available options.
 - Examples: [`live demo`](./reports/demo/), [`examples`](./examples/), [`tests`](./tests/unit/) and [`tests example`](./tests/unit/test-example/) folders.
 - Supports: [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
@@ -78,13 +77,17 @@ bun add pdf-parse
 For command-line usage, install the package globally:
 
 ```sh
+# installation
 npm install -g pdf-parse
-```
 
-Or use it directly with npx:
+# updating
+npm update -g pdf-parse
 
-```sh
-npx pdf-parse --help
+# uninstallation
+npm uninstall -g pdf-parse
+
+# help
+pdf-parse -h
 ```
 
 For detailed CLI documentation and usage examples, see: [CLI Documentation](./docs/command-line.md)

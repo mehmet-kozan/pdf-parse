@@ -61,6 +61,12 @@ export class InfoResult {
 		}
 
 		this.outlineData = await doc.getOutline();
+
+		// TODO getAttachments()
+		//await doc.getAttachments()
+
+		// TODO get text annotations like highlighted text
+		//await doc.getAnnotationsByType();
 	}
 
 	// biome-ignore lint/suspicious/noExplicitAny: toJson

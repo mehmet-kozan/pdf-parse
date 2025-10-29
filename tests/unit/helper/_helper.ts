@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/suspicious/noConsole: test file */
-import { promises as fs } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -31,6 +31,11 @@ export abstract class PDFFile {
 		const callerName = basename(callerPath);
 		this.fileName = callerName.replace('.ts', '.pdf');
 		this.filePath = join(__dirname, '../../../reports/pdf', this.fileName);
+
+		if (!existsSync(this.filePath)) {
+			this.filePath = join(__dirname, '../../../reports/pdf/signed', this.fileName);
+		}
+
 		this.imageFolder = `${this.fileName}_images`;
 		this.textFile = `${this.fileName}.txt`;
 	}
@@ -82,9 +87,13 @@ export async function pdf_file(fileName: string): Promise<Uint8Array> {
 		return new Uint8Array(cachedItem);
 	}
 
-	const filePath = join(__dirname, fileName);
+	let filePath = join(__dirname, '../../../reports/pdf', fileName);
 
-	const buffer = await fs.readFile(filePath);
+	if (!existsSync(filePath)) {
+		filePath = join(__dirname, '../../../reports/pdf/signed', fileName);
+	}
+
+	const buffer = await readFile(filePath);
 
 	CACHE.set(fileName, buffer);
 
