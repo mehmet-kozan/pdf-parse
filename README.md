@@ -21,7 +21,7 @@
 </div>
 <br />
 
-## Getting Started with v2 (Coming from v1)
+## Getting Started with v2/v3 (Coming from v1)
 
 ```js
 // v1

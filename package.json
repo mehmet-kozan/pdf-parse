@@ -129,7 +129,7 @@
 	},
 	"dependencies": {
 		"@napi-rs/canvas": "0.1.80",
-		"pdfjs-dist": "5.4.296"
+		"pdfjs-dist": "5.4.394"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.1",
@@ -137,7 +137,7 @@
 		"@types/node": "^24.9.1",
 		"@vitest/coverage-v8": "^4.0.4",
 		"@vitest/ui": "^4.0.4",
-		"esbuild": "^0.25.11",
+		"esbuild": "^0.27.0",
 		"rimraf": "^6.0.1",
 		"terser": "^5.44.0",
 		"tsx": "^4.20.6",

@@ -20,7 +20,6 @@ export default defineConfig({
 			exclude: ['src/**/_*', 'src/_**/*', 'src/worker/types/**'],
 			reporter: [['html', { subdir: 'html-report' }], 'lcov', 'json', 'text-summary'],
 			reportsDirectory: 'reports/coverage',
-			all: true,
 			clean: true,
 		},
 
