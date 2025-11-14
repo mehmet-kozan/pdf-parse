@@ -108,7 +108,7 @@
 		"test": "vitest run --reporter=default",
 		"test:p": "vitest run --config vitest.config.package.ts",
 		"test:i": "node scripts/integration.test.mjs",
-		"test:u": "node --test-reporter=dot --test tests/unsupported/*.test.cjs && node --test-reporter=dot --test tests/unsupported/*.test.mjs",
+		"test:u": "node scripts/unsupported.test.mjs",
 		"test:e": "node scripts/example.test.mjs",
 		"test:cli": "node --test-reporter=dot --test bin/*.test.mjs",
 		"test:all": "npm run build && npm run test && npm run test:p && npm run test:i && npm run test:u && npm run test:e && npm run test:cli",
@@ -128,7 +128,7 @@
 		"pack": "npm update --save && npm outdated && npm pack --dry-run"
 	},
 	"dependencies": {
-		"@napi-rs/canvas": "0.1.80",
+		"@napi-rs/canvas": "0.1.81",
 		"pdfjs-dist": "5.4.394"
 	},
 	"devDependencies": {

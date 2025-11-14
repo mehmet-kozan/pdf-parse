@@ -33,8 +33,5 @@ jobs:
       - name: Clean NPM Cache
         run: npm cache clean --force
 
-      - name: Install
-        run: npm i
-
       - name: Unsupported tests
         run: npm run test:u

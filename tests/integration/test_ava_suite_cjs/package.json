@@ -12,7 +12,7 @@
 		"test": "ava common.test.cjs --verbose --no-cache --serial --no-worker-threads"
 	},
 	"dependencies": {
-		"pdf-parse": "file:../../../pdf-parse.tgz"
+		"pdf-parse": "file:../../../reports/pdf-parse.tgz"
 	},
 	"devDependencies": {
 		"ava": "latest"

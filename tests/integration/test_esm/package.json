@@ -12,6 +12,6 @@
 		"test": "node ./index.mjs"
 	},
 	"dependencies": {
-		"pdf-parse": "file:../../../pdf-parse.tgz"
+		"pdf-parse": "file:../../../reports/pdf-parse.tgz"
 	}
 }
