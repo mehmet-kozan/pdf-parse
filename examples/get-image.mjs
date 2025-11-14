@@ -9,4 +9,4 @@ const parser = new PDFParse({ url: link });
 const result = await parser.getImage();
 await parser.destroy();
 
-await writeFile('adobe.png', result.pages[0].images[0].data);
+await writeFile('./temp/adobe.png', result.pages[0].images[0].data);

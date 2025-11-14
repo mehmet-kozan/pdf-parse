@@ -11,6 +11,6 @@
 		"test": "node index.js"
 	},
 	"dependencies": {
-		"pdf-parse": "file:../../../pdf-parse.tgz"
+		"pdf-parse": "file:../../../reports/pdf-parse.tgz"
 	}
 }

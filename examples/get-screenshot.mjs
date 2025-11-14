@@ -12,4 +12,4 @@ const parser = new PDFParse({ url: link });
 const result = await parser.getScreenshot({ scale: 1.5 });
 
 await parser.destroy();
-await writeFile('bitcoin.png', result.pages[0].data);
+await writeFile('./temp/bitcoin.png', result.pages[0].data);
