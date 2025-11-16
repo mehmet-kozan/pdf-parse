@@ -55,7 +55,7 @@ const {PDFParse} = require('pdf-parse');
 
 To ensure `pdf-parse` works correctly with Next.js (especially on serverless platforms like Vercel), add the following configuration to your `next.config.ts` file. This allows Next.js to include `pdf-parse` as an external package for server-side usage:
 
-Load moduels for serverless enviroment:
+Load modules for serverless environment:
 ```js
 // next.config.ts for vercel deploy
 import type { NextConfig } from "next";
@@ -85,7 +85,7 @@ PDFParse.setWorker(getPath());
 ## 5. TypeError: process.getBuiltinModule is not a function
 This error occurs on older Node.js versions. Upgrade to Node.js (20+, 22+, 23+, 24+) or use a compatible canvas implementation. Import and configure a compatible CanvasFactory or worker implementation before initializing pdf-parse; see the examples below.
 
-ESM 
+ESM
 ```js
 // Import this before importing "pdf-parse"
 import { CanvasFactory } from 'pdf-parse/worker'; 
@@ -109,7 +109,7 @@ PDFParse.setWorker(getPath());
 // PDFParse.setWorker(getData());
 ```
 
-## Supported Node.js Versions(20.x, 22.x, 23.x, 24.x)
+## Supported Node.js Versions (20.x, 22.x, 23.x, 24.x)
 
 - Supported: Node.js 20 (>= 20.16.0), Node.js 22 (>= 22.3.0), Node.js 23 (>= 23.0.0), and Node.js 24 (>= 24.0.0).
 - Not supported: Node.js 21.x, and Node.js 19.x and earlier.
@@ -120,7 +120,7 @@ Integration tests run on Node.js 20–24, see [`test_integration.yml`](../.githu
 
 Import and configure a compatible CanvasFactory or worker implementation before initializing pdf-parse; see the examples below.
 
-ESM 
+ESM
 ```js
 // Import this before importing "pdf-parse"
 import { CanvasFactory } from 'pdf-parse/worker'; 

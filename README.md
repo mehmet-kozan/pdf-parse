@@ -356,7 +356,7 @@ Integration tests run on Node.js 20–24, see [`test_integration.yml`](./.github
 
 ### Unsupported Node.js Versions (18.x, 19.x, 21.x)
 
-These versions require additional setup; see [docs/troubleshooting.md](./docs/troubleshooting.md).
+For these versions, extra configuration is required; see [docs/troubleshooting.md](./docs/troubleshooting.md).
 
 ## Worker Configuration & Troubleshooting
 
