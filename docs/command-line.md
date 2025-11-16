@@ -164,7 +164,7 @@ pdf-parse info https://example.com/huge-report.pdf --large
 ```
 
 The `--large` flag enables:
-- Disabled auto-fetching of additional pages
+- Disable auto-fetching of additional pages
 - Chunk-based loading instead of streaming
 - Optimized range request chunk size
 
