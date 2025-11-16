@@ -21,7 +21,7 @@
 </div>
 <br />
 
-## Getting Started with v2/v3 (Coming from v1)
+## Getting Started with v2/v3 (coming from v1)
 
 ```js
 // v1
@@ -49,12 +49,12 @@ run();
 - Can be integrated with `React`, `Vue`, `Angular`, or any other web framework.
 - **Command-line interface** for quick PDF processing: [`CLI Documentation`](./docs/command-line.md)
 - [`Security Policy`](https://github.com/mehmet-kozan/pdf-parse?tab=security-ov-file#security-policy)
-- Retrieve headers and validate PDF : [`getHeader()`](#getheader--node-utility-pdf-header-retrieval-and-validation)
-- Extract document info : [`getInfo()`](#getinfo--extract-metadata-and-document-information)
-- Extract page text : [`getRaw() getText() getParagraph()`](#gettext--extract-text) 
-- Render pages as PNG : [`getScreenshot()`](#getscreenshot--render-pages-as-png)
-- Extract embedded images : [`getImage()`](#getimage--extract-embedded-images)
-- Detect and extract tabular data : [`getTable()`](#gettable--extract-tabular-data) 
+- Retrieve headers and validate PDF: [`getHeader()`](#getheader--node-utility-pdf-header-retrieval-and-validation)
+- Extract document info: [`getInfo()`](#getinfo--extract-metadata-and-document-information)
+- Extract page text: [`getRaw() getText() getParagraph()`](#gettext--extract-text) 
+- Render pages as PNG: [`getScreenshot()`](#getscreenshot--render-pages-as-png)
+- Extract embedded images: [`getImage()`](#getimage--extract-embedded-images)
+- Detect and extract tabular data: [`getTable()`](#gettable--extract-tabular-data) 
 - See [LoadParameters](./docs/options.md#load-parameters) and [ParseParameters](./docs/options.md#parse-parameters) for all available options.
 - Examples: [`live demo`](./reports/demo/), [`examples`](./examples/), [`tests`](./tests/unit/) and [`tests example`](./tests/unit/test-example/) folders.
 - Supports: [`Next.js + Vercel`](https://github.com/mehmet-kozan/vercel-next-app-demo), Netlify, AWS Lambda, Cloudflare Workers.
@@ -165,7 +165,7 @@ Usage Examples:
 - Parse password protected PDF:  [`password.test.ts`](tests/unit/test-example/password.test.ts)
 - Parse only specific pages: [`specific-pages.test.ts`](tests/unit/test-example/specific-pages.test.ts)
 - Parse embedded hyperlinks: [`hyperlink.test.ts`](tests/unit/test-example/hyperlink.test.ts)
-- Set verbosity level: [`password.test.ts`](tests/unit/test-example/password.test.ts)
+- Set verbosity level example: [`password.test.ts`](tests/unit/test-example/password.test.ts)
 - Load PDF from URL: [`url.test.ts`](tests/unit/test-example/url.test.ts)
 - Load PDF from base64 data: [`base64.test.ts`](tests/unit/test-example/base64.test.ts)
 - Loading large files (> 5 MB): [`large-file.test.ts`](tests/unit/test-example/large-file.test.ts)
@@ -347,7 +347,7 @@ try {
 
 > **Benchmark Note:** The benchmark currently runs only against `pdf2json`. I don't know the current state of `pdf2json` — the original reason for creating `pdf-parse` was to work around stability issues with `pdf2json`. I deliberately did not include `pdf-parse` or other `pdf.js`-based packages in the benchmark because dependencies conflict. If you have recommendations for additional packages to include, please open an issue, see [`benchmark results`](https://mehmet-kozan.github.io/pdf-parse/benchmark.html).
 
-## Supported Node.js Versions(20.x, 22.x, 23.x, 24.x)
+## Supported Node.js Versions (20.x, 22.x, 23.x, 24.x)
 
 - Supported: Node.js 20 (>= 20.16.0), Node.js 22 (>= 22.3.0), Node.js 23 (>= 23.0.0), and Node.js 24 (>= 24.0.0).
 - Not supported: Node.js 21.x, and Node.js 19.x and earlier.
@@ -356,7 +356,7 @@ Integration tests run on Node.js 20–24, see [`test_integration.yml`](./.github
 
 ### Unsupported Node.js Versions (18.x, 19.x, 21.x)
 
-Requires additional setup see [docs/troubleshooting.md](./docs/troubleshooting.md).
+These versions require additional setup; see [docs/troubleshooting.md](./docs/troubleshooting.md).
 
 ## Worker Configuration & Troubleshooting
 
@@ -371,7 +371,7 @@ If you encounter issues, please refer to the [Troubleshooting Guide](./docs/trou
 
 ## Contributing
 
- When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently. For detailed guidelines on how to contribute, report bugs, or submit pull requests, see: [`contributing to pdf-parse`](https://github.com/mehmet-kozan/pdf-parse?tab=contributing-ov-file#contributing-to-pdf-parse)
+When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently. For detailed guidelines on how to contribute, report bugs, or submit pull requests, see: [`contributing to pdf-parse`](https://github.com/mehmet-kozan/pdf-parse?tab=contributing-ov-file#contributing-to-pdf-parse)
 
 
 
