@@ -36,6 +36,10 @@ export abstract class PDFFile {
 			this.filePath = join(__dirname, '../../../reports/pdf/signed', this.fileName);
 		}
 
+		if (!existsSync(this.filePath)) {
+			this.filePath = join(__dirname, '../../../reports/pdf/table', this.fileName);
+		}
+
 		this.imageFolder = `${this.fileName}_images`;
 		this.textFile = `${this.fileName}.txt`;
 	}
