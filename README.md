@@ -369,6 +369,23 @@ See [docs/troubleshooting.md](./docs/troubleshooting.md) for detailed troublesho
 
 If you encounter issues, please refer to the [Troubleshooting Guide](./docs/troubleshooting.md).
 
+### AWS Lambda Testing
+
+For AWS Lambda compatibility testing with Docker:
+
+```bash
+# Run AWS Lambda tests
+./tests/aws-lambda/test.sh
+
+# Or manually with Docker Compose
+cd tests/aws-lambda
+docker-compose up --build
+```
+
+**Note:** Canvas operations (`getScreenshot`, `getImage`) may not work in Lambda without additional setup. Text and metadata extraction work without issues.
+
+See [tests/aws-lambda/README.md](./tests/aws-lambda/README.md) for detailed instructions.
+
 ## Contributing
 
 When opening an issue, please attach the relevant PDF file if possible. Providing the file will help us reproduce and resolve your issue more efficiently. For detailed guidelines on how to contribute, report bugs, or submit pull requests, see: [`contributing to pdf-parse`](https://github.com/mehmet-kozan/pdf-parse?tab=contributing-ov-file#contributing-to-pdf-parse)
