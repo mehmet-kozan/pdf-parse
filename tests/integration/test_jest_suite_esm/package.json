@@ -1,0 +1,20 @@
+{
+	"name": "test_jest_suite_esm",
+	"version": "1.0.0",
+	"description": "",
+	"license": "ISC",
+	"author": "",
+	"type": "module",
+	"private": "true",
+	"scripts": {
+		"build": "",
+		"test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" jest --verbose --no-cache --runInBand"
+	},
+	"dependencies": {
+		"pdf-parse": "file:../../../reports/pdf-parse.tgz"
+	},
+	"devDependencies": {
+		"cross-env": "^10.1.0",
+		"jest": "latest"
+	}
+}

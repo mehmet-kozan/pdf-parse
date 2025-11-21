@@ -1,0 +1,23 @@
+{
+	"name": "test_jest_light_runner",
+	"version": "1.0.0",
+	"description": "",
+	"license": "ISC",
+	"author": "",
+	"type": "commonjs",
+	"main": "common.test.cjs",
+	"private": "true",
+	"scripts": {
+		"build": "",
+		"test": "jest --verbose --no-cache --runInBand"
+	},
+	"dependencies": {
+		
+		"pdf-parse": "file:../../../reports/pdf-parse.tgz"
+	},
+	"devDependencies": {
+		"cross-env": "^10.1.0",
+		"jest": "latest",
+		"jest-light-runner": "^0.7.10"
+	}
+}
