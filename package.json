@@ -128,7 +128,7 @@
 		"pack": "npm update --save && npm outdated && npm pack --dry-run"
 	},
 	"dependencies": {
-		"@napi-rs/canvas": "0.1.82",
+		"@napi-rs/canvas": "0.1.83",
 		"pdfjs-dist": "5.4.394"
 	},
 	"devDependencies": {
