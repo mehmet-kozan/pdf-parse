@@ -129,7 +129,7 @@
 	},
 	"dependencies": {
 		"@napi-rs/canvas": "0.1.82",
-		"pdfjs-dist": "5.4.394"
+		"pdfjs-dist": "5.4.449"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.7",
