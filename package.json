@@ -128,8 +128,8 @@
 		"pack": "npm update --save && npm outdated && npm pack --dry-run"
 	},
 	"dependencies": {
-		"@napi-rs/canvas": "0.1.82",
-		"pdfjs-dist": "5.4.394"
+		"@napi-rs/canvas": "0.1.84",
+		"pdfjs-dist": "5.4.449"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.7",
