@@ -4,15 +4,21 @@ import { describe, expect, test } from 'vitest';
 
 describe(data.fileName, async () => {
 	const buffer = await data.getBuffer();
+	const parser = new PDFParse({ data: buffer });
+	const result = await parser.getTable();
 
-	test('table must be equal', async () => {
-		const parser = new PDFParse({ data: buffer });
-		const result = await parser.getTable();
+	test('table row col', () => {
 		expect(result.total).toBe(data.total);
 		expect(result.pages[0].num).toBe(1);
 		expect(result.pages[0].tables.length).toBe(3);
 		expect(result.pages[0].tables[0].length).toBe(4);
 		expect(result.pages[0].tables[1].length).toBe(4);
 		expect(result.pages[0].tables[2].length).toBe(4);
+	});
+
+	test('table data', () => {
+		expect(result.pages[0].tables[0]).toEqual(data.pages[0].tables[0]);
+		expect(result.pages[0].tables[1]).toEqual(data.pages[0].tables[1]);
+		expect(result.pages[0].tables[2]).toEqual(data.pages[0].tables[2]);
 	});
 });
