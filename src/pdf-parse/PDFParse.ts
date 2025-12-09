@@ -1002,9 +1002,9 @@ export class PDFParse {
 
 		if (width > 5 && height > 5) {
 			return PathGeometry.rectangle;
-		} else if (width > 5 && height === 0) {
+		} else if (width > 5 && height < 1) {
 			return PathGeometry.hline;
-		} else if (width === 0 && height > 5) {
+		} else if (width < 1 && height > 5) {
 			return PathGeometry.vline;
 		}
 
@@ -1027,25 +1027,28 @@ export class PDFParse {
 			//const minMax = new Float32Array([Infinity, Infinity, -Infinity, -Infinity]);
 
 			if (fn === pdfjs.OPS.constructPath) {
-				if (op === pdfjs.OPS.fill) {
+				if (op === pdfjs.OPS.fill || op === pdfjs.OPS.endPath) {
 					//debugger;
-				}
-				if (op !== pdfjs.OPS.stroke) {
 					continue;
 				}
-				const pg = this.getPathGeometry(mm);
-				if (pg === PathGeometry.rectangle) {
-					const rect = new Rectangle(new Point(mm[0], mm[1]), mm[2] - mm[0], mm[3] - mm[1]);
-					rect.transform(transformMatrix);
-					rect.transform(viewport.transform);
-					lineStore.addRectangle(rect);
-				} else if (pg === PathGeometry.hline || pg === PathGeometry.vline) {
-					const from = new Point(mm[0], mm[1]);
-					const to = new Point(mm[2], mm[3]);
-					const line = new Line(from, to);
-					line.transform(transformMatrix);
-					line.transform(viewport.transform);
-					lineStore.add(line);
+
+				if (op === pdfjs.OPS.stroke || pdfjs.OPS.eoFillStroke) {
+					const pg = this.getPathGeometry(mm);
+					if (pg === PathGeometry.rectangle) {
+						const rect = new Rectangle(new Point(mm[0], mm[1]), mm[2] - mm[0], mm[3] - mm[1]);
+						rect.transform(transformMatrix);
+						rect.transform(viewport.transform);
+						lineStore.addRectangle(rect);
+					} else if (pg === PathGeometry.hline || pg === PathGeometry.vline) {
+						const from = new Point(mm[0], mm[1]);
+						const to = new Point(mm[2], mm[3]);
+						const line = new Line(from, to);
+						line.transform(transformMatrix);
+						line.transform(viewport.transform);
+						lineStore.add(line);
+					} else {
+						//debugger;
+					}
 				} else {
 					//debugger;
 				}
