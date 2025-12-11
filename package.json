@@ -2,26 +2,26 @@
 	"name": "pdf-parse",
 	"version": "3.0.0-beta.0",
 	"type": "module",
-	"main": "dist/pdf-parse/cjs/index.cjs",
-	"module": "dist/pdf-parse/esm/index.js",
-	"types": "dist/pdf-parse/cjs/index.d.cts",
+	"main": "dist/pdf-parse.cjs",
+	"module": "dist/pdf-parse.js",
+	"types": "dist/pdf-parse.d.cts",
 	"exports": {
 		".": {
 			"browser": {
-				"types": "./dist/pdf-parse/web/pdf-parse.es.d.ts",
-				"default": "./dist/pdf-parse/web/pdf-parse.es.js"
+				"types": "./dist/pdf-parse.d.ts",
+				"default": "./dist/pdf-parse.js"
 			},
 			"import": {
-				"types": "./dist/pdf-parse/esm/index.d.ts",
-				"default": "./dist/pdf-parse/esm/index.js"
+				"types": "./dist/pdf-parse.d.ts",
+				"default": "./dist/pdf-parse.js"
 			},
 			"require": {
-				"types": "./dist/pdf-parse/cjs/index.d.cts",
-				"default": "./dist/pdf-parse/cjs/index.cjs"
+				"types": "./dist/pdf-parse.d.cts",
+				"default": "./dist/pdf-parse.cjs"
 			},
 			"default": {
-				"types": "./dist/pdf-parse/cjs/index.d.cts",
-				"default": "./dist/pdf-parse/cjs/index.cjs"
+				"types": "./dist/pdf-parse.d.cts",
+				"default": "./dist/pdf-parse.cjs"
 			}
 		},
 		"./worker": {
@@ -88,13 +88,18 @@
 	"license": "Apache-2.0",
 	"author": "Mehmet Kozan",
 	"files": [
-		"dist/",
+		"dist/**/*.js",
+		"dist/**/*.d.ts",
+		"dist/**/*.cjs",
+		"dist/**/*.d.cts",
+		"dist/**/*.mjs",
 		"bin/"
 	],
 	"scripts": {
-		"build": "npm run clean && npm run build:worker && npm run build:ts && npm run build:cjs && npm run build:web && npm run build:node",
-		"build:ts": "tsc && api-extractor run --local -c configs/pdf-parse.api.jsonc",
-		"build:cjs": "vite build --config vite.config.cjs.ts",
+		"prebuild": "npm run clean",
+		"build": "npm run build:pdf-parse && npm run build:worker",
+		"postbuild": "node scripts/post-build.mjs",
+		"build:pdf-parse": "vite build && rolldown -c",
 		"build:web": "vite build",
 		"build:worker": "tsc --project tsconfig.worker.json && api-extractor run --local -c configs/worker.api.jsonc && node scripts/build-worker.mjs",
 		"build:node": "npm run build:node:ts && npm run build:node:bundle",
@@ -128,10 +133,10 @@
 		"pack": "npm update --save && npm outdated && npm pack --dry-run"
 	},
 	"dependencies": {
-		"@napi-rs/canvas": "0.1.84",
-		"pdfjs-dist": "5.4.449"
+		"@napi-rs/canvas": "0.1.84"
 	},
 	"devDependencies": {
+		"pdfjs-dist": "5.4.449",
 		"@biomejs/biome": "^2.3.7",
 		"@microsoft/api-extractor": "^7.55.1",
 		"@types/node": "^24.9.1",
