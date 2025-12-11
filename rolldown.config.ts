@@ -2,8 +2,6 @@ import { cp } from 'node:fs/promises';
 import { defineConfig } from 'rolldown';
 import { dts } from 'rolldown-plugin-dts';
 
-import { dependencies } from './package.json';
-
 function copyPlugin() {
 	return {
 		name: 'copy-plugin',
@@ -20,7 +18,6 @@ const config = defineConfig([
 	{
 		input: ['./src/pdf-parse/index.ts'],
 		plugins: [dts({ emitDtsOnly: true, resolve: true, resolver: 'tsc' }), copyPlugin()],
-		external: Object.keys(dependencies),
 		tsconfig: 'tsconfig.json',
 		platform: 'browser',
 
