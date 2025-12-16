@@ -31,7 +31,7 @@ jobs:
           fetch-depth: 1
           submodules: true
           show-progress: false
-          token: ${{ secrets.PDF_PARSE_3}}
+          token: ${{ secrets.PDF_PARSE_PRO}}
 
       - name: Setup Node.js
         uses: actions/setup-node@v6

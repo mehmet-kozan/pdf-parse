@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 1
           submodules: true
           show-progress: false
-          token: ${{ secrets.PDF_PARSE_3}}
+          token: ${{ secrets.PDF_PARSE_PRO}}
 
       - name: Extract tag version
         id: tag_version

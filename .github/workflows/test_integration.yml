@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 1
           submodules: true
           show-progress: false
-          token: ${{ secrets.PDF_PARSE_3}}
+          token: ${{ secrets.PDF_PARSE_PRO}}
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v6
