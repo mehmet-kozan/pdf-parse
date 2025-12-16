@@ -23,14 +23,14 @@ async function copyPackageJson() {
 async function copyWorker() {
 	try {
 		const source = join(__dirname, '../node_modules/pdfjs-dist/legacy/build', 'pdf.worker.mjs');
-		//const source_min = join(__dirname, '../node_modules/pdfjs-dist/legacy/build', 'pdf.worker.min.mjs');
+		const source_min = join(__dirname, '../node_modules/pdfjs-dist/legacy/build', 'pdf.worker.min.mjs');
 		const source_map = join(__dirname, '../node_modules/pdfjs-dist/legacy/build', 'pdf.worker.mjs.map');
 
 		const dest = join(__dirname, '../dist');
 
 		// pdf-parse  build
 		await cp(source, join(dest, basename(source)));
-		//await cp(source_min, join(dest, basename(source_min)));
+		await cp(source_min, join(dest, basename(source_min)));
 		await cp(source_map, join(dest, basename(source_map)));
 
 		console.log(`Copied worker files`);

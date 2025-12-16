@@ -1,3 +1,0 @@
-[submodule "src"]
-	path = src
-	url = https://github.com/mehmet-kozan/pdf-parse-src

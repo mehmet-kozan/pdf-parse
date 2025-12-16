@@ -25,7 +25,7 @@ const config = defineConfig([
 			dir: 'temp/pdf-parse-types',
 			cleanDir: true,
 			format: 'es',
-			inlineDynamicImports: true,
+			inlineDynamicImports: false,
 			entryFileNames: '[name].js',
 			chunkFileNames: '[name]-[hash].js',
 		},
