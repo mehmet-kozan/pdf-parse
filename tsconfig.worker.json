@@ -4,7 +4,7 @@
 		"rootDir": "src/worker",
 		"outDir": "dist/worker/@types",
 		"declaration": true,
-		"declarationMap": false,
+		"declarationMap": true,
 		"sourceMap": false,
 		"emitDeclarationOnly": true,
 		"esModuleInterop": true,

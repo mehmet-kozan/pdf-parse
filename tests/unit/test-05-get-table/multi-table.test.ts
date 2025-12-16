@@ -1,5 +1,5 @@
 import { data } from '../helper/multi-table';
-import { PDFParse } from 'pdf-parse';
+import { PDFParse } from 'pdf-parse/pro';
 import { describe, expect, test } from 'vitest';
 
 describe('test-10 empty table test', async () => {

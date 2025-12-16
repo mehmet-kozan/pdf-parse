@@ -1,5 +1,5 @@
 import { data } from '../helper/issue-48';
-import { PDFParse } from 'pdf-parse';
+import { PDFParse } from 'pdf-parse/pro';
 import { describe, expect, test } from 'vitest';
 
 describe(data.fileName, async () => {

@@ -33,6 +33,7 @@ export default defineConfig({
 		alias: {
 			'pdf-parse/node': resolve(__dirname, 'src/node'),
 			'pdf-parse/worker': resolve(__dirname, 'src/worker'),
+			'pdf-parse/pro': resolve(__dirname, 'src/pdf-parse-pro'),
 			'pdf-parse': resolve(__dirname, 'src/pdf-parse'),
 		},
 	},

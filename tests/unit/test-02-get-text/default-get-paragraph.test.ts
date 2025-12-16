@@ -1,7 +1,7 @@
 import { data } from '../helper/default-test';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { PDFParse } from 'pdf-parse';
+import { PDFParse } from 'pdf-parse/pro';
 import { describe, expect, test } from 'vitest';
 
 describe(`${data.fileName} get-paragraph`, async () => {

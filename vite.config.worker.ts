@@ -7,17 +7,18 @@ export default defineConfig({
 		sourcemap: true,
 		minify: false,
 		target: 'node18',
+		ssr: false,
 		lib: {
-			entry: 'src/worker2/index.ts',
+			entry: 'src/worker/index.ts',
 			name: 'PdfParse',
 			fileName: (format) => {
 				if (format === 'es') {
-					return 'pdf-parse-worker.js';
+					return 'worker.js';
 				} else if (format === 'cjs') {
-					return 'pdf-parse-worker.cjs';
+					return 'worker.cjs';
 				}
 
-				return `pdf-parse-worker.${format}`;
+				return `worker.${format}`;
 			},
 		},
 

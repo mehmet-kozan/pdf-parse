@@ -9,16 +9,16 @@ export default defineConfig({
 		target: 'baseline-widely-available',
 		ssr: false,
 		lib: {
-			entry: 'src/pdf-parse/index.ts',
+			entry: 'src/pdf-parse-pro/index.ts',
 			name: 'PdfParse',
 			fileName: (format) => {
 				if (format === 'es') {
-					return 'pdf-parse.js';
+					return 'pdf-parse-pro.js';
 				} else if (format === 'umd') {
-					return 'pdf-parse.cjs';
+					return 'pdf-parse-pro.cjs';
 				}
 
-				return `pdf-parse.${format}`;
+				return `pdf-parse-pro.${format}`;
 			},
 			formats: ['es', 'umd'],
 		},

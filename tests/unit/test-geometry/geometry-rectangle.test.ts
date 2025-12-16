@@ -1,4 +1,4 @@
-﻿import { Point, Rectangle } from 'pdf-parse';
+﻿import { Point, Rectangle } from 'pdf-parse/pro';
 import { describe, expect, test } from 'vitest';
 
 describe('Rectangle basic tests', (): void => {

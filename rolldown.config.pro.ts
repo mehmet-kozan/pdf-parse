@@ -6,10 +6,10 @@ function copyPlugin() {
 	return {
 		name: 'copy-plugin',
 		async writeBundle() {
-			await cp(`temp/pdf-parse-types/index.d.ts`, 'dist/pdf-parse.d.ts');
-			await cp(`temp/pdf-parse-types/index.d.ts`, 'dist/pdf-parse.d.cts');
-			await cp(`temp/pdf-parse-types/index.d.ts.map`, 'dist/pdf-parse.d.ts.map');
-			await cp(`temp/pdf-parse-types/index.d.ts.map`, 'dist/pdf-parse.d.cts.map');
+			await cp(`temp/pdf-parse-pro-types/index.d.ts`, 'dist/pdf-parse-pro.d.ts');
+			await cp(`temp/pdf-parse-pro-types/index.d.ts`, 'dist/pdf-parse-pro.d.cts');
+			await cp(`temp/pdf-parse-pro-types/index.d.ts.map`, 'dist/pdf-parse-pro.d.ts.map');
+			await cp(`temp/pdf-parse-pro-types/index.d.ts.map`, 'dist/pdf-parse-pro.d.cts.map');
 		},
 	};
 }
@@ -17,13 +17,13 @@ function copyPlugin() {
 const config = defineConfig([
 	{
 		logLevel: 'warn',
-		input: ['./src/pdf-parse/index.ts'],
+		input: ['./src/pdf-parse-pro/index.ts'],
 		plugins: [dts({ emitDtsOnly: true, resolve: true, resolver: 'tsc' }), copyPlugin()],
-		tsconfig: 'tsconfig.json',
+		tsconfig: 'tsconfig.pro.json',
 		platform: 'browser',
 
 		output: {
-			dir: 'temp/pdf-parse-types',
+			dir: 'temp/pdf-parse-pro-types',
 			cleanDir: true,
 			format: 'es',
 			inlineDynamicImports: false,

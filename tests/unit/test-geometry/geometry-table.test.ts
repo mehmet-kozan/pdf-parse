@@ -1,4 +1,4 @@
-import { Line, LineStore, Point } from 'pdf-parse';
+import { Line, LineStore, Point } from 'pdf-parse/pro';
 import { describe, expect, test } from 'vitest';
 
 describe('basic table test', (): void => {

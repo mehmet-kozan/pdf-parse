@@ -1,9 +1,9 @@
 {
 	"compilerOptions": {
 		"baseUrl": ".",
-		"rootDir": "src/pdf-parse",
-		"outDir": "dist/pdf-parse/esm",
-		"declarationDir": "temp/types/pdf-parse",
+		"rootDir": "src/pdf-parse-pro",
+		"outDir": "dist/pdf-parse-pro/esm",
+		"declarationDir": "temp/types/pdf-parse-pro",
 		"declaration": true,
 		"declarationMap": true,
 		"sourceMap": true,
@@ -20,15 +20,9 @@
 		"strict": true,
 		"verbatimModuleSyntax": false,
 		"paths": {
-			"pdf-parse": ["src/pdf-parse"]
+			"pdf-parse-pro": ["src/pdf-parse-pro"]
 		}
 	},
-	"include": [
-		"src/pdf-parse/**/*",
-		"src/pdf-parse-pro/TableResult.ts",
-		"src/pdf-parse-pro/geometry",
-		"src/pdf-parse-pro/PathGeometry.ts",
-		"src/pdf-parse-pro/ParagraphResult.ts"
-	],
-	"exclude": ["src/pdf-parse/**/_*", "src/pdf-parse/_**/*"]
+	"include": ["src/pdf-parse-pro/**/*"],
+	"exclude": ["src/pdf-parse-pro/**/_*", "src/pdf-parse-pro/_**/*"]
 }

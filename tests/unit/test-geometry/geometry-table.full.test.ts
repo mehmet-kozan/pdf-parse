@@ -1,4 +1,4 @@
-﻿import { Line, Point, Table } from 'pdf-parse';
+﻿import { Line, Point, Table } from 'pdf-parse/pro';
 import { describe, expect, test } from 'vitest';
 
 describe('Table constructor tests', (): void => {

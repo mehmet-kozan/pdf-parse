@@ -26,30 +26,48 @@
 		},
 		"./worker": {
 			"import": {
-				"types": "./dist/worker/esm/index.d.ts",
-				"default": "./dist/worker/esm/index.js"
+				"types": "./dist/worker.d.ts",
+				"default": "./dist/worker.js"
 			},
 			"require": {
-				"types": "./dist/worker/cjs/index.d.cts",
-				"default": "./dist/worker/cjs/index.cjs"
+				"types": "./dist/worker.d.cts",
+				"default": "./dist/worker.cjs"
 			},
 			"default": {
-				"types": "./dist/worker/cjs/index.d.cts",
-				"default": "./dist/worker/cjs/index.cjs"
+				"types": "./dist/worker.d.cts",
+				"default": "./dist/worker.cjs"
 			}
 		},
 		"./node": {
 			"import": {
-				"types": "./dist/node/esm/index.d.ts",
-				"default": "./dist/node/esm/index.js"
+				"types": "./dist/node.d.ts",
+				"default": "./dist/node.js"
 			},
 			"require": {
-				"types": "./dist/node/cjs/index.d.cts",
-				"default": "./dist/node/cjs/index.cjs"
+				"types": "./dist/node.d.cts",
+				"default": "./dist/node.cjs"
 			},
 			"default": {
-				"types": "./dist/node/cjs/index.d.cts",
-				"default": "./dist/node/cjs/index.cjs"
+				"types": "./dist/node.d.cts",
+				"default": "./dist/node.cjs"
+			}
+		},
+		"./pro": {
+			"browser": {
+				"types": "./dist/pdf-parse-pro.d.ts",
+				"default": "./dist/pdf-parse-pro.js"
+			},
+			"import": {
+				"types": "./dist/pdf-parse-pro.d.ts",
+				"default": "./dist/pdf-parse-pro.js"
+			},
+			"require": {
+				"types": "./dist/pdf-parse-pro.d.cts",
+				"default": "./dist/pdf-parse-pro.cjs"
+			},
+			"default": {
+				"types": "./dist/pdf-parse-pro.d.cts",
+				"default": "./dist/pdf-parse-pro.cjs"
 			}
 		}
 	},
@@ -97,19 +115,22 @@
 	],
 	"scripts": {
 		"prebuild": "npm run clean",
-		"build": "npm run build:pdf-parse && npm run build:worker",
+		"build": "npm run build:pdf-parse && npm run build:pdf-parse-pro && npm run build:worker && npm run build:node",
 		"postbuild": "node scripts/post-build.mjs",
+
 		"build:pdf-parse": "vite build && rolldown -c",
-		"build:node": "vite build -c vite.config.node.ts",
-		"build:node2": "vite build -c vite.config.worker.ts",
-		"build:worker": "tsc --project tsconfig.worker.json && api-extractor run --local -c configs/worker.api.jsonc && node scripts/build-worker.mjs",
-		"build:node:ts": "tsc --project tsconfig.node.json && api-extractor run --local -c configs/node.api.jsonc",
-		"build:node:bundle": "esbuild src/node/index.ts --bundle --platform=node --format=cjs --target=node16 --outfile=dist/node/cjs/index.cjs --sourcemap",
+		"build:pdf-parse-pro": "vite build -c vite.config.pro.ts && rolldown -c rolldown.config.pro.ts",
+		"build:worker": "vite build -c vite.config.worker.ts && rolldown -c rolldown.config.worker.ts",
+		"build:node": "npm run build:node:cjs && npm run build:node:esm && rolldown -c rolldown.config.node.ts",
+		"build:node:cjs": "esbuild src/node/index.ts --bundle --platform=node --format=cjs --target=node18 --outfile=dist/node.cjs --sourcemap",
+		"build:node:esm": "esbuild src/node/index.ts --bundle --platform=node --format=esm --target=node18 --outfile=dist/node.js --sourcemap",
+
 		"clean": "npm run clean:build && npm run clean:report && npm run clean:test && npm run clean:test:i",
-		"clean:build": "rimraf dist bin/worker/worker_source.js bin/worker/worker_source.cjs",
+		"clean:build": "rimraf dist temp bin/worker/worker_source.js bin/worker/worker_source.cjs",
 		"clean:report": "rimraf reports/test reports/coverage reports/benchmark reports/api reports/demo/dist-web ",
 		"clean:test": "rimraf --glob tests/**/*.txt tests/**/imgs tests/**/*_images temp",
 		"clean:test:i": "rimraf --glob *.tgz tests/**/node_modules tests/**/package-lock.json tests/**/dist",
+
 		"test": "vitest run --reporter=default",
 		"test:p": "vitest run --config vitest.config.package.ts",
 		"test:i": "node scripts/integration.test.mjs",
@@ -119,6 +140,7 @@
 		"test:all": "npm run build && npm run test && npm run test:p && npm run test:i && npm run test:u && npm run test:e && npm run test:cli",
 		"test:ui": "vitest --ui --coverage",
 		"test:watch": "vitest",
+
 		"coverage": "vitest run --coverage",
 		"bench": "npm run bench:install && vitest bench --run",
 		"bench:install": "npm install --no-save pdf2json@latest",

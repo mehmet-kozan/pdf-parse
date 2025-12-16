@@ -6,10 +6,10 @@ function copyPlugin() {
 	return {
 		name: 'copy-plugin',
 		async writeBundle() {
-			await cp(`temp/pdf-parse-types/index.d.ts`, 'dist/pdf-parse.d.ts');
-			await cp(`temp/pdf-parse-types/index.d.ts`, 'dist/pdf-parse.d.cts');
-			await cp(`temp/pdf-parse-types/index.d.ts.map`, 'dist/pdf-parse.d.ts.map');
-			await cp(`temp/pdf-parse-types/index.d.ts.map`, 'dist/pdf-parse.d.cts.map');
+			await cp(`temp/worker-types/index.d.ts`, 'dist/worker.d.ts');
+			await cp(`temp/worker-types/index.d.ts`, 'dist/worker.d.cts');
+			await cp(`temp/worker-types/index.d.ts.map`, 'dist/worker.d.ts.map');
+			await cp(`temp/worker-types/index.d.ts.map`, 'dist/worker.d.cts.map');
 		},
 	};
 }
@@ -17,13 +17,13 @@ function copyPlugin() {
 const config = defineConfig([
 	{
 		logLevel: 'warn',
-		input: ['./src/pdf-parse/index.ts'],
+		input: ['./src/worker/index.ts'],
 		plugins: [dts({ emitDtsOnly: true, resolve: true, resolver: 'tsc' }), copyPlugin()],
-		tsconfig: 'tsconfig.json',
-		platform: 'browser',
+		tsconfig: 'tsconfig.worker.json',
+		platform: 'node',
 
 		output: {
-			dir: 'temp/pdf-parse-types',
+			dir: 'temp/worker-types',
 			cleanDir: true,
 			format: 'es',
 			inlineDynamicImports: false,
