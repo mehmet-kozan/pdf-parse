@@ -5,7 +5,7 @@ export default defineConfig({
 		outDir: 'dist',
 		emptyOutDir: false,
 		sourcemap: true,
-		minify: false,
+		minify: true,
 		target: 'baseline-widely-available',
 		ssr: false,
 		lib: {
