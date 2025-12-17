@@ -5,7 +5,7 @@ export default defineConfig({
 		outDir: 'dist',
 		emptyOutDir: false,
 		sourcemap: true,
-		minify: true,
+		minify: false,
 		target: 'node18',
 		ssr: false,
 		lib: {
