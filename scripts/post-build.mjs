@@ -42,7 +42,7 @@ async function copyWorker() {
 
 async function copyWebBuild() {
 	try {
-		const source = join(__dirname, '../dist/pdf-parse/web');
+		const source = join(__dirname, '../dist');
 		const dest = join(__dirname, '../reports/demo/dist-web');
 
 		await cp(source, dest, { recursive: true });
@@ -56,4 +56,4 @@ async function copyWebBuild() {
 
 //await copyPackageJson();
 await copyWorker();
-//await copyWebBuild();
+await copyWebBuild();

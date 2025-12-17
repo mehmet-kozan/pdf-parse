@@ -4,9 +4,9 @@ import { fileURLToPath } from 'node:url';
 import PDF2JSON from 'pdf2json';
 import { bench, describe } from 'vitest';
 
-import { PDFParse as PDFParseCJS } from '../../dist/pdf-parse/cjs/index.cjs';
-import { PDFParse } from '../../dist/pdf-parse/esm/index';
-import { PDFParse as BrowserPDFParse } from '../../dist/pdf-parse/web/pdf-parse.es.js';
+import { PDFParse as PDFParseCJS } from '../../dist/pdf-parse.cjs';
+import { PDFParse } from '../../dist/pdf-parse.js';
+import { PDFParse as PDFParsePro } from '../../dist/pdf-parse-pro.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -26,8 +26,8 @@ async function pdf_parse_cjs_promise(buffer: Uint8Array) {
 	await parser.destroy();
 }
 
-async function pdf_parse_browser_promise(buffer: Uint8Array) {
-	const parser = new BrowserPDFParse({ data: buffer });
+async function pdf_parse_pro_promise(buffer: Uint8Array) {
+	const parser = new PDFParsePro({ data: buffer });
 	await parser.getText();
 	await parser.destroy();
 }
@@ -67,9 +67,9 @@ describe('Parsing Files', async () => {
 	);
 
 	bench(
-		'pdf-parse browser build',
+		'pdf-parse pro build',
 		async () => {
-			await pdf_parse_browser_promise(new Uint8Array(buffer));
+			await pdf_parse_pro_promise(new Uint8Array(buffer));
 		},
 		{ iterations: 10 },
 	);

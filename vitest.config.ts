@@ -16,7 +16,7 @@ export default defineConfig({
 		coverage: {
 			enabled: false,
 			provider: 'v8',
-			include: ['src/pdf-parse/**/*.ts', 'src/node/**/*.ts', 'src/worker/**/*.ts'],
+			include: ['src/pdf-parse/**/*.ts', 'src/node/**/*.ts', 'src/worker/**/*.ts', 'src/pdf-parse-pro/**/*.ts'],
 			exclude: ['src/**/_*', 'src/_**/*', 'src/worker/types/**'],
 			reporter: [['html', { subdir: 'html-report' }], 'lcov', 'json', 'text-summary'],
 			reportsDirectory: 'reports/coverage',

@@ -23,12 +23,6 @@
 			"pdf-parse": ["src/pdf-parse"]
 		}
 	},
-	"include": [
-		"src/pdf-parse/**/*",
-		"src/pdf-parse-pro/TableResult.ts",
-		"src/pdf-parse-pro/geometry",
-		"src/pdf-parse-pro/PathGeometry.ts",
-		"src/pdf-parse-pro/ParagraphResult.ts"
-	],
+	"include": ["src/pdf-parse/**/*"],
 	"exclude": ["src/pdf-parse/**/_*", "src/pdf-parse/_**/*"]
 }

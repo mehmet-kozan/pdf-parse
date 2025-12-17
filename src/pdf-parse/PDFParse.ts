@@ -19,6 +19,7 @@ if (typeof (globalThis as any).pdfjs === 'undefined') {
 	(globalThis as any).pdfjs = pdfjs;
 }
 
+/** @hidden */
 export { pdfjs };
 export type { PDFPageProxy };
 
