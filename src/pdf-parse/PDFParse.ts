@@ -4,16 +4,12 @@ import type { BaseCanvasFactory } from 'pdfjs-dist/types/src/display/canvas_fact
 import type { PDFObjects } from 'pdfjs-dist/types/src/display/pdf_objects.js';
 
 import { getException } from './Exception.js';
-import { Line, LineStore, Point, Rectangle } from './geometry/index.js';
-import type { TableData } from './geometry/TableData.js';
+import { getHeaderRequest, type HeaderResult } from './HeaderResult.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
 import { InfoResult, type PageData } from './info/index.js';
 import { type LoadParameters, VerbosityLevel } from './LoadParameters.js';
-import { TextContentLine } from './ParagraphResult.js';
 import { type ParseParameters, setDefaultParseParameters } from './ParseParameters.js';
-import { type MinMax, PathGeometry } from './PathGeometry.js';
 import { ScreenshotResult } from './ScreenshotResult.js';
-import { type PageTableResult, TableResult } from './TableResult.js';
 import { type HyperlinkPosition, TextResult } from './TextResult.js';
 import { setVerbosityLevel } from './Utils.js';
 
@@ -23,13 +19,17 @@ if (typeof (globalThis as any).pdfjs === 'undefined') {
 	(globalThis as any).pdfjs = pdfjs;
 }
 
+/** @hidden */
+export { pdfjs };
+export type { PDFPageProxy };
+
 /**
  * @public
  * Loads PDF documents and exposes helpers for text, image, table, metadata, and screenshot extraction.
  */
 export class PDFParse {
-	private readonly options: LoadParameters;
-	private doc: PDFDocumentProxy | undefined;
+	protected readonly options: LoadParameters;
+	protected doc: PDFDocumentProxy | undefined;
 	public progress: { loaded: number; total: number } = { loaded: -1, total: 0 };
 
 	get verbosity(): VerbosityLevel {
@@ -95,6 +95,35 @@ export class PDFParse {
 		return pdfjs.GlobalWorkerOptions.workerSrc;
 	}
 	// biome-ignore-end lint/suspicious/noExplicitAny: unsupported underline type
+
+	/**
+	 * Perform an HTTP HEAD request to retrieve the file size and verify existence;
+	 * when `check` is true, fetch a small range and inspect the magic number to confirm the URL points to a valid PDF.
+	
+	 * @param check - When `true`, download a small byte range (first 4 bytes) to validate the file signature by checking for '%PDF' magic bytes. Default: `false`.
+	 * @returns - A Promise that resolves to a HeaderResult object containing the response status, size, headers, and PDF validation result.
+	 * @public
+	 */
+	public async getHeader(check: boolean): Promise<HeaderResult> {
+		if (this.options.url) {
+			return await getHeaderRequest(this.options.url, check);
+		}
+
+		if (this.options.data instanceof Uint8Array) {
+			const bytes = this.options.data.subarray(0, 4);
+			const headerStr = new TextDecoder().decode(bytes);
+			const validPdf = headerStr.startsWith('%PDF');
+			const ok = validPdf === true;
+
+			return {
+				ok,
+				validPdf,
+				fileSize: this.options.data.byteLength,
+			};
+		}
+
+		throw new Error('Either `LoadParameters url` (string) or `data` must be provided.');
+	}
 
 	/**
 	 * Load document-level metadata (info, outline, permissions, page labels) and optionally gather per-page link details.
@@ -212,199 +241,7 @@ export class PDFParse {
 		return result;
 	}
 
-	public async getParagraph(params: ParseParameters = {}): Promise<string> {
-		const doc = await this.load();
-
-		const lines: TextContentLine[] = [];
-		for (let i: number = 1; i <= doc.numPages; i++) {
-			if (this.shouldParse(i, doc.numPages, params)) {
-				const page = await doc.getPage(i);
-
-				await this.getLines(page, lines);
-				page.cleanup();
-			}
-		}
-
-		const combinedLines = this.combineLines(lines);
-
-		return combinedLines.map((l) => l.toString()).join('\n');
-	}
-
-	private topNFromMap(map: Map<number, number>, n = 6): Array<[number, number]> {
-		return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, n);
-	}
-
-	private getMainHeaderHeight(map: Map<number, number>): number {
-		const sortedMap = [...map.entries()].sort((a, b) => b[0] * b[1] - a[0] * a[1]);
-
-		if (sortedMap.length === 0) return 0;
-
-		return sortedMap[0][0];
-	}
-
-	private combineLines(lines: TextContentLine[]): TextContentLine[] {
-		const [peakHeight, mainHeight] = TextContentLine.computeHeightMetrics();
-
-		const headingRegex = /Abstract|Introduction|Work|Method|Reference|Results|Discussion|Conclusion|Acknowledg/i;
-
-		const headerTextMap: Map<number, number> = new Map();
-		const mainTextMap: Map<number, number> = new Map();
-		for (const current of lines) {
-			if (current.maxHeight === peakHeight) continue;
-			if (current.maxHeight < mainHeight) continue;
-
-			if (current.maxHeight > mainHeight) {
-				const key = current.maxHeight;
-				const str = current.toString();
-				let val = 1;
-
-				if (/^\p{N}/u.test(str) || /^\p{Lu}/u.test(str)) {
-					val = val + 2;
-				}
-
-				if (str.length < 35 && str.length > 7) {
-					val = val + 4;
-				}
-
-				if (headingRegex.test(str)) {
-					val = val + 10;
-				}
-
-				const hval = headerTextMap.get(key);
-				if (hval) {
-					headerTextMap.set(key, hval + val);
-				} else {
-					headerTextMap.set(key, val);
-				}
-			} else {
-				const key = current.netX;
-				const val = current.toString().length;
-				const mval = mainTextMap.get(key);
-				if (mval) {
-					mainTextMap.set(key, mval + val);
-				} else {
-					mainTextMap.set(key, val);
-				}
-			}
-		}
-
-		let mMatrix = this.topNFromMap(mainTextMap);
-
-		let colCount = 0;
-		if (Math.abs(mMatrix[0][0] - mMatrix[1][0]) > 100) colCount++;
-		if (Math.abs(mMatrix[1][0] - mMatrix[2][0]) > 100) colCount++;
-		if (Math.abs(mMatrix[0][0] - mMatrix[2][0]) > 100) colCount++;
-
-		mMatrix = this.topNFromMap(mainTextMap, colCount * 2);
-
-		const clearMatrix = new Map(mMatrix);
-
-		const mainHeaderHeight = this.getMainHeaderHeight(headerTextMap);
-
-		const combinedLines: TextContentLine[] = [];
-		let controlHeight = mainHeight;
-		for (const current of lines) {
-			const last = combinedLines[combinedLines.length - 1];
-			if (!last) {
-				combinedLines.push(current);
-				continue;
-			}
-
-			const isBigger = current.maxHeight - mainHeight > 0;
-			const isSameHeight = Math.abs(last.maxHeight - current.maxHeight) < 0.1;
-			const isSameFont = current.first.item.fontName === last.last.item.fontName;
-			const isSameLine = Math.abs(last.last.y - current.first.y) < Math.max(last.maxHeight, current.maxHeight) * 1.2;
-			const isSamePage = last.last.pageNumber === current.first.pageNumber;
-
-			if (isBigger) {
-				controlHeight = mainHeight;
-				if (current.maxHeight < mainHeaderHeight) continue;
-
-				current.isBigger = true;
-				if (isSameHeight && isSameFont && isSameLine && isSamePage) {
-					last.addNext(current);
-				} else {
-					combinedLines.push(current);
-				}
-			} else {
-				let isBreak = false;
-				if (last.isBigger) {
-					controlHeight = current.maxHeight;
-				} else {
-					//const charWidth = last.last.item.width / last.last.item.str.length;
-
-					for (let index = colCount; index < mMatrix.length; index++) {
-						const element = mMatrix[index];
-						if (element[0] === current.netX) isBreak = true;
-					}
-
-					//isBreak = current.first.netX !== last.last.netX && current.first.netX - last.last.netX < charWidth * 5;
-				}
-
-				if (current.maxHeight === mainHeight && !clearMatrix.has(current.netX)) continue;
-
-				if (current.maxHeight !== controlHeight && current.maxHeight !== mainHeight) continue;
-
-				if (isSameHeight && !isBreak) {
-					last.addNext(current);
-				} else {
-					combinedLines.push(current);
-				}
-			}
-		}
-
-		return combinedLines;
-	}
-
-	private async getLines(page: PDFPageProxy, lines: TextContentLine[]) {
-		const viewport = page.getViewport({ scale: 1 });
-
-		const textContent = await page.getTextContent({
-			includeMarkedContent: false,
-			disableNormalization: false,
-		});
-
-		for (const item of textContent.items) {
-			if ('type' in item) continue;
-
-			const style = textContent.styles[item.fontName];
-			if (style.vertical) continue;
-
-			const tm = item.transform;
-			// angle of x-axis of the text matrix in radians
-			const angleRad = Math.atan2(tm[1], tm[0]);
-			const angleDeg = (angleRad * 180) / Math.PI;
-			const EPS = 1e-3;
-			if (Math.abs(angleDeg) > EPS) {
-				// rotated if |angleDeg| not approx 0 (or 180)
-				continue;
-			}
-
-			const last = lines[lines.length - 1];
-			const current = new TextContentLine(item, style, viewport, page.pageNumber);
-
-			if (!last) {
-				if (current.item.str.trim()) lines.push(current);
-				continue;
-			}
-
-			const maxHeight = Math.max(last.item.height, current.item.height);
-			const sameLine = Math.abs(last.y - current.y) < maxHeight;
-
-			if (!current.item.str.trim()) {
-				last.item.str = `${last.item.str} `;
-				continue;
-			}
-
-			if (sameLine) {
-				last.addNext(current);
-			} else {
-				lines.push(current);
-			}
-		}
-	}
-
-	private async load(): Promise<PDFDocumentProxy> {
+	protected async load(): Promise<PDFDocumentProxy> {
 		try {
 			if (this.doc === undefined) {
 				const loadingTask = pdfjs.getDocument(this.options);
@@ -422,7 +259,7 @@ export class PDFParse {
 		}
 	}
 
-	private shouldParse(currentPage: number, totalPage: number, params: ParseParameters): boolean {
+	protected shouldParse(currentPage: number, totalPage: number, params: ParseParameters): boolean {
 		params.partial = params?.partial ?? [];
 		params.first = params?.first ?? 0;
 		params.last = params?.last ?? 0;
@@ -935,277 +772,5 @@ export class PDFParse {
 		}
 
 		return result;
-	}
-
-	/**
-	 * Detect and extract tables from pages by analysing vector drawing operators, then populate cells with text.
-	 *
-	 * Behavior notes:
-	 * - Scans operator lists for rectangles/lines that form table grids (uses PathGeometry and LineStore).
-	 * - Normalizes detected geometry and matches positioned text to table cells.
-	 * - Honors ParseParameters for page selection.
-	 *
-	 * @param params - ParseParameters controlling which pages to analyse (partial/first/last).
-	 * @returns Promise<TableResult> containing discovered tables per page.
-	 */
-	public async getTable(params: ParseParameters = {}): Promise<TableResult> {
-		const doc = await this.load();
-		const result = new TableResult(doc.numPages);
-
-		if (this.doc === undefined) {
-			throw new Error('PDF document not loaded');
-		}
-
-		for (let i: number = 1; i <= result.total; i++) {
-			if (this.shouldParse(i, result.total, params)) {
-				const page = await this.doc.getPage(i);
-				//const viewport = page.getViewport({ scale: 1 });
-				//viewport.convertToViewportPoint(0, 0);
-
-				const store = await this.getPageTables(page);
-				//const store = await this.getPageGeometry(page);
-
-				store.normalize();
-
-				const tableDataArr = store.getTableData();
-				await this.fillPageTables(page, tableDataArr);
-
-				const pageTableResult: PageTableResult = { num: i, tables: [] };
-				for (const table of tableDataArr) {
-					//if (table.cellCount < 3) continue
-					pageTableResult.tables.push(table.toArray());
-					//const pageTableResult: PageTableResult = { num: i, tables: table.toArray() };
-
-					//pageTableResult.tables.push(table.toData())
-				}
-				result.pages.push(pageTableResult);
-
-				page.cleanup();
-			}
-		}
-
-		// for (const table of Table.AllTables) {
-		//     if (table.cellCount < 3) continue
-		//     const str = table.toString()
-		//     console.log(str)
-		// }
-		return result;
-	}
-
-	private getPathGeometry(mm: MinMax): PathGeometry {
-		const width = mm[2] - mm[0];
-		const height = mm[3] - mm[1];
-
-		if (mm[0] === Infinity) {
-			return PathGeometry.undefined;
-		}
-
-		if (width > 5 && height > 5) {
-			return PathGeometry.rectangle;
-		} else if (width > 5 && height < 1) {
-			return PathGeometry.hline;
-		} else if (width < 1 && height > 5) {
-			return PathGeometry.vline;
-		}
-
-		return PathGeometry.undefined;
-	}
-
-	private async getPageTables(page: PDFPageProxy): Promise<LineStore> {
-		const lineStore: LineStore = new LineStore();
-		const viewport = page.getViewport({ scale: 1 });
-		let transformMatrix = [1, 0, 0, 1, 0, 0];
-		const transformStack: Array<Array<number>> = [];
-
-		const opList = await page.getOperatorList();
-
-		for (let i = 0; i < opList.fnArray.length; i++) {
-			const fn = opList.fnArray[i];
-			const args = opList.argsArray[i];
-			const op = args?.[0] ?? 0;
-			const mm = args?.[2] ?? [Infinity, Infinity, -Infinity, -Infinity];
-			//const minMax = new Float32Array([Infinity, Infinity, -Infinity, -Infinity]);
-
-			if (fn === pdfjs.OPS.constructPath) {
-				if (op === pdfjs.OPS.fill || op === pdfjs.OPS.endPath) {
-					//debugger;
-					continue;
-				}
-
-				if (op === pdfjs.OPS.stroke || pdfjs.OPS.eoFillStroke) {
-					const pg = this.getPathGeometry(mm);
-					if (pg === PathGeometry.rectangle) {
-						const rect = new Rectangle(new Point(mm[0], mm[1]), mm[2] - mm[0], mm[3] - mm[1]);
-						rect.transform(transformMatrix);
-						rect.transform(viewport.transform);
-						lineStore.addRectangle(rect);
-					} else if (pg === PathGeometry.hline || pg === PathGeometry.vline) {
-						const from = new Point(mm[0], mm[1]);
-						const to = new Point(mm[2], mm[3]);
-						const line = new Line(from, to);
-						line.transform(transformMatrix);
-						line.transform(viewport.transform);
-						lineStore.add(line);
-					} else {
-						//debugger;
-					}
-				} else {
-					//debugger;
-				}
-
-				// if (op === pdfjs.OPS.rectangle) {
-				// 	debugger;
-				// } else if (op === pdfjs.OPS.moveTo) {
-				// 	debugger;
-				// } else if (op === pdfjs.OPS.lineTo) {
-				// 	debugger;
-				// } else if (op === pdfjs.OPS.endPath) {
-				// 	const combinedMatrix = pdfjs.Util.transform(viewport.transform, transformMatrix);
-
-				// 	// while (args[1].length) {
-				// 	// 	const drawOp = args[1].shift();
-				// 	// 	debugger;
-				// 	// }
-				// } else {
-				// 	//debugger;
-				// }
-			} else if (fn === pdfjs.OPS.setLineWidth) {
-				//debugger;
-			} else if (fn === pdfjs.OPS.save) {
-				transformStack.push(transformMatrix);
-			} else if (fn === pdfjs.OPS.restore) {
-				const restoredMatrix = transformStack.pop();
-				if (restoredMatrix) {
-					transformMatrix = restoredMatrix;
-				}
-			} else if (fn === pdfjs.OPS.transform) {
-				//transformMatrix = this.transform_fn(transformMatrix, args);
-				transformMatrix = pdfjs.Util.transform(transformMatrix, args);
-			}
-		}
-
-		return lineStore;
-	}
-
-	// private async getPageGeometry(page: PDFPageProxy): Promise<LineStore> {
-	// 	const lineStore: LineStore = new LineStore();
-	// 	const opList = await page.getOperatorList();
-
-	// 	const viewport = page.getViewport({ scale: 1 });
-
-	// 	let transformMatrix = [1, 0, 0, 1, 0, 0];
-	// 	const transformStack: Array<Array<number>> = [];
-
-	// 	let current_x: number = 0;
-	// 	let current_y: number = 0;
-
-	// 	for (let j = 0; j < opList.fnArray.length; j++) {
-	// 		const fn = opList.fnArray[j];
-	// 		const args = opList.argsArray[j];
-
-	// 		if (fn === pdfjs.OPS.constructPath) {
-	// 			while (args[0].length) {
-	// 				const op = args[0].shift();
-
-	// 				const combinedMatrix = pdfjs.Util.transform(viewport.transform, transformMatrix);
-
-	// 				if (op === pdfjs.OPS.rectangle) {
-	// 					const x = args[1].shift();
-	// 					const y = args[1].shift();
-	// 					const width = args[1].shift();
-	// 					const height = args[1].shift();
-
-	// 					if (Math.min(width, height) <= 2) {
-	// 						// TODO remove
-	// 						debugger;
-	// 					}
-
-	// 					const rect = new Rectangle(new Point(x, y), width, height);
-	// 					rect.transform(combinedMatrix);
-	// 					//rect.transform(viewport.transform);
-
-	// 					lineStore.addRectangle(rect);
-	// 				} else if (op === pdfjs.OPS.moveTo) {
-	// 					current_x = args[1].shift();
-	// 					current_y = args[1].shift();
-	// 				} else if (op === pdfjs.OPS.lineTo) {
-	// 					const x = args[1].shift();
-	// 					const y = args[1].shift();
-
-	// 					//default trasform
-	// 					const from = new Point(current_x, current_y);
-	// 					const to = new Point(x, y);
-	// 					const line = new Line(from, to);
-	// 					line.transform(combinedMatrix);
-	// 					//line.transform(viewport.transform);
-
-	// 					// // viewport transform
-	// 					// const _from = viewport.convertToViewportPoint(line.from.x, line.from.y)
-	// 					// const _to = viewport.convertToViewportPoint(line.to.x, line.to.y)
-	// 					//
-	// 					// const transformedLine = new Line(new Point(_from[0], _from[1]), new Point(_to[0], _to[1]))
-	// 					lineStore.add(line);
-
-	// 					current_x = x;
-	// 					current_y = y;
-	// 				}
-	// 			}
-	// 		} else if (fn === pdfjs.OPS.save) {
-	// 			transformStack.push(transformMatrix);
-	// 		} else if (fn === pdfjs.OPS.restore) {
-	// 			const restoredMatrix = transformStack.pop();
-	// 			if (restoredMatrix) {
-	// 				transformMatrix = restoredMatrix;
-	// 			}
-	// 		} else if (fn === pdfjs.OPS.transform) {
-	// 			//transformMatrix = this.transform_fn(transformMatrix, args);
-	// 			transformMatrix = pdfjs.Util.transform(transformMatrix, args);
-	// 		}
-	// 	}
-
-	// 	return lineStore;
-	// }
-
-	private async fillPageTables(page: PDFPageProxy, pageTables: Array<TableData>): Promise<void> {
-		//const resultTable: Array<Table> = []
-
-		const viewport = page.getViewport({ scale: 1 });
-
-		// for (let i = 0; i < pageTables.length; i++) {
-		//     const currentTable = pageTables[i]
-		// }
-
-		//pageTables = pageTables.filter((table) => table.cellCount > 3)
-
-		const textContent = await page.getTextContent({
-			includeMarkedContent: false,
-			disableNormalization: false,
-		});
-
-		for (const textItem of textContent.items) {
-			if (!('str' in textItem)) continue;
-
-			const tx = pdfjs.Util.transform(
-				pdfjs.Util.transform(viewport.transform, textItem.transform),
-				[1, 0, 0, -1, 0, 0],
-			);
-
-			//const resXY = viewport.convertToViewportPoint(tx[4], tx[5]);
-			// textItem.transform = pdfjs.Util.transform(viewport.transform, textItem.transform)
-			// textItem.transform[5] = viewport.height - textItem.transform[5] - textItem.height
-
-			for (const pageTable of pageTables) {
-				const cell = pageTable.findCell(tx[4], tx[5]);
-				if (cell) {
-					cell.text.push(textItem.str);
-					if (textItem.hasEOL) {
-						cell.text.push('\n');
-					}
-					break;
-				}
-			}
-
-			//Table.tryAddText(pageTables, textItem)
-		}
 	}
 }

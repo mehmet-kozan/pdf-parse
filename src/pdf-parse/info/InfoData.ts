@@ -1,6 +1,4 @@
-import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
-
-import { sanitize } from '../Utils.js';
+import { sanitize, toDateObject } from '../Utils.js';
 
 export class InfoData {
 	/**
@@ -130,7 +128,7 @@ export class InfoData {
 					object[key] = sanitize(object[key]) as string;
 
 					if (key.endsWith('Date')) {
-						object[key] = pdfjs.PDFDateString.toDateObject(object[key]);
+						object[key] = toDateObject(object[key]);
 					}
 				}
 			}

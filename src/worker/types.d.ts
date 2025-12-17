@@ -7,3 +7,8 @@ declare module 'pdfjs-dist/legacy/build/pdf.worker.mjs' {
 	const _default: any;
 	export default _default;
 }
+
+declare module '*?url' {
+	const src: string;
+	export default src;
+}

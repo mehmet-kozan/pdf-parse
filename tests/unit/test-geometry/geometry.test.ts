@@ -1,4 +1,4 @@
-import { Line, LineDirection, LineStore, Point } from 'pdf-parse';
+import { Line, LineDirection, LineStore, Point } from 'pdf-parse/pro';
 import { describe, expect, test } from 'vitest';
 
 describe('basic geometry test', (): void => {

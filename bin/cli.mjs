@@ -3,7 +3,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { stderr, stdout } from 'node:process';
 import { PDFParse } from 'pdf-parse';
-import { getHeader } from 'pdf-parse/node';
 
 import minimist from './minimist.mjs';
 
@@ -148,8 +147,9 @@ async function handleGetHeader(filePath, options) {
 		process.exit(1);
 	}
 
-	// Second parameter is for PDF magic bytes validation
-	const result = await getHeader(filePath, !!options.magic);
+	const parser = new PDFParse({ url: filePath });
+	const result = await parser.getHeader(!!options.magic);
+
 	const output = options.format === 'json' ? JSON.stringify(result, null, 2) : formatHeader(result);
 
 	if (options.output) {

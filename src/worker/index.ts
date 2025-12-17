@@ -2,18 +2,16 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-let runtimeDirname: string;
+// // @ts-expect-error: importing worker as data URL via esbuild query parameter
+// import { WorkerMessageHandler } from 'pdfjs-dist/legacy/build/pdf.worker.min.mjs';
 
-if (typeof __dirname !== 'undefined') {
-	runtimeDirname = __dirname;
-} else {
-	// ESM ortamı
-	const __filename = fileURLToPath(import.meta.url);
-	runtimeDirname = path.dirname(__filename);
-}
+// (global as any).pdfjsWorker = { WorkerMessageHandler };
+
+// export { WorkerMessageHandler };
 
 (async () => {
 	try {
+		// @ts-expect-error: importing worker
 		await import('pdfjs-dist/legacy/build/pdf.worker.mjs');
 		//console.log('pdf.worker loaded.\n');
 	} catch (err) {
@@ -22,15 +20,36 @@ if (typeof __dirname !== 'undefined') {
 	}
 })();
 
-// @ts-expect-error: importing worker as data URL via esbuild query parameter
-import DataUrl from 'pdfjs-dist/legacy/build/pdf.worker.min.mjs?dataurl';
+// import DataUrl from 'pdfjs-dist/legacy/build/pdf.worker.min.mjs?url';
 
-export function getData(): string {
-	return DataUrl;
-}
+// export function getData(): string {
+// 	return DataUrl;
+// }
 
 export { CanvasFactory } from './canvas.js';
 
 export function getPath(): string {
-	return path.resolve(runtimeDirname, '../pdf.worker.mjs');
+	if (typeof __dirname !== 'undefined') {
+		// CJS
+		return path.resolve(__dirname, 'pdf.worker.cjs');
+	} else {
+		// ESM
+		const __filename = fileURLToPath(import.meta.url);
+		return path.resolve(path.dirname(__filename), 'pdf.worker.js');
+	}
+}
+
+export function getMainPath(): string {
+	if (typeof __dirname !== 'undefined') {
+		// CJS
+		return path.resolve(__dirname, 'pdf.worker.mjs');
+	} else {
+		// ESM
+		const __filename = fileURLToPath(import.meta.url);
+		return path.resolve(path.dirname(__filename), 'pdf.worker.mjs');
+	}
+}
+
+export function getData(): string {
+	return getPath();
 }

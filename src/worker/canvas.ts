@@ -1,11 +1,11 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: global declaration */
-import { Canvas, createCanvas, DOMMatrix, ImageData, Path2D, type SKRSContext2D } from '@napi-rs/canvas';
+import { type Canvas, createCanvas, DOMMatrix, ImageData, Path2D, type SKRSContext2D } from '@napi-rs/canvas';
 
 (global as any).DOMMatrix = DOMMatrix;
 (global as any).Path2D = Path2D;
 (global as any).ImageData = ImageData;
 
-export { Canvas, type SKRSContext2D };
+export type { Canvas, SKRSContext2D };
 
 export interface CanvasAndContext {
 	canvas: Canvas | null;

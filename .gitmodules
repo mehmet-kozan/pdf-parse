@@ -1,0 +1,3 @@
+[submodule "src/pdf-parse-pro"]
+	path = src/pdf-parse-pro
+	url = https://github.com/pdf-parse/pdf-parse-pro.git

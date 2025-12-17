@@ -1,9 +1,3 @@
 {
-	"recommendations": [
-		"vitest.explorer",
-		"biomejs.biome",
-		"redhat.vscode-yaml",
-		"ritwickdey.liveserver",
-		"vscjava.vscode-java-pack"
-	]
+	"recommendations": ["vitest.explorer", "biomejs.biome", "redhat.vscode-yaml", "ritwickdey.liveserver"]
 }
