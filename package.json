@@ -155,7 +155,7 @@
 		"pack": "npm update --save && npm outdated && npm pack --dry-run"
 	},
 	"optionalDependencies": {
-		"@napi-rs/canvas": "0.1.84"
+		"@napi-rs/canvas": "0.1.86"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.7",
