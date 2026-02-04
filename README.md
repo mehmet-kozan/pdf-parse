@@ -21,6 +21,19 @@
 </div>
 <br />
 
+## v3 Supportware 
+- All versions are published as a public npm package under the same license. 
+- v3 is developed under a **supportware** model to keep maintenance and ongoing improvements sustainable.
+- After sponsoring, **GitHub will automatically grant access** to `pdf-parse-pro` (based on your sponsorship tier).
+
+>This approach is called `supportware`, developed to ensure the sustainability of open-source projects, and GitHub provides built-in support for it. It also helps discourage automated scraping and unrestricted reuse of the code for AI training.
+
+**Thanks for your support!** Your sponsorship helps fund ongoing maintenance, bug fixes, and new features.  
+<br />
+[![Sponsor](https://img.shields.io/badge/GitHub-Sponsor-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/mehmet-kozan)
+
+
+
 ## Getting Started with v2/v3 (coming from v1)
 
 ```js
