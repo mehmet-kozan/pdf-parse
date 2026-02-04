@@ -7,6 +7,7 @@ import { getException } from './Exception.js';
 import { getHeaderRequest, type HeaderResult } from './HeaderResult.js';
 import { ImageResult, type PageImages } from './ImageResult.js';
 import { InfoResult, type PageData } from './info/index.js';
+import { clearCanvasCache, isCanvasLoaded, LazyCanvasFactory } from './LazyCanvasFactory.js';
 import { type LoadParameters, VerbosityLevel } from './LoadParameters.js';
 import { type ParseParameters, setDefaultParseParameters } from './ParseParameters.js';
 import { ScreenshotResult } from './ScreenshotResult.js';
@@ -51,6 +52,11 @@ export class PDFParse {
 		this.options = options;
 		this.verbosity = options.verbosity;
 
+		// Use LazyCanvasFactory by default to avoid loading @napi-rs/canvas until needed
+		if (PDFParse.isNodeJS && !this.options.CanvasFactory) {
+			this.options.CanvasFactory = LazyCanvasFactory;
+		}
+
 		if (typeof Buffer !== 'undefined' && options.data instanceof Buffer) {
 			this.options.data = new Uint8Array(options.data);
 		}
@@ -60,6 +66,10 @@ export class PDFParse {
 		if (this.doc) {
 			await this.doc.destroy();
 			this.doc = undefined;
+		}
+		// Clear canvas cache if canvas was loaded
+		if (isCanvasLoaded()) {
+			clearCanvasCache();
 		}
 	}
 
