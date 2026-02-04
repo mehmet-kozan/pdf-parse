@@ -61,12 +61,12 @@
             } catch (err) {
                 // Error - show red indicator
                 document.getElementById('status-indicator').style.backgroundColor = '#f44336';
-                document.getElementById('status-indicator').title = 'PDF Parse: Failed - ' + err.message;
+                document.getElementById('status-indicator').title = `PDF·Parse:·Failed·-·${err.message}`;
 
                 // Fail gracefully if the module cannot be loaded.
                 // This will show in browser console during debugging.
                 // eslint-disable-next-line no-console
-                console.error('Failed to dynamically import pdf-parse:', err);
+                console.error(`Failed to dynamically import pdf-parse: ${err}`);
             }
         })();
     </script>

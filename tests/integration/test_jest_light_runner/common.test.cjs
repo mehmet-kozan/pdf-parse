@@ -1,14 +1,12 @@
-
 const { PDFParse } = require('pdf-parse');
 const fs = require('node:fs');
 const path = require('node:path');
 
 const __pdf = path.join(__dirname, '../../../reports/pdf/');
 
-
 test('jest framework test - dummy-test.pdf', async () => {
 	const data = fs.readFileSync(path.join(__pdf, 'dummy.pdf'));
-	const parser = new PDFParse({ data});
+	const parser = new PDFParse({ data });
 	const result = await parser.getText();
 	await parser.destroy();
 	expect(result.text).toContain('Dummy PDF file');

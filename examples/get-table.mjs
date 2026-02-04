@@ -1,4 +1,3 @@
-import { readFile } from 'node:fs/promises';
 import { PDFParse } from 'pdf-parse/pro';
 
 const link = new URL('https://mehmet-kozan.github.io/pdf-parse/pdf/simple-table.pdf');

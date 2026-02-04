@@ -27,6 +27,10 @@
 		"editor.defaultFormatter": "biomejs.biome"
 	},
 
+	"[html]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+
 	"[json]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},

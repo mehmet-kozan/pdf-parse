@@ -38,7 +38,7 @@ async function pdf2json_promise(buffer: Buffer<ArrayBufferLike>) {
 
 	return new Promise((resolve, reject) => {
 		parser.on('pdfParser_dataError', () => reject());
-		parser.on('pdfParser_dataReady', (pdfData) => {
+		parser.on('pdfParser_dataReady', (pdfData: unknown) => {
 			parser.destroy();
 			resolve(pdfData);
 		});

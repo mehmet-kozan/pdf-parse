@@ -6,10 +6,10 @@ function copyPlugin() {
 	return {
 		name: 'copy-plugin',
 		async writeBundle() {
-			await cp(`temp/node-types/index.d.ts`, 'dist/node.d.ts');
-			await cp(`temp/node-types/index.d.ts`, 'dist/node.d.cts');
-			await cp(`temp/node-types/index.d.ts.map`, 'dist/node.d.ts.map');
-			await cp(`temp/node-types/index.d.ts.map`, 'dist/node.d.cts.map');
+			await cp('temp/node-types/index.d.ts', 'dist/node.d.ts');
+			await cp('temp/node-types/index.d.ts', 'dist/node.d.cts');
+			await cp('temp/node-types/index.d.ts.map', 'dist/node.d.ts.map');
+			await cp('temp/node-types/index.d.ts.map', 'dist/node.d.cts.map');
 		},
 	};
 }
@@ -18,15 +18,18 @@ const config = defineConfig([
 	{
 		logLevel: 'warn',
 		input: ['./src/node/index.ts'],
-		plugins: [dts({ emitDtsOnly: true, resolve: true, resolver: 'tsc' }), copyPlugin()],
+		plugins: [dts({ emitDtsOnly: true, resolver: 'tsc' }), copyPlugin()],
 		tsconfig: 'tsconfig.node.json',
 		platform: 'node',
+		checks: {
+			pluginTimings: false,
+		},
 
 		output: {
 			dir: 'temp/node-types',
 			cleanDir: true,
 			format: 'es',
-			inlineDynamicImports: false,
+			codeSplitting: false,
 			entryFileNames: '[name].js',
 			chunkFileNames: '[name]-[hash].js',
 		},

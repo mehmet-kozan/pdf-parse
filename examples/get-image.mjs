@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { writeFile } from 'node:fs/promises';
 import { PDFParse } from 'pdf-parse';
 
 const link = new URL('https://mehmet-kozan.github.io/pdf-parse/pdf/image-test.pdf');

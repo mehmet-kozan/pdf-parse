@@ -57,34 +57,34 @@ async function pack() {
 	if (!packedName) {
 		throw new Error('npm pack did not produce a filename');
 	}
-	const src = path.join(rootDir,'temp' ,packedName);
-	const dest = path.join(rootDir,'temp', 'pdf-parse.tgz');
+	const src = path.join(rootDir, 'temp', packedName);
+	const dest = path.join(rootDir, 'temp', 'pdf-parse.tgz');
 	await fs.copyFile(src, dest);
 	await fs.copyFile(dest, path.join(rootDir, 'reports/pdf-parse.tgz'));
 	console.log(`\nPacked ${packedName} -> ${dest}`);
 }
 
 async function main() {
-    const nodeVersion = process.versions.node;
-    const [major, minor, patch] = nodeVersion.split('.').map(Number);
-    
-    // Node.js version >= 22.20.0 kontrolü
-    if (major > 22 || (major === 22 && minor > 20) || (major === 22 && minor === 20 && patch >= 0)) {
-        await pack();
-    }
-    
-    const packageDirs = await findPackageDirs(testDir);
-    for (const dir of packageDirs) {
-        console.log(`Processing: ${dir}`);
-        try {
-            await runCommand('npm install', dir);
-            await runCommand('npm run build', dir);
-            await runCommand('npm test', dir);
-        } catch (err) {
-            console.error(`Failed in ${dir}:`, err);
-            throw err;
-        }
-    }
+	const nodeVersion = process.versions.node;
+	const [major, minor, patch] = nodeVersion.split('.').map(Number);
+
+	// Node.js version >= 22.20.0 kontrolü
+	if (major > 22 || (major === 22 && minor > 20) || (major === 22 && minor === 20 && patch >= 0)) {
+		await pack();
+	}
+
+	const packageDirs = await findPackageDirs(testDir);
+	for (const dir of packageDirs) {
+		console.log(`Processing: ${dir}`);
+		try {
+			await runCommand('npm install', dir);
+			await runCommand('npm run build', dir);
+			await runCommand('npm test', dir);
+		} catch (err) {
+			console.error(`Failed in ${dir}:`, err);
+			throw err;
+		}
+	}
 }
 
 main()

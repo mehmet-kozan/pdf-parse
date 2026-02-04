@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-async function copyPackageJson() {
+async function _copyPackageJson() {
 	try {
 		const src = join(__dirname, '..', 'configs', 'package.cjs.json');
 		const mainDestDir = join(__dirname, '..', 'dist', 'pdf-parse', 'cjs');
