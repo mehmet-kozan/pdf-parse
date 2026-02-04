@@ -1,4 +1,5 @@
 import { data } from '../helper/solar-energy';
+import { createHash } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { PDFParse } from 'pdf-parse';
@@ -26,7 +27,11 @@ describe(data.fileName, async () => {
 		if (imgs) {
 			for (const img of imgs) {
 				const pageImg = result.getPageImage(num, img.name);
-				expect(pageImg?.dataUrl).toBe(img.dataUrl);
+
+				// Fix: createHash requires BinaryLike; ensure we only hash when dataUrl is a string.
+				const dataUrl = pageImg?.dataUrl || '';
+				const dataHash = createHash('md5').update(dataUrl).digest('hex');
+				expect(dataHash).toBe(img.dataHash);
 			}
 		}
 	});

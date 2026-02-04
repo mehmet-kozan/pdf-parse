@@ -1,4 +1,3 @@
-import { readFile } from 'node:fs/promises';
 import { PDFParse } from 'pdf-parse';
 
 const link = 'https://mehmet-kozan.github.io/pdf-parse/pdf/climate.pdf';

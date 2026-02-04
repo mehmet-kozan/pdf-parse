@@ -40,12 +40,12 @@ async function getSignature(signatureCount: number = 1) {
 	// const byteRangePos = pdf.indexOf('/ByteRange [');
 	const byteRangePos = getSubstringIndex(pdf, '/ByteRange [', signatureCount);
 	if (byteRangePos === -1) {
-		debugger;
+		//debugger;
 	}
 
 	const byteRangeEnd = pdf.indexOf(']', byteRangePos);
 	if (byteRangeEnd === -1) {
-		debugger;
+		//debugger;
 	}
 
 	const byteRange = pdf.slice(byteRangePos, byteRangeEnd + 1).toString();

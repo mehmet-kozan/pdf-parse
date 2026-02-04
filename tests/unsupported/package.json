@@ -8,8 +8,7 @@
 	"main": "common.test.cjs",
 	"private": "true",
 	"scripts": {
-        "test": "node --test-reporter=dot --test *.test.cjs && node --test-reporter=dot --test *.test.mjs"
-
+		"test": "node --test-reporter=dot --test *.test.cjs && node --test-reporter=dot --test *.test.mjs"
 	},
 	"dependencies": {
 		"pdf-parse": "file:../../reports/pdf-parse.tgz"

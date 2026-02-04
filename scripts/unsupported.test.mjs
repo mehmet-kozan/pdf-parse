@@ -9,8 +9,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const testDir = path.resolve(__dirname, '../tests/unsupported');
 
-
-
 function runCommand(cmd, cwd) {
 	return new Promise((resolve, reject) => {
 		exec(cmd, { cwd }, (error, stdout, stderr) => {
@@ -25,10 +23,7 @@ function runCommand(cmd, cwd) {
 	});
 }
 
-
-
 async function main() {
-
 	console.log(`Processing: ${testDir}`);
 	try {
 		await runCommand('npm install', testDir);
@@ -37,7 +32,6 @@ async function main() {
 		console.error(`Failed in ${testDir}:`, err);
 		throw err;
 	}
-    
 }
 
 main()

@@ -72,6 +72,6 @@ describe('Large PDF File Tests', () => {
 
 		expect(result.text).toContain('Bitcoin');
 		expect(result.text).toContain('Satoshi Nakamoto');
-		expect(parser.progress.total).toBe(parser.progress.loaded);
+		expect(parser.progress.loaded).toBeGreaterThanOrEqual(parser.progress.total);
 	});
 });

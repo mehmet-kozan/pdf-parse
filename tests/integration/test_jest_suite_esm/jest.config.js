@@ -1,5 +1,5 @@
 export default {
-  testEnvironment: 'node',
-  testMatch: ['**/*.test.js'],
-  transform: {},
+	testEnvironment: 'node',
+	testMatch: ['**/*.test.js'],
+	transform: {},
 };

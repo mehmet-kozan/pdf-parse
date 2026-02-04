@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.3.1/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
@@ -9,12 +9,14 @@
 		"ignoreUnknown": false,
 		"includes": [
 			"**",
+			"examples/**",
 			"!dist",
 			"!reports/demo/dist-web",
 			"!reports/test",
 			"!reports/pdf",
 			"!reports/coverage",
 			"!reports/benchmark",
+			"!reports/benchmark.html",
 			"!bin/worker/worker_source.js",
 			"!bin/worker/worker_source.cjs",
 			"!tests/integration/*/node_modules"
@@ -30,16 +32,13 @@
 		"rules": {
 			"recommended": true,
 			"suspicious": {
-				"noImplicitAnyLet": "warn",
-				"noDebugger": "warn",
-				"noConsole": "warn"
+				"noDebugger": "warn"
 			},
 			"style": {
-				"useConst": {
-					"level": "info",
-					"fix": "none",
-					"options": {}
-				}
+				"useConst": "warn"
+			},
+			"correctness": {
+				"noUnusedVariables": "warn"
 			}
 		}
 	},
@@ -48,6 +47,7 @@
 			"quoteStyle": "single"
 		}
 	},
+
 	"assist": {
 		"enabled": true,
 		"actions": {
@@ -70,7 +70,6 @@
 	},
 	"overrides": [
 		{
-			"includes": ["examples/**"],
 			"linter": {
 				"enabled": false
 			},

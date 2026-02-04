@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { writeFile } from 'node:fs/promises';
 import { PDFParse } from 'pdf-parse';
 
 const link = 'https://bitcoin.org/bitcoin.pdf';
