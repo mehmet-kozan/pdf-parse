@@ -165,7 +165,7 @@
 		"pdfjs-dist": "5.4.624",
 		"rimraf": "^6.1.2",
 		"rolldown": "^1.0.0-rc.3",
-		"rolldown-plugin-dts": "^0.21.9",
+		"rolldown-plugin-dts": "^0.22.5",
 		"tsx": "^4.21.0",
 		"typedoc": "^0.28.16",
 		"typescript": "^5.9.3",
