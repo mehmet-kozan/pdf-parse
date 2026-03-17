@@ -2,6 +2,7 @@ export * from './Exception.js';
 export type * from './HeaderResult.js';
 export * from './ImageResult.js';
 export * from './info/index.js';
+export { clearCanvasCache, isCanvasLoaded, LazyCanvasFactory } from './LazyCanvasFactory.js';
 export * from './LoadParameters.js';
 export * from './ParseParameters.js';
 export * from './PDFParse.js';
