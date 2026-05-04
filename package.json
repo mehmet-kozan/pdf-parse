@@ -162,7 +162,7 @@
 		"@types/node": "^25.2.0",
 		"@vitest/coverage-v8": "^4.0.18",
 		"@vitest/ui": "^4.0.18",
-		"pdfjs-dist": "5.4.624",
+		"pdfjs-dist": "5.7.284",
 		"rimraf": "^6.1.2",
 		"rolldown": "^1.0.0-rc.3",
 		"rolldown-plugin-dts": "^0.21.9",
