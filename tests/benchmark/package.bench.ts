@@ -2,6 +2,9 @@ import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import PDF2JSON from 'pdf2json';
+// pdf-oxide (Rust core): native Node addon + WASM build
+import { PdfDocument as OxideDocument } from 'pdf-oxide';
+import { WasmPdfDocument } from 'pdf-oxide-wasm';
 import { bench, describe } from 'vitest';
 
 import { PDFParse as PDFParseCJS } from '../../dist/pdf-parse.cjs';
@@ -47,6 +50,17 @@ async function pdf2json_promise(buffer: Buffer<ArrayBufferLike>) {
 	});
 }
 
+async function pdf_oxide_native_promise(buffer: Uint8Array) {
+	const doc = OxideDocument.openFromBuffer(buffer);
+	doc.extractAllText();
+}
+
+async function pdf_oxide_wasm_promise(buffer: Uint8Array) {
+	const doc = new WasmPdfDocument(buffer);
+	doc.extractAllText();
+	doc.free();
+}
+
 describe('Parsing Files', async () => {
 	const data = await readFile(__pdf);
 	const buffer = new Uint8Array(data);
@@ -78,6 +92,22 @@ describe('Parsing Files', async () => {
 		'pdf2json',
 		async () => {
 			await pdf2json_promise(Buffer.from(buffer));
+		},
+		{ iterations: 10 },
+	);
+
+	bench(
+		'pdf-oxide native',
+		async () => {
+			await pdf_oxide_native_promise(new Uint8Array(buffer));
+		},
+		{ iterations: 10 },
+	);
+
+	bench(
+		'pdf-oxide wasm',
+		async () => {
+			await pdf_oxide_wasm_promise(new Uint8Array(buffer));
 		},
 		{ iterations: 10 },
 	);
